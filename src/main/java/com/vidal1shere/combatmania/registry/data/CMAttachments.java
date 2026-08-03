@@ -1,0 +1,27 @@
+package com.vidal1shere.combatmania.registry.data;
+
+import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.strike.StrikeActiveData;
+import com.vidal1shere.combatmania.strike.StrikeCooldownData;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+
+public class CMAttachments {
+    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES =
+            DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, CombatMania.MOD_ID);
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<StrikeCooldownData>> STRIKE_COOLDOWN =
+            ATTACHMENT_TYPES.register("strike_cooldown",
+                    () -> AttachmentType.builder(StrikeCooldownData::new).serialize(StrikeCooldownData.CODEC).build());
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<StrikeActiveData>> STRIKE_ACTIVE =
+            ATTACHMENT_TYPES.register("strike_active",
+                    () -> AttachmentType.builder(StrikeActiveData::new).build());
+
+    public static void register(IEventBus eventBus) {
+        ATTACHMENT_TYPES.register(eventBus);
+    }
+}

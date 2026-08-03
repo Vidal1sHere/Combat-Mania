@@ -1,0 +1,42 @@
+package com.vidal1shere.combatmania.registry.item;
+
+import com.vidal1shere.combatmania.CMUtil;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.function.Function;
+
+public class CMItemProperties {
+    public static void addCustomItemsProperties() {
+//        makeCustomBow(ModItems.RHODONITE_BOW.get());
+//        makeCustomBow(ModItems.BONE_BOW.get());
+        
+        
+    }
+
+    private static <E extends Enum<E>> void makeEnumBasedItem(Item item, String name, Function<ItemStack, E> getter) {
+        ItemProperties.register(item,
+                CMUtil.modResLoc(name),
+                (stack, level, entity, seed) -> {
+                    E value = getter.apply(stack);
+                    return value != null ? value.ordinal() + 1 : 0;
+                });
+    }
+    
+    private static void makeCustomBow(Item item) {
+        ItemProperties.register(item, CMUtil.mcResLoc("pull"), (stack, level, entity, seed) -> {
+            if (entity == null) {
+                return 0.0F;
+            } else {
+                return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20.0F;
+            }
+        });
+        ItemProperties.register(
+                item,
+                CMUtil.mcResLoc("pulling"),
+                (stack, level, entity, seed) -> 
+                        entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F
+        );
+    }
+}
