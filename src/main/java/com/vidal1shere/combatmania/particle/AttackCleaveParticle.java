@@ -12,6 +12,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 public class AttackCleaveParticle extends AttackSweepParticle {
     protected AttackCleaveParticle(ClientLevel level, double x, double y, double z, double quadSizeMultiplier, SpriteSet sprites) {
         super(level, x, y, z, quadSizeMultiplier, sprites);
+        this.quadSize = 1.0F;
     }
 
     @OnlyIn(Dist.CLIENT)

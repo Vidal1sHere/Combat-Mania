@@ -19,7 +19,7 @@ public class CMAttachments {
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<StrikeActiveData>> STRIKE_ACTIVE =
             ATTACHMENT_TYPES.register("strike_active",
-                    () -> AttachmentType.builder(StrikeActiveData::new).build());
+                    () -> AttachmentType.builder(StrikeActiveData::new).serialize(StrikeActiveData.CODEC).build());
 
     public static void register(IEventBus eventBus) {
         ATTACHMENT_TYPES.register(eventBus);

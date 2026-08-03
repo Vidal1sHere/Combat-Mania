@@ -1,12 +1,36 @@
 package com.vidal1shere.combatmania.strike;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 public class StrikeActiveData {
 
-    private boolean primaryActive = false;
-    private boolean secondaryActive = false;
+    public static final Codec<StrikeActiveData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.BOOL.fieldOf("primary_active").forGetter(d -> d.primaryActive),
+            Codec.BOOL.fieldOf("secondary_active").forGetter(d -> d.secondaryActive),
+            Codec.INT.fieldOf("primary_ticks").forGetter(d -> d.primaryTicks),
+            Codec.INT.fieldOf("secondary_ticks").forGetter(d -> d.secondaryTicks)
+    ).apply(instance, StrikeActiveData::new));
 
-    private int primaryTicks = 0;
-    private int secondaryTicks = 0;
+    private boolean primaryActive;
+    private boolean secondaryActive;
+
+    private int primaryTicks;
+    private int secondaryTicks;
+
+    public StrikeActiveData() {
+        this.primaryActive = false;
+        this.secondaryActive = false;
+        this.primaryTicks = 0;
+        this.secondaryTicks = 0;
+    }
+
+    public StrikeActiveData(boolean primaryActive, boolean secondaryActive, int primaryTicks, int secondaryTicks) {
+        this.primaryActive = primaryActive;
+        this.secondaryActive = secondaryActive;
+        this.primaryTicks = primaryTicks;
+        this.secondaryTicks = secondaryTicks;
+    }
 
     public void setActive(boolean primary, boolean active) {
         if (primary) {

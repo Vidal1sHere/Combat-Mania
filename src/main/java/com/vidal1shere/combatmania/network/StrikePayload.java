@@ -125,7 +125,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
     }
 
     // -------------------------------------------------------------------------
-    // Confirm (server → client): ACK pra fazer swing
+    // Confirm (server → client)
     // -------------------------------------------------------------------------
 
     public static class Confirm extends StrikePayload {
