@@ -98,7 +98,8 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     if (style.getMaxDuration() == 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
                         cooldown.exhaust(payload.isPrimary(), duration, style.overlap());
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new Confirm(payload.isPrimary()));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, 
+                                new Confirm(payload.isPrimary(), style.swingHand()));
                     }
                 } else {
                     if (!active.isActive(payload.isPrimary())) return;
@@ -117,7 +118,8 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     if (style.getMaxDuration() > 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
                         cooldown.exhaust(payload.isPrimary(), duration, style.overlap());
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new Confirm(payload.isPrimary()));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, 
+                                new Confirm(payload.isPrimary(), style.swingHand()));
                     }
                 }
             });
@@ -136,20 +138,32 @@ public abstract class StrikePayload implements CustomPacketPayload {
         public static final StreamCodec<ByteBuf, Confirm> STREAM_CODEC =
                 StreamCodec.composite(
                         ByteBufCodecs.BOOL, Confirm::isPrimary,
+                        ByteBufCodecs.BOOL, Confirm::swingHand,
                         Confirm::new
                 );
 
+        private final boolean swingHand;
 
-        public Confirm(boolean isPrimary) { super(Action.START, isPrimary, -1); }
+        public Confirm(boolean isPrimary, boolean swingHand) { 
+            super(Action.START, isPrimary, -1); 
+            this.swingHand = swingHand;
+        }
 
         @Override
         public Type<? extends CustomPacketPayload> type() { return TYPE; }
+
+        public boolean swingHand() {
+            return swingHand;
+        }
 
         public static void handle(Confirm payload, IPayloadContext context) {
             context.enqueueWork(() -> {
                 Player player = context.player();
                 player.resetAttackStrengthTicker();
-                player.swing(InteractionHand.MAIN_HAND);
+                
+                if (payload.swingHand()) {
+                    player.swing(InteractionHand.MAIN_HAND);
+                }
             });
         }
     }
