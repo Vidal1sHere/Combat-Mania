@@ -1,6 +1,6 @@
 package com.vidal1shere.combatmania;
 
-import com.vidal1shere.combatmania.particle.AttackCleaveParticle;
+import com.vidal1shere.combatmania.particle.AttackParticle;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -25,6 +25,9 @@ public class CombatManiaClient {
 
     @SubscribeEvent
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(CMParticles.CLEAVE_ATTACK.get(), AttackCleaveParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.HORIZONTAL_SWEEP_ATTACK.get(), AttackParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.VERTICAL_SWEEP_ATTACK.get(), AttackParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.CLEAVE_ATTACK.get(), AttackParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.SLASH_ATTACK.get(), AttackParticle.Provider::new);
     }
 }

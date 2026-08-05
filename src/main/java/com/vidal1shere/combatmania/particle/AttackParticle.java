@@ -9,10 +9,12 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public class AttackCleaveParticle extends AttackSweepParticle {
-    protected AttackCleaveParticle(ClientLevel level, double x, double y, double z, double quadSizeMultiplier, SpriteSet sprites) {
+public class AttackParticle extends AttackSweepParticle {
+    protected AttackParticle(ClientLevel level, double x, double y, double z, double quadSizeMultiplier, SpriteSet sprites) {
         super(level, x, y, z, quadSizeMultiplier, sprites);
-        this.quadSize = 1.0F;
+        this.rCol = 1.0f;
+        this.gCol = 1.0f;
+        this.bCol = 1.0f;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -24,7 +26,7 @@ public class AttackCleaveParticle extends AttackSweepParticle {
         }
 
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new AttackCleaveParticle(level, x, y, z, xSpeed, this.sprites);
+            return new AttackParticle(level, x, y, z, xSpeed, this.sprites);
         }
     }
 }
