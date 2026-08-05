@@ -1,5 +1,7 @@
 package com.vidal1shere.combatmania.client.animation.data;
 
+import com.vidal1shere.combatmania.client.animation.LoopType;
+
 /** Runtime playback state for a single animation. */
 public final class AnimationState {
 
@@ -16,7 +18,8 @@ public final class AnimationState {
     public void tick(float deltaSeconds) {
         if (finished) return;
         elapsedSeconds += deltaSeconds;
-        if (!track.isLoop() && elapsedSeconds >= track.getDuration()) {
+
+        if (track.getLoopType() == LoopType.PLAY_ONCE && elapsedSeconds >= track.getDuration()) {
             elapsedSeconds = track.getDuration();
             finished = true;
         }

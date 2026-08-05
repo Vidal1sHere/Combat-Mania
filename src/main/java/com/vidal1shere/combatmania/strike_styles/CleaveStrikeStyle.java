@@ -105,16 +105,6 @@ public class CleaveStrikeStyle extends StrikeStyle {
 
         float totalDamage = f + f1;
 
-        boolean sweep = true;
-        boolean critBlocksSweep = crit && critEvent.disableSweep();
-        if (fullStrength && !critBlocksSweep && !sprintKnockback && player.onGround()) {
-            double walkDelta = player.walkDist - player.walkDistO;
-            if (walkDelta < player.getSpeed()) {
-                SweepAttackEvent sweepEvent = CommonHooks.fireSweepAttack(player, target, true);
-                sweep = sweepEvent.isSweeping();
-            }
-        }
-
         float targetHealthBefore = 0.0F;
         if (target instanceof LivingEntity living) targetHealthBefore = living.getHealth();
 
@@ -144,37 +134,6 @@ public class CleaveStrikeStyle extends StrikeStyle {
             player.setSprinting(false);
         }
 
-        if (sweep) {
-            float sweepDmg = 1.0F + (float) player.getAttributeValue(Attributes.SWEEPING_DAMAGE_RATIO) * f;
-            double entityReachSq = Mth.square(player.entityInteractionRange());
-
-            for (LivingEntity nearby : player.level().getEntitiesOfClass(LivingEntity.class,
-                    itemstack.getSweepHitBox(player, target))) {
-                if (nearby == player || nearby == target || player.isAlliedTo(nearby)) continue;
-                if (nearby instanceof ArmorStand as && as.isMarker()) continue;
-                if (player.distanceToSqr(nearby) >= entityReachSq) continue;
-
-                float sweepEnchDmg = getEnchantedDamage(player, itemstack, nearby, sweepDmg, damagesource) * strengthScale;
-                nearby.knockback(0.4F,
-                        Mth.sin(player.getYRot() * (float)(Math.PI / 180F)),
-                        -Mth.cos(player.getYRot() * (float)(Math.PI / 180F)));
-                nearby.hurt(damagesource, sweepEnchDmg);
-
-                if (player.level() instanceof ServerLevel sl) {
-                    EnchantmentHelper.doPostAttackEffects(sl, nearby, damagesource);
-                }
-            }
-
-            player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
-            
-            double d0 = -Mth.sin(player.getYRot() * ((float) Math.PI / 180F));
-            double d1 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F));
-            if (player.level() instanceof ServerLevel) {
-                ((ServerLevel) player.level()).sendParticles(CMParticles.CLEAVE_ATTACK.get(), player.getX() + d0, player.getY(0.5F), player.getZ() + d1, 0, d0, 0.0F, d1, 0.0F);
-            }
-        }
-
         if (target instanceof ServerPlayer sp && sp.hurtMarked) {
             sp.connection.send(new ClientboundSetEntityMotionPacket(sp));
             sp.hurtMarked = false;
@@ -185,7 +144,7 @@ public class CleaveStrikeStyle extends StrikeStyle {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
             player.crit(target);
-        } else if (!sweep) {
+        } else {
             if (fullStrength) {
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                         SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);

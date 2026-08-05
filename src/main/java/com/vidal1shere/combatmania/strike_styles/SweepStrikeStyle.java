@@ -111,8 +111,7 @@ public class SweepStrikeStyle extends StrikeStyle {
         float totalDamage = f + f1;
 
         boolean sweep = false;
-        boolean critBlocksSweep = crit && critEvent.disableSweep();
-        if (fullStrength && !critBlocksSweep && !sprintKnockback && player.onGround()) {
+        if (fullStrength && !sprintKnockback) {
             double walkDelta = player.walkDist - player.walkDistO;
             ItemStack mainHand = player.getItemInHand(InteractionHand.MAIN_HAND);
             if (walkDelta < player.getSpeed()) {
@@ -121,6 +120,17 @@ public class SweepStrikeStyle extends StrikeStyle {
                 sweep = sweepEvent.isSweeping();
             }
         }
+
+//        boolean critBlocksSweep = crit && critEvent.disableSweep();
+//        if (fullStrength && !critBlocksSweep && !sprintKnockback && player.onGround()) {
+//            double walkDelta = player.walkDist - player.walkDistO;
+//            ItemStack mainHand = player.getItemInHand(InteractionHand.MAIN_HAND);
+//            if (walkDelta < player.getSpeed()) {
+//                SweepAttackEvent sweepEvent = CommonHooks.fireSweepAttack(player, target,
+//                        mainHand.canPerformAction(ItemAbilities.SWORD_SWEEP));
+//                sweep = sweepEvent.isSweeping();
+//            }
+//        }
 
         float targetHealthBefore = 0.0F;
         if (target instanceof LivingEntity living) targetHealthBefore = living.getHealth();

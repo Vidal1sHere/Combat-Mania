@@ -1,19 +1,20 @@
 package com.vidal1shere.combatmania.client.animation.data;
 
 import com.vidal1shere.combatmania.client.animation.Interpolation;
+import com.vidal1shere.combatmania.client.animation.LoopType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An ordered list of {@link Keyframe}s with per-segment {@link Interpolation} and optional looping.
+ * An ordered list of {@link Keyframe}s with per-segment {@link Interpolation} and a {@link LoopType}.
  *
  * <pre>{@code
  * AnimationTrack track = AnimationTrack.builder()
  *     .keyframe(Keyframe.identity(0f))
  *     .keyframe(new Keyframe(0.15f, 0, -0.1f, 0, -15, 0, 0, 1f), Interpolation.SMOOTH)
  *     .keyframe(Keyframe.identity(0.3f), Interpolation.EASE_OUT)
- *     .loop(true)
+ *     .loopType(LoopType.LOOP)
  *     .build();
  * }</pre>
  */
@@ -21,14 +22,14 @@ public final class AnimationTrack {
 
     private final List<Keyframe> keyframes;
     private final List<Interpolation> segments;
-    private final boolean loop;
+    private final LoopType loopType;
     private final float duration;
 
-    private AnimationTrack(List<Keyframe> keyframes, List<Interpolation> segments, boolean loop) {
+    private AnimationTrack(List<Keyframe> keyframes, List<Interpolation> segments, LoopType loopType) {
         if (keyframes.isEmpty()) throw new IllegalArgumentException("AnimationTrack needs at least one keyframe");
         this.keyframes = List.copyOf(keyframes);
         this.segments = List.copyOf(segments);
-        this.loop = loop;
+        this.loopType = loopType;
         this.duration = keyframes.get(keyframes.size() - 1).time();
     }
 
@@ -37,11 +38,13 @@ public final class AnimationTrack {
 
         if (duration <= 0f) return keyframes.get(0);
 
-        if (loop) {
-            t = t % duration;
-            if (t < 0) t += duration;
-        } else {
-            t = Math.max(0f, Math.min(t, duration));
+        switch (loopType) {
+            case LOOP -> {
+                t = t % duration;
+                if (t < 0) t += duration;
+            }
+            case PLAY_ONCE -> t = Math.min(t, duration);
+            case HOLD_ON_LAST_FRAME -> t = Math.min(t, duration);
         }
 
         int i = findSegment(t);
@@ -60,8 +63,8 @@ public final class AnimationTrack {
         return duration;
     }
 
-    public boolean isLoop() {
-        return loop;
+    public LoopType getLoopType() {
+        return loopType;
     }
 
     private int findSegment(float t) {
@@ -79,7 +82,7 @@ public final class AnimationTrack {
 
         private final List<Keyframe> keyframes = new ArrayList<>();
         private final List<Interpolation> segments = new ArrayList<>();
-        private boolean loop = false;
+        private LoopType loopType = LoopType.PLAY_ONCE;
 
         public Builder keyframe(Keyframe kf) {
             return keyframe(kf, Interpolation.LINEAR);
@@ -91,8 +94,8 @@ public final class AnimationTrack {
             return this;
         }
 
-        public Builder loop(boolean loop) {
-            this.loop = loop;
+        public Builder loopType(LoopType loopType) {
+            this.loopType = loopType;
             return this;
         }
 
@@ -109,7 +112,7 @@ public final class AnimationTrack {
                 }
             }
 
-            return new AnimationTrack(kfSorted, segSorted, loop);
+            return new AnimationTrack(kfSorted, segSorted, loopType);
         }
     }
 }
