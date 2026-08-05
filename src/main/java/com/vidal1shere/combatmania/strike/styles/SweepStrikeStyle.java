@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.strike_styles;
+package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeContext;

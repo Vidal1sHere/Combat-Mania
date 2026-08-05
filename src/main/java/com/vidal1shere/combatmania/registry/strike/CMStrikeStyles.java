@@ -2,9 +2,9 @@ package com.vidal1shere.combatmania.registry.strike;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.strike_styles.CleaveStrikeStyle;
-import com.vidal1shere.combatmania.strike_styles.SweepStrikeStyle;
-import com.vidal1shere.combatmania.strike_styles.VanillaSweepStrikeStyle;
+import com.vidal1shere.combatmania.strike.styles.CleaveStrikeStyle;
+import com.vidal1shere.combatmania.strike.styles.SweepStrikeStyle;
+import com.vidal1shere.combatmania.strike.styles.VanillaSweepStrikeStyle;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
