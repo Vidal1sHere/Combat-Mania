@@ -49,6 +49,11 @@ public class SweepStrikeStyle extends StrikeStyle {
     }
 
     @Override
+    public boolean lowerHand() {
+        return false;
+    }
+
+    @Override
     public void onStart(StrikeContext ctx) {
         Player player = ctx.player();
         if (!ctx.hasTarget()) return;

@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public abstract class StrikePayload implements CustomPacketPayload {
 
@@ -70,8 +71,13 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     return; 
                 }
 
-                StrikeStyle style = payload.isPrimary() ? weapon.getPrimaryStyle() : weapon.getSecondaryStyle();
-                if (style == null) return;
+                DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = payload.isPrimary() ?
+                        weapon.getPrimaryStyle() :
+                        weapon.getSecondaryStyle();
+
+                if (styleHolder == null) return;
+
+                StrikeStyle style = styleHolder.get();
 
                 StrikeActiveData active = player.getData(CMAttachments.STRIKE_ACTIVE);
                 StrikeCooldownData cooldown = player.getData(CMAttachments.STRIKE_COOLDOWN);
@@ -93,6 +99,8 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     );
 
                     active.setActive(payload.isPrimary(), true);
+                    weapon.setActiveStyle(stack, style);
+                    weapon.setLastUsedStyle(stack, style);
                     style.onStart(ctx);
 
                     if (style.getMaxDuration() == 0) {
@@ -114,6 +122,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
 
                     style.onStop(ctx, active.getTicks(payload.isPrimary()));
                     active.setActive(payload.isPrimary(), false);
+                    weapon.setActiveStyle(stack, null);
 
                     if (style.getMaxDuration() > 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);

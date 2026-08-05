@@ -1,10 +1,11 @@
 package com.vidal1shere.combatmania.item;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.strike_styles.CleaveStrikeStyle;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Tier;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
 
 public class StrikeAxeItem extends AxeItem implements IStrikeWeapon {
@@ -13,12 +14,12 @@ public class StrikeAxeItem extends AxeItem implements IStrikeWeapon {
     }
 
     @Override
-    public StrikeStyle getPrimaryStyle() {
-        return new CleaveStrikeStyle();
+    public DeferredHolder<StrikeStyle, ? extends StrikeStyle> getPrimaryStyle() {
+        return CMStrikeStyles.CLEAVE;
     }
 
     @Override
-    public @Nullable StrikeStyle getSecondaryStyle() {
+    public @Nullable DeferredHolder<StrikeStyle, ? extends StrikeStyle> getSecondaryStyle() {
         return null;
     }
 }

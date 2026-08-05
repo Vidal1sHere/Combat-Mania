@@ -4,11 +4,13 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.network.StrikePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataMaps;
+import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
 @EventBusSubscriber(modid = CombatMania.MOD_ID)
@@ -38,5 +40,10 @@ public class CMEventSetup {
                 StrikePayload.Confirm.STREAM_CODEC,
                 StrikePayload.Confirm::handle
         );
+    }
+
+    @SubscribeEvent
+    public static void registerNewRegistry(NewRegistryEvent event) {
+        event.register(CMStrikeStyles.REGISTRY);
     }
 }

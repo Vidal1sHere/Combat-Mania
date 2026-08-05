@@ -24,6 +24,7 @@ import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 @EventBusSubscriber(modid = CombatMania.MOD_ID)
 public class CombatEventHandler {
@@ -40,19 +41,20 @@ public class CombatEventHandler {
             ItemStack stack = player.getItemInHand(event.getHand());
             if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
 
-            StrikeStyle style;
+            DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder;
             boolean isPrimary;
 
             if (event.isAttack()) {
-                style = weapon.getPrimaryStyle();
+                styleHolder = weapon.getPrimaryStyle();
                 isPrimary = true;
-                if (style == null) return;
+                if (styleHolder == null) return;
             } else if (event.isUseItem()) {
-                style = weapon.getSecondaryStyle();
+                styleHolder = weapon.getSecondaryStyle();
                 isPrimary = false;
-                if (style == null) return;
+                if (styleHolder == null) return;
             } else return;
-
+            
+            StrikeStyle style = styleHolder.get();
             StrikeCooldownData cooldown = player.getData(CMAttachments.STRIKE_COOLDOWN);
             StrikeActiveData active = player.getData(CMAttachments.STRIKE_ACTIVE);
 
@@ -102,8 +104,13 @@ public class CombatEventHandler {
                                       StrikeActiveData active, boolean isPrimary) {
             if (!active.isActive(isPrimary)) return;
 
-            StrikeStyle style = isPrimary ? weapon.getPrimaryStyle() : weapon.getSecondaryStyle();
-            if (style == null) return;
+            DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = isPrimary ? 
+                    weapon.getPrimaryStyle() : 
+                    weapon.getSecondaryStyle();
+            
+            if (styleHolder == null) return;
+            
+            StrikeStyle style = styleHolder.get();
 
             boolean keyDown = isPrimary ? mc.options.keyAttack.isDown() : mc.options.keyUse.isDown();
             int ticks = active.getTicks(isPrimary);
@@ -134,8 +141,13 @@ public class CombatEventHandler {
                                  StrikeActiveData active, boolean isPrimary) {
         if (!active.isActive(isPrimary)) return;
 
-        StrikeStyle style = isPrimary ? weapon.getPrimaryStyle() : weapon.getSecondaryStyle();
-        if (style == null) return;
+        DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = isPrimary ?
+                weapon.getPrimaryStyle() :
+                weapon.getSecondaryStyle();
+
+        if (styleHolder == null) return;
+
+        StrikeStyle style = styleHolder.get();
 
         active.tick(isPrimary);
 

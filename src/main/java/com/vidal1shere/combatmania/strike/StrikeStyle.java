@@ -10,6 +10,7 @@ public abstract class StrikeStyle {
     public int getMaxDuration() { return 0; }
     public boolean overlap() { return false; }
     public boolean swingHand() { return true; }
+    public boolean lowerHand() { return true; }
 
     public void onStart(StrikeContext ctx) {}
     public void onTick(StrikeContext ctx, int ticksHeld) {}

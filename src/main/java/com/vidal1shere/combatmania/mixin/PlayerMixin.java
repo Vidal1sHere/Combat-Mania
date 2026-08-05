@@ -6,6 +6,7 @@ import com.vidal1shere.combatmania.strike.StrikeCooldownData;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,11 +37,13 @@ public class PlayerMixin {
 
         if (!primaryExhausted && !secondaryExhausted) return;
 
-        StrikeStyle style = primaryExhausted
-                ? weapon.getPrimaryStyle()
-                : weapon.getSecondaryStyle();
+        DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = primaryExhausted ?
+                weapon.getPrimaryStyle() :
+                weapon.getSecondaryStyle();
 
-        if (style == null) return;
+        if (styleHolder == null) return;
+
+        StrikeStyle style = styleHolder.get();
 
         double speed = self.getAttributeValue(style.getSpeedAttribute());
         if (speed <= 0) return;
