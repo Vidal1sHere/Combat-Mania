@@ -2,7 +2,7 @@ package com.vidal1shere.combatmania.mixin;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
-import com.vidal1shere.combatmania.strike.StrikeCooldownData;
+import com.vidal1shere.combatmania.attachment.StrikeCooldownData;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

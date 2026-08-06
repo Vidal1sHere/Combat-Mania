@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.strike;
+package com.vidal1shere.combatmania.attachment;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

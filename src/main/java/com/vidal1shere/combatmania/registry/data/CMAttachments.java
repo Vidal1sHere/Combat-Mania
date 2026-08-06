@@ -2,8 +2,8 @@ package com.vidal1shere.combatmania.registry.data;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
-import com.vidal1shere.combatmania.strike.StrikeActiveData;
-import com.vidal1shere.combatmania.strike.StrikeCooldownData;
+import com.vidal1shere.combatmania.attachment.StrikeActiveData;
+import com.vidal1shere.combatmania.attachment.StrikeCooldownData;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredHolder;

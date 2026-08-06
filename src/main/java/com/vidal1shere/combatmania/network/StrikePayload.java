@@ -2,11 +2,10 @@ package com.vidal1shere.combatmania.network;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
-import com.vidal1shere.combatmania.strike.StrikeActiveData;
+import com.vidal1shere.combatmania.attachment.StrikeActiveData;
 import com.vidal1shere.combatmania.strike.StrikeContext;
-import com.vidal1shere.combatmania.strike.StrikeCooldownData;
+import com.vidal1shere.combatmania.attachment.StrikeCooldownData;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
