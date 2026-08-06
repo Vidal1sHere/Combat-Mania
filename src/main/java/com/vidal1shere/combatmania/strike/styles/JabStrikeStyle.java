@@ -1,10 +1,19 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.CMUtil;
+import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationChannel;
+import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.keyframe.ItemAnimationTarget;
+import com.vidal1shere.combatmania.client.animation.keyframe.KeyframeVecs;
+import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import net.minecraft.client.animation.AnimationChannel;
+import net.minecraft.client.animation.Keyframe;
+import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -46,7 +55,7 @@ public class JabStrikeStyle extends StrikeStyle {
     
     @Override
     public boolean swingHand() {
-        return true;
+        return false;
     }
 
     @Override
@@ -182,5 +191,37 @@ public class JabStrikeStyle extends StrikeStyle {
     private float getEnchantedDamage(Player player, ItemStack weapon, Entity entity, float damage, DamageSource damageSource) {
         if (!(player.level() instanceof ServerLevel sl)) return damage;
         return EnchantmentHelper.modifyDamage(sl, weapon, entity, damageSource, damage);
+    }
+
+    private static ItemAnimationDefinition idle() {
+        return ItemAnimationDefinition.Builder
+                .withLength(1.0f)
+                .addChannel("position", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.POSITION,
+                        new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.posVec(0.0f, -0.5f, -0.8f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.15f, KeyframeVecs.posVec(0.0f, -0.5f, -1.1f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.2f, KeyframeVecs.posVec(0.0f, -0.5f, -1.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.75f, KeyframeVecs.posVec(0.0f, -0.5f, -1.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(1.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .addChannel("rotation", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.ROTATION,
+                        new Keyframe(0.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.degreeVec(-70f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.75f, KeyframeVecs.degreeVec(-70f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(1.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .build();
+    }
+
+    @Override
+    public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
+        state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
+    }
+
+    @Override
+    public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player) {
+        return idle();
     }
 }

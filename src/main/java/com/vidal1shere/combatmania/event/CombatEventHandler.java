@@ -20,7 +20,6 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -75,7 +74,6 @@ public class CombatEventHandler {
                     ? ((EntityHitResult) mc.hitResult).getEntity()
                     : null;
 
-            active.setActive(isPrimary, true);
             PacketDistributor.sendToServer(new StrikePayload.Request(
                     StrikePayload.Action.START, isPrimary, target != null ? target.getId() : -1));
 

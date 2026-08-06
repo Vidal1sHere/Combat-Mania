@@ -35,8 +35,10 @@ public class PlayerMixin {
         boolean primaryExhausted = cooldown.getPrimaryScale() < 1.0F;
         boolean secondaryExhausted = cooldown.getSecondaryScale() < 1.0F;
 
-        if (!primaryExhausted && !secondaryExhausted) return;
-
+        if (!primaryExhausted && !secondaryExhausted) {
+            return;
+        }
+        
         DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = primaryExhausted ?
                 weapon.getPrimaryStyle() :
                 weapon.getSecondaryStyle();
@@ -44,10 +46,10 @@ public class PlayerMixin {
         if (styleHolder == null) return;
 
         StrikeStyle style = styleHolder.get();
-
+        
         double speed = self.getAttributeValue(style.getSpeedAttribute());
         if (speed <= 0) return;
-
+        
         cir.setReturnValue((float) (1.0 / speed * 20.0));
     }
 }

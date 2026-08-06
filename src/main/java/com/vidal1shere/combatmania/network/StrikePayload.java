@@ -1,6 +1,8 @@
 package com.vidal1shere.combatmania.network;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.strike.StrikeActiveData;
 import com.vidal1shere.combatmania.strike.StrikeContext;
@@ -67,9 +69,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
             context.enqueueWork(() -> {
                 Player player = context.player();
                 ItemStack stack = player.getMainHandItem();
-                if (!(stack.getItem() instanceof IStrikeWeapon weapon)) { 
-                    return; 
-                }
+                if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
 
                 DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = payload.isPrimary() ?
                         weapon.getPrimaryStyle() :
@@ -84,9 +84,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
 
                 if (payload.action() == Action.START) {
                     float scale = payload.isPrimary() ? cooldown.getPrimaryScale() : cooldown.getSecondaryScale();
-                    if (scale < style.getMinStrengthScale()) { 
-                        return; 
-                    }
+                    if (scale < style.getMinStrengthScale()) return;
 
                     Entity target = payload.targetId() != -1 ? player.level().getEntity(payload.targetId()) : null;
 
@@ -99,15 +97,18 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     );
 
                     active.setActive(payload.isPrimary(), true);
-                    weapon.setActiveStyle(stack, style);
                     weapon.setLastUsedStyle(stack, style);
+                    weapon.setActiveStyle(stack, style);
                     style.onStart(ctx);
 
                     if (style.getMaxDuration() == 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
                         cooldown.exhaust(payload.isPrimary(), duration, style.overlap());
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, 
-                                new Confirm(payload.isPrimary(), style.swingHand()));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player,
+                                new Confirm(payload.isPrimary(), style.swingHand(), Action.START, duration));
+                    } else {
+                        PacketDistributor.sendToPlayer((ServerPlayer) player,
+                                new Confirm(payload.isPrimary(), false, Action.START, -1));
                     }
                 } else {
                     if (!active.isActive(payload.isPrimary())) return;
@@ -127,8 +128,8 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     if (style.getMaxDuration() > 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
                         cooldown.exhaust(payload.isPrimary(), duration, style.overlap());
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, 
-                                new Confirm(payload.isPrimary(), style.swingHand()));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player,
+                                new Confirm(payload.isPrimary(), style.swingHand(), Action.STOP, duration));
                     }
                 }
             });
@@ -148,30 +149,54 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 StreamCodec.composite(
                         ByteBufCodecs.BOOL, Confirm::isPrimary,
                         ByteBufCodecs.BOOL, Confirm::swingHand,
+                        ByteBufCodecs.idMapper(id -> Action.values()[id], Action::ordinal), Confirm::action,
+                        ByteBufCodecs.INT, Confirm::cooldownDuration,
                         Confirm::new
                 );
 
         private final boolean swingHand;
+        private final int cooldownDuration;
 
-        public Confirm(boolean isPrimary, boolean swingHand) { 
-            super(Action.START, isPrimary, -1); 
+        public Confirm(boolean isPrimary, boolean swingHand, Action action, int cooldownDuration) {
+            super(action, isPrimary, -1);
             this.swingHand = swingHand;
+            this.cooldownDuration = cooldownDuration;
         }
 
         @Override
         public Type<? extends CustomPacketPayload> type() { return TYPE; }
 
-        public boolean swingHand() {
-            return swingHand;
-        }
+        public boolean swingHand() { return swingHand; }
+        public int cooldownDuration() { return cooldownDuration; }
 
         public static void handle(Confirm payload, IPayloadContext context) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                player.resetAttackStrengthTicker();
-                
+
+                if (payload.cooldownDuration() > 0) {
+                    StrikeCooldownData cooldown = player.getData(CMAttachments.STRIKE_COOLDOWN);
+                    cooldown.exhaust(payload.isPrimary(), payload.cooldownDuration(), false);
+                    player.resetAttackStrengthTicker();
+                }
+
                 if (payload.swingHand()) {
                     player.swing(InteractionHand.MAIN_HAND);
+                }
+
+                ItemStack stack = player.getMainHandItem();
+                if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
+
+                StrikeStyle style = payload.isPrimary()
+                        ? weapon.getPrimaryStyle().get()
+                        : weapon.getSecondaryStyle() != null ? weapon.getSecondaryStyle().get() : null;
+                if (style == null) return;
+
+                ItemAnimationState state = player.getData(CMAttachments.ITEM_ANIMATIONS).get(InteractionHand.MAIN_HAND);
+
+                if (payload.action() == Action.START) {
+                    style.onAnimStart(stack, InteractionHand.MAIN_HAND, player, state, player.tickCount);
+                } else {
+                    style.onAnimStop(stack, InteractionHand.MAIN_HAND, player, state, player.tickCount);
                 }
             });
         }

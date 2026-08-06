@@ -1,47 +1,26 @@
 package com.vidal1shere.combatmania.api;
 
-import com.vidal1shere.combatmania.client.old_animation.data.AnimationTrack;
+import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.entity.HumanoidArm;
+import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import org.jetbrains.annotations.Nullable;
-
-/**
- * Implement on your {@link net.minecraft.world.item.Item} to opt in to the first-person animation system.
- *
- * <pre>{@code
- * public class MyItem extends Item implements IAnimatedItem {
- *
- *     private static final AnimationTrack IDLE = AnimationTrack.builder()
- *         .keyframe(Keyframe.identity(0f))
- *         .keyframe(new Keyframe(0.5f, 0, -0.02f, 0, 0, 0, 0, 1f), Interpolation.SMOOTH)
- *         .keyframe(Keyframe.identity(1f), Interpolation.SMOOTH)
- *         .loop(true)
- *         .build();
- *
- *     @Override
- *     public AnimationTrack getAnimation(LocalPlayer player, HumanoidArm arm, ItemStack stack) {
- *         return IDLE;
- *     }
- * }
- * }</pre>
- */
 public interface IAnimatedItem {
+    /**
+     * Called every frame to drive animation state for this item.
+     * Implementations should call start(), stop(), or animateWhen() on the provided state.
+     */
+    void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick);
 
     /**
-     * Returns the track that should play right now, or {@code null} to fall back to vanilla rendering.
-     * Called every render frame, so switching tracks dynamically is safe.
+     * Returns the animation definition associated with the current state.
+     * Return null to skip rendering the animation this frame.
      */
-    @Nullable
-    AnimationTrack getAnimation(LocalPlayer player, HumanoidArm arm, ItemStack stack);
-
-    /**
-     * Whether to mirror the animation for the left hand by flipping X translation and Y/Z rotation.
-     * Set to {@code false} if the left-hand animation is defined explicitly.
-     */
-    default boolean mirrorForLeftHand() {
-        return true;
+    ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player);
+    
+    default float getAnimationSpeed(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
+        return 1.0f;
     }
 }

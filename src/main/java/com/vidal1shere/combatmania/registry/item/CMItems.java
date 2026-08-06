@@ -27,22 +27,22 @@ public class CMItems {
 
     public static final DeferredItem<SpearItem> WOODEN_SPEAR = ITEMS.register(
             "wooden_spear", () -> new SpearItem(Tiers.WOOD, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(Tiers.WOOD, 2.0F, -3.05F)))
+                    .attributes(SpearItem.createAttributes(Tiers.WOOD, 2.0F, -2.46F)))
     );
 
     public static final DeferredItem<SpearItem> STONE_SPEAR = ITEMS.register(
             "stone_spear", () -> new SpearItem(Tiers.STONE, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(Tiers.STONE, 2.0F, -3.05F)))
+                    .attributes(SpearItem.createAttributes(Tiers.STONE, 2.0F, -2.67F)))
     );
 
     public static final DeferredItem<SpearItem> GOLDEN_SPEAR = ITEMS.register(
             "golden_spear", () -> new SpearItem(Tiers.GOLD, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(Tiers.GOLD, 2.0F, -3.05F)))
+                    .attributes(SpearItem.createAttributes(Tiers.GOLD, 2.0F, -2.95F)))
     );
 
     public static final DeferredItem<SpearItem> IRON_SPEAR = ITEMS.register(
             "iron_spear", () -> new SpearItem(Tiers.IRON, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(Tiers.IRON, 2.0F, -3.05F)))
+                    .attributes(SpearItem.createAttributes(Tiers.IRON, 2.0F, -2.95F)))
     );
 
     public static final DeferredItem<SpearItem> DIAMOND_SPEAR = ITEMS.register(
@@ -52,7 +52,7 @@ public class CMItems {
 
     public static final DeferredItem<SpearItem> NETHERITE_SPEAR = ITEMS.register(
             "netherite_spear", () -> new SpearItem(Tiers.NETHERITE, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(Tiers.NETHERITE, 2.0F, -3.05F)))
+                    .attributes(SpearItem.createAttributes(Tiers.NETHERITE, 2.0F, -3.13F)))
     );
     
     public static void register(IEventBus eventBus) {
