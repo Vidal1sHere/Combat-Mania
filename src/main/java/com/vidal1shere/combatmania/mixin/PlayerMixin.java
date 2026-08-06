@@ -32,7 +32,7 @@ public class PlayerMixin {
 
         StrikeCooldownData cooldown = self.getData(CMAttachments.STRIKE_COOLDOWN);
 
-        boolean primaryExhausted  = cooldown.getPrimaryScale() < 1.0F;
+        boolean primaryExhausted = cooldown.getPrimaryScale() < 1.0F;
         boolean secondaryExhausted = cooldown.getSecondaryScale() < 1.0F;
 
         if (!primaryExhausted && !secondaryExhausted) return;

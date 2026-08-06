@@ -2,9 +2,7 @@ package com.vidal1shere.combatmania.registry.strike;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.strike.styles.CleaveStrikeStyle;
-import com.vidal1shere.combatmania.strike.styles.SweepStrikeStyle;
-import com.vidal1shere.combatmania.strike.styles.VanillaSweepStrikeStyle;
+import com.vidal1shere.combatmania.strike.styles.*;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -32,6 +30,9 @@ public class CMStrikeStyles {
 
     public static final DeferredHolder<StrikeStyle, CleaveStrikeStyle> CLEAVE =
             STRIKE_STYLES.register("cleave", CleaveStrikeStyle::new);
+
+    public static final DeferredHolder<StrikeStyle, JabStrikeStyle> JAB =
+            STRIKE_STYLES.register("jab", JabStrikeStyle::new);
 
     public static void register(IEventBus eventBus) {
         STRIKE_STYLES.register(eventBus);

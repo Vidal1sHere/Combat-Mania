@@ -7,6 +7,7 @@ import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.item.CMItemProperties;
 import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
+import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -34,6 +35,7 @@ public class CombatMania {
         CMItems.register(modEventBus);
         CMBlocks.register(modEventBus);
         CMParticles.register(modEventBus);
+        CMSounds.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }

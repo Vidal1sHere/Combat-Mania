@@ -1,0 +1,34 @@
+{
+  "item.spear_wood.attack": {
+    "subtitle": "sounds.cotn.item.spear_wood.attack",
+    "sounds": [
+      "combat_mania:spear_wood_attack1",
+      "combat_mania:spear_wood_attack2",
+      "combat_mania:spear_wood_attack3"
+    ]
+  },
+  "item.spear_wood.hit": {
+    "subtitle": "sounds.cotn.item.spear_wood.hit",
+    "sounds": [
+      "combat_mania:spear_wood_hit1",
+      "combat_mania:spear_wood_hit2",
+      "combat_mania:spear_wood_hit3"
+    ]
+  },
+  "item.spear.attack": {
+    "subtitle": "sounds.cotn.item.spear.attack",
+    "sounds": [
+      "combat_mania:spear_attack1",
+      "combat_mania:spear_attack2",
+      "combat_mania:spear_attack3"
+    ]
+  },
+  "item.spear.hit": {
+    "subtitle": "sounds.cotn.item.spear.hit",
+    "sounds": [
+      "combat_mania:spear_hit1",
+      "combat_mania:spear_hit2",
+      "combat_mania:spear_hit3"
+    ]
+  }
+}

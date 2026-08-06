@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.datagen;
 
 import com.vidal1shere.combatmania.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.registry.item.CMItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -41,7 +43,12 @@ public class CMItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        
+        spearItem(CMItems.WOODEN_SPEAR);
+        spearItem(CMItems.STONE_SPEAR);
+        spearItem(CMItems.GOLDEN_SPEAR);
+        spearItem(CMItems.IRON_SPEAR);
+        spearItem(CMItems.DIAMOND_SPEAR);
+        spearItem(CMItems.NETHERITE_SPEAR);
     }
 
     private void trimmedArmorItem(DeferredItem<ArmorItem> itemDeferredItem) {
@@ -103,6 +110,32 @@ public class CMItemModelProvider extends ItemModelProvider {
     private ItemModelBuilder handheldItem(DeferredItem<?> item) {
         return withExistingParent(item.getId().getPath(),
                 ResourceLocation.parse("item/handheld")).texture("layer0", CMUtil.modResLoc("item/" + item.getId().getPath()));
+    }
+
+    private void spearItem(DeferredItem<?> item) {
+        String itemName = item.getId().getPath();
+        ResourceLocation spearTexture = CMUtil.modResLoc("item/" + itemName);
+        ResourceLocation spearInHandBase = CMUtil.modResLoc("item/spear_in_hand");
+
+        ItemModelBuilder onHandModel = this.withExistingParent(itemName + "_on_hand", spearInHandBase)
+                .texture("layer0", CMUtil.modResLoc("item/" + itemName + "_in_hand"));
+
+        this.withExistingParent(itemName, mcLoc("item/handheld"))
+                .customLoader(SeparateTransformsModelBuilder::begin)
+                .base(onHandModel)
+                .perspective(ItemDisplayContext.GUI,
+                        this.withExistingParent(itemName + "_gui", mcLoc("item/generated"))
+                                .texture("layer0", spearTexture)
+                )
+                .perspective(ItemDisplayContext.GROUND,
+                        this.withExistingParent(itemName + "_ground", mcLoc("item/generated"))
+                                .texture("layer0", spearTexture)
+                )
+                .perspective(ItemDisplayContext.FIXED,
+                        this.withExistingParent(itemName + "_fixed", mcLoc("item/generated"))
+                                .texture("layer0", spearTexture)
+                )
+                .end();
     }
 
     private void bowItem(DeferredItem<?> item) {

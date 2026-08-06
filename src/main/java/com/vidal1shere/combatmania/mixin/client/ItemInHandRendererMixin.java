@@ -27,6 +27,7 @@ public class ItemInHandRendererMixin {
         if (mainHandItem.getItem() instanceof IAnimatedItem) {
             return 1.0F;
         }
+        
         return attackStrength;
     }
 }
