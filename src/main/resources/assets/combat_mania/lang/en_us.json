@@ -1,13 +1,13 @@
 {
-  "itemGroup.examplemod": "Example Mod Tab",
-  "block.examplemod.example_block": "Example Block",
-  "item.examplemod.example_item": "Example Item",
-
-  "examplemod.configuration.title": "Example Mod Configs",
-  "examplemod.configuration.section.examplemod.common.toml": "Example Mod Configs",
-  "examplemod.configuration.section.examplemod.common.toml.title": "Example Mod Configs",
-  "examplemod.configuration.items": "Item List",
-  "examplemod.configuration.logDirtBlock": "Log Dirt Block",
-  "examplemod.configuration.magicNumberIntroduction": "Magic Number Text",
-  "examplemod.configuration.magicNumber": "Magic Number"
+  "item.combat_mania.wooden_spear": "Wooden Spear",
+  "item.combat_mania.stone_spear": "Stone Spear",
+  "item.combat_mania.golden_spear": "Golden Spear",
+  "item.combat_mania.iron_spear": "Iron Spear",
+  "item.combat_mania.diamond_spear": "Diamond Spear",
+  "item.combat_mania.netherite_spear": "Netherite Spear",
+  "item.combat_mania.wooden_glaive": "Wooden Glaive",
+  "item.combat_mania.stone_glaive": "Stone Glaive",
+  "item.combat_mania.golden_glaive": "Golden Glaive",
+  "item.combat_mania.iron_glaive": "Iron Glaive",
+  "item.combat_mania.diamond_glaive": "Diamond Glaive"
 }

@@ -43,6 +43,12 @@ public class CMItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        spearItem(CMItems.WOODEN_GLAIVE);
+        spearItem(CMItems.STONE_GLAIVE);
+        spearItem(CMItems.GOLDEN_GLAIVE);
+        spearItem(CMItems.IRON_GLAIVE);
+        spearItem(CMItems.DIAMOND_GLAIVE);
+        
         spearItem(CMItems.WOODEN_SPEAR);
         spearItem(CMItems.STONE_SPEAR);
         spearItem(CMItems.GOLDEN_SPEAR);
