@@ -2,7 +2,7 @@ package com.vidal1shere.combatmania.item;
 
 import com.vidal1shere.combatmania.api.IAnimatedItem;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
-import com.vidal1shere.combatmania.client.animation.data.AnimationTrack;
+import com.vidal1shere.combatmania.client.old_animation.data.AnimationTrack;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.client.player.LocalPlayer;

@@ -1,6 +1,6 @@
-package com.vidal1shere.combatmania.client.animation;
+package com.vidal1shere.combatmania.client.old_animation;
 
-import com.vidal1shere.combatmania.client.animation.data.Keyframe;
+import com.vidal1shere.combatmania.client.old_animation.data.Keyframe;
 
 /** Interpolation mode between two consecutive keyframes. */
 public enum Interpolation {

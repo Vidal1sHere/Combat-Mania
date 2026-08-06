@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.client.animation;
+package com.vidal1shere.combatmania.client.old_animation;
 
 /** Controls what happens when an animation reaches its last keyframe. */
 public enum LoopType {

@@ -1,6 +1,6 @@
 package com.vidal1shere.combatmania.api;
 
-import com.vidal1shere.combatmania.client.animation.data.AnimationTrack;
+import com.vidal1shere.combatmania.client.old_animation.data.AnimationTrack;
 
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.HumanoidArm;

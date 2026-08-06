@@ -1,9 +1,9 @@
-package com.vidal1shere.combatmania.client.animation;
+package com.vidal1shere.combatmania.client.old_animation;
 
 import com.vidal1shere.combatmania.api.IAnimatedItem;
-import com.vidal1shere.combatmania.client.animation.data.AnimationState;
-import com.vidal1shere.combatmania.client.animation.data.AnimationTrack;
-import com.vidal1shere.combatmania.client.animation.data.Keyframe;
+import com.vidal1shere.combatmania.client.old_animation.data.AnimationState;
+import com.vidal1shere.combatmania.client.old_animation.data.AnimationTrack;
+import com.vidal1shere.combatmania.client.old_animation.data.Keyframe;
 
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.HumanoidArm;

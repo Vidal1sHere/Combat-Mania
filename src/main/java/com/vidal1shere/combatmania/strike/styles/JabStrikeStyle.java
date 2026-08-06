@@ -1,10 +1,6 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.CMUtil;
-import com.vidal1shere.combatmania.client.animation.Interpolation;
-import com.vidal1shere.combatmania.client.animation.LoopType;
-import com.vidal1shere.combatmania.client.animation.data.AnimationTrack;
-import com.vidal1shere.combatmania.client.animation.data.Keyframe;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
@@ -13,7 +9,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;

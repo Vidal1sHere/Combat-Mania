@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.client.animation.data;
+package com.vidal1shere.combatmania.client.old_animation.data;
 
 /** A single keyframe in a first-person item animation. */
 public record Keyframe(

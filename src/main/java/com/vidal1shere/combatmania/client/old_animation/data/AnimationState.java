@@ -1,6 +1,6 @@
-package com.vidal1shere.combatmania.client.animation.data;
+package com.vidal1shere.combatmania.client.old_animation.data;
 
-import com.vidal1shere.combatmania.client.animation.LoopType;
+import com.vidal1shere.combatmania.client.old_animation.LoopType;
 
 /** Runtime playback state for a single animation. */
 public final class AnimationState {

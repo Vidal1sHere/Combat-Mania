@@ -1,7 +1,7 @@
-package com.vidal1shere.combatmania.client.animation.data;
+package com.vidal1shere.combatmania.client.old_animation.data;
 
-import com.vidal1shere.combatmania.client.animation.Interpolation;
-import com.vidal1shere.combatmania.client.animation.LoopType;
+import com.vidal1shere.combatmania.client.old_animation.Interpolation;
+import com.vidal1shere.combatmania.client.old_animation.LoopType;
 
 import java.util.ArrayList;
 import java.util.List;
