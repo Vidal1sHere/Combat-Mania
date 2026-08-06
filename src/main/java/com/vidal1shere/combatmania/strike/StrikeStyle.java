@@ -10,14 +10,44 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+/** 
+ * TODO 1. fix the overlap not working; 2. fix the attack speed meter looking weird; 3. fix the stupid ass holding m2 glitch
+ */
 public abstract class StrikeStyle {
 
-    public abstract Holder<Attribute> getSpeedAttribute();
-    public float getMinStrengthScale() { return 1.0F; }
-    public int getMaxDuration() { return 0; }
-    public boolean syncAnimationSpeed() { return true; }
-    public boolean overlap() { return false; }
-    public boolean swingHand() { return true; }
+    private final StrikeProperties properties;
+
+    public StrikeStyle(StrikeProperties properties) {
+        this.properties = properties;
+    }
+
+    public Holder<Attribute> getSpeedAttribute() {
+        return properties.getSpeedAttribute();
+    }
+
+    public float getMinStrengthScale() {
+        return properties.getMinStrengthScale();
+    }
+
+    public int getMaxDuration() {
+        return properties.getMaxDuration();
+    }
+
+    public boolean syncAnimationSpeed() {
+        return properties.syncAnimationSpeed();
+    }
+
+    public boolean overlap() {
+        return properties.overlap();
+    }
+
+    public boolean swingHand() {
+        return properties.swingHand();
+    }
+
+    protected StrikeProperties properties() {
+        return properties;
+    }
 
     public void onStart(StrikeContext ctx) {}
     public void onTick(StrikeContext ctx, int ticksHeld) {}
@@ -30,5 +60,7 @@ public abstract class StrikeStyle {
     public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {}
 
     @OnlyIn(Dist.CLIENT)
-    public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player) { return null; }
+    public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player) {
+        return null;
+    }
 }

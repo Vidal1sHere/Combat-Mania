@@ -36,7 +36,7 @@ public class GlaiveItem extends TieredItem implements IStrikeWeapon {
         return CMStrikeStyles.JAB;
     }
 
-    public static ItemAttributeModifiers createAttributes(Tier tier, double damage, double jabSpeed) {
+    public static ItemAttributeModifiers createAttributes(Tier tier, double damage, double swingSpeed, double jabSpeed) {
         return ItemAttributeModifiers.builder()
                 .add(
                         Attributes.ATTACK_DAMAGE,
@@ -44,6 +44,14 @@ public class GlaiveItem extends TieredItem implements IStrikeWeapon {
                                 BASE_ATTACK_DAMAGE_ID,
                                 (double) (damage + tier.getAttackDamageBonus()),
                                 AttributeModifier.Operation.ADD_VALUE
+                        ),
+                        EquipmentSlotGroup.MAINHAND
+                )
+                .add(
+                        Attributes.ATTACK_SPEED,
+                        new AttributeModifier(
+                                BASE_ATTACK_SPEED_ID,
+                                swingSpeed, AttributeModifier.Operation.ADD_VALUE
                         ),
                         EquipmentSlotGroup.MAINHAND
                 )

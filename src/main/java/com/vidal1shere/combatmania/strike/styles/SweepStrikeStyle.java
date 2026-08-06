@@ -2,23 +2,24 @@ package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeContext;
+import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.ItemAbilities;
@@ -31,21 +32,25 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.stats.Stats;
 import net.minecraft.core.particles.ParticleTypes;
 
+import static com.vidal1shere.combatmania.strike.StrikeProperties.Key;
+
 public class SweepStrikeStyle extends StrikeStyle {
 
-    @Override
-    public Holder<Attribute> getSpeedAttribute() {
-        return Attributes.ATTACK_SPEED;
-    }
+    public static final Key<Vec3> SWEEP_HITBOX = new Key<>(new Vec3(1.0, 0.25, 1.0));
+    public static final Key<SoundEvent> SWEEP_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_SWEEP);
+    public static final Key<SoundEvent> CRIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_CRIT);
+    public static final Key<SoundEvent> WEAK_HIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_WEAK);
+    public static final Key<SoundEvent> STRONG_HIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_STRONG);
+    public static final Key<SoundEvent> MISS_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_NODAMAGE);
+    public static final Key<SoundEvent> KNOCKBACK_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_KNOCKBACK);
 
-    @Override
-    public float getMinStrengthScale() {
-        return 0.05f;
+    public SweepStrikeStyle(StrikeProperties properties) {
+        super(properties);
     }
-
-    @Override
-    public boolean overlap() {
-        return true;
+    
+    public AABB getSweepHitBox(Entity entity) {
+        Vec3 hitbox = properties().get(SWEEP_HITBOX);
+        return entity.getBoundingBox().inflate(hitbox.x, hitbox.y, hitbox.z);
     }
 
     @Override
@@ -83,7 +88,7 @@ public class SweepStrikeStyle extends StrikeStyle {
         boolean sprintKnockback = false;
         if (player.isSprinting() && fullStrength) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
+                    properties().get(KNOCKBACK_SOUND), player.getSoundSource(), 1.0F, 1.0F);
             sprintKnockback = true;
         }
 
@@ -134,7 +139,7 @@ public class SweepStrikeStyle extends StrikeStyle {
 
         if (!hurt) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
+                    properties().get(MISS_SOUND), player.getSoundSource(), 1.0F, 1.0F);
             player.resetAttackStrengthTicker();
             return;
         }
@@ -161,8 +166,7 @@ public class SweepStrikeStyle extends StrikeStyle {
             if (player.onGround()) {
                 double entityReachSq = Mth.square(player.entityInteractionRange());
     
-                for (LivingEntity nearby : player.level().getEntitiesOfClass(LivingEntity.class,
-                        itemstack.getSweepHitBox(player, target))) {
+                for (LivingEntity nearby : player.level().getEntitiesOfClass(LivingEntity.class, getSweepHitBox(target))) {
                     if (nearby == player || nearby == target || player.isAlliedTo(nearby)) continue;
                     if (nearby instanceof ArmorStand as && as.isMarker()) continue;
                     if (player.distanceToSqr(nearby) >= entityReachSq) continue;
@@ -180,7 +184,7 @@ public class SweepStrikeStyle extends StrikeStyle {
             }
 
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
+                    properties().get(SWEEP_SOUND), player.getSoundSource(), 1.0F, 1.0F);
             sweepParticle(player, player.onGround());
         }
 
@@ -192,15 +196,15 @@ public class SweepStrikeStyle extends StrikeStyle {
 
         if (crit) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
+                    properties().get(CRIT_SOUND), player.getSoundSource(), 1.0F, 1.0F);
             player.crit(target);
         } else if (!sweep) {
             if (fullStrength) {
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                        SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);
+                        properties().get(STRONG_HIT_SOUND), player.getSoundSource(), 1.0F, 1.0F);
             } else {
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                        SoundEvents.PLAYER_ATTACK_WEAK, player.getSoundSource(), 1.0F, 1.0F);
+                        properties().get(WEAK_HIT_SOUND), player.getSoundSource(), 1.0F, 1.0F);
             }
         }
 

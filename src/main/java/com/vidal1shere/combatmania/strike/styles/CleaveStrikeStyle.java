@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.strike.StrikeContext;
+import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
@@ -28,6 +29,10 @@ import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 
 public class CleaveStrikeStyle extends StrikeStyle {
+
+    public CleaveStrikeStyle(StrikeProperties properties) {
+        super(properties);
+    }
 
     @Override
     public Holder<Attribute> getSpeedAttribute() {

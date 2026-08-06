@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.strike.StrikeContext;
+import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
@@ -31,6 +32,10 @@ import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.entity.player.SweepAttackEvent;
 
 public class VanillaSweepStrikeStyle extends StrikeStyle {
+
+    public VanillaSweepStrikeStyle() {
+        super(StrikeProperties.builder().minStrengthScale(0.05f).build());
+    }
 
     @Override
     public Holder<Attribute> getSpeedAttribute() {

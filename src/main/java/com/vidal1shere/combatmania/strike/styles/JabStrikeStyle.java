@@ -10,6 +10,7 @@ import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
+import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.Keyframe;
@@ -44,6 +45,10 @@ public class JabStrikeStyle extends StrikeStyle {
     
     private static final float JAB_MIN_REACH = 2.0F;
     private static final float HIT_INFLATION = 0.125F;
+
+    public JabStrikeStyle(StrikeProperties properties) {
+        super(properties);
+    }
 
     @Override
     public Holder<Attribute> getSpeedAttribute() {

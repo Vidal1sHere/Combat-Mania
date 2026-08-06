@@ -14,27 +14,27 @@ public class CMItems {
 
     public static final DeferredItem<GlaiveItem> WOODEN_GLAIVE = ITEMS.register(
             "wooden_glaive", () -> new GlaiveItem(Tiers.WOOD, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(Tiers.WOOD, 2.0F, -2.46F)))
+                    .attributes(GlaiveItem.createAttributes(Tiers.WOOD, 2.0F, -3.2F, -2.46F)))
     );
 
     public static final DeferredItem<GlaiveItem> STONE_GLAIVE = ITEMS.register(
             "stone_glaive", () -> new GlaiveItem(Tiers.STONE, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(Tiers.STONE, 2.0F, -2.67F)))
+                    .attributes(GlaiveItem.createAttributes(Tiers.STONE, 2.0F, -3.2F, -2.67F)))
     );
 
     public static final DeferredItem<GlaiveItem> GOLDEN_GLAIVE = ITEMS.register(
             "golden_glaive", () -> new GlaiveItem(Tiers.GOLD, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(Tiers.GOLD, 2.0F, -2.95F)))
+                    .attributes(GlaiveItem.createAttributes(Tiers.GOLD, 2.0F, -3.0F, -2.95F)))
     );
 
     public static final DeferredItem<GlaiveItem> IRON_GLAIVE = ITEMS.register(
             "iron_glaive", () -> new GlaiveItem(Tiers.IRON, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(Tiers.IRON, 2.0F, -2.95F)))
+                    .attributes(GlaiveItem.createAttributes(Tiers.IRON, 2.0F, -3.1F, -2.95F)))
     );
 
     public static final DeferredItem<GlaiveItem> DIAMOND_GLAIVE = ITEMS.register(
             "diamond_glaive", () -> new GlaiveItem(Tiers.DIAMOND, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(Tiers.DIAMOND, 2.0F, -3.05F)))
+                    .attributes(GlaiveItem.createAttributes(Tiers.DIAMOND, 2.0F, -3.0F, -3.05F)))
     );
 
     public static final DeferredItem<SpearItem> WOODEN_SPEAR = ITEMS.register(
