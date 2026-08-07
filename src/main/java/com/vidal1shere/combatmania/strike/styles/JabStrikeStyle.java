@@ -1,31 +1,23 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.CMUtil;
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationChannel;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.keyframe.ItemAnimationTarget;
-import com.vidal1shere.combatmania.client.animation.keyframe.KeyframeVecs;
+import com.vidal1shere.combatmania.client.animation.item.ItemAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
-import com.vidal1shere.combatmania.registry.data.CMAttachments;
-import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import net.minecraft.client.animation.AnimationChannel;
-import net.minecraft.client.animation.Keyframe;
-import net.minecraft.client.animation.KeyframeAnimations;
-import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -41,42 +33,42 @@ import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.minecraft.core.particles.ParticleTypes;
 
+import java.util.function.BiPredicate;
+
+import static com.vidal1shere.combatmania.strike.StrikeProperties.Key;
+
 public class JabStrikeStyle extends StrikeStyle {
-    
-    private static final float JAB_MIN_REACH = 2.0F;
-    private static final float HIT_INFLATION = 0.125F;
+
+    public static final Key<Float> JAB_MIN_REACH = new Key<>(2.0F);
+    public static final Key<Float> HIT_INFLATION = new Key<>(0.125F);
+    public static final Key<BiPredicate<ItemStack, Player>> IS_LIGHT = new Key<>((s, p) -> 
+            s.getItem() instanceof TieredItem t && t.getTier() == Tiers.WOOD);
+    public static final Key<SoundEvent> JAB_SOUND = new Key<>(CMSounds.SPEAR_JAB.get());
+    public static final Key<SoundEvent> LIGHT_JAB_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_JAB.get());
+    public static final Key<SoundEvent> HIT_SOUND = new Key<>(CMSounds.SPEAR_HIT.get());
+    public static final Key<SoundEvent> LIGHT_HIT_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_HIT.get());
+    public static final Key<AnimationGetter> ANIMATION_GETTER = new Key<>((s, h, p) -> 
+            ItemAnimations.spearJab());
 
     public JabStrikeStyle(StrikeProperties properties) {
         super(properties);
     }
 
     @Override
-    public Holder<Attribute> getSpeedAttribute() {
-        return CMAttributes.JAB_SPEED;
-    }
-
-    @Override
-    public float getMinStrengthScale() { return 1.0F; }
-    
-    @Override
-    public boolean swingHand() {
-        return false;
-    }
-
-    @Override
     public void onStart(StrikeContext ctx) {
         Player player = ctx.player();
-        boolean wooden = player.getMainHandItem().getItem() instanceof TieredItem item && item.getTier() == Tiers.WOOD;
+        ItemStack itemstack = ctx.itemStack();
+        boolean isLight = properties().get(IS_LIGHT).test(itemstack, player);
 
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                wooden ? CMSounds.WOODEN_SPEAR_JAB.get() : CMSounds.SPEAR_JAB.get(), player.getSoundSource(), 1.0F, 1.0F);
+                isLight ? properties().get(LIGHT_JAB_SOUND) : properties().get(JAB_SOUND), player.getSoundSource(), 1.0F, 1.0F);
 
-        Entity target = findTarget(player, ctx.baseReach(), HIT_INFLATION);
+        Entity target = findTarget(player, ctx.baseReach(), properties().get(HIT_INFLATION));
         if (target == null) return;
 
-        if (player.distanceToSqr(target) < JAB_MIN_REACH * JAB_MIN_REACH) return;
+        float minReach = properties().get(JAB_MIN_REACH);
+        if (player.distanceToSqr(target) < minReach * minReach) return;
 
-        ItemStack itemstack = ctx.itemStack();
         float baseDamage = ctx.baseDamage();
         float strengthScale = ctx.strengthScale();
 
@@ -101,7 +93,6 @@ public class JabStrikeStyle extends StrikeStyle {
         boolean hurt = target.hurt(damagesource, totalDamage);
 
         if (!hurt) {
-            player.resetAttackStrengthTicker();
             return;
         }
 
@@ -128,7 +119,7 @@ public class JabStrikeStyle extends StrikeStyle {
         }
 
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                wooden ? CMSounds.WOODEN_SPEAR_HIT.get() : CMSounds.SPEAR_HIT.get(), player.getSoundSource(), 1.0F, 1.0F);
+                isLight ? properties().get(HIT_SOUND) : properties().get(LIGHT_HIT_SOUND), player.getSoundSource(), 1.0F, 1.0F);
 
         if (f1 > 0.0F) player.magicCrit(target);
         player.setLastHurtMob(target);
@@ -165,7 +156,6 @@ public class JabStrikeStyle extends StrikeStyle {
         }
 
         player.causeFoodExhaustion(0.1F);
-        player.resetAttackStrengthTicker();
     }
 
     private Entity findTarget(Player player, float reach, float inflation) {
@@ -198,28 +188,6 @@ public class JabStrikeStyle extends StrikeStyle {
         return EnchantmentHelper.modifyDamage(sl, weapon, entity, damageSource, damage);
     }
 
-    private static ItemAnimationDefinition idle() {
-        return ItemAnimationDefinition.Builder
-                .withLength(1.0f)
-                .addChannel("position", new ItemAnimationChannel(
-                        ItemAnimationTarget.Targets.POSITION,
-                        new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.1f, KeyframeVecs.posVec(0.0f, -0.5f, -0.8f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.15f, KeyframeVecs.posVec(0.0f, -0.5f, -1.1f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.2f, KeyframeVecs.posVec(0.0f, -0.5f, -1.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.75f, KeyframeVecs.posVec(0.0f, -0.5f, -1.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(1.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
-                ))
-                .addChannel("rotation", new ItemAnimationChannel(
-                        ItemAnimationTarget.Targets.ROTATION,
-                        new Keyframe(0.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.1f, KeyframeVecs.degreeVec(-70f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.75f, KeyframeVecs.degreeVec(-70f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(1.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
-                ))
-                .build();
-    }
-
     @Override
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
@@ -227,6 +195,11 @@ public class JabStrikeStyle extends StrikeStyle {
 
     @Override
     public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player) {
-        return idle();
+        return properties().get(ANIMATION_GETTER).get(stack, hand, player);
+    }
+    
+    @FunctionalInterface
+    public interface AnimationGetter {
+        ItemAnimationDefinition get(ItemStack stack, InteractionHand hand, Player player);
     }
 }

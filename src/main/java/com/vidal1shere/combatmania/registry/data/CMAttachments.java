@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.registry.data;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.attachment.StaggerData;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
 import com.vidal1shere.combatmania.attachment.StrikeActiveData;
 import com.vidal1shere.combatmania.attachment.StrikeCooldownData;
@@ -25,6 +26,10 @@ public class CMAttachments {
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<ItemAnimationStates>> ITEM_ANIMATIONS =
             ATTACHMENT_TYPES.register("item_animations",
                     () -> AttachmentType.builder(ItemAnimationStates::new).serialize(ItemAnimationStates.CODEC).build());
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<StaggerData>> STAGGER =
+            ATTACHMENT_TYPES.register("stagger",
+                    () -> AttachmentType.builder(StaggerData::new).serialize(StaggerData.CODEC).build());
 
     public static void register(IEventBus eventBus) {
         ATTACHMENT_TYPES.register(eventBus);

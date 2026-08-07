@@ -1,9 +1,12 @@
 package com.vidal1shere.combatmania.strike.styles;
 
+import com.vidal1shere.combatmania.event.custom.StaggerAttackEvent;
+import com.vidal1shere.combatmania.registry.data.CMAttachments;
+import com.vidal1shere.combatmania.registry.data.CMAttributes;
+import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -16,7 +19,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +26,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
@@ -32,21 +35,6 @@ public class CleaveStrikeStyle extends StrikeStyle {
 
     public CleaveStrikeStyle(StrikeProperties properties) {
         super(properties);
-    }
-
-    @Override
-    public Holder<Attribute> getSpeedAttribute() {
-        return Attributes.ATTACK_SPEED;
-    }
-
-    @Override
-    public float getMinStrengthScale() {
-        return 0.1f;
-    }
-
-    @Override
-    public boolean overlap() {
-        return true;
     }
 
     @Override
@@ -115,8 +103,35 @@ public class CleaveStrikeStyle extends StrikeStyle {
         if (!hurt) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
-            player.resetAttackStrengthTicker();
             return;
+        }
+
+        if (crit && target instanceof LivingEntity living) {
+            float attackStagger = (float) player.getAttributeValue(CMAttributes.ATTACK_STAGGER);
+
+            if (attackStagger > 0.0F) {
+                float resistance = (float) living.getAttributeValue(CMAttributes.STAGGER_RESISTANCE);
+
+                float strength = attackStagger * (1.0F - resistance);
+
+                if (strength > 0.0F) {
+                    int duration = Mth.floor(strength * 8.0F);
+
+                    StaggerAttackEvent event = new StaggerAttackEvent(
+                            living,
+                            player,
+                            strength,
+                            duration
+                    );
+
+                    NeoForge.EVENT_BUS.post(event);
+
+                    if (!event.isCanceled()) {
+                        living.getData(CMAttachments.STAGGER)
+                                .applyStagger(living, event.getStrength(), event.getDuration());
+                    }
+                }
+            }
         }
 
         float kbStrength = getKnockbackStrength(player, itemstack, target, damagesource) + (sprintKnockback ? 1.0F : 0.0F);
@@ -145,6 +160,13 @@ public class CleaveStrikeStyle extends StrikeStyle {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
             player.crit(target);
+
+            double d0 = (-Mth.sin(player.getYRot() * ((float) Math.PI / 180F)));
+            double d1 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F));
+            if (player.level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(CMParticles.VERTICAL_SWEEP_ATTACK.get(),
+                        player.getX() + d0, player.getY(0.5F), player.getZ() + d1, 0, d0, 0.0F, d1, 0.0F);
+            }
         } else {
             if (fullStrength) {
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
@@ -188,7 +210,6 @@ public class CleaveStrikeStyle extends StrikeStyle {
         }
 
         player.causeFoodExhaustion(0.1F);
-        player.resetAttackStrengthTicker();
     }
 
     private float getKnockbackStrength(Player player, ItemStack itemstack, Entity target, DamageSource damagesource) {

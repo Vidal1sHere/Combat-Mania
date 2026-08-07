@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.registry.strike;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import com.vidal1shere.combatmania.strike.styles.*;
@@ -32,10 +33,18 @@ public class CMStrikeStyles {
                     .build()));
 
     public static final DeferredHolder<StrikeStyle, CleaveStrikeStyle> CLEAVE =
-            STRIKE_STYLES.register("cleave", () -> new CleaveStrikeStyle(StrikeProperties.builder().build()));
+            STRIKE_STYLES.register("cleave", () -> new CleaveStrikeStyle(StrikeProperties.builder()
+                    .overlap(true)
+                    .build()));
     
     public static final DeferredHolder<StrikeStyle, JabStrikeStyle> JAB =
             STRIKE_STYLES.register("jab", () -> new JabStrikeStyle(StrikeProperties.builder()
+                    .speedAttribute(CMAttributes.JAB_SPEED)
+                    .swingHand(false)
+                    .build()));
+
+    public static final DeferredHolder<StrikeStyle, StabStrikeStyle> STAB =
+            STRIKE_STYLES.register("stab", () -> new StabStrikeStyle(StrikeProperties.builder()
                     .swingHand(false)
                     .build()));
 

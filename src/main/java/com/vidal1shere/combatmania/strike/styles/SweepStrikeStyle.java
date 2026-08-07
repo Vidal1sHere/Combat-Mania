@@ -140,7 +140,6 @@ public class SweepStrikeStyle extends StrikeStyle {
         if (!hurt) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                     properties().get(MISS_SOUND), player.getSoundSource(), 1.0F, 1.0F);
-            player.resetAttackStrengthTicker();
             return;
         }
 
@@ -241,7 +240,6 @@ public class SweepStrikeStyle extends StrikeStyle {
         }
 
         player.causeFoodExhaustion(0.1F);
-        player.resetAttackStrengthTicker();
     }
     
     private void sweepParticle(Player player, boolean horizontal) {

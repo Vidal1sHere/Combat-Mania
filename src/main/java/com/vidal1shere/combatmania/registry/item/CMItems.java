@@ -3,7 +3,9 @@ package com.vidal1shere.combatmania.registry.item;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.item.GlaiveItem;
 import com.vidal1shere.combatmania.item.SpearItem;
+import com.vidal1shere.combatmania.item.StrikeSwordItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -12,6 +14,11 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class CMItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CombatMania.MOD_ID);
 
+    public static final DeferredItem<StrikeSwordItem> STRIKE_SWORD = ITEMS.register(
+            "strike_sword", () -> new StrikeSwordItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(SwordItem.createAttributes(Tiers.DIAMOND, 2.0F, -3.2F)))
+    );
+    
     public static final DeferredItem<GlaiveItem> WOODEN_GLAIVE = ITEMS.register(
             "wooden_glaive", () -> new GlaiveItem(Tiers.WOOD, new Item.Properties()
                     .attributes(GlaiveItem.createAttributes(Tiers.WOOD, 2.0F, -3.2F, -2.46F)))

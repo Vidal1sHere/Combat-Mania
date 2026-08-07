@@ -34,22 +34,7 @@ import net.neoforged.neoforge.event.entity.player.SweepAttackEvent;
 public class VanillaSweepStrikeStyle extends StrikeStyle {
 
     public VanillaSweepStrikeStyle() {
-        super(StrikeProperties.builder().minStrengthScale(0.05f).build());
-    }
-
-    @Override
-    public Holder<Attribute> getSpeedAttribute() {
-        return Attributes.ATTACK_SPEED;
-    }
-
-    @Override
-    public float getMinStrengthScale() {
-        return 0.1f;
-    }
-
-    @Override
-    public boolean overlap() {
-        return true;
+        super(StrikeProperties.builder().minStrengthScale(0.05f).overlap(true).build());
     }
 
     @Override
@@ -130,7 +115,6 @@ public class VanillaSweepStrikeStyle extends StrikeStyle {
         if (!hurt) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
-            player.resetAttackStrengthTicker();
             return;
         }
 
@@ -229,7 +213,6 @@ public class VanillaSweepStrikeStyle extends StrikeStyle {
         }
 
         player.causeFoodExhaustion(0.1F);
-        player.resetAttackStrengthTicker();
     }
 
     private float getKnockbackStrength(Player player, ItemStack itemstack, Entity target, DamageSource damagesource) {
