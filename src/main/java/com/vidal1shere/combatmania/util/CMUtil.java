@@ -1,5 +1,6 @@
-package com.vidal1shere.combatmania;
+package com.vidal1shere.combatmania.util;
 
+import com.vidal1shere.combatmania.CombatMania;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;

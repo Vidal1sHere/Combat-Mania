@@ -1,6 +1,6 @@
 package com.vidal1shere.combatmania.registry.sound;
 
-import com.vidal1shere.combatmania.CMUtil;
+import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;

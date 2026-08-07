@@ -1,6 +1,6 @@
 package com.vidal1shere.combatmania.datagen;
 
-import com.vidal1shere.combatmania.CMUtil;
+import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;

@@ -1,7 +1,7 @@
 package com.vidal1shere.combatmania.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.vidal1shere.combatmania.CMUtil;
+import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.attachment.StrikeData;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.client.DeltaTracker;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,6 +1,6 @@
 package com.vidal1shere.combatmania.registry.item;
 
-import com.vidal1shere.combatmania.CMUtil;
+import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

@@ -1,6 +1,6 @@
 package com.vidal1shere.combatmania.registry.data;
 
-import com.vidal1shere.combatmania.CMUtil;
+import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

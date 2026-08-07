@@ -1,6 +1,6 @@
 package com.vidal1shere.combatmania.strike.styles;
 
-import com.vidal1shere.combatmania.CMUtil;
+import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.ItemAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
