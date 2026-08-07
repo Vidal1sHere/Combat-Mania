@@ -10,9 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-/** 
- * TODO 1. fix the overlap not working; 2. fix the attack speed meter looking weird; 3. fix the stupid ass holding m2 glitch
- */
 public abstract class StrikeStyle {
 
     private final StrikeProperties properties;
