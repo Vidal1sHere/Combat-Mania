@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.item;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
@@ -18,7 +19,6 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.Nullable;
 
 public class SpearItem extends TieredItem implements IStrikeWeapon {
     
@@ -27,13 +27,9 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
     }
 
     @Override
-    public DeferredHolder<StrikeStyle, ? extends StrikeStyle> getPrimaryStyle() {
-        return CMStrikeStyles.JAB;
-    }
-
-    @Override
-    public @Nullable DeferredHolder<StrikeStyle, ? extends StrikeStyle> getSecondaryStyle() {
-        return null;
+    public DeferredHolder<StrikeStyle, ? extends StrikeStyle> getStyle(StrikeSlot slot) {
+        if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.JAB;
+        else return null;
     }
 
     public static ItemAttributeModifiers createAttributes(Tier tier, double damage, double jabSpeed) {

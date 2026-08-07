@@ -1,7 +1,9 @@
 package com.vidal1shere.combatmania.network;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.attachment.StrikeData;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.attachment.StrikeActiveData;
 import com.vidal1shere.combatmania.strike.StrikeContext;
@@ -77,12 +79,11 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 if (styleHolder == null) return;
 
                 StrikeStyle style = styleHolder.get();
-
-                StrikeActiveData active = player.getData(CMAttachments.STRIKE_ACTIVE);
-                StrikeCooldownData cooldown = player.getData(CMAttachments.STRIKE_COOLDOWN);
-
+                StrikeData strikeData = player.getData(CMAttachments.STRIKE);
+                StrikeSlot slot = payload.isPrimary() ? StrikeSlot.PRIMARY : StrikeSlot.SECONDARY;
+                
                 if (payload.action() == Action.START) {
-                    float scale = payload.isPrimary() ? cooldown.getPrimaryScale() : cooldown.getSecondaryScale();
+                    float scale = strikeData.getScale(slot);
                     if (scale < style.getMinStrengthScale()) return;
 
                     Entity target = payload.targetId() != -1 ? player.level().getEntity(payload.targetId()) : null;
@@ -95,14 +96,14 @@ public abstract class StrikePayload implements CustomPacketPayload {
                             scale, player.level()
                     );
 
-                    active.setActive(payload.isPrimary(), true);
+                    strikeData.setActive(slot, true);
                     weapon.setLastUsedStyle(stack, style);
                     weapon.setActiveStyle(stack, style);
                     style.onStart(ctx);
 
                     if (style.getMaxDuration() == 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
-                        cooldown.exhaust(payload.isPrimary(), duration, style.overlap());
+                        strikeData.exhaust(slot, duration);
                         PacketDistributor.sendToPlayer((ServerPlayer) player,
                                 new Confirm(payload.isPrimary(), style.swingHand(), Action.START, duration));
                     } else {
@@ -110,7 +111,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
                                 new Confirm(payload.isPrimary(), false, Action.START, -1));
                     }
                 } else {
-                    if (!active.isActive(payload.isPrimary())) return;
+                    if (!strikeData.isActive(slot)) return;
 
                     StrikeContext ctx = new StrikeContext(
                             player, stack, style, null,
@@ -120,13 +121,13 @@ public abstract class StrikePayload implements CustomPacketPayload {
                             1.0f, player.level()
                     );
 
-                    style.onStop(ctx, active.getTicks(payload.isPrimary()));
-                    active.setActive(payload.isPrimary(), false);
+                    style.onStop(ctx, strikeData.getActiveTicks(slot));
+                    strikeData.setActive(slot, false);
                     weapon.setActiveStyle(stack, null);
 
                     if (style.getMaxDuration() > 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
-                        cooldown.exhaust(payload.isPrimary(), duration, style.overlap());
+                        strikeData.exhaust(slot, duration);
                         PacketDistributor.sendToPlayer((ServerPlayer) player,
                                 new Confirm(payload.isPrimary(), style.swingHand(), Action.STOP, duration));
                     }
@@ -173,8 +174,8 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 Player player = context.player();
 
                 if (payload.cooldownDuration() > 0) {
-                    StrikeCooldownData cooldown = player.getData(CMAttachments.STRIKE_COOLDOWN);
-                    cooldown.exhaust(payload.isPrimary(), payload.cooldownDuration(), false);
+                    StrikeData strikeData = player.getData(CMAttachments.STRIKE);
+                    strikeData.exhaust(payload.isPrimary() ? StrikeSlot.PRIMARY : StrikeSlot.SECONDARY, payload.cooldownDuration());
                     player.resetAttackStrengthTicker();
                 }
 
@@ -185,11 +186,13 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 ItemStack stack = player.getMainHandItem();
                 if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
 
-                StrikeStyle style = payload.isPrimary()
-                        ? weapon.getPrimaryStyle().get()
-                        : weapon.getSecondaryStyle() != null ? weapon.getSecondaryStyle().get() : null;
-                if (style == null) return;
+                DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = payload.isPrimary() ?
+                        weapon.getPrimaryStyle() :
+                        weapon.getSecondaryStyle();
 
+                if (styleHolder == null) return;
+
+                StrikeStyle style = styleHolder.get();
                 ItemAnimationState state = player.getData(CMAttachments.ITEM_ANIMATIONS).get(InteractionHand.MAIN_HAND);
 
                 if (payload.action() == Action.START) {

@@ -3,6 +3,8 @@ package com.vidal1shere.combatmania.event;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.attachment.StaggerData;
+import com.vidal1shere.combatmania.attachment.StrikeData;
+import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.network.StrikePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.attachment.StrikeActiveData;
@@ -44,29 +46,27 @@ public class CombatEventHandler {
             if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
 
             DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder;
-            boolean isPrimary;
+            StrikeSlot slot;
 
             if (event.isAttack()) {
-                styleHolder = weapon.getPrimaryStyle();
-                isPrimary = true;
-                if (styleHolder == null) return;
+                slot = StrikeSlot.PRIMARY;
             } else if (event.isUseItem()) {
-                styleHolder = weapon.getSecondaryStyle();
-                isPrimary = false;
-                if (styleHolder == null) return;
+                slot = StrikeSlot.SECONDARY;
             } else return;
             
+            styleHolder = weapon.getStyle(slot);
+            if (styleHolder == null) return;
+            
             StrikeStyle style = styleHolder.get();
-            StrikeCooldownData cooldown = player.getData(CMAttachments.STRIKE_COOLDOWN);
-            StrikeActiveData active = player.getData(CMAttachments.STRIKE_ACTIVE);
+            StrikeData strikeData = player.getData(CMAttachments.STRIKE);
 
-            if (active.isBlocked(isPrimary)) {
+            if (strikeData.isBlocked(slot, weapon)) {
                 event.setCanceled(true);
                 event.setSwingHand(false);
                 return;
             }
 
-            float scale = isPrimary ? cooldown.getPrimaryScale() : cooldown.getSecondaryScale();
+            float scale = strikeData.getScale(slot);
             if (scale < style.getMinStrengthScale()) {
                 event.setCanceled(true);
                 event.setSwingHand(false);
@@ -78,7 +78,7 @@ public class CombatEventHandler {
                     : null;
 
             PacketDistributor.sendToServer(new StrikePayload.Request(
-                    StrikePayload.Action.START, isPrimary, target != null ? target.getId() : -1));
+                    StrikePayload.Action.START, slot == StrikeSlot.PRIMARY, target != null ? target.getId() : -1));
 
             event.setCanceled(true);
             event.setSwingHand(false);
@@ -95,31 +95,30 @@ public class CombatEventHandler {
             ItemStack stack = player.getMainHandItem();
             if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
 
-            StrikeActiveData active = player.getData(CMAttachments.STRIKE_ACTIVE);
+            StrikeData strikeData = player.getData(CMAttachments.STRIKE);
 
-            checkStop(mc, player, weapon, active, true);
-            checkStop(mc, player, weapon, active, false);
+            checkStop(mc, weapon, strikeData, StrikeSlot.PRIMARY);
+            checkStop(mc, weapon, strikeData, StrikeSlot.SECONDARY);
         }
 
-        private static void checkStop(Minecraft mc, Player player, IStrikeWeapon weapon,
-                                      StrikeActiveData active, boolean isPrimary) {
-            if (!active.isActive(isPrimary)) return;
-
-            DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = isPrimary ? 
-                    weapon.getPrimaryStyle() : 
-                    weapon.getSecondaryStyle();
+        private static void checkStop(Minecraft mc, IStrikeWeapon weapon,
+                                      StrikeData strikeData, StrikeSlot slot) {
+            if (!strikeData.isActive(slot)) return;
             
+            boolean isPrimary = slot == StrikeSlot.PRIMARY;
+
+            DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = weapon.getStyle(slot);
             if (styleHolder == null) return;
             
             StrikeStyle style = styleHolder.get();
 
             boolean keyDown = isPrimary ? mc.options.keyAttack.isDown() : mc.options.keyUse.isDown();
-            int ticks = active.getTicks(isPrimary);
+            int ticks = strikeData.getActiveTicks(slot);
 
             if (!keyDown || (style.getMaxDuration() > 0 && ticks >= style.getMaxDuration())) {
                 PacketDistributor.sendToServer(new StrikePayload.Request(
                         StrikePayload.Action.STOP, isPrimary, -1));
-                active.setActive(isPrimary, false);
+                strikeData.setActive(slot, false);
             }
         }
     }
@@ -132,25 +131,25 @@ public class CombatEventHandler {
         ItemStack stack = player.getMainHandItem();
         if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
 
-        StrikeActiveData active = player.getData(CMAttachments.STRIKE_ACTIVE);
+        StrikeData strikeData = player.getData(CMAttachments.STRIKE);
 
-        tickSlot(player, stack, weapon, active, true);
-        tickSlot(player, stack, weapon, active, false);
+        tickSlot(player, stack, weapon, strikeData, StrikeSlot.PRIMARY);
+        tickSlot(player, stack, weapon, strikeData, StrikeSlot.SECONDARY);
     }
 
     private static void tickSlot(Player player, ItemStack stack, IStrikeWeapon weapon,
-                                 StrikeActiveData active, boolean isPrimary) {
-        if (!active.isActive(isPrimary)) return;
+                                 StrikeData strikeData, StrikeSlot slot) {
+        if (!strikeData.isActive(slot)) return;
+        
+        boolean isPrimary = slot == StrikeSlot.PRIMARY;
 
-        DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = isPrimary ?
-                weapon.getPrimaryStyle() :
-                weapon.getSecondaryStyle();
+        DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = weapon.getStyle(slot);
 
         if (styleHolder == null) return;
 
         StrikeStyle style = styleHolder.get();
 
-        active.tick(isPrimary);
+        strikeData.tickActive();
 
         StrikeContext ctx = new StrikeContext(
                 player, stack, style, null,
@@ -160,17 +159,17 @@ public class CombatEventHandler {
                 1.0f, player.level()
         );
 
-        style.onTick(ctx, active.getTicks(isPrimary));
+        style.onTick(ctx, strikeData.getActiveTicks(slot));
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         Player player = event.getEntity();
         ItemStack stack = player.getMainHandItem();
-        if (!(stack.getItem() instanceof IStrikeWeapon)) return;
+        if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
 
-        StrikeActiveData active = player.getData(CMAttachments.STRIKE_ACTIVE);
-        if (active.isBlocked(false)) event.setCanceled(true);
+        StrikeData strikeData = player.getData(CMAttachments.STRIKE);
+        if (strikeData.isBlocked(StrikeSlot.SECONDARY, weapon)) event.setCanceled(true);
     }
 
     @SubscribeEvent

@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.api;
 
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
@@ -9,14 +10,18 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.Nullable;
 
 public interface IStrikeWeapon extends IAnimatedItem {
 
-    DeferredHolder<StrikeStyle, ? extends StrikeStyle> getPrimaryStyle();
+    DeferredHolder<StrikeStyle, ? extends StrikeStyle> getStyle(StrikeSlot slot);
 
-    @Nullable
-    DeferredHolder<StrikeStyle, ? extends StrikeStyle> getSecondaryStyle();
+    default DeferredHolder<StrikeStyle, ? extends StrikeStyle> getPrimaryStyle() {
+        return getStyle(StrikeSlot.PRIMARY);
+    }
+
+    default DeferredHolder<StrikeStyle, ? extends StrikeStyle> getSecondaryStyle() {
+        return getStyle(StrikeSlot.SECONDARY);
+    }
 
     private static int styleToId(StrikeStyle style) {
         if (style == null) return -1;

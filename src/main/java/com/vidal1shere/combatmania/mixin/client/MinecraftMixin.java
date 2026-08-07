@@ -1,6 +1,8 @@
 package com.vidal1shere.combatmania.mixin.client;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.attachment.StrikeData;
+import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.attachment.StrikeActiveData;
 import net.minecraft.client.Minecraft;
@@ -24,8 +26,8 @@ public class MinecraftMixin {
         ItemStack stack = mc.player.getMainHandItem();
         if (!(stack.getItem() instanceof IStrikeWeapon)) return;
 
-        StrikeActiveData active = mc.player.getData(CMAttachments.STRIKE_ACTIVE);
-        if (active.isActive(false)) {
+        StrikeData strikeData = mc.player.getData(CMAttachments.STRIKE);
+        if (strikeData.isActive(StrikeSlot.SECONDARY)) {
             ci.cancel();
         }
     }
