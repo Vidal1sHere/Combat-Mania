@@ -4,7 +4,6 @@ import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.attachment.StrikeData;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
-import com.vidal1shere.combatmania.attachment.StrikeActiveData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

@@ -14,5 +14,10 @@
   "item.combat_mania.stone_dagger": "Stone Dagger",
   "item.combat_mania.golden_dagger": "Golden Dagger",
   "item.combat_mania.iron_dagger": "Iron Dagger",
-  "item.combat_mania.diamond_dagger": "Diamond Dagger"
+  "item.combat_mania.diamond_dagger": "Diamond Dagger",
+
+  "attribute.name.combat_mania.jab_speed": "Jab Speed",
+  "attribute.name.combat_mania.stab_speed": "Stab Speed",
+  "attribute.name.combat_mania.attack_stagger": "Attack Stagger",
+  "attribute.name.combat_mania.stagger_resistance": "Stagger Resistance"
 }

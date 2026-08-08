@@ -48,29 +48,29 @@ public class CombatMania {
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            if (CMConfig.DAGGER_ITEMS.get()) {
+                event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.DIAMOND_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.GOLDEN_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.IRON_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.STONE_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.WOODEN_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+            
             if (CMConfig.GLAIVE_ITEMS.get()) {
-                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), new ItemStack(CMItems.WOODEN_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.WOODEN_GLAIVE.get()), new ItemStack(CMItems.STONE_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.STONE_GLAIVE.get()), new ItemStack(CMItems.IRON_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.IRON_GLAIVE.get()), new ItemStack(CMItems.GOLDEN_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.GOLDEN_GLAIVE.get()), new ItemStack(CMItems.DIAMOND_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.DIAMOND_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.GOLDEN_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.IRON_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.STONE_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.WOODEN_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
 
             if (CMConfig.SPEAR_ITEMS.get()) {
-                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), new ItemStack(CMItems.WOODEN_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.WOODEN_SPEAR.get()), new ItemStack(CMItems.STONE_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.STONE_SPEAR.get()), new ItemStack(CMItems.IRON_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.IRON_SPEAR.get()), new ItemStack(CMItems.GOLDEN_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.GOLDEN_SPEAR.get()), new ItemStack(CMItems.DIAMOND_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.DIAMOND_SPEAR.get()), new ItemStack(CMItems.NETHERITE_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            }
-
-            if (CMConfig.DAGGER_ITEMS.get()) {
-                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), new ItemStack(CMItems.WOODEN_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.WOODEN_DAGGER.get()), new ItemStack(CMItems.STONE_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.STONE_DAGGER.get()), new ItemStack(CMItems.IRON_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.IRON_DAGGER.get()), new ItemStack(CMItems.GOLDEN_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.GOLDEN_DAGGER.get()), new ItemStack(CMItems.DIAMOND_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.NETHERITE_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.DIAMOND_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.GOLDEN_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.IRON_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.STONE_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.WOODEN_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
     }

@@ -22,6 +22,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SpearItem extends TieredItem implements IStrikeWeapon {
     
+    public static final float RANGE_BONUS = 1.5F;
+    
     public SpearItem(Tier tier, Properties properties) {
         super(tier, properties);
     }
@@ -48,6 +50,15 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
                         new AttributeModifier(
                                 CMAttributes.BASE_JAB_SPEED_ID,
                                 jabSpeed,
+                                AttributeModifier.Operation.ADD_VALUE
+                        ),
+                        EquipmentSlotGroup.MAINHAND
+                )
+                .add(
+                        Attributes.ENTITY_INTERACTION_RANGE,
+                        new AttributeModifier(
+                                CMAttributes.BASE_ENTITY_INTERACTION_RANGE_ID,
+                                RANGE_BONUS,
                                 AttributeModifier.Operation.ADD_VALUE
                         ),
                         EquipmentSlotGroup.MAINHAND
