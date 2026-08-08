@@ -69,7 +69,7 @@ public interface IStrikeWeapon extends IAnimatedItem {
     @Override
     default float getAnimationSpeed(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
         StrikeStyle style = getLastUsedStyle(stack);
-        if (style == null || !style.syncAnimationSpeed()) return 1.0F;
-        return (float) player.getAttributeValue(style.getSpeedAttribute());
+        if (style == null) return 1.0F;
+        return style.getAnimationSpeed(stack, hand, player, state);
     }
 }

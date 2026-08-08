@@ -1,6 +1,6 @@
 package com.vidal1shere.combatmania.strike.styles;
 
-import com.vidal1shere.combatmania.client.animation.item.ItemAnimations;
+import com.vidal1shere.combatmania.client.animation.item.DaggerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.item.DaggerItem;
 import com.vidal1shere.combatmania.strike.StrikeContext;
@@ -219,7 +219,7 @@ public class StabStrikeStyle extends StrikeStyle {
 
     @Override
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-        state.setActiveDefinition(DaggerItem.backStabQueued(stack) ? ItemAnimations.backStab() : ItemAnimations.stab());
+        state.setActiveDefinition(DaggerItem.backStabQueued(stack) ? DaggerAnimations.backStab() : DaggerAnimations.stab());
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
         DaggerItem.clearBackStab(stack);
     }

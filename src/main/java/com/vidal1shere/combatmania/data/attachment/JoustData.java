@@ -3,7 +3,7 @@ package com.vidal1shere.combatmania.data.attachment;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.item.ItemAnimations;
+import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 
 import java.util.List;
 
@@ -29,10 +29,6 @@ public class JoustData {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-    
-    public ItemAnimationDefinition getAnimationDefinition() {
-        return ItemAnimations.identity(0.75F);
     }
     
     public boolean canPerformAction(Action action) {
@@ -63,6 +59,16 @@ public class JoustData {
     
     public void reset() {
         setStage(Stage.NONE);
+    }
+    
+    public ItemAnimationDefinition getAnimation() {
+        return switch (getStage()) {
+            case NONE -> null;
+            case EQUIP -> SpearAnimations.joustEquip();
+            case ENGAGED -> SpearAnimations.joustEngaged();
+            case TIRED -> SpearAnimations.joustTired();
+            case DISENGAGED -> SpearAnimations.joustDisengaged();
+        };
     }
 
     public enum Stage {

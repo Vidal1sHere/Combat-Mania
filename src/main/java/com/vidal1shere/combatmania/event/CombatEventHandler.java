@@ -99,23 +99,35 @@ public class CombatEventHandler {
 
         private static void checkStop(Minecraft mc, Player player, ItemStack stack,
                                       StrikeData strikeData, StrikeSlot slot) {
-            if (!strikeData.isActive(slot)) return;
-            if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
+            if (!strikeData.isActive(slot)) {
+                System.out.println("not active");
+                return;
+            }
+            if (!(stack.getItem() instanceof IStrikeWeapon weapon)) {
+                System.out.println("not a strike weapon");
+                return;
+            }
             
             boolean isPrimary = slot == StrikeSlot.PRIMARY;
 
             DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = weapon.getStyle(slot);
-            if (styleHolder == null) return;
+            if (styleHolder == null) {
+                System.out.println("style null for slot " + slot.name());
+                return;
+            }
             
             StrikeStyle style = styleHolder.get();
 
             boolean keyDown = isPrimary ? mc.options.keyAttack.isDown() : mc.options.keyUse.isDown();
             int ticks = strikeData.getActiveTicks(slot);
+            
+            System.out.println("checking max duration");
 
             if (!keyDown || (style.getMaxDuration(stack, player) > 0 && ticks >= style.getMaxDuration(stack, player))) {
                 PacketDistributor.sendToServer(new StrikePayload.Request(
                         StrikePayload.Action.STOP, isPrimary, -1));
                 strikeData.setActive(slot, false);
+                System.out.println("request sent");
             }
         }
     }
@@ -138,8 +150,6 @@ public class CombatEventHandler {
                                  StrikeData strikeData, StrikeSlot slot) {
         if (!strikeData.isActive(slot)) return;
         
-        boolean isPrimary = slot == StrikeSlot.PRIMARY;
-
         DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = weapon.getStyle(slot);
 
         if (styleHolder == null) return;

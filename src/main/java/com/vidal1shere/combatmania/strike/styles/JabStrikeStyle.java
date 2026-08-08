@@ -1,14 +1,13 @@
 package com.vidal1shere.combatmania.strike.styles;
 
+import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.item.ItemAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -49,7 +48,7 @@ public class JabStrikeStyle extends StrikeStyle {
     public static final Key<SoundEvent> HIT_SOUND = new Key<>(CMSounds.SPEAR_HIT.get());
     public static final Key<SoundEvent> LIGHT_HIT_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_HIT.get());
     public static final Key<AnimationGetter> ANIMATION_GETTER = new Key<>((s, h, p, st) -> 
-            ItemAnimations.spearJab());
+            SpearAnimations.spearJab());
 
     public JabStrikeStyle(StrikeProperties properties) {
         super(properties);

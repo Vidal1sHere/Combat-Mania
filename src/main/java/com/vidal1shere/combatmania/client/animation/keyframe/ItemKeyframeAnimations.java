@@ -66,7 +66,7 @@ public final class ItemKeyframeAnimations {
             }
         }
 
-        accumulator.applyTo(poseStack);
+        accumulator.applyTo(poseStack, definition.pivot());
     }
 
     private static float getElapsedSeconds(

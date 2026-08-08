@@ -62,6 +62,12 @@ public class CMStrikeStyles {
                     .minStrengthScale(0.5F)
                     .build()));
 
+    public static final DeferredHolder<StrikeStyle, JoustStrikeStyle> JOUST =
+            STRIKE_STYLES.register("joust", () -> new JoustStrikeStyle(StrikeProperties.builder()
+                    .swingHand(false)
+                    .overlap(true)
+                    .build()));
+
     public static void register(IEventBus eventBus) {
         STRIKE_STYLES.register(eventBus);
     }

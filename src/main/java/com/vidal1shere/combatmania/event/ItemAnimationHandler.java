@@ -48,6 +48,7 @@ public class ItemAnimationHandler {
         ItemAnimationDefinition definition = animated.getAnimation(stack, hand, player, state);
         if (definition == null) return;
 
+
         ItemKeyframeAnimations.animate(
             event.getPoseStack(),
             definition,
@@ -56,5 +57,9 @@ public class ItemAnimationHandler {
             ageInTicks,
             speed
         );
+        
+        if (definition.debug()) {
+            ItemTransformAccumulator.debugRenderPivot(event.getPoseStack(), event.getMultiBufferSource(), definition.pivot());
+        }
     }
 }

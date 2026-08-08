@@ -37,7 +37,7 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
 
     @Override
     public DeferredHolder<StrikeStyle, ? extends StrikeStyle> getStyle(StrikeSlot slot) {
-        if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.JAB;
+        if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.JOUST;
         else return null;
     }
 

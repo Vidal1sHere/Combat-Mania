@@ -8,6 +8,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
+import java.util.Objects;
+
 import static com.vidal1shere.combatmania.util.CustomProperties.*;
 
 public class JoustProperties {
@@ -110,7 +112,7 @@ public class JoustProperties {
         };
     }
 
-    public float getDuration(JoustData.Stage stage) {
+    public float getDurationSeconds(JoustData.Stage stage) {
         return switch (stage) {
             case NONE -> 1.0F;
             case EQUIP -> EQUIP_DURATION / equipSpeed;
@@ -120,11 +122,15 @@ public class JoustProperties {
         };
     }
 
+    public int getDurationTicks(JoustData.Stage stage) {
+        return CMUtil.secondsToTicks(getDurationSeconds(stage));
+    }
+
     public int getTotalDuration() {
-        return CMUtil.secondsToTicks(getDuration(JoustData.Stage.EQUIP)) + 
-                CMUtil.secondsToTicks(getDuration(JoustData.Stage.ENGAGED)) +
-                CMUtil.secondsToTicks(getDuration(JoustData.Stage.TIRED)) +
-                CMUtil.secondsToTicks(getDuration(JoustData.Stage.DISENGAGED));
+        return CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.EQUIP)) + 
+                CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.ENGAGED)) +
+                CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.TIRED)) +
+                CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.DISENGAGED));
     }
 
     @Override
@@ -142,7 +148,7 @@ public class JoustProperties {
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(
+        return Objects.hash(
                 damageMultiplier,
                 minDismountSpeed,
                 equipSpeed,
