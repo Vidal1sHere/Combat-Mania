@@ -43,6 +43,12 @@ public class CMItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        handheldDagger(CMItems.WOODEN_DAGGER);
+        handheldDagger(CMItems.STONE_DAGGER);
+        handheldDagger(CMItems.GOLDEN_DAGGER);
+        handheldDagger(CMItems.IRON_DAGGER);
+        handheldDagger(CMItems.DIAMOND_DAGGER);
+        
         spearItem(CMItems.WOODEN_GLAIVE);
         spearItem(CMItems.STONE_GLAIVE);
         spearItem(CMItems.GOLDEN_GLAIVE);
@@ -116,6 +122,12 @@ public class CMItemModelProvider extends ItemModelProvider {
     private ItemModelBuilder handheldItem(DeferredItem<?> item) {
         return withExistingParent(item.getId().getPath(),
                 ResourceLocation.parse("item/handheld")).texture("layer0", CMUtil.modResLoc("item/" + item.getId().getPath()));
+    }
+
+    private ItemModelBuilder handheldDagger(DeferredItem<?> item) {
+        return withExistingParent(item.getId().getPath(),
+                CMUtil.modResLoc("item/handheld_dagger"))
+                .texture("layer0", CMUtil.modResLoc("item/" + item.getId().getPath()));
     }
 
     private void spearItem(DeferredItem<?> item) {

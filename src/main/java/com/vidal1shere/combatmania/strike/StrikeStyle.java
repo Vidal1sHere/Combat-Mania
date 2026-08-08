@@ -57,7 +57,7 @@ public abstract class StrikeStyle {
     public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {}
 
     @OnlyIn(Dist.CLIENT)
-    public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player) {
-        return null;
+    public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
+        return state.getActiveDefinition();
     }
 }

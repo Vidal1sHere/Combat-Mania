@@ -9,10 +9,7 @@ import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -51,6 +48,14 @@ public class CombatMania {
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            if (CMConfig.GLAIVE_ITEMS.get()) {
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), new ItemStack(CMItems.WOODEN_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(CMItems.WOODEN_GLAIVE.get()), new ItemStack(CMItems.STONE_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(CMItems.STONE_GLAIVE.get()), new ItemStack(CMItems.IRON_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(CMItems.IRON_GLAIVE.get()), new ItemStack(CMItems.GOLDEN_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(CMItems.GOLDEN_GLAIVE.get()), new ItemStack(CMItems.DIAMOND_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+
             if (CMConfig.SPEAR_ITEMS.get()) {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), new ItemStack(CMItems.WOODEN_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(CMItems.WOODEN_SPEAR.get()), new ItemStack(CMItems.STONE_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -59,13 +64,13 @@ public class CombatMania {
                 event.insertAfter(new ItemStack(CMItems.GOLDEN_SPEAR.get()), new ItemStack(CMItems.DIAMOND_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(CMItems.DIAMOND_SPEAR.get()), new ItemStack(CMItems.NETHERITE_SPEAR.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
-            
-            if (CMConfig.GLAIVE_ITEMS.get()) {
-                event.insertAfter(new ItemStack(CMItems.NETHERITE_SPEAR.get()), new ItemStack(CMItems.WOODEN_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.WOODEN_GLAIVE.get()), new ItemStack(CMItems.STONE_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.STONE_GLAIVE.get()), new ItemStack(CMItems.IRON_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.IRON_GLAIVE.get()), new ItemStack(CMItems.GOLDEN_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(CMItems.GOLDEN_GLAIVE.get()), new ItemStack(CMItems.DIAMOND_GLAIVE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            if (CMConfig.DAGGER_ITEMS.get()) {
+                event.insertAfter(new ItemStack(Items.NETHERITE_AXE), new ItemStack(CMItems.WOODEN_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(CMItems.WOODEN_DAGGER.get()), new ItemStack(CMItems.STONE_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(CMItems.STONE_DAGGER.get()), new ItemStack(CMItems.IRON_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(CMItems.IRON_DAGGER.get()), new ItemStack(CMItems.GOLDEN_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(CMItems.GOLDEN_DAGGER.get()), new ItemStack(CMItems.DIAMOND_DAGGER.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
     }

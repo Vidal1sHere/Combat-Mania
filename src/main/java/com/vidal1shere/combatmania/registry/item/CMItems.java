@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.registry.item;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.item.DaggerItem;
 import com.vidal1shere.combatmania.item.GlaiveItem;
 import com.vidal1shere.combatmania.item.SpearItem;
 import com.vidal1shere.combatmania.item.StrikeSwordItem;
@@ -17,6 +18,31 @@ public class CMItems {
     public static final DeferredItem<StrikeSwordItem> STRIKE_SWORD = ITEMS.register(
             "strike_sword", () -> new StrikeSwordItem(Tiers.DIAMOND, new Item.Properties()
                     .attributes(SwordItem.createAttributes(Tiers.DIAMOND, 2.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<DaggerItem> WOODEN_DAGGER = ITEMS.register(
+            "wooden_dagger", () -> new DaggerItem(Tiers.WOOD, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.WOOD, 2.0F)))
+    );
+
+    public static final DeferredItem<DaggerItem> STONE_DAGGER = ITEMS.register(
+            "stone_dagger", () -> new DaggerItem(Tiers.STONE, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.STONE, 2.0F)))
+    );
+
+    public static final DeferredItem<DaggerItem> GOLDEN_DAGGER = ITEMS.register(
+            "golden_dagger", () -> new DaggerItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.GOLD, 2.0F)))
+    );
+
+    public static final DeferredItem<DaggerItem> IRON_DAGGER = ITEMS.register(
+            "iron_dagger", () -> new DaggerItem(Tiers.IRON, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.IRON, 2.0F)))
+    );
+
+    public static final DeferredItem<DaggerItem> DIAMOND_DAGGER = ITEMS.register(
+            "diamond_dagger", () -> new DaggerItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.DIAMOND, 2.0F)))
     );
     
     public static final DeferredItem<GlaiveItem> WOODEN_GLAIVE = ITEMS.register(

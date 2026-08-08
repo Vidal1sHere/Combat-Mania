@@ -4,6 +4,7 @@ import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,11 +33,17 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.stats.Stats;
 import net.minecraft.core.particles.ParticleTypes;
 
+import java.util.function.BiConsumer;
+
 import static com.vidal1shere.combatmania.strike.StrikeProperties.Key;
 
 public class SweepStrikeStyle extends StrikeStyle {
 
+    public static final Key<Boolean> CAN_CRIT = new Key<>(true);
+    public static final Key<Boolean> CAN_SPRINT_KNOCKBACK = new Key<>(true);
     public static final Key<Vec3> SWEEP_HITBOX = new Key<>(new Vec3(1.0, 0.25, 1.0));
+    public static final Key<BiConsumer<Player, LivingEntity>> SWEEP_PARTICLE = new Key<>((p, t) -> 
+            sweepParticle(p, !p.onGround()));
     public static final Key<SoundEvent> SWEEP_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_SWEEP);
     public static final Key<SoundEvent> CRIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_CRIT);
     public static final Key<SoundEvent> WEAK_HIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_WEAK);
@@ -51,6 +58,29 @@ public class SweepStrikeStyle extends StrikeStyle {
     public AABB getSweepHitBox(Entity entity) {
         Vec3 hitbox = properties().get(SWEEP_HITBOX);
         return entity.getBoundingBox().inflate(hitbox.x, hitbox.y, hitbox.z);
+    }
+    
+    public boolean canSprintKnockback() {
+        return properties().get(CAN_SPRINT_KNOCKBACK);
+    }
+
+    public boolean canCrit() {
+        return properties().get(CAN_CRIT);
+    }
+    
+    public void spawnSweepParticle(Player player, LivingEntity target) {
+        properties().get(SWEEP_PARTICLE).accept(player, target);
+    }
+
+    public static void sweepParticle(Player player, boolean horizontal) {
+        double d0 = (-Mth.sin(player.getYRot() * ((float) Math.PI / 180F)));
+        double d1 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F));
+        if (player.level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(horizontal ?
+                            CMParticles.HORIZONTAL_SWEEP_ATTACK.get() :
+                            CMParticles.VERTICAL_SWEEP_ATTACK.get(),
+                    player.getX() + d0, player.getY(0.5F), player.getZ() + d1, 0, d0, 0.0F, d1, 0.0F);
+        }
     }
 
     @Override
@@ -86,7 +116,7 @@ public class SweepStrikeStyle extends StrikeStyle {
         boolean fullStrength = strengthScale > 0.9F;
 
         boolean sprintKnockback = false;
-        if (player.isSprinting() && fullStrength) {
+        if (canSprintKnockback() && player.isSprinting() && fullStrength) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                     properties().get(KNOCKBACK_SOUND), player.getSoundSource(), 1.0F, 1.0F);
             sprintKnockback = true;
@@ -94,7 +124,8 @@ public class SweepStrikeStyle extends StrikeStyle {
 
         f += itemstack.getItem().getAttackDamageBonus(target, f, damagesource);
 
-        boolean crit = fullStrength
+        boolean crit = canCrit()
+                && fullStrength
                 && player.fallDistance > 0.0F
                 && !player.onGround()
                 && !player.onClimbable()
@@ -119,18 +150,7 @@ public class SweepStrikeStyle extends StrikeStyle {
                 sweep = true;
             }
         }
-
-//        boolean critBlocksSweep = crit && critEvent.disableSweep();
-//        if (fullStrength && !critBlocksSweep && !sprintKnockback && player.onGround()) {
-//            double walkDelta = player.walkDist - player.walkDistO;
-//            ItemStack mainHand = player.getItemInHand(InteractionHand.MAIN_HAND);
-//            if (walkDelta < player.getSpeed()) {
-//                SweepAttackEvent sweepEvent = CommonHooks.fireSweepAttack(player, target,
-//                        mainHand.canPerformAction(ItemAbilities.SWORD_SWEEP));
-//                sweep = sweepEvent.isSweeping();
-//            }
-//        }
-
+        
         float targetHealthBefore = 0.0F;
         if (target instanceof LivingEntity living) targetHealthBefore = living.getHealth();
 
@@ -184,7 +204,8 @@ public class SweepStrikeStyle extends StrikeStyle {
 
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                     properties().get(SWEEP_SOUND), player.getSoundSource(), 1.0F, 1.0F);
-            sweepParticle(player, player.onGround());
+            
+            if (target instanceof LivingEntity living) spawnSweepParticle(player, living);
         }
 
         if (target instanceof ServerPlayer sp && sp.hurtMarked) {
@@ -240,17 +261,6 @@ public class SweepStrikeStyle extends StrikeStyle {
         }
 
         player.causeFoodExhaustion(0.1F);
-    }
-    
-    private void sweepParticle(Player player, boolean horizontal) {
-        double d0 = (-Mth.sin(player.getYRot() * ((float) Math.PI / 180F)));
-        double d1 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F));
-        if (player.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(horizontal ? 
-                            CMParticles.HORIZONTAL_SWEEP_ATTACK.get() : 
-                            CMParticles.VERTICAL_SWEEP_ATTACK.get(), 
-                    player.getX() + d0, player.getY(0.5F), player.getZ() + d1, 0, d0, 0.0F, d1, 0.0F);
-        }
     }
 
     private float getKnockbackStrength(Player player, ItemStack itemstack, Entity target, DamageSource damagesource) {

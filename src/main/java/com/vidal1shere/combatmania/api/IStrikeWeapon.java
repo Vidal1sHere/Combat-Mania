@@ -60,10 +60,10 @@ public interface IStrikeWeapon extends IAnimatedItem {
     default void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick) {}
 
     @Override
-    default ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player) {
+    default ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
         StrikeStyle style = getLastUsedStyle(stack);
         if (style == null) return null;
-        return style.getAnimation(stack, hand, player);
+        return style.getAnimation(stack, hand, player, state);
     }
 
     @Override

@@ -18,7 +18,7 @@ public interface IAnimatedItem {
      * Returns the animation definition associated with the current state.
      * Return null to skip rendering the animation this frame.
      */
-    ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player);
+    ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state);
     
     default float getAnimationSpeed(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
         return 1.0f;

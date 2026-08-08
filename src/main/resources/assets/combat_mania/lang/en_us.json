@@ -9,5 +9,10 @@
   "item.combat_mania.stone_glaive": "Stone Glaive",
   "item.combat_mania.golden_glaive": "Golden Glaive",
   "item.combat_mania.iron_glaive": "Iron Glaive",
-  "item.combat_mania.diamond_glaive": "Diamond Glaive"
+  "item.combat_mania.diamond_glaive": "Diamond Glaive",
+  "item.combat_mania.wooden_dagger": "Wooden Dagger",
+  "item.combat_mania.stone_dagger": "Stone Dagger",
+  "item.combat_mania.golden_dagger": "Golden Dagger",
+  "item.combat_mania.iron_dagger": "Iron Dagger",
+  "item.combat_mania.diamond_dagger": "Diamond Dagger"
 }

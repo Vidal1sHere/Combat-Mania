@@ -68,4 +68,15 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
         if (attacker instanceof Player player && !player.isCreative())
             stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
     }
+
+    public static float getSpearChargeMultiplier(ItemStack stack) {
+        double damage = stack.getAttributeModifiers()
+                .modifiers()
+                .stream()
+                .filter(entry -> entry.attribute().equals(Attributes.ATTACK_DAMAGE))
+                .mapToDouble(entry -> entry.modifier().amount())
+                .sum();
+
+        return (float) (damage * 0.125D + 0.575D);
+    }
 }

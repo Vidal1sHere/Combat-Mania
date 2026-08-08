@@ -17,6 +17,10 @@ public class CMConfig {
             .comment("Add glaive items in the creative menu")
             .define("glaiveItems", false);
 
+    public static final ModConfigSpec.BooleanValue DAGGER_ITEMS = BUILDER
+            .comment("Add dagger items in the creative menu")
+            .define("daggerItems", false);
+
 //    public static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
 //            .comment("A magic number")
 //            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);

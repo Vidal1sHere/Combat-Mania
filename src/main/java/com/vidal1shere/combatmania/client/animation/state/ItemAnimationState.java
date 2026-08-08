@@ -2,11 +2,15 @@ package com.vidal1shere.combatmania.client.animation.state;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import net.minecraft.util.Mth;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Tracks the playback state of a single first-person item animation.
- * Mirrors the structure of vanilla's AnimationState with an added LoopType.
+ * Mirrors the structure of vanilla's AnimationState with an added LoopType and tag map.
  */
 public class ItemAnimationState {
 
@@ -22,16 +26,14 @@ public class ItemAnimationState {
             instance.group(
                     Codec.LONG.fieldOf("last_time").forGetter(state -> state.lastTime),
                     Codec.LONG.fieldOf("accumulated_time").forGetter(ItemAnimationState::getAccumulatedTime),
-                    Codec.STRING.xmap(
-                            ItemAnimationState.LoopType::valueOf,
-                            ItemAnimationState.LoopType::name
-                    ).fieldOf("loop_type").forGetter(ItemAnimationState::getLoopType)
+                    Codec.STRING.xmap(LoopType::valueOf, LoopType::name).fieldOf("loop_type").forGetter(ItemAnimationState::getLoopType)
             ).apply(instance, ItemAnimationState::new)
     );
 
     private long lastTime = Long.MAX_VALUE;
     private long accumulatedTime;
     private LoopType loopType = LoopType.PLAY_ONCE;
+    private ItemAnimationDefinition activeDefintion = null;
 
     public ItemAnimationState() {}
 
@@ -52,27 +54,21 @@ public class ItemAnimationState {
     }
 
     public void startIfStopped(int tickCount) {
-        if (!this.isStarted()) {
-            this.start(tickCount);
-        }
+        if (!this.isStarted()) this.start(tickCount);
     }
 
     public void startIfStopped(int tickCount, LoopType loopType) {
-        if (!this.isStarted()) {
-            this.start(tickCount, loopType);
-        }
+        if (!this.isStarted()) this.start(tickCount, loopType);
     }
 
     public void animateWhen(boolean condition, int tickCount) {
-        if (condition) {
-            this.startIfStopped(tickCount);
-        } else {
-            this.stop();
-        }
+        if (condition) this.startIfStopped(tickCount);
+        else this.stop();
     }
 
     public void stop() {
         this.lastTime = STOPPED;
+        this.activeDefintion = null;
     }
 
     public void updateTime(float ageInTicks, float speed) {
@@ -93,5 +89,13 @@ public class ItemAnimationState {
 
     public boolean isStarted() {
         return this.lastTime != STOPPED;
+    }
+    
+    public void setActiveDefinition(ItemAnimationDefinition definition) {
+        this.activeDefintion = definition;
+    }
+    
+    public ItemAnimationDefinition getActiveDefinition() {
+        return activeDefintion;
     }
 }

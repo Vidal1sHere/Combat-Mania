@@ -1,18 +1,19 @@
 package com.vidal1shere.combatmania.strike.styles;
 
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.ItemAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.item.DaggerItem;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
@@ -29,10 +30,58 @@ import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 
+import java.util.function.BiFunction;
+
+import static com.vidal1shere.combatmania.strike.StrikeProperties.Key;
+
 public class StabStrikeStyle extends StrikeStyle {
+
+    public static final Key<Float> BACKSTAB_MAX_REACH = new Key<>(2F);
+    public static final Key<Float> BACKSTAB_ANGLE = new Key<>(30.0F);
+    public static final Key<BiFunction<ItemStack, Player, Float>> BACKSTAB_MULTIPLIER = 
+            new Key<>(StabStrikeStyle::getBackStabMultiplier);
 
     public StabStrikeStyle(StrikeProperties properties) {
         super(properties);
+    }
+    
+    public float getBackStabAngle() {
+        return properties().get(BACKSTAB_ANGLE);
+    }
+
+    public float getBackStabMaxReach() {
+        return properties().get(BACKSTAB_MAX_REACH);
+    }
+    
+    public static float getBackStabMultiplier(ItemStack stack, Player player) {
+        double damage = stack.getAttributeModifiers()
+                .modifiers()
+                .stream()
+                .filter(entry -> entry.attribute().equals(Attributes.ATTACK_DAMAGE))
+                .mapToDouble(entry -> entry.modifier().amount())
+                .sum();
+
+        return (float) (damage * 0.48125D + 0.59375D);
+    }
+    
+    private boolean isBackstab(Player player, Entity target) {
+        return isBackstab(player, target, getBackStabAngle());
+    }
+
+    public static boolean isBackstab(Player player, Entity target, float angle) {
+        Vec3 targetToPlayer = player.position().subtract(target.position()).normalize();
+
+        float bodyRotation = target.getYRot();
+        Vec3 targetForward = Vec3.directionFromRotation(0.0F, bodyRotation).normalize();
+
+        double dot = targetForward.dot(targetToPlayer);
+        double angl = -CMUtil.angleToDot(angle);
+
+//        System.out.println("dot: " + dot);
+//        System.out.println("angle: " + angl);
+//        System.out.println("backstab: " + (dot <= angl ? "true" : "false"));
+
+        return dot <= angl;
     }
 
     @Override
@@ -44,6 +93,7 @@ public class StabStrikeStyle extends StrikeStyle {
         ItemStack itemstack = ctx.itemStack();
         float baseDamage = ctx.baseDamage();
         float strengthScale = ctx.strengthScale();
+        float backstabMultiplier = properties().get(BACKSTAB_MULTIPLIER).apply(itemstack, player);
 
         if (!CommonHooks.onPlayerAttackTarget(player, target)) { 
             return; 
@@ -67,31 +117,23 @@ public class StabStrikeStyle extends StrikeStyle {
 
         boolean fullStrength = strengthScale > 0.9F;
 
-        boolean sprintKnockback = false;
-        if (player.isSprinting() && fullStrength) {
-            player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
-            sprintKnockback = true;
-        }
-
         f += itemstack.getItem().getAttackDamageBonus(target, f, damagesource);
 
-        boolean crit = fullStrength
-                && player.fallDistance > 0.0F
-                && !player.onGround()
+        boolean backstab = isBackstab(player, target) 
+                && fullStrength
                 && !player.onClimbable()
                 && !player.isInWater()
                 && !player.hasEffect(MobEffects.BLINDNESS)
                 && !player.isPassenger()
-                && target instanceof LivingEntity
-                && !player.isSprinting();
+                && target instanceof LivingEntity 
+                && player.distanceToSqr(target) <= getBackStabMaxReach();
 
-        CriticalHitEvent critEvent = CommonHooks.fireCriticalHit(player, target, crit, crit ? 1.5F : 1.0F);
-        crit = critEvent.isCriticalHit();
-        if (crit) f *= critEvent.getDamageMultiplier();
+        CriticalHitEvent critEvent = CommonHooks.fireCriticalHit(player, target, backstab, backstab ? backstabMultiplier : 1.0F);
+        backstab = critEvent.isCriticalHit();
+        if (backstab) f *= critEvent.getDamageMultiplier();
 
         float totalDamage = f + f1;
-
+        
         float targetHealthBefore = 0.0F;
         if (target instanceof LivingEntity living) targetHealthBefore = living.getHealth();
 
@@ -103,22 +145,9 @@ public class StabStrikeStyle extends StrikeStyle {
                     SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
             return;
         }
-
-        float kbStrength = getKnockbackStrength(player, itemstack, target, damagesource) + (sprintKnockback ? 1.0F : 0.0F);
-        if (kbStrength > 0.0F) {
-            if (target instanceof LivingEntity le) {
-                le.knockback(kbStrength * 0.5F,
-                        Mth.sin(player.getYRot() * (float)(Math.PI / 180F)),
-                        -Mth.cos(player.getYRot() * (float)(Math.PI / 180F)));
-            } else {
-                target.push(
-                        -Mth.sin(player.getYRot() * (float)(Math.PI / 180F)) * kbStrength * 0.5F,
-                        0.1,
-                        Mth.cos(player.getYRot() * (float)(Math.PI / 180F)) * kbStrength * 0.5F);
-            }
-            player.setDeltaMovement(player.getDeltaMovement().multiply(0.6, 1.0, 0.6));
-            player.setSprinting(false);
-        }
+        
+        player.setDeltaMovement(player.getDeltaMovement().multiply(0.6, 1.0, 0.6));
+        player.setSprinting(false);
 
         if (target instanceof ServerPlayer sp && sp.hurtMarked) {
             sp.connection.send(new ClientboundSetEntityMotionPacket(sp));
@@ -126,7 +155,14 @@ public class StabStrikeStyle extends StrikeStyle {
             sp.setDeltaMovement(targetMotionBefore);
         }
 
-        if (crit) {
+        if (backstab) {
+            DaggerItem.queueBackStab(itemstack);
+            ServerPlayer serverPlayer = (ServerPlayer) player;
+            serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(
+                    -2, 0, serverPlayer.getInventory().selected, itemstack
+            ));
+            DaggerItem.clearBackStab(itemstack);
+            
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
             player.crit(target);
@@ -175,11 +211,6 @@ public class StabStrikeStyle extends StrikeStyle {
         player.causeFoodExhaustion(0.1F);
     }
 
-    private float getKnockbackStrength(Player player, ItemStack itemstack, Entity target, DamageSource damagesource) {
-        return (float) player.getAttributeValue(Attributes.ATTACK_KNOCKBACK)
-                + EnchantmentHelper.modifyKnockback((ServerLevel) player.level(), itemstack, target, damagesource, 0);
-    }
-
     private float getEnchantedDamage(Player player, ItemStack weapon, Entity entity, float damage, DamageSource damageSource) {
         if (!(player.level() instanceof ServerLevel serverLevel)) return damage;
 
@@ -188,11 +219,8 @@ public class StabStrikeStyle extends StrikeStyle {
 
     @Override
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
+        state.setActiveDefinition(DaggerItem.backStabQueued(stack) ? ItemAnimations.backStab() : ItemAnimations.stab());
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
-    }
-
-    @Override
-    public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player) {
-        return ItemAnimations.stab();
+        DaggerItem.clearBackStab(stack);
     }
 }

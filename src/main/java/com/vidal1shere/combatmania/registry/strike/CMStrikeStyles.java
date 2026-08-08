@@ -1,7 +1,9 @@
 package com.vidal1shere.combatmania.registry.strike;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.item.DaggerItem;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
+import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import com.vidal1shere.combatmania.strike.styles.*;
@@ -29,7 +31,16 @@ public class CMStrikeStyles {
 
     public static final DeferredHolder<StrikeStyle, SweepStrikeStyle> SWEEP =
             STRIKE_STYLES.register("sweep", () -> new SweepStrikeStyle(StrikeProperties.builder()
-                    .minStrengthScale(0.05f)
+                    .minStrengthScale(0.05F)
+                    .build()));
+
+    public static final DeferredHolder<StrikeStyle, SweepStrikeStyle> DAGGER_SLASH =
+            STRIKE_STYLES.register("dagger_slash", () -> new SweepStrikeStyle(StrikeProperties.builder()
+                    .minStrengthScale(0.5F)
+                    .set(SweepStrikeStyle.CAN_CRIT, false)
+                    .set(SweepStrikeStyle.CAN_SPRINT_KNOCKBACK, false)
+                    .set(SweepStrikeStyle.SWEEP_PARTICLE, DaggerItem::sweepParticle)
+                    .overlap(false)
                     .build()));
 
     public static final DeferredHolder<StrikeStyle, CleaveStrikeStyle> CLEAVE =
@@ -45,7 +56,10 @@ public class CMStrikeStyles {
 
     public static final DeferredHolder<StrikeStyle, StabStrikeStyle> STAB =
             STRIKE_STYLES.register("stab", () -> new StabStrikeStyle(StrikeProperties.builder()
+                    .speedAttribute(CMAttributes.STAB_SPEED)
                     .swingHand(false)
+                    .overlap(false)
+                    .minStrengthScale(0.5F)
                     .build()));
 
     public static void register(IEventBus eventBus) {

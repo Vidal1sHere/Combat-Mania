@@ -45,7 +45,7 @@ public class ItemAnimationHandler {
 
         if (!state.isStarted()) return;
 
-        ItemAnimationDefinition definition = animated.getAnimation(stack, hand, player);
+        ItemAnimationDefinition definition = animated.getAnimation(stack, hand, player, state);
         if (definition == null) return;
 
         ItemKeyframeAnimations.animate(

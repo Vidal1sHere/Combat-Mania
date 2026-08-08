@@ -20,21 +20,6 @@ import java.util.function.Predicate;
 
 public final class CMUtil {
 
-    private static final ResourceLocation ATTACK_INDICATOR_FULL_SINGLE = modResLoc("textures/hud/attack_indicator_full_single");
-    private static final ResourceLocation ATTACK_INDICATOR_FULL_DOUBLE = modResLoc("textures/hud/attack_indicator_full_double");
-    private static final ResourceLocation ATTACK_INDICATOR_PRIMARY_BACKGROUND = modResLoc(
-            "textures/hud/attack_indicator_primary_background"
-    );
-    private static final ResourceLocation ATTACK_INDICATOR_PRIMARY_PROGRESS = modResLoc(
-            "textures/hud/attack_indicator_primary_progress"
-    );
-    private static final ResourceLocation ATTACK_INDICATOR_SECONDARY_BACKGROUND = modResLoc(
-            "textures/hud/attack_indicator_secondary_background"
-    );
-    private static final ResourceLocation ATTACK_INDICATOR_SECONDARY_PROGRESS = modResLoc(
-            "textures/hud/attack_indicator_secondary_progress"
-    );
-
     public static ResourceLocation modResLoc(String path) {
         return ResourceLocation.fromNamespaceAndPath(CombatMania.MOD_ID, path);
     }
@@ -49,6 +34,10 @@ public final class CMUtil {
 
     public static int secondsToTicks(double seconds) {
         return Math.round((float) (seconds * 20.0));
+    }
+
+    public static double angleToDot(float angle) {
+        return Math.cos(Math.toRadians(angle));
     }
 
     public static CompoundTag getNbt(ItemStack stack) {

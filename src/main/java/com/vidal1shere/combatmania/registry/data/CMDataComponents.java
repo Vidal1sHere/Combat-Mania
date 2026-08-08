@@ -28,6 +28,11 @@ public class CMDataComponents {
                     .networkSynchronized(ByteBufCodecs.INT)
             );
 
+    public static final Supplier<DataComponentType<Boolean>> BACK_STAB =
+            register("back_stab", b -> b
+                    .networkSynchronized(ByteBufCodecs.BOOL)
+            );
+
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name,
                                                                                            UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPES.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
