@@ -8,6 +8,7 @@ import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -35,7 +36,7 @@ import net.minecraft.core.particles.ParticleTypes;
 
 import java.util.function.BiPredicate;
 
-import static com.vidal1shere.combatmania.strike.StrikeProperties.Key;
+import static com.vidal1shere.combatmania.util.CustomProperties.Key;
 
 public class JabStrikeStyle extends StrikeStyle {
 

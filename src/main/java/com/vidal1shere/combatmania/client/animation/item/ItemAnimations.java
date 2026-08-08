@@ -8,6 +8,20 @@ import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.Keyframe;
 
 public class ItemAnimations {
+    public static ItemAnimationDefinition identity(float length) {
+        return ItemAnimationDefinition.Builder
+                .withLength(length)
+                .addChannel("position", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.POSITION,
+                        new Keyframe(length, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .addChannel("rotation", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.ROTATION,
+                        new Keyframe(length, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .build();
+    }
+    
     public static ItemAnimationDefinition spearJab() {
         return ItemAnimationDefinition.Builder
                 .withLength(1.0f)

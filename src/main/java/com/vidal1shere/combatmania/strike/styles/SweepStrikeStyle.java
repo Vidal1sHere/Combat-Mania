@@ -35,7 +35,7 @@ import net.minecraft.core.particles.ParticleTypes;
 
 import java.util.function.BiConsumer;
 
-import static com.vidal1shere.combatmania.strike.StrikeProperties.Key;
+import static com.vidal1shere.combatmania.util.CustomProperties.Key;
 
 public class SweepStrikeStyle extends StrikeStyle {
 

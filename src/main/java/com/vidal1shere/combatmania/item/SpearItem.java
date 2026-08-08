@@ -1,8 +1,11 @@
 package com.vidal1shere.combatmania.item;
 
+import com.vidal1shere.combatmania.api.IExtendedTier;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
+import com.vidal1shere.combatmania.data.component.JoustProperties;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
+import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.core.BlockPos;
@@ -24,14 +27,23 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
     
     public static final float RANGE_BONUS = 1.5F;
     
-    public SpearItem(Tier tier, Properties properties) {
-        super(tier, properties);
+    public SpearItem(IExtendedTier tier, Properties properties, JoustProperties joustProperties) {
+        super(tier, properties.component(CMDataComponents.JOUST, joustProperties));
+    }
+
+    public SpearItem(IExtendedTier tier, Properties properties) {
+        this(tier, properties, tier.getJoustProperties());
     }
 
     @Override
     public DeferredHolder<StrikeStyle, ? extends StrikeStyle> getStyle(StrikeSlot slot) {
         if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.JAB;
         else return null;
+    }
+
+    @Override
+    public IExtendedTier getTier() {
+        return (IExtendedTier) super.getTier();
     }
 
     public static ItemAttributeModifiers createAttributes(Tier tier, double damage, double jabSpeed) {

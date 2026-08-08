@@ -26,8 +26,8 @@ public abstract class StrikeStyle {
         return properties.getMinStrengthScale();
     }
 
-    public int getMaxDuration() {
-        return properties.getMaxDuration();
+    public int getMaxDuration(ItemStack stack, Player player) {
+        return properties.getMaxDuration(stack, player);
     }
 
     public boolean syncAnimationSpeed() {

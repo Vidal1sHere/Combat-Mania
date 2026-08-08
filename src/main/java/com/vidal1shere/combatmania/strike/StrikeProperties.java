@@ -1,23 +1,24 @@
 package com.vidal1shere.combatmania.strike;
 
+import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.core.Holder;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.function.BiFunction;
 
 public class StrikeProperties {
 
     private final Holder<Attribute> speedAttribute;
     private final float minStrengthScale;
-    private final int maxDuration;
+    private final BiFunction<ItemStack, LivingEntity, Integer> maxDuration;
     private final boolean syncAnimationSpeed;
     private final boolean overlap;
     private final boolean swingHand;
-
-    private final Map<Key<?>, Object> extras;
-
+    private final CustomProperties customProperties;
+    
     protected StrikeProperties(Builder builder) {
         this.speedAttribute = builder.speedAttribute;
         this.minStrengthScale = builder.minStrengthScale;
@@ -25,7 +26,7 @@ public class StrikeProperties {
         this.syncAnimationSpeed = builder.syncAnimationSpeed;
         this.overlap = builder.overlap;
         this.swingHand = builder.swingHand;
-        this.extras = Map.copyOf(builder.extras);
+        this.customProperties = builder.customProperties;
     }
 
     public Holder<Attribute> getSpeedAttribute() {
@@ -36,8 +37,8 @@ public class StrikeProperties {
         return minStrengthScale;
     }
 
-    public int getMaxDuration() {
-        return maxDuration;
+    public int getMaxDuration(ItemStack stack, LivingEntity entity) {
+        return maxDuration.apply(stack, entity);
     }
 
     public boolean syncAnimationSpeed() {
@@ -53,8 +54,8 @@ public class StrikeProperties {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T get(Key<T> key) {
-        return (T) extras.getOrDefault(key, key.defaultValue());
+    public <T> T get(CustomProperties.Key<T> key) {
+        return customProperties.get(key);
     }
 
     public static Builder builder() {
@@ -71,23 +72,22 @@ public class StrikeProperties {
 
         private Holder<Attribute> speedAttribute = Attributes.ATTACK_SPEED;
         private float minStrengthScale = 1.0F;
-        private int maxDuration = 0;
+        private BiFunction<ItemStack, LivingEntity, Integer> maxDuration = (s, e) -> 0;
         private boolean syncAnimationSpeed = true;
         private boolean overlap = false;
         private boolean swingHand = true;
-
-        private final Map<Key<?>, Object> extras = new HashMap<>();
-
+        private CustomProperties customProperties = CustomProperties.of();
+        
         public Builder() {}
 
-        public Builder(StrikeProperties properties) {
-            this.speedAttribute = properties.speedAttribute;
-            this.minStrengthScale = properties.minStrengthScale;
-            this.maxDuration = properties.maxDuration;
-            this.syncAnimationSpeed = properties.syncAnimationSpeed;
-            this.overlap = properties.overlap;
-            this.swingHand = properties.swingHand;
-            this.extras.putAll(properties.extras);
+        public Builder(StrikeProperties customProperties) {
+            this.speedAttribute = customProperties.speedAttribute;
+            this.minStrengthScale = customProperties.minStrengthScale;
+            this.maxDuration = customProperties.maxDuration;
+            this.syncAnimationSpeed = customProperties.syncAnimationSpeed;
+            this.overlap = customProperties.overlap;
+            this.swingHand = customProperties.swingHand;
+            this.customProperties.copy(customProperties.customProperties);
         }
 
         public Builder speedAttribute(Holder<Attribute> attr) {
@@ -100,7 +100,7 @@ public class StrikeProperties {
             return this;
         }
 
-        public Builder maxDuration(int value) {
+        public Builder maxDuration(BiFunction<ItemStack, LivingEntity, Integer> value) {
             this.maxDuration = value;
             return this;
         }
@@ -120,8 +120,8 @@ public class StrikeProperties {
             return this;
         }
 
-        public <T> Builder set(Key<T> key, T value) {
-            extras.put(key, value);
+        public <T> Builder set(CustomProperties.Key<T> key, T value) {
+            customProperties.set(key, value);
             return this;
         }
 

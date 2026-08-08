@@ -1,7 +1,7 @@
 package com.vidal1shere.combatmania.mixin.client;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
-import com.vidal1shere.combatmania.attachment.StrikeData;
+import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import net.minecraft.client.Minecraft;

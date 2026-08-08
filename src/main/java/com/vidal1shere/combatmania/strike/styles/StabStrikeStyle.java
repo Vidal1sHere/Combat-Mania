@@ -32,7 +32,7 @@ import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 
 import java.util.function.BiFunction;
 
-import static com.vidal1shere.combatmania.strike.StrikeProperties.Key;
+import static com.vidal1shere.combatmania.util.CustomProperties.Key;
 
 public class StabStrikeStyle extends StrikeStyle {
 

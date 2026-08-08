@@ -1,8 +1,9 @@
 package com.vidal1shere.combatmania.registry.data;
 
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.attachment.StaggerData;
-import com.vidal1shere.combatmania.attachment.StrikeData;
+import com.vidal1shere.combatmania.data.attachment.JoustData;
+import com.vidal1shere.combatmania.data.attachment.StaggerData;
+import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -25,6 +26,10 @@ public class CMAttachments {
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<StaggerData>> STAGGER =
             ATTACHMENT_TYPES.register("stagger",
                     () -> AttachmentType.builder(StaggerData::new).serialize(StaggerData.CODEC).build());
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<JoustData>> JOUST =
+            ATTACHMENT_TYPES.register("joust",
+                    () -> AttachmentType.builder(() -> new JoustData()).serialize(JoustData.CODEC).build());
 
     public static void register(IEventBus eventBus) {
         ATTACHMENT_TYPES.register(eventBus);

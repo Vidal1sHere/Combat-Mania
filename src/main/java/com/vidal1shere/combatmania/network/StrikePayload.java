@@ -1,7 +1,7 @@
 package com.vidal1shere.combatmania.network;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
-import com.vidal1shere.combatmania.attachment.StrikeData;
+import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
@@ -99,7 +99,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     weapon.setActiveStyle(stack, style);
                     style.onStart(ctx);
 
-                    if (style.getMaxDuration() == 0) {
+                    if (style.getMaxDuration(stack, player) == 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
                         strikeData.exhaust(slot, duration);
                         PacketDistributor.sendToPlayer((ServerPlayer) player,
@@ -123,7 +123,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     strikeData.setActive(slot, false);
                     weapon.setActiveStyle(stack, null);
 
-                    if (style.getMaxDuration() > 0) {
+                    if (style.getMaxDuration(stack, player) > 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
                         strikeData.exhaust(slot, duration);
                         PacketDistributor.sendToPlayer((ServerPlayer) player,

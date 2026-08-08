@@ -2,8 +2,8 @@ package com.vidal1shere.combatmania.event;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
-import com.vidal1shere.combatmania.attachment.StaggerData;
-import com.vidal1shere.combatmania.attachment.StrikeData;
+import com.vidal1shere.combatmania.data.attachment.StaggerData;
+import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.network.StrikePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
@@ -91,17 +91,16 @@ public class CombatEventHandler {
             if (player == null) return;
 
             ItemStack stack = player.getMainHandItem();
-            if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
-
             StrikeData strikeData = player.getData(CMAttachments.STRIKE);
 
-            checkStop(mc, weapon, strikeData, StrikeSlot.PRIMARY);
-            checkStop(mc, weapon, strikeData, StrikeSlot.SECONDARY);
+            checkStop(mc, player, stack, strikeData, StrikeSlot.PRIMARY);
+            checkStop(mc, player, stack, strikeData, StrikeSlot.SECONDARY);
         }
 
-        private static void checkStop(Minecraft mc, IStrikeWeapon weapon,
+        private static void checkStop(Minecraft mc, Player player, ItemStack stack,
                                       StrikeData strikeData, StrikeSlot slot) {
             if (!strikeData.isActive(slot)) return;
+            if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
             
             boolean isPrimary = slot == StrikeSlot.PRIMARY;
 
@@ -113,7 +112,7 @@ public class CombatEventHandler {
             boolean keyDown = isPrimary ? mc.options.keyAttack.isDown() : mc.options.keyUse.isDown();
             int ticks = strikeData.getActiveTicks(slot);
 
-            if (!keyDown || (style.getMaxDuration() > 0 && ticks >= style.getMaxDuration())) {
+            if (!keyDown || (style.getMaxDuration(stack, player) > 0 && ticks >= style.getMaxDuration(stack, player))) {
                 PacketDistributor.sendToServer(new StrikePayload.Request(
                         StrikePayload.Action.STOP, isPrimary, -1));
                 strikeData.setActive(slot, false);
