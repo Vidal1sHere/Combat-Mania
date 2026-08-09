@@ -48,6 +48,7 @@ public class CMStrikeStyles {
                     .minStrengthScale(0.25F)
                     .swingHand(false)
                     .overlap(false)
+                    .set(SweepStrikeStyle.SWEEP_PARTICLE, GlaiveItem::sweepParticle)
                     .set(SweepStrikeStyle.ANIMATION_GETTER, GlaiveItem::glaiveAnimation)
                     .build()));
 

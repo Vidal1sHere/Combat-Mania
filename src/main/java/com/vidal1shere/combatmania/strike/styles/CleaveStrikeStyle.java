@@ -7,6 +7,7 @@ import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import com.vidal1shere.combatmania.util.VFX;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -164,7 +165,7 @@ public class CleaveStrikeStyle extends StrikeStyle {
             double d0 = (-Mth.sin(player.getYRot() * ((float) Math.PI / 180F)));
             double d1 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F));
             if (player.level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(CMParticles.VERTICAL_SWEEP_ATTACK.get(),
+                serverLevel.sendParticles(VFX.sweep(false, false, true, false),
                         player.getX() + d0, player.getY(0.5F), player.getZ() + d1, 0, d0, 0.0F, d1, 0.0F);
             }
         } else {

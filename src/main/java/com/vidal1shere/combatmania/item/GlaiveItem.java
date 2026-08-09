@@ -8,7 +8,10 @@ import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import com.vidal1shere.combatmania.util.VFX;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -100,5 +103,16 @@ public class GlaiveItem extends TieredItem implements IStrikeWeapon {
     public static ItemAnimationDefinition glaiveAnimation(ItemStack stack, InteractionHand hand, 
                                                           Player player, ItemAnimationState state) {
         return player.onGround() ? SpearAnimations.sweep() : SpearAnimations.whack();
+    }
+
+    public static void sweepParticle(Player player, LivingEntity target) {
+        double d0 = (-Mth.sin(player.getYRot() * ((float) Math.PI / 180F)));
+        double d1 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F));
+        if (player.level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(VFX.sweep(false, false, !player.onGround(), false),
+                    target.getX() - d0, 
+                    player.onGround() ? target.getY() + 1 : target.getY(1.0f), 
+                    target.getZ() - d1, 0, d0, 0.0F, d1, 0.0F);
+        }
     }
 }
