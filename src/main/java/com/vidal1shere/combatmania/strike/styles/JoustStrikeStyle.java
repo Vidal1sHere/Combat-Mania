@@ -49,7 +49,7 @@ import static com.vidal1shere.combatmania.util.CustomProperties.Key;
 
 public class JoustStrikeStyle extends StrikeStyle {
 
-    public static final Key<Float> JOUST_MIN_SCALE = new Key<>(1.0F);
+    public static final Key<Float> JOUST_MIN_SCALE = new Key<>(0.0F);
     public static final Key<Float> HIT_INFLATION = new Key<>(0.125F);
     public static final Key<Float> MIN_SPEED_FOR_DAMAGE = new Key<>(4.6F);
     public static final Key<Float> MIN_SPEED_FOR_KNOCKBACK = new Key<>(5.1F);

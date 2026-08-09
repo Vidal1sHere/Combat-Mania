@@ -71,6 +71,13 @@ public class CMStrikeStyles {
                     .minStrengthScale(0.5F)
                     .build()));
 
+    public static final DeferredHolder<StrikeStyle, JabStrikeStyle> SPEAR_JAB =
+            STRIKE_STYLES.register("spear_jab", () -> new JabStrikeStyle(StrikeProperties.builder()
+                    .speedAttribute(CMAttributes.JAB_SPEED)
+                    .swingHand(false)
+                    .overlap(true)
+                    .build()));
+
     public static final DeferredHolder<StrikeStyle, JoustStrikeStyle> JOUST =
             STRIKE_STYLES.register("joust", () -> new JoustStrikeStyle(StrikeProperties.builder()
                     .speedAttribute(CMAttributes.JOUST_SPEED)

@@ -4,10 +4,9 @@ import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
-import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.util.VFX;
+import com.vidal1shere.combatmania.util.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -119,7 +118,7 @@ public class DaggerItem extends TieredItem implements IStrikeWeapon {
         double d0 = (-Mth.sin(player.getYRot() * ((float) Math.PI / 180F)));
         double d1 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F));
         if (player.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(VFX.sweep(false, true, !player.onGround(), false),
+            serverLevel.sendParticles(ParticleUtil.sweep(false, true, !player.onGround(), false),
                     target.getX() - d0, target.getY() + 1, target.getZ() - d1, 0, d0, 0.0F, d1, 0.0F);
         }
     }

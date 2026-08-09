@@ -1,12 +1,11 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
-import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import com.vidal1shere.combatmania.util.AnimationSupplier;
-import com.vidal1shere.combatmania.util.VFX;
+import com.vidal1shere.combatmania.util.ParticleUtil;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -80,7 +79,7 @@ public class SweepStrikeStyle extends StrikeStyle {
         double d0 = (-Mth.sin(player.getYRot() * ((float) Math.PI / 180F)));
         double d1 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F));
         if (player.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(VFX.sweep(false, false, !horizontal, false),
+            serverLevel.sendParticles(ParticleUtil.sweep(false, false, !horizontal, false),
                     player.getX() + d0, player.getY(0.5F), player.getZ() + d1, 0, d0, 0.0F, d1, 0.0F);
         }
     }

@@ -4,7 +4,7 @@ import com.vidal1shere.combatmania.particle.options.CustomParticleOptions;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import net.minecraft.core.particles.ParticleType;
 
-public final class VFX {
+public final class ParticleUtil {
 
     public static CustomParticleOptions sweep() {
         return sweep(false, false, false, false);
