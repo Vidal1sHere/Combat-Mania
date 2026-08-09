@@ -71,32 +71,32 @@ public class CMItems {
 
     public static final DeferredItem<SpearItem> WOODEN_SPEAR = ITEMS.register(
             "wooden_spear", () -> new SpearItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.WOOD, 2.0F, -2.46F)))
+                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.WOOD, 2.0F, -2.46F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> STONE_SPEAR = ITEMS.register(
             "stone_spear", () -> new SpearItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.STONE, 2.0F, -2.67F)))
+                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.STONE, 2.0F, -2.67F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> GOLDEN_SPEAR = ITEMS.register(
             "golden_spear", () -> new SpearItem(CMExtendedToolTiers.GOLD, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.GOLD, 2.0F, -2.95F)))
+                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.GOLD, 2.0F, -2.95F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> IRON_SPEAR = ITEMS.register(
             "iron_spear", () -> new SpearItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.IRON, 2.0F, -2.95F)))
+                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.IRON, 2.0F, -2.95F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> DIAMOND_SPEAR = ITEMS.register(
             "diamond_spear", () -> new SpearItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F, -3.05F)))
+                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F, -3.05F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> NETHERITE_SPEAR = ITEMS.register(
             "netherite_spear", () -> new SpearItem(CMExtendedToolTiers.NETHERITE, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.NETHERITE, 2.0F, -3.13F)))
+                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.NETHERITE, 2.0F, -3.13F, -2.8F)))
     );
     
     public static void register(IEventBus eventBus) {

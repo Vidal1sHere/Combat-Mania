@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin extends Player implements JoustMotionAware {
+
     @Shadow
     private Vec3 lastKnownClientMovement;
 
@@ -23,6 +24,9 @@ public abstract class ServerPlayerMixin extends Player implements JoustMotionAwa
     @Override
     public Vec3 getJoustMovement() {
         Entity vehicle = this.getVehicle();
-        return vehicle != null && vehicle.getControllingPassenger() != this ? ((JoustMotionAware) vehicle).getJoustMovement() : this.lastKnownClientMovement;
+
+        return vehicle != null && vehicle.getControllingPassenger() != this
+                ? ((JoustMotionAware) vehicle).getJoustMovement()
+                : this.lastKnownClientMovement;
     }
 }

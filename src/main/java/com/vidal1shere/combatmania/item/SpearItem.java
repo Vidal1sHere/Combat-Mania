@@ -46,7 +46,7 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
         return (IExtendedTier) super.getTier();
     }
 
-    public static ItemAttributeModifiers createAttributes(Tier tier, double damage, double jabSpeed) {
+    public static ItemAttributeModifiers createAttributes(Tier tier, double damage, double jabSpeed, double joustSpeed) {
         return ItemAttributeModifiers.builder()
                 .add(
                         Attributes.ATTACK_DAMAGE,
@@ -62,6 +62,15 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
                         new AttributeModifier(
                                 CMAttributes.BASE_JAB_SPEED_ID,
                                 jabSpeed,
+                                AttributeModifier.Operation.ADD_VALUE
+                        ),
+                        EquipmentSlotGroup.MAINHAND
+                )
+                .add(
+                        CMAttributes.JOUST_SPEED,
+                        new AttributeModifier(
+                                CMAttributes.BASE_JOUST_SPEED_ID,
+                                joustSpeed,
                                 AttributeModifier.Operation.ADD_VALUE
                         ),
                         EquipmentSlotGroup.MAINHAND

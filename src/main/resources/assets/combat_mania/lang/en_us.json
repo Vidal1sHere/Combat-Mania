@@ -18,6 +18,7 @@
 
   "attribute.name.combat_mania.jab_speed": "Jab Speed",
   "attribute.name.combat_mania.stab_speed": "Stab Speed",
+  "attribute.name.combat_mania.joust_speed": "Joust Speed",
   "attribute.name.combat_mania.attack_stagger": "Attack Stagger",
   "attribute.name.combat_mania.stagger_resistance": "Stagger Resistance"
 }

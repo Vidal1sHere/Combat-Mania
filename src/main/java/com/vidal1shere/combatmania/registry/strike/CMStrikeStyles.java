@@ -1,12 +1,9 @@
 package com.vidal1shere.combatmania.registry.strike;
 
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
-import com.vidal1shere.combatmania.client.animation.item.SwordAnimations;
 import com.vidal1shere.combatmania.item.DaggerItem;
 import com.vidal1shere.combatmania.item.GlaiveItem;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
-import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import com.vidal1shere.combatmania.strike.styles.*;
@@ -37,8 +34,8 @@ public class CMStrikeStyles {
                     .minStrengthScale(0.05F)
                     .build()));
 
-    public static final DeferredHolder<StrikeStyle, SweepStrikeStyle> DAGGER_SLASH =
-            STRIKE_STYLES.register("dagger_slash", () -> new SweepStrikeStyle(StrikeProperties.builder()
+    public static final DeferredHolder<StrikeStyle, SweepStrikeStyle> DAGGER_SWEEP =
+            STRIKE_STYLES.register("dagger_sweep", () -> new SweepStrikeStyle(StrikeProperties.builder()
                     .minStrengthScale(0.5F)
                     .set(SweepStrikeStyle.CAN_CRIT, false)
                     .set(SweepStrikeStyle.CAN_SPRINT_KNOCKBACK, false)
@@ -75,7 +72,10 @@ public class CMStrikeStyles {
 
     public static final DeferredHolder<StrikeStyle, JoustStrikeStyle> JOUST =
             STRIKE_STYLES.register("joust", () -> new JoustStrikeStyle(StrikeProperties.builder()
+                    .speedAttribute(CMAttributes.JOUST_SPEED)
+                    .minStrengthScale(0.1f)
                     .swingHand(false)
+                    .lowerHand(true)
                     .overlap(true)
                     .build()));
 

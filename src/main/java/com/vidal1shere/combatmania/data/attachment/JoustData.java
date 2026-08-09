@@ -3,9 +3,12 @@ package com.vidal1shere.combatmania.data.attachment;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class JoustData {
 
@@ -19,10 +22,12 @@ public class JoustData {
                         JoustData data = new JoustData();
                         data.stage = Stage.byOrdinal(buf.readInt());
                         data.queuedAnimation = buf.readBoolean();
+                        data.hitEntities.clear();
                         return data;
                     }
             );
 
+    private final List<UUID> hitEntities = new ArrayList<>();
     private Stage stage = Stage.NONE;
     private boolean queuedAnimation = false;
 
@@ -42,6 +47,11 @@ public class JoustData {
 
     public boolean canPerformAction(Action action) {
         return getStage().canPerformAction(action);
+    }
+    
+    public boolean hasHitEntity(Entity entity) {
+        if (entity == null) return false;
+        return hitEntities.contains(entity.getUUID());
     }
     
     public static JoustData get(Player player) {
@@ -66,14 +76,21 @@ public class JoustData {
         data.queuedAnimation = true;
         player.syncData(CMAttachments.JOUST);
     }
-    
-    public static void consumeAnimation(Player player) {
-        get(player).queuedAnimation = false;
-        player.syncData(CMAttachments.JOUST);
-    }
 
     public static void reset(Player player) {
-        get(player).setStage(Stage.NONE);
+        JoustData data = get(player);
+        data.setStage(Stage.NONE);
+        data.queuedAnimation = false;
+        data.hitEntities.clear();
+        player.syncData(CMAttachments.JOUST);
+    }
+    
+    public static void registerEntity(Player player, Entity entity) {
+        if (entity == null) return;
+        get(player).hitEntities.add(entity.getUUID());
+    }
+    
+    public static void consumeAnimation(Player player) {
         get(player).queuedAnimation = false;
         player.syncData(CMAttachments.JOUST);
     }

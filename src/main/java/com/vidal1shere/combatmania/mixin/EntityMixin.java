@@ -15,50 +15,44 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements JoustMotionAware {
-    @Shadow 
+
+    @Shadow
     public abstract Vec3 position();
 
     @Shadow
-    public abstract Vec3 getDeltaMovement();
-    
-    @Shadow 
     public abstract LivingEntity getControllingPassenger();
-    
-    @Shadow 
-    public abstract boolean isAlive();
-    
-    @Unique 
-    private Vec3 cm$prevJoustSpeed = Vec3.ZERO;
-    
-    @Unique 
-    @Nullable 
-    private Vec3 cm$prevJoustPos;
 
-    @Inject(
-        method = "reapplyPosition",
-        at = @At("TAIL")
-    )
-    private void clearPreviousPosition(CallbackInfo ci) {
-        this.cm$prevJoustPos = null;
+    @Shadow
+    public abstract boolean isAlive();
+
+    @Unique
+    private Vec3 cm$joustSpeed = Vec3.ZERO;
+
+    @Unique
+    @Nullable
+    private Vec3 cm$joustPreviousPosition;
+
+    @Inject(method = "reapplyPosition", at = @At("TAIL"))
+    private void cm$resetJoustPosition(CallbackInfo ci) {
+        this.cm$joustPreviousPosition = null;
     }
 
-    @Inject(
-        method = "baseTick",
-        at = @At("TAIL")
-    )
-    private void capturePosition(CallbackInfo ci) {
-        if (this.cm$prevJoustPos == null) {
-            this.cm$prevJoustPos = this.position();
+    @Inject(method = "baseTick", at = @At("TAIL"))
+    private void cm$updateJoustSpeed(CallbackInfo ci) {
+        Vec3 currentPosition = this.position();
+
+        if (this.cm$joustPreviousPosition == null) {
+            this.cm$joustPreviousPosition = currentPosition;
         }
 
-        this.cm$prevJoustSpeed = this.position().subtract(this.cm$prevJoustPos);
-        this.cm$prevJoustPos = this.position();
+        this.cm$joustSpeed = currentPosition.subtract(this.cm$joustPreviousPosition);
+        this.cm$joustPreviousPosition = currentPosition;
     }
 
     @Override
     public Vec3 getJoustMovement() {
         return this.getControllingPassenger() instanceof Player player && this.isAlive()
                 ? ((JoustMotionAware) player).getJoustMovement()
-                : this.cm$prevJoustSpeed;
+                : this.cm$joustSpeed;
     }
 }

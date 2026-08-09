@@ -4,7 +4,9 @@ import com.vidal1shere.combatmania.api.extension.entity.JoustMotionAware;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
+import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
@@ -47,7 +49,7 @@ import static com.vidal1shere.combatmania.util.CustomProperties.Key;
 
 public class JoustStrikeStyle extends StrikeStyle {
 
-    public static final Key<Float> JOUST_MIN_REACH = new Key<>(2.0F);
+    public static final Key<Float> JOUST_MIN_SCALE = new Key<>(1.0F);
     public static final Key<Float> HIT_INFLATION = new Key<>(0.125F);
     public static final Key<Float> MIN_SPEED_FOR_DAMAGE = new Key<>(4.6F);
     public static final Key<Float> MIN_SPEED_FOR_KNOCKBACK = new Key<>(5.1F);
@@ -95,7 +97,7 @@ public class JoustStrikeStyle extends StrikeStyle {
         Collection<EntityHitResult> hits = findTargets(player, ctx.baseReach());
 
         for (EntityHitResult hit : hits) {
-            tryHit(player, stack, hit.getEntity(), joust, props);
+            tryHit(player, stack, hit.getEntity(), joust, props, ctx.slot());
         }
     }
     
@@ -124,7 +126,7 @@ public class JoustStrikeStyle extends StrikeStyle {
         } else {
             stage = JoustData.Stage.DISENGAGED;
         }
-
+        
         if (stage != oldStage) {
             JoustData.increaseStage(player);
         }
@@ -173,7 +175,7 @@ public class JoustStrikeStyle extends StrikeStyle {
                         && !target.isSpectator()
                         && target != player
         )) {
-            AABB boundingBox = entity.getBoundingBox();
+            AABB boundingBox = entity.getBoundingBox().inflate(properties().get(HIT_INFLATION));
 
             Optional<Vec3> hit = boundingBox.clip(from, to);
 
@@ -186,10 +188,17 @@ public class JoustStrikeStyle extends StrikeStyle {
     }
 
     private void tryHit(Player player, ItemStack stack, Entity target,
-                        JoustData joust, JoustProperties props) {
+                        JoustData joust, JoustProperties props, StrikeSlot slot) {
         if (!CommonHooks.onPlayerAttackTarget(player, target)) return;
-        if (!target.isAttackable() || target.skipAttackInteraction(player) || player.isPassengerOfSameVehicle(target)) return;
-
+        if (player.isPassengerOfSameVehicle(target)) return;
+        if (joust.hasHitEntity(target)) return;
+        if (!target.isAttackable() || target.skipAttackInteraction(player)) return;
+        
+        StrikeData data = player.getData(CMAttachments.STRIKE);
+        float scale = data.getScale(slot);
+        float minScale = properties().get(JOUST_MIN_SCALE);
+        if (scale < minScale) return;
+        
         float relativeSpeed = getRelativeSpeed(player, target);
         float minDamageSpeed = properties().get(MIN_SPEED_FOR_DAMAGE);
         if (relativeSpeed < minDamageSpeed) return;
@@ -202,6 +211,12 @@ public class JoustStrikeStyle extends StrikeStyle {
         Vec3 targetMotionBefore = target.getDeltaMovement();
         boolean hurt = target.hurt(damagesource, damage);
         if (!hurt) return;
+
+        JoustData.registerEntity(player, target);
+        
+        int duration = (int) (1.0 / player.getAttributeValue(getSpeedAttribute()) * 20);
+        data.exhaust(slot, duration);
+        player.syncData(CMAttachments.STRIKE);
 
         float minKnockbackSpeed = properties().get(MIN_SPEED_FOR_KNOCKBACK);
         float minDismountSpeed = props.getMinDismountSpeed();
@@ -278,7 +293,7 @@ public class JoustStrikeStyle extends StrikeStyle {
 
     @Override
     public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-        state.start(tickCount);
+//        state.start(tickCount);
     }
 
     @Override
@@ -325,33 +340,21 @@ public class JoustStrikeStyle extends StrikeStyle {
     // todo fix the bug where walking backwards boosts your relative speed
     private float getRelativeSpeed(Player player, Entity target) {
         Vec3 attackerMovement = ((JoustMotionAware) player).getJoustMovement();
-        Vec3 attackerHorizontal = new Vec3(attackerMovement.x, 0.0, attackerMovement.z);
-        
         Vec3 targetMovement = target.getDeltaMovement();
-        Vec3 targetHorizontal = new Vec3(targetMovement.x, 0.0, targetMovement.z);
-        
-        double attackerSpeed = attackerHorizontal.length();
+        Vec3 relativeMovement = attackerMovement.subtract(targetMovement);
 
-        if (attackerSpeed > 1.0E-6) {
-            Vec3 chargeDirection = attackerHorizontal.normalize();
+        Vec3 toTarget = target.position().subtract(player.position());
+        Vec3 horizontalToTarget = new Vec3(toTarget.x, 0.0, toTarget.z);
 
-            double targetProjection = targetHorizontal.dot(chargeDirection);
-
-            return (float) Math.max(0.0, (attackerSpeed - targetProjection) * 20.0);
-        }
-
-        Vec3 toAttacker = player.position().subtract(target.position());
-        Vec3 horizontalToAttacker = new Vec3(toAttacker.x, 0.0, toAttacker.z);
-
-        if (horizontalToAttacker.lengthSqr() <= 1.0E-6) {
+        if (horizontalToTarget.lengthSqr() <= 1.0E-6) {
             return 0.0F;
         }
 
-        Vec3 directionToAttacker = horizontalToAttacker.normalize();
+        Vec3 directionToTarget = horizontalToTarget.normalize();
 
-        double targetClosingSpeed = targetHorizontal.dot(directionToAttacker);
+        double closingSpeed = relativeMovement.dot(directionToTarget);
 
-        return (float) Math.max(0.0, targetClosingSpeed * 20.0);
+        return (float) Math.max(0.0, closingSpeed * 20.0);
     }
 
     private void applyKnockback(Player player, ItemStack stack, Entity target, DamageSource damagesource) {

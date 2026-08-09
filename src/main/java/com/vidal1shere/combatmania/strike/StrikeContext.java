@@ -1,5 +1,6 @@
 package com.vidal1shere.combatmania.strike;
 
+import com.vidal1shere.combatmania.constants.StrikeSlot;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +13,7 @@ public class StrikeContext {
     private final Player player;
     private final ItemStack itemStack;
     private final StrikeStyle style;
+    private final StrikeSlot slot;
 
     @Nullable
     private final Entity target;
@@ -27,12 +29,13 @@ public class StrikeContext {
 
     private final Level level;
     
-    public StrikeContext(Player player, ItemStack itemStack, StrikeStyle style,
+    public StrikeContext(Player player, ItemStack itemStack, StrikeStyle style, StrikeSlot slot,
                          @Nullable Entity target, float baseDamage, float baseReach,
                          float baseKnockback, float strengthScale, Level level) {
         this.player = player;
         this.itemStack = itemStack;
         this.style = style;
+        this.slot = slot;
         this.target = target;
         this.baseDamage = baseDamage;
         this.baseReach = baseReach;
@@ -47,6 +50,7 @@ public class StrikeContext {
     public Player player() { return player; }
     public ItemStack itemStack() { return itemStack; }
     public StrikeStyle style() { return style; }
+    public StrikeSlot slot() { return slot; }
 
     @Nullable
     public Entity target() { return target; }

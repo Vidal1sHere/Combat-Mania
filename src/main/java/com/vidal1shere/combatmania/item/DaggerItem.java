@@ -1,21 +1,17 @@
 package com.vidal1shere.combatmania.item;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
-import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -54,7 +50,7 @@ public class DaggerItem extends TieredItem implements IStrikeWeapon {
 
     @Override
     public DeferredHolder<StrikeStyle, ? extends StrikeStyle> getStyle(StrikeSlot slot) {
-        if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.DAGGER_SLASH;
+        if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.DAGGER_SWEEP;
         else return CMStrikeStyles.STAB;
     }
 

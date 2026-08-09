@@ -18,6 +18,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderHandEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = CombatMania.MOD_ID)
@@ -60,5 +61,10 @@ public class ItemAnimationHandler {
         if (definition.debug()) {
             ItemTransformAccumulator.debugRenderPivot(event.getPoseStack(), event.getMultiBufferSource(), definition.pivot());
         }
+    }
+    
+    @SubscribeEvent
+    public static void stopStates(PlayerEvent.PlayerLoggedOutEvent event) {
+        event.getEntity().getData(CMAttachments.ITEM_ANIMATIONS).stopAll();
     }
 }

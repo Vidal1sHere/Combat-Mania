@@ -21,6 +21,7 @@ public class CMAttributes {
     public static final ResourceLocation BASE_ENTITY_INTERACTION_RANGE_ID = CMUtil.modResLoc("base_entity_interaction_range");
     public static final ResourceLocation BASE_JAB_SPEED_ID = CMUtil.modResLoc("base_jab_speed");
     public static final ResourceLocation BASE_STAB_SPEED_ID = CMUtil.modResLoc("base_stab_speed");
+    public static final ResourceLocation BASE_JOUST_SPEED_ID = CMUtil.modResLoc("base_joust_speed");
     public static final ResourceLocation BASE_ATTACK_STAGGER_ID = CMUtil.modResLoc("base_attack_stagger");
     public static final ResourceLocation BASE_STAGGER_RESISTANCE_ID = CMUtil.modResLoc("base_attack_stagger");
     public static final ResourceLocation STAGGER_MOVEMENT_SPEED_MODIFIER = CMUtil.modResLoc("stagger_movement_speed");
@@ -40,6 +41,16 @@ public class CMAttributes {
                     () -> new NamedRangedAttribute(
                             BASE_STAB_SPEED_ID,
                             "attribute.name.combat_mania.stab_speed",
+                            4.0,
+                            0.0,
+                            1024.0
+                    ).setSyncable(true));
+
+    public static final DeferredHolder<Attribute, Attribute> JOUST_SPEED =
+            ATTRIBUTES.register("joust_speed",
+                    () -> new NamedRangedAttribute(
+                            BASE_JOUST_SPEED_ID,
+                            "attribute.name.combat_mania.joust_speed",
                             4.0,
                             0.0,
                             1024.0
@@ -71,6 +82,7 @@ public class CMAttributes {
     public static void registerAttributes(EntityAttributeModificationEvent event) {
         event.add(EntityType.PLAYER, JAB_SPEED);
         event.add(EntityType.PLAYER, STAB_SPEED);
+        event.add(EntityType.PLAYER, JOUST_SPEED);
         
         for (EntityType<? extends LivingEntity> type : event.getTypes()) {
             event.add(type, ATTACK_STAGGER);

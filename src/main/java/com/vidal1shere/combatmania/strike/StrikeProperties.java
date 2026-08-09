@@ -17,6 +17,7 @@ public class StrikeProperties {
     private final boolean syncAnimationSpeed;
     private final boolean overlap;
     private final boolean swingHand;
+    private final boolean lowerHand;
     private final CustomProperties customProperties;
     
     protected StrikeProperties(Builder builder) {
@@ -26,6 +27,7 @@ public class StrikeProperties {
         this.syncAnimationSpeed = builder.syncAnimationSpeed;
         this.overlap = builder.overlap;
         this.swingHand = builder.swingHand;
+        this.lowerHand = builder.lowerHand;
         this.customProperties = builder.customProperties;
     }
 
@@ -53,6 +55,10 @@ public class StrikeProperties {
         return swingHand;
     }
 
+    public boolean lowerHand() {
+        return lowerHand;
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T get(CustomProperties.Key<T> key) {
         return customProperties.get(key);
@@ -76,6 +82,7 @@ public class StrikeProperties {
         private boolean syncAnimationSpeed = true;
         private boolean overlap = false;
         private boolean swingHand = true;
+        private boolean lowerHand = false;
         private CustomProperties customProperties = CustomProperties.of();
         
         public Builder() {}
@@ -117,6 +124,11 @@ public class StrikeProperties {
 
         public Builder swingHand(boolean value) {
             this.swingHand = value;
+            return this;
+        }
+
+        public Builder lowerHand(boolean value) {
+            this.lowerHand = value;
             return this;
         }
 

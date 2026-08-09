@@ -42,6 +42,10 @@ public abstract class StrikeStyle {
         return properties.swingHand();
     }
 
+    public boolean lowerHand() {
+        return properties.lowerHand();
+    }
+
     protected StrikeProperties properties() {
         return properties;
     }

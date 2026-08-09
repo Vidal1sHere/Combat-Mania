@@ -87,7 +87,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     Entity target = payload.targetId() != -1 ? player.level().getEntity(payload.targetId()) : null;
 
                     StrikeContext ctx = new StrikeContext(
-                            player, stack, style, target,
+                            player, stack, style, slot, target,
                             (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE),
                             (float) player.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE),
                             (float) player.getAttributeValue(Attributes.ATTACK_KNOCKBACK),
@@ -115,7 +115,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     if (!strikeData.isActive(slot)) return;
 
                     StrikeContext ctx = new StrikeContext(
-                            player, stack, style, null,
+                            player, stack, style, slot, null,
                             (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE),
                             (float) player.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE),
                             (float) player.getAttributeValue(Attributes.ATTACK_KNOCKBACK),
