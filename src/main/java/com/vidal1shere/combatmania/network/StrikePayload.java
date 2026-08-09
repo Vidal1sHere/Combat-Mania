@@ -67,52 +67,27 @@ public abstract class StrikePayload implements CustomPacketPayload {
         public static void handle(Request payload, IPayloadContext context) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                ItemStack stack = player.getMainHandItem();
-                if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
-
-                DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = payload.isPrimary() ?
-                        weapon.getPrimaryStyle() :
-                        weapon.getSecondaryStyle();
-
-                if (styleHolder == null) return;
-
-                StrikeStyle style = styleHolder.get();
                 StrikeData strikeData = player.getData(CMAttachments.STRIKE);
                 StrikeSlot slot = payload.isPrimary() ? StrikeSlot.PRIMARY : StrikeSlot.SECONDARY;
-                
-                if (payload.action() == Action.START) {
-                    float scale = strikeData.getScale(slot);
-                    if (scale < style.getMinStrengthScale()) return;
+                ItemStack stack = player.getMainHandItem();
 
-                    Entity target = payload.targetId() != -1 ? player.level().getEntity(payload.targetId()) : null;
-
-                    StrikeContext ctx = new StrikeContext(
-                            player, stack, style, slot, target,
-                            (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE),
-                            (float) player.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE),
-                            (float) player.getAttributeValue(Attributes.ATTACK_KNOCKBACK),
-                            scale, player.level()
-                    );
-
-                    strikeData.setActive(slot, true);
-
-                    weapon.setLastUsedStyle(stack, style);
-                    weapon.setActiveStyle(stack, style);
-                    style.onStart(ctx);
-
-                    player.syncData(CMAttachments.STRIKE);
-
-                    if (style.getMaxDuration(stack, player) == 0) {
-                        int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
-                        strikeData.exhaust(slot, duration);
-                        PacketDistributor.sendToPlayer((ServerPlayer) player,
-                                new Confirm(payload.isPrimary(), style.swingHand(), Action.START, duration));
-                    } else {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player,
-                                new Confirm(payload.isPrimary(), false, Action.START, -1));
+                if (payload.action() == Action.STOP) {
+                    if (!(stack.getItem() instanceof IStrikeWeapon weapon)) {
+                        strikeData.setActive(slot, false);
+                        player.syncData(CMAttachments.STRIKE);
+                        return;
                     }
-                } else {
-                    if (!strikeData.isActive(slot)) return;
+
+                    DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder =
+                            payload.isPrimary() ? weapon.getPrimaryStyle() : weapon.getSecondaryStyle();
+
+                    if (styleHolder == null) {
+                        strikeData.setActive(slot, false);
+                        player.syncData(CMAttachments.STRIKE);
+                        return;
+                    }
+
+                    StrikeStyle style = styleHolder.get();
 
                     StrikeContext ctx = new StrikeContext(
                             player, stack, style, slot, null,
@@ -125,7 +100,6 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     style.onStop(ctx, strikeData.getActiveTicks(slot));
                     strikeData.setActive(slot, false);
                     weapon.setActiveStyle(stack, null);
-
                     player.syncData(CMAttachments.STRIKE);
 
                     if (style.getMaxDuration(stack, player) > 0) {
@@ -134,6 +108,45 @@ public abstract class StrikePayload implements CustomPacketPayload {
                         PacketDistributor.sendToPlayer((ServerPlayer) player,
                                 new Confirm(payload.isPrimary(), style.swingHand(), Action.STOP, duration));
                     }
+
+                    return;
+                }
+
+                if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
+
+                DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder =
+                        payload.isPrimary() ? weapon.getPrimaryStyle() : weapon.getSecondaryStyle();
+
+                if (styleHolder == null) return;
+
+                StrikeStyle style = styleHolder.get();
+                float scale = strikeData.getScale(slot);
+                if (scale < style.getMinStrengthScale()) return;
+
+                Entity target = payload.targetId() != -1 ? player.level().getEntity(payload.targetId()) : null;
+
+                StrikeContext ctx = new StrikeContext(
+                        player, stack, style, slot, target,
+                        (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE),
+                        (float) player.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE),
+                        (float) player.getAttributeValue(Attributes.ATTACK_KNOCKBACK),
+                        scale, player.level()
+                );
+
+                strikeData.setActive(slot, true);
+                weapon.setLastUsedStyle(stack, style);
+                weapon.setActiveStyle(stack, style);
+                style.onStart(ctx);
+                player.syncData(CMAttachments.STRIKE);
+
+                if (style.getMaxDuration(stack, player) == 0) {
+                    int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
+                    strikeData.exhaust(slot, duration);
+                    PacketDistributor.sendToPlayer((ServerPlayer) player,
+                            new Confirm(payload.isPrimary(), style.swingHand(), Action.START, duration));
+                } else {
+                    PacketDistributor.sendToPlayer((ServerPlayer) player,
+                            new Confirm(payload.isPrimary(), false, Action.START, -1));
                 }
             });
         }

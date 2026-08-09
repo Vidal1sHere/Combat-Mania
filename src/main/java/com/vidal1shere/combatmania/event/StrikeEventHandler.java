@@ -24,6 +24,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -182,5 +183,13 @@ public class StrikeEventHandler {
 
         StrikeData strikeData = player.getData(CMAttachments.STRIKE);
         if (strikeData.isBlocked(StrikeSlot.SECONDARY, weapon)) event.setCanceled(true);
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onDeath(LivingDeathEvent event) {
+        if (!(event.getEntity() instanceof Player)) return;
+
+        PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, true, -1));
+        PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, false, -1));
     }
 }
