@@ -42,7 +42,7 @@ public class JabStrikeStyle extends StrikeStyle {
     public static final Key<Float> JAB_MIN_REACH = new Key<>(2.0F);
     public static final Key<Float> HIT_INFLATION = new Key<>(0.125F);
     public static final Key<BiPredicate<ItemStack, Player>> IS_LIGHT = new Key<>((s, p) -> 
-            s.getItem() instanceof TieredItem t && t.getTier() == Tiers.WOOD);
+            s.getItem() instanceof TieredItem t && CMUtil.isWoodTier(t.getTier()));
     public static final Key<SoundEvent> JAB_SOUND = new Key<>(CMSounds.SPEAR_JAB.get());
     public static final Key<SoundEvent> LIGHT_JAB_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_JAB.get());
     public static final Key<SoundEvent> HIT_SOUND = new Key<>(CMSounds.SPEAR_HIT.get());

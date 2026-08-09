@@ -8,10 +8,12 @@ import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
+import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -52,7 +54,7 @@ public class JoustStrikeStyle extends StrikeStyle {
     public static final Key<Float> MIN_SPEED_FOR_DAMAGE = new Key<>(4.6F);
     public static final Key<Float> MIN_SPEED_FOR_KNOCKBACK = new Key<>(5.1F);
     public static final Key<BiPredicate<ItemStack, Player>> IS_LIGHT = new Key<>((s, p) ->
-            s.getItem() instanceof TieredItem t && t.getTier() == Tiers.WOOD);
+            s.getItem() instanceof TieredItem t && CMUtil.isWoodTier(t.getTier()));
     public static final Key<SoundEvent> ENGAGE_SOUND = new Key<>(CMSounds.SPEAR_USE.get());
     public static final Key<SoundEvent> LIGHT_ENGAGE_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_USE.get());
     public static final Key<SoundEvent> HIT_SOUND = new Key<>(CMSounds.SPEAR_HIT.get());

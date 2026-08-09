@@ -1,12 +1,15 @@
 package com.vidal1shere.combatmania.util;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -42,6 +45,10 @@ public final class CMUtil {
 
     public static double angleToDot(float angle) {
         return Math.cos(Math.toRadians(angle));
+    }
+    
+    public static boolean isWoodTier(Tier tier) {
+        return tier == CMExtendedToolTiers.WOOD || tier == Tiers.WOOD;
     }
 
     public static CompoundTag getNbt(ItemStack stack) {

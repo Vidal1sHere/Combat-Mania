@@ -61,4 +61,15 @@ public enum CMExtendedToolTiers implements IExtendedTier {
     public CustomProperties getCustomProperties() {
         return customProperties;
     }
+    
+    public Tier getVanillaTier() {
+        return switch (this) {
+            case WOOD -> Tiers.WOOD;
+            case STONE -> Tiers.STONE;
+            case IRON -> Tiers.IRON;
+            case GOLD -> Tiers.GOLD;
+            case DIAMOND -> Tiers.DIAMOND;
+            case NETHERITE -> Tiers.NETHERITE;
+        };
+    }
 }
