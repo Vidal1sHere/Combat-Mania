@@ -95,9 +95,12 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     );
 
                     strikeData.setActive(slot, true);
+
                     weapon.setLastUsedStyle(stack, style);
                     weapon.setActiveStyle(stack, style);
                     style.onStart(ctx);
+
+                    player.syncData(CMAttachments.STRIKE);
 
                     if (style.getMaxDuration(stack, player) == 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);
@@ -122,6 +125,8 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     style.onStop(ctx, strikeData.getActiveTicks(slot));
                     strikeData.setActive(slot, false);
                     weapon.setActiveStyle(stack, null);
+
+                    player.syncData(CMAttachments.STRIKE);
 
                     if (style.getMaxDuration(stack, player) > 0) {
                         int duration = (int) (1.0 / player.getAttributeValue(style.getSpeedAttribute()) * 20);

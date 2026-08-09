@@ -48,7 +48,6 @@ public class ItemAnimationHandler {
         ItemAnimationDefinition definition = animated.getAnimation(stack, hand, player, state);
         if (definition == null) return;
 
-
         ItemKeyframeAnimations.animate(
             event.getPoseStack(),
             definition,

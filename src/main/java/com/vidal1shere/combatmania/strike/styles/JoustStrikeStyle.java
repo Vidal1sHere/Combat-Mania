@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
@@ -67,7 +68,7 @@ public class JoustStrikeStyle extends StrikeStyle {
         JoustProperties props = stack.getOrDefault(CMDataComponents.JOUST, new JoustProperties());
         JoustData joust = player.getData(CMAttachments.JOUST);
 
-        progressStage(joust, props, ticksHeld);
+        progressStage(player, joust, props, ticksHeld);
 
         if (joust.getStage() == JoustData.Stage.NONE || joust.getStage() == JoustData.Stage.EQUIP) return;
 
@@ -88,7 +89,8 @@ public class JoustStrikeStyle extends StrikeStyle {
         return props.getSpeedForStage(stage);
     }
 
-    private void progressStage(JoustData joust, JoustProperties props, int ticksHeld) {
+    private void progressStage(Player player, JoustData joust, JoustProperties props, int ticksHeld) {
+        JoustData.Stage oldStage = joust.getStage();
         int equipEnd = props.getDurationTicks(JoustData.Stage.EQUIP);
         int engagedEnd = equipEnd + props.getDurationTicks(JoustData.Stage.ENGAGED);
         int tiredEnd = engagedEnd + props.getDurationTicks(JoustData.Stage.TIRED);
@@ -104,7 +106,10 @@ public class JoustStrikeStyle extends StrikeStyle {
             stage = JoustData.Stage.DISENGAGED;
         }
 
-        joust.setStage(stage);
+        if (stage != oldStage) {
+            joust.setStage(stage);
+            player.syncData(CMAttachments.JOUST);
+        }
     }
 
     // -- target detection --
@@ -201,14 +206,19 @@ public class JoustStrikeStyle extends StrikeStyle {
 
     @Override
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-        JoustData data = player.getData(CMAttachments.JOUST);
-        state.setActiveDefinition(data.getAnimation());
-        state.start(tickCount);
+        state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
     }
 
     @Override
-    public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-        state.stop();
+    public void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick) {
+        JoustData data = player.getData(CMAttachments.JOUST);
+        ItemAnimationDefinition newDef = data.getAnimation();
+        if (newDef == null) return;
+
+        if (state.getActiveDefinition() != newDef) {
+            state.setActiveDefinition(newDef);
+            state.start((int) ageInTicks, ItemAnimationState.LoopType.PLAY_ONCE);
+        }
     }
 
     // -- helpers --

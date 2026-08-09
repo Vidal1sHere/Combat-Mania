@@ -18,6 +18,7 @@ import java.util.Map;
  */
 @OnlyIn(Dist.CLIENT)
 public record ItemAnimationDefinition(float lengthInSeconds, Map<String, List<ItemAnimationChannel>> channels, Vector3f pivot, boolean debug) {
+    public static final Vector3f NO_PIVOT = new Vector3f(0, 0, 0);
 
     public static ItemAnimationDefinition identity(float length) {
         return ItemAnimationDefinition.Builder
@@ -48,8 +49,6 @@ public record ItemAnimationDefinition(float lengthInSeconds, Map<String, List<It
                 .build();
     }
     
-    public static final Vector3f NO_PIVOT = new Vector3f(0, 0, 0);
-
     @OnlyIn(Dist.CLIENT)
     public static class Builder {
 
@@ -66,9 +65,13 @@ public record ItemAnimationDefinition(float lengthInSeconds, Map<String, List<It
             this.length = lengthInSeconds;
         }
 
-        public Builder pivot(float x, float y, float z) {
-            this.pivot = new Vector3f(x, y, z);
+        public Builder pivot(Vector3f pivot) {
+            this.pivot = pivot;
             return this;
+        }
+
+        public Builder pivot(float x, float y, float z) {
+            return pivot(new Vector3f(x, y, z));
         }
         
         public Builder debug() {

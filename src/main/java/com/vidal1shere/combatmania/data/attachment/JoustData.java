@@ -4,6 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 
 import java.util.List;
 
@@ -12,12 +14,22 @@ public class JoustData {
     public static final Codec<JoustData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("stage").forGetter(d -> d.stage.ordinal())
     ).apply(instance, (o) -> new JoustData(Stage.byOrdinal(o))));
-    
-    private Stage stage;
 
-    public JoustData() {
-        this.stage = Stage.NONE;
-    }
+    public static final StreamCodec<ByteBuf, JoustData> STREAM_CODEC =
+            StreamCodec.of(
+                    (buf, data) -> {
+                        buf.writeInt(data.getStage().ordinal());
+                    },
+                    buf -> {
+                        JoustData data = new JoustData();
+                        data.setStage(Stage.byOrdinal(buf.readInt()));
+                        return data;
+                    }
+            );
+    
+    private Stage stage = Stage.NONE;
+
+    public JoustData() {}
 
     public JoustData(Stage stage) {
         this.stage = stage;

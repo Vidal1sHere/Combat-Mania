@@ -17,7 +17,8 @@ public class CMAttachments {
     
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<StrikeData>> STRIKE =
             ATTACHMENT_TYPES.register("strike",
-                    () -> AttachmentType.builder(StrikeData::new).serialize(StrikeData.CODEC).build());
+                    () -> AttachmentType.builder(StrikeData::new)
+                            .serialize(StrikeData.CODEC).sync(StrikeData.STREAM_CODEC).build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<ItemAnimationStates>> ITEM_ANIMATIONS =
             ATTACHMENT_TYPES.register("item_animations",
@@ -29,7 +30,8 @@ public class CMAttachments {
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<JoustData>> JOUST =
             ATTACHMENT_TYPES.register("joust",
-                    () -> AttachmentType.builder(() -> new JoustData()).serialize(JoustData.CODEC).build());
+                    () -> AttachmentType.builder(() -> new JoustData())
+                            .serialize(JoustData.CODEC).sync(JoustData.STREAM_CODEC).build());
 
     public static void register(IEventBus eventBus) {
         ATTACHMENT_TYPES.register(eventBus);

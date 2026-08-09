@@ -7,12 +7,15 @@ import com.vidal1shere.combatmania.client.animation.keyframe.KeyframeVecs;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.Keyframe;
+import org.joml.Vector3f;
 
 public class SpearAnimations {
+    public static final Vector3f SPEAR_PIVOT = new Vector3f(0.75f, -0.5f, -0.7f);
+    
     public static ItemAnimationDefinition spearJab() {
         return ItemAnimationDefinition.Builder
                 .withLength(1.0f)
-                .pivot(0.75f, -0.5f, -0.7f)
+                .pivot(SPEAR_PIVOT)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
@@ -35,7 +38,7 @@ public class SpearAnimations {
     public static ItemAnimationDefinition joustEquip() {
         return ItemAnimationDefinition.Builder
                 .withLength(JoustProperties.EQUIP_DURATION)
-                .pivot(0.75f, -0.5f, -0.7f)
+                .pivot(SPEAR_PIVOT)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
@@ -56,7 +59,7 @@ public class SpearAnimations {
     public static ItemAnimationDefinition joustEngaged() {
         return ItemAnimationDefinition.Builder
                 .withLength(JoustProperties.ENGAGED_DURATION)
-                .pivot(0.75f, -0.5f, -0.7f)
+                .pivot(SPEAR_PIVOT)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0, 0, 0.02f), AnimationChannel.Interpolations.LINEAR)
@@ -71,7 +74,7 @@ public class SpearAnimations {
     public static ItemAnimationDefinition joustTired() {
         return ItemAnimationDefinition.Builder
                 .withLength(JoustProperties.TIRED_DURATION)
-                .pivot(0.75f, -0.5f, -0.7f)
+                .pivot(SPEAR_PIVOT)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0, 0, 0.02f), AnimationChannel.Interpolations.LINEAR)
@@ -88,7 +91,7 @@ public class SpearAnimations {
     public static ItemAnimationDefinition joustDisengaged() {
         return ItemAnimationDefinition.Builder
                 .withLength(JoustProperties.DISENGAGED_DURATION)
-                .pivot(0.75f, -0.5f, -0.7f)
+                .pivot(SPEAR_PIVOT)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.02f), AnimationChannel.Interpolations.LINEAR),

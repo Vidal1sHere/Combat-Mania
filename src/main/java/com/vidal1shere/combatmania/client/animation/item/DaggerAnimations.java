@@ -6,12 +6,15 @@ import com.vidal1shere.combatmania.client.animation.keyframe.ItemAnimationTarget
 import com.vidal1shere.combatmania.client.animation.keyframe.KeyframeVecs;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.Keyframe;
+import org.joml.Vector3f;
 
 public class DaggerAnimations {
+    public static final Vector3f DAGGER_PIVOT = new Vector3f(0.63f, -0.5f, -0.72f);
+    
     public static ItemAnimationDefinition stab() {
         return ItemAnimationDefinition.Builder
                 .withLength(0.55f)
-                .pivot(0.63f, -0.5f, -0.72f)
+                .pivot(DAGGER_PIVOT)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
@@ -33,7 +36,7 @@ public class DaggerAnimations {
     public static ItemAnimationDefinition backStab() {
         return ItemAnimationDefinition.Builder
                 .withLength(0.75f)
-                .pivot(0.63f, -0.5f, -0.72f)
+                .pivot(DAGGER_PIVOT)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),

@@ -87,4 +87,9 @@ public class GlaiveItem extends TieredItem implements IStrikeWeapon {
         if (attacker instanceof Player player && !player.isCreative())
             stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
     }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return slotChanged;
+    }
 }

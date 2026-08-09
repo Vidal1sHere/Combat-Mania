@@ -57,6 +57,9 @@ public abstract class StrikeStyle {
     public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {}
 
     @OnlyIn(Dist.CLIENT)
+    public void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick) {}
+
+    @OnlyIn(Dist.CLIENT)
     public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
         return state.getActiveDefinition();
     }

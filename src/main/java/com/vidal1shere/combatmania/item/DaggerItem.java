@@ -110,6 +110,11 @@ public class DaggerItem extends TieredItem implements IStrikeWeapon {
         return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(itemAbility);
     }
 
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return slotChanged;
+    }
+
     public static void sweepParticle(Player player, LivingEntity target) {
         double d0 = (-Mth.sin(player.getYRot() * ((float) Math.PI / 180F)));
         double d1 = Mth.cos(player.getYRot() * ((float) Math.PI / 180F));

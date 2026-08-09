@@ -4,7 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
+import com.vidal1shere.combatmania.data.component.JoustProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StrikeData {
@@ -15,6 +19,38 @@ public class StrikeData {
             Codec.INT.fieldOf("primary_duration").forGetter(d -> d.primaryDuration),
             Codec.INT.fieldOf("secondary_duration").forGetter(d -> d.secondaryDuration)
     ).apply(instance, StrikeData::new));
+
+    public static final StreamCodec<ByteBuf, StrikeData> STREAM_CODEC =
+            StreamCodec.of(
+                    (buf, data) -> {
+                        buf.writeInt(data.primaryTicker);
+                        buf.writeInt(data.secondaryTicker);
+                        buf.writeInt(data.primaryDuration);
+                        buf.writeInt(data.secondaryDuration);
+
+                        buf.writeBoolean(data.primaryActive);
+                        buf.writeBoolean(data.secondaryActive);
+
+                        buf.writeInt(data.primaryActiveTicks);
+                        buf.writeInt(data.secondaryActiveTicks);
+                    },
+                    buf -> {
+                        StrikeData data = new StrikeData();
+
+                        data.primaryTicker = buf.readInt();
+                        data.secondaryTicker = buf.readInt();
+                        data.primaryDuration = buf.readInt();
+                        data.secondaryDuration = buf.readInt();
+
+                        data.primaryActive = buf.readBoolean();
+                        data.secondaryActive = buf.readBoolean();
+
+                        data.primaryActiveTicks = buf.readInt();
+                        data.secondaryActiveTicks = buf.readInt();
+
+                        return data;
+                    }
+            );
 
     // cooldown
     private int primaryTicker = 0;

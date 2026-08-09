@@ -12,7 +12,7 @@ public final class KeyframeVecs {
     public static Vector3f posVec(float x, float y, float z) {
         return new Vector3f(x, -y, z);
     }
-
+    
     public static Vector3f degreeVec(float xDeg, float yDeg, float zDeg) {
         return new Vector3f(
             xDeg * ((float) Math.PI / 180f),

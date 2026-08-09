@@ -37,8 +37,8 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
 
     @Override
     public DeferredHolder<StrikeStyle, ? extends StrikeStyle> getStyle(StrikeSlot slot) {
-        if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.JOUST;
-        else return null;
+        if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.JAB;
+        else return CMStrikeStyles.JOUST;
     }
 
     @Override
@@ -90,6 +90,11 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
     public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker instanceof Player player && !player.isCreative())
             stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return slotChanged;
     }
 
     public static float getSpearChargeMultiplier(ItemStack stack) {
