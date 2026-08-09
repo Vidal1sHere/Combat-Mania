@@ -103,6 +103,7 @@ public class JoustStrikeStyle extends StrikeStyle {
     
     @Override
     public void onStop(StrikeContext ctx, int ticksHeld) {
+        System.out.println("[JOUST] STOP ticks=" + ticksHeld);
         JoustData.reset(ctx.player());
     }
     
@@ -300,7 +301,7 @@ public class JoustStrikeStyle extends StrikeStyle {
     public void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick) {
         JoustData data = player.getData(CMAttachments.JOUST);
         JoustData.Stage stage = data.getStage();
-        
+       
         if (!data.hasQueuedAnimation()) {
             return;
         }

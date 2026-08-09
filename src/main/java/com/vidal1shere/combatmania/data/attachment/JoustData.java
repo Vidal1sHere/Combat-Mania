@@ -89,10 +89,9 @@ public class JoustData {
         if (entity == null) return;
         get(player).hitEntities.add(entity.getUUID());
     }
-    
+
     public static void consumeAnimation(Player player) {
         get(player).queuedAnimation = false;
-        player.syncData(CMAttachments.JOUST);
     }
     
     public boolean hasQueuedAnimation() {
