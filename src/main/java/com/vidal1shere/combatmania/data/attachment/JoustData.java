@@ -74,6 +74,7 @@ public class JoustData {
 
     public static void reset(Player player) {
         get(player).setStage(Stage.NONE);
+        get(player).queuedAnimation = false;
         player.syncData(CMAttachments.JOUST);
     }
     

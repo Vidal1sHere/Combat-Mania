@@ -36,6 +36,10 @@ public final class CMUtil {
         return Math.round((float) (seconds * 20.0));
     }
 
+    public static float blocksPerSecond(float blocksPerTick) {
+        return blocksPerTick * 20.0F;
+    }
+
     public static double angleToDot(float angle) {
         return Math.cos(Math.toRadians(angle));
     }

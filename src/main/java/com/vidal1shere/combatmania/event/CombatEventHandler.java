@@ -77,6 +77,10 @@ public class CombatEventHandler {
                 return;
             }
 
+            if (strikeData.isActive(slot.other())) {
+                PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, slot.other() == StrikeSlot.PRIMARY, -1));
+            }
+            
             Entity target = mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult) mc.hitResult).getEntity() : null;
 
             PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.START, slot == StrikeSlot.PRIMARY, target != null ? target.getId() : -1));

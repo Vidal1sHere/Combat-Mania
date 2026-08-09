@@ -1,5 +1,6 @@
 package com.vidal1shere.combatmania.strike.styles;
 
+import com.vidal1shere.combatmania.api.extension.entity.JoustMotionAware;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
@@ -28,16 +29,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.minecraft.core.particles.ParticleTypes;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiPredicate;
 
 import static com.vidal1shere.combatmania.util.CustomProperties.Key;
@@ -87,11 +90,12 @@ public class JoustStrikeStyle extends StrikeStyle {
 
         progressStage(player, joust, props, ticksHeld);
 
-        System.out.println(ticksHeld);
         if (ticksHeld < props.getEquipDurationTicks()) return;
-        
-        for (Entity target : findTargets(player, ctx.baseReach())) {
-            tryHit(player, stack, target, joust, props);
+
+        Collection<EntityHitResult> hits = findTargets(player, ctx.baseReach());
+
+        for (EntityHitResult hit : hits) {
+            tryHit(player, stack, hit.getEntity(), joust, props);
         }
     }
     
@@ -128,36 +132,67 @@ public class JoustStrikeStyle extends StrikeStyle {
 
     // -- target detection --
 
-    private List<Entity> findTargets(Player player, float reach) {
-        float minReach = properties().get(JOUST_MIN_REACH);
-        float inflation = properties().get(HIT_INFLATION);
+    private Collection<EntityHitResult> findTargets(Player player, float reach) {
+        Vec3 eyePosition = player.getEyePosition(1.0F);
+        Vec3 look = player.getViewVector(1.0F);
 
-        Vec3 eyePos = player.getEyePosition(1.0F);
-        Vec3 viewVec = player.getViewVector(1.0F);
-        Vec3 endPos = eyePos.add(viewVec.scale(reach));
+        Vec3 attackerMovement = getChargeMovement(player);
 
-        AABB searchBox = player.getBoundingBox()
-                .expandTowards(viewVec.scale(reach))
-                .inflate(1.0, 1.0, 1.0);
+        // the forward movement of the attacker extends the effective hit range
+        double movementComponent = attackerMovement.dot(look);
 
-        List<Entity> results = new ArrayList<>();
-        for (Entity entity : player.level().getEntities(player, searchBox,
-                e -> !e.isSpectator() && e.isPickable())) {
-            AABB inflated = entity.getBoundingBox().inflate(inflation);
-            if (inflated.clip(eyePos, endPos).isPresent() || inflated.contains(eyePos)) {
-                results.add(entity);
+        Vec3 from = eyePosition;
+        Vec3 to = eyePosition.add(look.scale(reach + Math.max(0.0, movementComponent)));
+
+        // clip the attack path against blocks first
+        BlockHitResult blockHit = player.level().clip(
+                new ClipContext(eyePosition, to,
+                        ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE,
+                        player
+                )
+        );
+
+        if (blockHit.getType() != HitResult.Type.MISS) {
+            to = blockHit.getLocation();
+
+            // a block was hit before the attack actually reached its range
+            if (eyePosition.distanceToSqr(to) < eyePosition.distanceToSqr(from)) {
+                return List.of();
             }
         }
-        return results;
+
+        // build a search volume along the attack segment
+        AABB searchArea = AABB.ofSize(from, 0.0, 0.0, 0.0).expandTowards(to.subtract(from)).inflate(1.0);
+
+        List<EntityHitResult> hits = new ArrayList<>();
+
+        for (Entity entity : player.level().getEntities(
+                player,
+                searchArea,
+                target -> target.isAttackable()
+                        && !target.isSpectator()
+                        && target != player
+        )) {
+            AABB boundingBox = entity.getBoundingBox();
+
+            Optional<Vec3> hit = boundingBox.clip(from, to);
+
+            if (hit.isPresent()) {
+                hits.add(new EntityHitResult(entity, hit.get()));
+            }
+        }
+
+        return hits;
     }
-    
+
     private void tryHit(Player player, ItemStack stack, Entity target,
                         JoustData joust, JoustProperties props) {
         if (!CommonHooks.onPlayerAttackTarget(player, target)) return;
-        if (!target.isAttackable() || target.skipAttackInteraction(player)) return;
+        if (!target.isAttackable() || target.skipAttackInteraction(player) || player.isPassengerOfSameVehicle(target)) return;
 
         float relativeSpeed = getRelativeSpeed(player, target);
-        if (relativeSpeed < properties().get(MIN_SPEED_FOR_DAMAGE)) return;
+        float minDamageSpeed = properties().get(MIN_SPEED_FOR_DAMAGE);
+        if (relativeSpeed < minDamageSpeed) return;
 
         var damagesource = player.damageSources().playerAttack(player);
         float damage = props.getDamageMultiplier() * relativeSpeed;
@@ -167,19 +202,23 @@ public class JoustStrikeStyle extends StrikeStyle {
         Vec3 targetMotionBefore = target.getDeltaMovement();
         boolean hurt = target.hurt(damagesource, damage);
         if (!hurt) return;
-        
+
+        float minKnockbackSpeed = properties().get(MIN_SPEED_FOR_KNOCKBACK);
+        float minDismountSpeed = props.getMinDismountSpeed();
         boolean isLight = properties().get(IS_LIGHT).test(stack, player);
 
-        player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                isLight ? properties().get(HIT_SOUND) : properties().get(LIGHT_HIT_SOUND), player.getSoundSource(), 1.0F, 1.0F);
+        player.level().playSound(null, 
+                player.getX(), player.getY(), player.getZ(),
+                isLight ? properties().get(HIT_SOUND)
+                        : properties().get(LIGHT_HIT_SOUND),
+                player.getSoundSource(), 1.0F, 1.0F
+        );
 
-        if (joust.canPerformAction(JoustData.Action.KNOCKBACK)
-                && relativeSpeed >= properties().get(MIN_SPEED_FOR_KNOCKBACK)) {
+        if (joust.canPerformAction(JoustData.Action.KNOCKBACK) && relativeSpeed >= minKnockbackSpeed) {
             applyKnockback(player, stack, target, damagesource);
         }
 
-        if (joust.canPerformAction(JoustData.Action.DISMOUNT)
-                && relativeSpeed >= props.getMinDismountSpeed()) {
+        if (joust.canPerformAction(JoustData.Action.DISMOUNT) && relativeSpeed >= minDismountSpeed) {
             target.stopRiding();
         }
 
@@ -190,34 +229,49 @@ public class JoustStrikeStyle extends StrikeStyle {
         }
 
         Entity actualTarget = target instanceof PartEntity<?> pe ? pe.getParent() : target;
+
         Level level = player.level();
+
         if (level instanceof ServerLevel sl) {
             if (actualTarget instanceof LivingEntity le) {
                 boolean itemHurt = stack.hurtEnemy(le, player);
+
                 EnchantmentHelper.doPostAttackEffects(sl, target, damagesource);
-                if (!stack.isEmpty() && itemHurt) stack.postHurtEnemy(le, player);
+
+                if (!stack.isEmpty() && itemHurt) {
+                    stack.postHurtEnemy(le, player);
+                }
+
                 if (stack.isEmpty()) {
                     EventHooks.onPlayerDestroyItem(player, stack.copy(),
                             stack == player.getMainHandItem()
                                     ? InteractionHand.MAIN_HAND
-                                    : InteractionHand.OFF_HAND);
+                                    : InteractionHand.OFF_HAND
+                    );
                 }
             }
         }
 
         if (target instanceof LivingEntity le) {
             float dealt = targetHealthBefore - le.getHealth();
+
             player.awardStat(Stats.DAMAGE_DEALT, Math.round(dealt * 10.0F));
             if (level instanceof ServerLevel sl && dealt > 2.0F) {
-                int count = (int)(dealt * 0.5F);
-                sl.sendParticles(ParticleTypes.DAMAGE_INDICATOR,
+                int count = (int) (dealt * 0.5F);
+
+                sl.sendParticles(
+                        ParticleTypes.DAMAGE_INDICATOR,
                         target.getX(), target.getY(0.5), target.getZ(),
-                        count, 0.1, 0.0, 0.1, 0.2);
+                        count, 0.1, 0.0, 0.1, 0.2
+                );
             }
         }
 
-        player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);
+        player.level().playSound(null,
+                player.getX(), player.getY(), player.getZ(),
+                SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F
+        );
+
         player.setLastHurtMob(target);
         player.causeFoodExhaustion(0.1F);
     }
@@ -258,15 +312,46 @@ public class JoustStrikeStyle extends StrikeStyle {
 
     // -- helpers --
 
+    private Vec3 getChargeMovement(Player player) {
+        Entity vehicle = player.getVehicle();
+
+        if (vehicle != null) {
+            return vehicle.getDeltaMovement();
+        }
+
+        return player.getDeltaMovement();
+    }
+
+    // todo fix the bug where walking backwards boosts your relative speed
     private float getRelativeSpeed(Player player, Entity target) {
-        Vec3 playerVel = player.getDeltaMovement();
-        Vec3 targetVel = target.getDeltaMovement();
-        Vec3 relative = new Vec3(
-                playerVel.x - targetVel.x,
-                0,
-                playerVel.z - targetVel.z
-        );
-        return (float) relative.length() * 20.0F;
+        Vec3 attackerMovement = ((JoustMotionAware) player).getJoustMovement();
+        Vec3 attackerHorizontal = new Vec3(attackerMovement.x, 0.0, attackerMovement.z);
+        
+        Vec3 targetMovement = target.getDeltaMovement();
+        Vec3 targetHorizontal = new Vec3(targetMovement.x, 0.0, targetMovement.z);
+        
+        double attackerSpeed = attackerHorizontal.length();
+
+        if (attackerSpeed > 1.0E-6) {
+            Vec3 chargeDirection = attackerHorizontal.normalize();
+
+            double targetProjection = targetHorizontal.dot(chargeDirection);
+
+            return (float) Math.max(0.0, (attackerSpeed - targetProjection) * 20.0);
+        }
+
+        Vec3 toAttacker = player.position().subtract(target.position());
+        Vec3 horizontalToAttacker = new Vec3(toAttacker.x, 0.0, toAttacker.z);
+
+        if (horizontalToAttacker.lengthSqr() <= 1.0E-6) {
+            return 0.0F;
+        }
+
+        Vec3 directionToAttacker = horizontalToAttacker.normalize();
+
+        double targetClosingSpeed = targetHorizontal.dot(directionToAttacker);
+
+        return (float) Math.max(0.0, targetClosingSpeed * 20.0);
     }
 
     private void applyKnockback(Player player, ItemStack stack, Entity target, DamageSource damagesource) {

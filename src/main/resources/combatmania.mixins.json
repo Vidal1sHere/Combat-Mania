@@ -3,7 +3,9 @@
   "package": "com.vidal1shere.combatmania.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PlayerMixin"
+    "EntityMixin",
+    "PlayerMixin",
+    "ServerPlayerMixin"
   ],
   "client": [
     "client.MinecraftMixin",
