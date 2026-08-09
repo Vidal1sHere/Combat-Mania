@@ -104,9 +104,6 @@ public class CombatEventHandler {
 
         private static void checkStop(Minecraft mc, Player player, ItemStack stack, StrikeData strikeData, StrikeSlot slot) {
             if (!strikeData.isActive(slot)) {
-                if (slot == StrikeSlot.SECONDARY) {
-                    System.out.println("not active on " + (player.level().isClientSide() ? "client" : "server"));
-                }
                 return;
             }
             
@@ -115,10 +112,6 @@ public class CombatEventHandler {
             if (!(stack.getItem() instanceof IStrikeWeapon weapon)) {
                 PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, isPrimary, -1));
                 return;
-            }
-            
-            if (!isPrimary) {
-                System.out.println("active on " + (player.level().isClientSide() ? "client" : "server"));
             }
 
             DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = weapon.getStyle(slot);
@@ -201,7 +194,6 @@ public class CombatEventHandler {
     public static void removeJoustData(PlayerTickEvent.Pre event) {
         Player player = event.getEntity();
         ItemStack stack = player.getMainHandItem();
-        JoustData joustData = player.getData(CMAttachments.JOUST);
         boolean changed = false;
         
         if (!(stack.getItem() instanceof IStrikeWeapon)) {
@@ -211,8 +203,7 @@ public class CombatEventHandler {
         }
         
         if (changed) {
-            joustData.reset();
-            player.syncData(CMAttachments.JOUST);
+            JoustData.reset(player);
         }
     }
 }

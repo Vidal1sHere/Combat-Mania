@@ -5,9 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import net.minecraft.util.Mth;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Tracks the playback state of a single first-person item animation.
  * Mirrors the structure of vanilla's AnimationState with an added LoopType and tag map.
@@ -24,8 +21,6 @@ public class ItemAnimationState {
 
     public static final Codec<ItemAnimationState> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Codec.LONG.fieldOf("last_time").forGetter(state -> state.lastTime),
-                    Codec.LONG.fieldOf("accumulated_time").forGetter(ItemAnimationState::getAccumulatedTime),
                     Codec.STRING.xmap(LoopType::valueOf, LoopType::name).fieldOf("loop_type").forGetter(ItemAnimationState::getLoopType)
             ).apply(instance, ItemAnimationState::new)
     );
@@ -37,9 +32,7 @@ public class ItemAnimationState {
 
     public ItemAnimationState() {}
 
-    public ItemAnimationState(long lastTime, long accumulatedTime, LoopType loopType) {
-        this.lastTime = lastTime;
-        this.accumulatedTime = accumulatedTime;
+    public ItemAnimationState(LoopType loopType) {
         this.loopType = loopType;
     }
 

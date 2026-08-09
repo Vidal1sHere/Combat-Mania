@@ -21,8 +21,10 @@ public class CMSounds {
 
     public static final Supplier<SoundEvent> WOODEN_SPEAR_JAB = registerSoundEvent("item.spear_wood.attack");
     public static final Supplier<SoundEvent> WOODEN_SPEAR_HIT = registerSoundEvent("item.spear_wood.hit");
+    public static final Supplier<SoundEvent> WOODEN_SPEAR_USE = registerSoundEvent("item.spear_wood.use");
     public static final Supplier<SoundEvent> SPEAR_JAB = registerSoundEvent("item.spear.attack");
     public static final Supplier<SoundEvent> SPEAR_HIT = registerSoundEvent("item.spear.hit");
+    public static final Supplier<SoundEvent> SPEAR_USE = registerSoundEvent("item.spear.use");
     
     private static ResourceKey<JukeboxSong> createSong(String name) {
         return ResourceKey.create(

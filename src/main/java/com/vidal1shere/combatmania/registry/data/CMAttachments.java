@@ -31,7 +31,7 @@ public class CMAttachments {
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<JoustData>> JOUST =
             ATTACHMENT_TYPES.register("joust",
                     () -> AttachmentType.builder(() -> new JoustData())
-                            .serialize(JoustData.CODEC).sync(JoustData.STREAM_CODEC).build());
+                            .sync(JoustData.STREAM_CODEC).build());
 
     public static void register(IEventBus eventBus) {
         ATTACHMENT_TYPES.register(eventBus);

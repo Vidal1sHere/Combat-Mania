@@ -15,6 +15,12 @@
       "combat_mania:spear_wood_hit3"
     ]
   },
+  "item.spear_wood.use": {
+    "subtitle": "sounds.cotn.item.spear_wood.use",
+    "sounds": [
+      "combat_mania:spear_wood_use"
+    ]
+  },
   "item.spear.attack": {
     "subtitle": "sounds.cotn.item.spear.attack",
     "sounds": [
@@ -29,6 +35,12 @@
       "combat_mania:spear_hit1",
       "combat_mania:spear_hit2",
       "combat_mania:spear_hit3"
+    ]
+  },
+  "item.spear.use": {
+    "subtitle": "sounds.cotn.item.spear.use",
+    "sounds": [
+      "combat_mania:spear_use"
     ]
   }
 }

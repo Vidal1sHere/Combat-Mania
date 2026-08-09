@@ -105,7 +105,6 @@ public class JoustProperties {
     public float getSpeedForStage(JoustData.Stage stage) {
         return switch (stage) {
             case NONE -> 1.0F;
-            case EQUIP -> equipSpeed;
             case ENGAGED -> engagedSpeed;
             case TIRED -> tiredSpeed;
             case DISENGAGED -> disengagedSpeed;
@@ -115,11 +114,14 @@ public class JoustProperties {
     public float getDurationSeconds(JoustData.Stage stage) {
         return switch (stage) {
             case NONE -> 1.0F;
-            case EQUIP -> EQUIP_DURATION / equipSpeed;
             case ENGAGED -> ENGAGED_DURATION / engagedSpeed;
             case TIRED -> TIRED_DURATION / tiredSpeed;
             case DISENGAGED -> DISENGAGED_DURATION / disengagedSpeed;
         };
+    }
+    
+    public int getEquipDurationTicks() {
+        return CMUtil.secondsToTicks(EQUIP_DURATION / equipSpeed);
     }
 
     public int getDurationTicks(JoustData.Stage stage) {
@@ -127,8 +129,7 @@ public class JoustProperties {
     }
 
     public int getTotalDuration() {
-        return CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.EQUIP)) + 
-                CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.ENGAGED)) +
+        return CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.ENGAGED)) +
                 CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.TIRED)) +
                 CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.DISENGAGED));
     }

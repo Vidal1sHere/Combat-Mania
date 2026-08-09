@@ -34,10 +34,10 @@ public class SpearAnimations {
                 ))
                 .build();
     }
-    
-    public static ItemAnimationDefinition joustEquip() {
+
+    public static ItemAnimationDefinition joustEngaged() {
         return ItemAnimationDefinition.Builder
-                .withLength(JoustProperties.EQUIP_DURATION)
+                .withLength(JoustProperties.ENGAGED_DURATION)
                 .pivot(SPEAR_PIVOT)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
@@ -52,21 +52,6 @@ public class SpearAnimations {
                         new Keyframe(0.1f, KeyframeVecs.degreeVec(5.0F, -2.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.25f, KeyframeVecs.degreeVec(-75f, 90.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.45f, KeyframeVecs.degreeVec(-65f, 90.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
-                ))
-                .build();
-    }
-
-    public static ItemAnimationDefinition joustEngaged() {
-        return ItemAnimationDefinition.Builder
-                .withLength(JoustProperties.ENGAGED_DURATION)
-                .pivot(SPEAR_PIVOT)
-                .addChannel("position", new ItemAnimationChannel(
-                        ItemAnimationTarget.Targets.POSITION,
-                        new Keyframe(0.0f, KeyframeVecs.posVec(0, 0, 0.02f), AnimationChannel.Interpolations.LINEAR)
-                ))
-                .addChannel("rotation", new ItemAnimationChannel(
-                        ItemAnimationTarget.Targets.ROTATION,
-                        new Keyframe(0, KeyframeVecs.degreeVec(-65f, 90.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .build();
     }
@@ -102,8 +87,8 @@ public class SpearAnimations {
                 ))
                 .addChannel("rotation", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.ROTATION,
-                        new Keyframe(0f, KeyframeVecs.degreeVec(-65f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.6f, KeyframeVecs.degreeVec(-65f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0f, KeyframeVecs.degreeVec(-65f, 5.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.6f, KeyframeVecs.degreeVec(-65f, 5.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.85f, KeyframeVecs.degreeVec(-45f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(1.1f, KeyframeVecs.degreeVec(-100f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(3.25f, KeyframeVecs.degreeVec(-100f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
