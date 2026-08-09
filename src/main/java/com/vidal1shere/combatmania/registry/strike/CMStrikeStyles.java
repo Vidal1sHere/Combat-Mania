@@ -1,7 +1,10 @@
 package com.vidal1shere.combatmania.registry.strike;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
+import com.vidal1shere.combatmania.client.animation.item.SwordAnimations;
 import com.vidal1shere.combatmania.item.DaggerItem;
+import com.vidal1shere.combatmania.item.GlaiveItem;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
@@ -41,6 +44,14 @@ public class CMStrikeStyles {
                     .set(SweepStrikeStyle.CAN_SPRINT_KNOCKBACK, false)
                     .set(SweepStrikeStyle.SWEEP_PARTICLE, DaggerItem::sweepParticle)
                     .overlap(false)
+                    .build()));
+
+    public static final DeferredHolder<StrikeStyle, SweepStrikeStyle> GLAIVE_SWEEP =
+            STRIKE_STYLES.register("glaive_sweep", () -> new SweepStrikeStyle(StrikeProperties.builder()
+                    .minStrengthScale(0.25F)
+                    .swingHand(false)
+                    .overlap(false)
+                    .set(SweepStrikeStyle.ANIMATION_GETTER, GlaiveItem::glaiveAnimation)
                     .build()));
 
     public static final DeferredHolder<StrikeStyle, CleaveStrikeStyle> CLEAVE =

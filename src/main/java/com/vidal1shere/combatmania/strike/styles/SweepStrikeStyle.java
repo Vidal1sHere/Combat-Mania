@@ -1,10 +1,11 @@
 package com.vidal1shere.combatmania.strike.styles;
 
+import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import net.minecraft.core.particles.ParticleOptions;
+import com.vidal1shere.combatmania.util.AnimationGetter;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,13 +44,15 @@ public class SweepStrikeStyle extends StrikeStyle {
     public static final Key<Boolean> CAN_SPRINT_KNOCKBACK = new Key<>(true);
     public static final Key<Vec3> SWEEP_HITBOX = new Key<>(new Vec3(1.0, 0.25, 1.0));
     public static final Key<BiConsumer<Player, LivingEntity>> SWEEP_PARTICLE = new Key<>((p, t) -> 
-            sweepParticle(p, !p.onGround()));
+            sweepParticle(p, p.onGround()));
     public static final Key<SoundEvent> SWEEP_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_SWEEP);
     public static final Key<SoundEvent> CRIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_CRIT);
     public static final Key<SoundEvent> WEAK_HIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_WEAK);
     public static final Key<SoundEvent> STRONG_HIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_STRONG);
     public static final Key<SoundEvent> MISS_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_NODAMAGE);
     public static final Key<SoundEvent> KNOCKBACK_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_KNOCKBACK);
+    public static final Key<AnimationGetter> ANIMATION_GETTER = new Key<>(
+            (s, h, p, st) -> null);
 
     public SweepStrikeStyle(StrikeProperties properties) {
         super(properties);
@@ -261,6 +264,14 @@ public class SweepStrikeStyle extends StrikeStyle {
         }
 
         player.causeFoodExhaustion(0.1F);
+    }
+
+    @Override
+    public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
+        if (swingHand()) return;
+        
+        state.setActiveDefinition(properties().get(ANIMATION_GETTER).get(stack, hand, player, state));
+        state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
     }
 
     private float getKnockbackStrength(Player player, ItemStack itemstack, Entity target, DamageSource damagesource) {

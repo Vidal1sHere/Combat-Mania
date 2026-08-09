@@ -35,12 +35,13 @@ public record ItemAnimationDefinition(float lengthInSeconds, Map<String, List<It
     }
 
     public static ItemAnimationDefinition debug(float length) {
-        return ItemAnimationDefinition.Builder
+        return Builder
                 .withLength(length)
+                .debug()
                 .pivot(0.63f, -0.5f, -0.72f)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
-                        new Keyframe(length, KeyframeVecs.posVec(0.0f, 0.0f, -2.0f), AnimationChannel.Interpolations.LINEAR)
+                        new Keyframe(length, KeyframeVecs.posVec(0.0f, 0.0f, -1.0f), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .addChannel("rotation", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.ROTATION,

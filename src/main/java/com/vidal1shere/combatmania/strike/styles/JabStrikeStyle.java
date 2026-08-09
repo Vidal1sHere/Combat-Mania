@@ -1,8 +1,8 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
+import com.vidal1shere.combatmania.util.AnimationGetter;
 import com.vidal1shere.combatmania.util.CMUtil;
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
@@ -22,7 +22,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -47,8 +46,8 @@ public class JabStrikeStyle extends StrikeStyle {
     public static final Key<SoundEvent> LIGHT_JAB_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_JAB.get());
     public static final Key<SoundEvent> HIT_SOUND = new Key<>(CMSounds.SPEAR_HIT.get());
     public static final Key<SoundEvent> LIGHT_HIT_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_HIT.get());
-    public static final Key<AnimationGetter> ANIMATION_GETTER = new Key<>((s, h, p, st) -> 
-            SpearAnimations.spearJab());
+    public static final Key<AnimationGetter> ANIMATION_GETTER = new Key<>(
+            (s, h, p, st) -> SpearAnimations.jab());
 
     public JabStrikeStyle(StrikeProperties properties) {
         super(properties);
@@ -192,10 +191,5 @@ public class JabStrikeStyle extends StrikeStyle {
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
         state.setActiveDefinition(properties().get(ANIMATION_GETTER).get(stack, hand, player, state));
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
-    }
-    
-    @FunctionalInterface
-    public interface AnimationGetter {
-        ItemAnimationDefinition get(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state);
     }
 }

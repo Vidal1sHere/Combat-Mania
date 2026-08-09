@@ -12,14 +12,14 @@ import org.joml.Vector3f;
 public class SpearAnimations {
     public static final Vector3f SPEAR_PIVOT = new Vector3f(0.75f, -0.5f, -0.7f);
     
-    public static ItemAnimationDefinition spearJab() {
+    public static ItemAnimationDefinition jab() {
         return ItemAnimationDefinition.Builder
                 .withLength(1.0f)
                 .pivot(SPEAR_PIVOT)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.1f, KeyframeVecs.posVec(0.0f, -0.25f, 0.11f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.posVec(0.0f, -0.25f, 0.2f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.15f, KeyframeVecs.posVec(0.0f, -0.25f, 0f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.2f, KeyframeVecs.posVec(0.0f, -0.25f, 0.11f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.75f, KeyframeVecs.posVec(0.0f, -0.25f, 0.11f), AnimationChannel.Interpolations.LINEAR),
@@ -31,6 +31,49 @@ public class SpearAnimations {
                         new Keyframe(0.1f, KeyframeVecs.degreeVec(-70f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.75f, KeyframeVecs.degreeVec(-70f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(1.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .build();
+    }
+
+    public static ItemAnimationDefinition sweep() {
+        return ItemAnimationDefinition.Builder
+                .withLength(0.5f)
+                .pivot(SPEAR_PIVOT)
+                .addChannel("position", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.POSITION,
+                        new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.posVec(-1.0f, -0.15f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.25f, KeyframeVecs.posVec(-1.0f, -0.1f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.5f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .addChannel("rotation", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.ROTATION,
+                        new Keyframe(0.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.degreeVec(0.0f, 190.0f, -90.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.25f, KeyframeVecs.degreeVec(0.0f, 160.0f, -90.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.5f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .build();
+    }
+
+    public static ItemAnimationDefinition whack() {
+        return ItemAnimationDefinition.Builder
+                .withLength(0.5f)
+                .pivot(SPEAR_PIVOT)
+                .addChannel("position", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.POSITION,
+                        new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.posVec(0.0f, -0.5f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.15f, KeyframeVecs.posVec(0.0f, 0.2f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.25f, KeyframeVecs.posVec(0.0f, -0.2f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.5f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .addChannel("rotation", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.ROTATION,
+                        new Keyframe(0.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.degreeVec(30.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.15f, KeyframeVecs.degreeVec(-130.0f, 0.0f, 40.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.5f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .build();
     }
