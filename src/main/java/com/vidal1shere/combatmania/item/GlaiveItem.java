@@ -8,7 +8,6 @@ import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.util.AnimationGetter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;

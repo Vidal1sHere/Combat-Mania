@@ -5,7 +5,7 @@ import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.util.AnimationGetter;
+import com.vidal1shere.combatmania.util.AnimationSupplier;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -51,7 +51,7 @@ public class SweepStrikeStyle extends StrikeStyle {
     public static final Key<SoundEvent> STRONG_HIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_STRONG);
     public static final Key<SoundEvent> MISS_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_NODAMAGE);
     public static final Key<SoundEvent> KNOCKBACK_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_KNOCKBACK);
-    public static final Key<AnimationGetter> ANIMATION_GETTER = new Key<>(
+    public static final Key<AnimationSupplier> ANIMATION_GETTER = new Key<>(
             (s, h, p, st) -> null);
 
     public SweepStrikeStyle(StrikeProperties properties) {

@@ -1,7 +1,7 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
-import com.vidal1shere.combatmania.util.AnimationGetter;
+import com.vidal1shere.combatmania.util.AnimationSupplier;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
@@ -46,7 +46,7 @@ public class JabStrikeStyle extends StrikeStyle {
     public static final Key<SoundEvent> LIGHT_JAB_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_JAB.get());
     public static final Key<SoundEvent> HIT_SOUND = new Key<>(CMSounds.SPEAR_HIT.get());
     public static final Key<SoundEvent> LIGHT_HIT_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_HIT.get());
-    public static final Key<AnimationGetter> ANIMATION_GETTER = new Key<>(
+    public static final Key<AnimationSupplier> ANIMATION_GETTER = new Key<>(
             (s, h, p, st) -> SpearAnimations.jab());
 
     public JabStrikeStyle(StrikeProperties properties) {
