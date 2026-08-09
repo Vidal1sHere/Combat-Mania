@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.item;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
+import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
@@ -82,18 +83,20 @@ public class DaggerItem extends TieredItem implements IStrikeWeapon {
                 .build();
     }
     
-    public static boolean backStabQueued(ItemStack stack) {
-        return stack.getOrDefault(CMDataComponents.BACK_STAB.get(), false);
+    public static boolean backStabQueued(Player player) {
+        return player.getData(CMAttachments.BACKSTAB);
+    }
+
+    public static void queueBackStab(Player player) {
+        player.setData(CMAttachments.BACKSTAB, true);
+        player.syncData(CMAttachments.BACKSTAB);
     }
     
-    public static void queueBackStab(ItemStack stack) {
-        stack.set(CMDataComponents.BACK_STAB, true);
+    public static void clearBackStab(Player player) {
+        player.setData(CMAttachments.BACKSTAB, false);
+        player.syncData(CMAttachments.BACKSTAB);
     }
-
-    public static void clearBackStab(ItemStack stack) {
-        stack.remove(CMDataComponents.BACK_STAB);
-    }
-
+    
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
         return !player.isCreative();
     }

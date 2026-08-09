@@ -156,12 +156,7 @@ public class StabStrikeStyle extends StrikeStyle {
         }
 
         if (backstab) {
-            DaggerItem.queueBackStab(itemstack);
-            ServerPlayer serverPlayer = (ServerPlayer) player;
-            serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(
-                    -2, 0, serverPlayer.getInventory().selected, itemstack
-            ));
-            DaggerItem.clearBackStab(itemstack);
+            DaggerItem.queueBackStab(player);
             
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
@@ -219,8 +214,8 @@ public class StabStrikeStyle extends StrikeStyle {
 
     @Override
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-        state.setActiveDefinition(DaggerItem.backStabQueued(stack) ? DaggerAnimations.backStab() : DaggerAnimations.stab());
+        state.setActiveDefinition(DaggerItem.backStabQueued(player) ? DaggerAnimations.backStab() : DaggerAnimations.stab());
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
-        DaggerItem.clearBackStab(stack);
+        DaggerItem.clearBackStab(player);
     }
 }

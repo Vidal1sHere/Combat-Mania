@@ -5,6 +5,7 @@ import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -32,6 +33,11 @@ public class CMAttachments {
             ATTACHMENT_TYPES.register("joust",
                     () -> AttachmentType.builder(() -> new JoustData())
                             .sync(JoustData.STREAM_CODEC).build());
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> BACKSTAB =
+            ATTACHMENT_TYPES.register("backstab",
+                    () -> AttachmentType.builder(() -> false)
+                            .sync(ByteBufCodecs.BOOL).build());
 
     public static void register(IEventBus eventBus) {
         ATTACHMENT_TYPES.register(eventBus);

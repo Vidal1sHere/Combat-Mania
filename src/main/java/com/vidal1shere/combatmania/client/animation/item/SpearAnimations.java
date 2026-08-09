@@ -19,8 +19,8 @@ public class SpearAnimations {
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.1f, KeyframeVecs.posVec(0.0f, -0.25f, 0.2f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.15f, KeyframeVecs.posVec(0.0f, -0.25f, 0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.posVec(0.0f, -0.25f, 0.5f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.15f, KeyframeVecs.posVec(0.0f, -0.25f, -0.11f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.2f, KeyframeVecs.posVec(0.0f, -0.25f, 0.11f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.75f, KeyframeVecs.posVec(0.0f, -0.25f, 0.11f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(1.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
@@ -86,7 +86,6 @@ public class SpearAnimations {
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.15f, KeyframeVecs.posVec(0.0f, 0.1f, 0.035f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.15f, KeyframeVecs.posVec(0.0f, 0.1f, 0.03f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.35f, KeyframeVecs.posVec(0, 0, 0.02f), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .addChannel("rotation", new ItemAnimationChannel(
