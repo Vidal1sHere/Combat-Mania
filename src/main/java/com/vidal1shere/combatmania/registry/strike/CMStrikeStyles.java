@@ -4,6 +4,7 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 import com.vidal1shere.combatmania.item.DaggerItem;
 import com.vidal1shere.combatmania.item.GlaiveItem;
+import com.vidal1shere.combatmania.item.LanceItem;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
@@ -95,6 +96,14 @@ public class CMStrikeStyles {
                     .swingHand(false)
                     .lowerHand(true)
                     .overlap(true)
+                    .build()));
+
+    public static final DeferredHolder<StrikeStyle, JoustStrikeStyle> LANCE_JOUST =
+            STRIKE_STYLES.register("lance_joust", () -> new JoustStrikeStyle(StrikeProperties.builder()
+                    .speedAttribute(CMAttributes.JOUST_SPEED)
+                    .swingHand(false)
+                    .lowerHand(true)
+                    .set(JoustStrikeStyle.ANIMATION_FUNCTION, LanceItem::joustAnimation)
                     .build()));
 
     public static void register(IEventBus eventBus) {

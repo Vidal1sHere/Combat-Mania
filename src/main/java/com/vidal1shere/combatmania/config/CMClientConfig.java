@@ -15,7 +15,11 @@ public class CMClientConfig {
 
     public static final ModConfigSpec.BooleanValue DAGGER_ITEMS = BUILDER
             .comment("Add dagger items in the creative menu")
-            .define("daggerItems", false);    
+            .define("daggerItems", false);
+
+    public static final ModConfigSpec.BooleanValue LANCE_ITEMS = BUILDER
+            .comment("Add lance items in the creative menu")
+            .define("lanceItems", false);
 
     public static final ModConfigSpec.BooleanValue TWO_DIMENSIONAL_TRIDENT = BUILDER
             .comment("Makes the trident two-dimensional to match spears and glaives")

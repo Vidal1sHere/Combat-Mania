@@ -1,10 +1,7 @@
 package com.vidal1shere.combatmania.registry.item;
 
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.item.DaggerItem;
-import com.vidal1shere.combatmania.item.GlaiveItem;
-import com.vidal1shere.combatmania.item.SpearItem;
-import com.vidal1shere.combatmania.item.StrikeSwordItem;
+import com.vidal1shere.combatmania.item.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.bus.api.IEventBus;
@@ -67,6 +64,31 @@ public class CMItems {
     public static final DeferredItem<GlaiveItem> DIAMOND_GLAIVE = ITEMS.register(
             "diamond_glaive", () -> new GlaiveItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
                     .attributes(GlaiveItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F, -3.0F, -3.05F)))
+    );
+
+    public static final DeferredItem<LanceItem> WOODEN_LANCE = ITEMS.register(
+            "wooden_lance", () -> new LanceItem(CMExtendedToolTiers.WOOD, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.WOOD, 3.0F, -2.8F)))
+    );
+
+    public static final DeferredItem<LanceItem> STONE_LANCE = ITEMS.register(
+            "stone_lance", () -> new LanceItem(CMExtendedToolTiers.STONE, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.STONE, 3.0F, -2.8F)))
+    );
+
+    public static final DeferredItem<LanceItem> GOLDEN_LANCE = ITEMS.register(
+            "golden_lance", () -> new LanceItem(CMExtendedToolTiers.GOLD, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.GOLD, 3.0F, -2.8F)))
+    );
+
+    public static final DeferredItem<LanceItem> IRON_LANCE = ITEMS.register(
+            "iron_lance", () -> new LanceItem(CMExtendedToolTiers.IRON, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.IRON, 3.0F, -2.8F)))
+    );
+
+    public static final DeferredItem<LanceItem> DIAMOND_LANCE = ITEMS.register(
+            "diamond_lance", () -> new LanceItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.DIAMOND, 3.0F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> WOODEN_SPEAR = ITEMS.register(

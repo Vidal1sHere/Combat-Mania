@@ -1,0 +1,6 @@
+{
+  "parent": "combat_mania:item/handheld_lance",
+  "textures": {
+    "layer0": "combat_mania:item/golden_lance_in_hand"
+  }
+}

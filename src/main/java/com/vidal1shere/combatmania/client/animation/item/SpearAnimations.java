@@ -102,9 +102,21 @@ public class SpearAnimations {
     }
 
     public static ItemAnimationDefinition joustEngaged() {
+        return joustEngaged(SPEAR_PIVOT);
+    }
+    
+    public static ItemAnimationDefinition joustTired() {
+        return joustTired(SPEAR_PIVOT);
+    }
+
+    public static ItemAnimationDefinition joustDisengaged() {
+        return joustDisengaged(SPEAR_PIVOT);
+    }
+
+    public static ItemAnimationDefinition joustEngaged(Vector3f pivot) {
         return ItemAnimationDefinition.Builder
                 .withLength(JoustProperties.ENGAGED_DURATION)
-                .pivot(SPEAR_PIVOT)
+                .pivot(pivot)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
@@ -121,10 +133,10 @@ public class SpearAnimations {
                 .build();
     }
 
-    public static ItemAnimationDefinition joustTired() {
+    public static ItemAnimationDefinition joustTired(Vector3f pivot) {
         return ItemAnimationDefinition.Builder
                 .withLength(JoustProperties.TIRED_DURATION)
-                .pivot(SPEAR_PIVOT)
+                .pivot(pivot)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0, 0, 0.02f), AnimationChannel.Interpolations.LINEAR)
@@ -138,10 +150,10 @@ public class SpearAnimations {
                 .build();
     }
 
-    public static ItemAnimationDefinition joustDisengaged() {
+    public static ItemAnimationDefinition joustDisengaged(Vector3f pivot) {
         return ItemAnimationDefinition.Builder
                 .withLength(JoustProperties.DISENGAGED_DURATION)
-                .pivot(SPEAR_PIVOT)
+                .pivot(pivot)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
                         new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.02f), AnimationChannel.Interpolations.LINEAR),

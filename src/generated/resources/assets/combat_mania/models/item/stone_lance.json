@@ -1,0 +1,30 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "combat_mania:item/handheld_lance",
+    "textures": {
+      "layer0": "combat_mania:item/stone_lance_in_hand"
+    }
+  },
+  "loader": "neoforge:separate_transforms",
+  "perspectives": {
+    "fixed": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/stone_lance"
+      }
+    },
+    "ground": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/stone_lance"
+      }
+    },
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/stone_lance"
+      }
+    }
+  }
+}

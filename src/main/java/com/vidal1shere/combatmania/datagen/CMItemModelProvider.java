@@ -54,6 +54,12 @@ public class CMItemModelProvider extends ItemModelProvider {
         spearItem(CMItems.GOLDEN_GLAIVE);
         spearItem(CMItems.IRON_GLAIVE);
         spearItem(CMItems.DIAMOND_GLAIVE);
+
+        lanceItem(CMItems.WOODEN_LANCE);
+        lanceItem(CMItems.STONE_LANCE);
+        lanceItem(CMItems.GOLDEN_LANCE);
+        lanceItem(CMItems.IRON_LANCE);
+        lanceItem(CMItems.DIAMOND_LANCE);
         
         spearItem(CMItems.WOODEN_SPEAR);
         spearItem(CMItems.STONE_SPEAR);
@@ -130,38 +136,20 @@ public class CMItemModelProvider extends ItemModelProvider {
                 .texture("layer0", CMUtil.modResLoc("item/" + item.getId().getPath()));
     }
 
-    private void claymoreItem(DeferredItem<?> item) {
-        String itemName = item.getId().getPath();
-        ResourceLocation claymoreTexture = CMUtil.modResLoc("item/" + itemName);
-        ResourceLocation claymoreInHandBase = CMUtil.modResLoc("item/handheld_claymore");
-
-        ItemModelBuilder onHandModel = this.withExistingParent(itemName + "_in_hand", claymoreInHandBase)
-                .texture("layer0", CMUtil.modResLoc("item/" + itemName + "_in_hand"));
-
-        this.withExistingParent(itemName, mcLoc("item/handheld"))
-                .customLoader(SeparateTransformsModelBuilder::begin)
-                .base(onHandModel)
-                .perspective(ItemDisplayContext.GUI,
-                        this.withExistingParent(itemName + "_gui", mcLoc("item/generated"))
-                                .texture("layer0", claymoreTexture)
-                )
-                .perspective(ItemDisplayContext.GROUND,
-                        this.withExistingParent(itemName + "_ground", mcLoc("item/generated"))
-                                .texture("layer0", claymoreTexture)
-                )
-                .perspective(ItemDisplayContext.FIXED,
-                        this.withExistingParent(itemName + "_fixed", mcLoc("item/generated"))
-                                .texture("layer0", claymoreTexture)
-                )
-                .end();
+    private void spearItem(DeferredItem<?> item) {
+        handheldTransformedItem(item, "spear");
     }
 
-    private void spearItem(DeferredItem<?> item) {
+    private void lanceItem(DeferredItem<?> item) {
+        handheldTransformedItem(item, "lance");
+    }
+    
+    private void handheldTransformedItem(DeferredItem<?> item, String handHeldName) {
         String itemName = item.getId().getPath();
-        ResourceLocation spearTexture = CMUtil.modResLoc("item/" + itemName);
-        ResourceLocation spearInHandBase = CMUtil.modResLoc("item/handheld_spear");
+        ResourceLocation texture = CMUtil.modResLoc("item/" + itemName);
+        ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld_" + handHeldName);
 
-        ItemModelBuilder onHandModel = this.withExistingParent(itemName + "_in_hand", spearInHandBase)
+        ItemModelBuilder onHandModel = this.withExistingParent(itemName + "_in_hand", inHandBase)
                 .texture("layer0", CMUtil.modResLoc("item/" + itemName + "_in_hand"));
 
         this.withExistingParent(itemName, mcLoc("item/handheld"))
@@ -169,15 +157,15 @@ public class CMItemModelProvider extends ItemModelProvider {
                 .base(onHandModel)
                 .perspective(ItemDisplayContext.GUI,
                         this.withExistingParent(itemName + "_gui", mcLoc("item/generated"))
-                                .texture("layer0", spearTexture)
+                                .texture("layer0", texture)
                 )
                 .perspective(ItemDisplayContext.GROUND,
                         this.withExistingParent(itemName + "_ground", mcLoc("item/generated"))
-                                .texture("layer0", spearTexture)
+                                .texture("layer0", texture)
                 )
                 .perspective(ItemDisplayContext.FIXED,
                         this.withExistingParent(itemName + "_fixed", mcLoc("item/generated"))
-                                .texture("layer0", spearTexture)
+                                .texture("layer0", texture)
                 )
                 .end();
     }

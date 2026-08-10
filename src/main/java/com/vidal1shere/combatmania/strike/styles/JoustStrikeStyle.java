@@ -60,6 +60,7 @@ public class JoustStrikeStyle extends StrikeStyle {
     public static final Key<SoundEvent> LIGHT_ENGAGE_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_USE.get());
     public static final Key<SoundEvent> HIT_SOUND = new Key<>(CMSounds.SPEAR_HIT.get());
     public static final Key<SoundEvent> LIGHT_HIT_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_HIT.get());
+    public static final Key<JoustAnimationFunction> ANIMATION_FUNCTION = new Key<>(JoustStrikeStyle::defaultJoustAnimation);
     
     public JoustStrikeStyle(StrikeProperties properties) {
         super(StrikeProperties.builder(properties)
@@ -320,7 +321,11 @@ public class JoustStrikeStyle extends StrikeStyle {
     @Override
     public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
         JoustData data = player.getData(CMAttachments.JOUST);
-        return switch (data.getStage()) {
+        return properties().get(ANIMATION_FUNCTION).get(data.getStage());
+    }
+    
+    public static ItemAnimationDefinition defaultJoustAnimation(JoustData.Stage stage) {
+        return switch (stage) {
             case NONE -> null;
             case ENGAGED -> SpearAnimations.joustEngaged();
             case TIRED -> SpearAnimations.joustTired();
@@ -378,5 +383,10 @@ public class JoustStrikeStyle extends StrikeStyle {
                                      float damage, DamageSource damageSource) {
         if (!(player.level() instanceof ServerLevel sl)) return damage;
         return EnchantmentHelper.modifyDamage(sl, weapon, entity, damageSource, damage);
+    }
+    
+    @FunctionalInterface
+    public interface JoustAnimationFunction {
+        ItemAnimationDefinition get(JoustData.Stage stage);
     }
 }

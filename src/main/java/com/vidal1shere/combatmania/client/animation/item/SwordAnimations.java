@@ -30,4 +30,16 @@ public class SwordAnimations {
                 ))
                 .build();
     }
+
+    public static ItemAnimationDefinition joustEngaged() {
+        return SpearAnimations.joustEngaged(SWORD_PIVOT);
+    }
+
+    public static ItemAnimationDefinition joustTired() {
+        return SpearAnimations.joustTired(SWORD_PIVOT);
+    }
+
+    public static ItemAnimationDefinition joustDisengaged() {
+        return SpearAnimations.joustDisengaged(SWORD_PIVOT);
+    }
 }
