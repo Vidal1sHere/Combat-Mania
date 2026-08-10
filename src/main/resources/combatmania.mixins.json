@@ -5,11 +5,15 @@
   "mixins": [
     "EntityMixin",
     "PlayerMixin",
-    "ServerPlayerMixin"
+    "ServerPlayerMixin",
+    "SwordItemMixin",
+    "AxeItemMixin",
+    "TridentItemMixin"
   ],
   "client": [
     "client.MinecraftMixin",
-    "client.MinecraftAccessor",
+    "client.ItemRendererMixin",
+    "client.BlockEntityWithoutLevelRendererMixin",
     "client.ItemInHandRendererMixin",
     "client.GuiMixin"
   ],

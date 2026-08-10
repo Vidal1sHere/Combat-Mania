@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.network;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.api.IVanillaStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
@@ -72,12 +73,13 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 ItemStack stack = player.getMainHandItem();
 
                 if (payload.action() == Action.STOP) {
-                    if (!(stack.getItem() instanceof IStrikeWeapon weapon)) {
+                    if (!IStrikeWeapon.isStrikeWeapon(stack)) {
                         strikeData.setActive(slot, false);
                         player.syncData(CMAttachments.STRIKE);
                         return;
                     }
 
+                    IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
                     DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder =
                             payload.isPrimary() ? weapon.getPrimaryStyle() : weapon.getSecondaryStyle();
 
@@ -112,8 +114,11 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     return;
                 }
 
-                if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
+                if (!IStrikeWeapon.isStrikeWeapon(stack)) {
+                    return;
+                }
 
+                IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
                 DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder =
                         payload.isPrimary() ? weapon.getPrimaryStyle() : weapon.getSecondaryStyle();
 
@@ -200,8 +205,9 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 }
 
                 ItemStack stack = player.getMainHandItem();
-                if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
-
+                if (!IStrikeWeapon.isStrikeWeapon(stack)) return;
+                
+                IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
                 DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = payload.isPrimary() ?
                         weapon.getPrimaryStyle() :
                         weapon.getSecondaryStyle();

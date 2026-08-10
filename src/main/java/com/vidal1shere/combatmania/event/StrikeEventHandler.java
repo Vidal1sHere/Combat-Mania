@@ -2,18 +2,15 @@ package com.vidal1shere.combatmania.event;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
-import com.vidal1shere.combatmania.data.attachment.JoustData;
-import com.vidal1shere.combatmania.data.attachment.StaggerData;
+import com.vidal1shere.combatmania.api.IVanillaStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.network.StrikePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.strike.styles.JoustStrikeStyle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +23,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -45,9 +41,10 @@ public class StrikeEventHandler {
                 return;
 
             ItemStack stack = player.getItemInHand(event.getHand());
-            if (!(stack.getItem() instanceof IStrikeWeapon weapon))
+            if (!IStrikeWeapon.isStrikeWeapon(stack))
                 return;
 
+            IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem(); 
             DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder;
             StrikeSlot slot;
 
@@ -55,8 +52,9 @@ public class StrikeEventHandler {
                 slot = StrikeSlot.PRIMARY;
             } else if (event.isUseItem()) {
                 slot = StrikeSlot.SECONDARY;
-            } else
+            } else {
                 return;
+            }
 
             styleHolder = weapon.getStyle(slot);
             if (styleHolder == null)
@@ -114,13 +112,15 @@ public class StrikeEventHandler {
             
             boolean isPrimary = slot == StrikeSlot.PRIMARY;
 
-            if (!(stack.getItem() instanceof IStrikeWeapon weapon)) {
+            if (!IStrikeWeapon.isStrikeWeapon(stack)) {
                 PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, isPrimary, -1));
                 return;
             }
-
+            
+            IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
             DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = weapon.getStyle(slot);
             if (styleHolder == null) {
+                PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, isPrimary, -1));
                 return;
             }
 
@@ -142,8 +142,9 @@ public class StrikeEventHandler {
         if (player.level().isClientSide()) return;
 
         ItemStack stack = player.getMainHandItem();
-        if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
+        if (!IStrikeWeapon.isStrikeWeapon(stack)) return;
 
+        IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem(); 
         StrikeData strikeData = player.getData(CMAttachments.STRIKE);
 
         strikeData.tickActive();
@@ -179,10 +180,13 @@ public class StrikeEventHandler {
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         Player player = event.getEntity();
         ItemStack stack = player.getMainHandItem();
-        if (!(stack.getItem() instanceof IStrikeWeapon weapon)) return;
-
+        if (!IStrikeWeapon.isStrikeWeapon(stack)) return;
+        
+        IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
         StrikeData strikeData = player.getData(CMAttachments.STRIKE);
-        if (strikeData.isBlocked(StrikeSlot.SECONDARY, weapon)) event.setCanceled(true);
+        if (strikeData.isBlocked(StrikeSlot.SECONDARY, weapon)) {
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)

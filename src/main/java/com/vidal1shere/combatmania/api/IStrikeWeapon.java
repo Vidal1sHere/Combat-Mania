@@ -33,22 +33,22 @@ public interface IStrikeWeapon extends IAnimatedItem {
     }
 
     default void setActiveStyle(ItemStack stack, StrikeStyle style) {
-        if (!(stack.getItem() instanceof IStrikeWeapon)) return;
+        if (!IStrikeWeapon.isStrikeWeapon(stack)) return;
         stack.set(CMDataComponents.ACTIVE_STRIKE_STYLE.get(), styleToId(style));
     }
 
     default StrikeStyle getActiveStyle(ItemStack stack) {
-        if (!(stack.getItem() instanceof IStrikeWeapon)) return null;
+        if (!IStrikeWeapon.isStrikeWeapon(stack)) return null;
         return idToStyle(stack.getOrDefault(CMDataComponents.ACTIVE_STRIKE_STYLE.get(), -1));
     }
 
     default void setLastUsedStyle(ItemStack stack, StrikeStyle style) {
-        if (!(stack.getItem() instanceof IStrikeWeapon)) return;
+        if (!IStrikeWeapon.isStrikeWeapon(stack)) return;
         stack.set(CMDataComponents.LAST_USED_STRIKE_STYLE.get(), styleToId(style));
     }
 
     default StrikeStyle getLastUsedStyle(ItemStack stack) {
-        if (!(stack.getItem() instanceof IStrikeWeapon)) return null;
+        if (!IStrikeWeapon.isStrikeWeapon(stack)) return null;
         return idToStyle(stack.getOrDefault(CMDataComponents.LAST_USED_STRIKE_STYLE.get(), -1));
     }
 
@@ -75,5 +75,13 @@ public interface IStrikeWeapon extends IAnimatedItem {
         StrikeStyle style = getLastUsedStyle(stack);
         if (style == null) return 1.0F;
         return style.getAnimationSpeed(stack, hand, player, state);
+    }
+    
+    static boolean isStrikeWeapon(ItemStack stack) {
+        if (stack.getItem() instanceof IVanillaStrikeWeapon weapon) {
+            return weapon.isEnabled();
+        }
+        
+        return stack.getItem() instanceof IStrikeWeapon;
     }
 }

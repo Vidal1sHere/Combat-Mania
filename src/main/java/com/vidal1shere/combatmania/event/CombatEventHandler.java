@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.event;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.api.IVanillaStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
@@ -38,7 +39,7 @@ public class CombatEventHandler {
             ItemStack stack = player.getMainHandItem();
             boolean changed = false;
 
-            if (!(stack.getItem() instanceof IStrikeWeapon)) {
+            if (!IStrikeWeapon.isStrikeWeapon(stack)) {
                 changed = true;
             } else if (!(((IStrikeWeapon) stack.getItem()).getActiveStyle(stack) instanceof JoustStrikeStyle)) {
                 changed = true;

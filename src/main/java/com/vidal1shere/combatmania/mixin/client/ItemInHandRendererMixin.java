@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.mixin.client;
 
 import com.vidal1shere.combatmania.api.IAnimatedItem;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.api.IVanillaStrikeWeapon;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -24,6 +25,10 @@ public class ItemInHandRendererMixin {
             ordinal = 0
     )
     private float suppressAttackDip(float attackStrength) {
+        if (IVanillaStrikeWeapon.isVanillaDisabled(mainHandItem)) {
+            return attackStrength;
+        }
+        
         if (mainHandItem.getItem() instanceof IAnimatedItem) {
             return 1.0F;
         }

@@ -1,5 +1,7 @@
 package com.vidal1shere.combatmania;
 
+import com.vidal1shere.combatmania.config.CMClientConfig;
+import com.vidal1shere.combatmania.config.CMCommonConfig;
 import com.vidal1shere.combatmania.registry.block.CMBlocks;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
@@ -25,6 +27,9 @@ public class CombatMania {
     public static final String MOD_ID = "combat_mania";
     
     public CombatMania(IEventBus modEventBus, ModContainer modContainer) {
+        modContainer.registerConfig(ModConfig.Type.COMMON, CMCommonConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, CMClientConfig.SPEC);
+        
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
 
@@ -39,8 +44,6 @@ public class CombatMania {
         CMBlocks.register(modEventBus);
         CMParticles.register(modEventBus);
         CMSounds.register(modEventBus);
-
-        modContainer.registerConfig(ModConfig.Type.COMMON, CMConfig.SPEC);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
@@ -48,7 +51,7 @@ public class CombatMania {
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            if (CMConfig.DAGGER_ITEMS.get()) {
+            if (CMClientConfig.DAGGER_ITEMS.get()) {
                 event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.DIAMOND_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.GOLDEN_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.IRON_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -56,7 +59,7 @@ public class CombatMania {
                 event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.WOODEN_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
             
-            if (CMConfig.GLAIVE_ITEMS.get()) {
+            if (CMClientConfig.GLAIVE_ITEMS.get()) {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.DIAMOND_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.GOLDEN_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.IRON_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -64,7 +67,7 @@ public class CombatMania {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.WOODEN_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
 
-            if (CMConfig.SPEAR_ITEMS.get()) {
+            if (CMClientConfig.SPEAR_ITEMS.get()) {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.NETHERITE_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.DIAMOND_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.GOLDEN_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);

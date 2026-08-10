@@ -1,12 +1,20 @@
 package com.vidal1shere.combatmania.setup;
 
+import com.vidal1shere.combatmania.config.CMCommonConfig;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.network.StrikePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataMaps;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -23,6 +31,28 @@ public class CMEventSetup {
     @SubscribeEvent
     public static void registerDataMap(RegisterDataMapTypesEvent event) {
         CMDataMaps.register(event);
+    }
+    
+    @SubscribeEvent
+    public static void modifyItemAttributes(ItemAttributeModifierEvent event) {
+        ItemStack stack = event.getItemStack();
+        
+        if (stack.is(Items.TRIDENT)) {
+            if (!CMCommonConfig.MODIFY_TRIDENT.get()) {
+                return;
+            }
+            
+            event.removeModifier(Attributes.ATTACK_SPEED, Item.BASE_ATTACK_SPEED_ID);
+            event.addModifier(
+                    CMAttributes.JAB_SPEED,
+                    new AttributeModifier(
+                            CMAttributes.BASE_JAB_SPEED_ID,
+                            -2.95F,
+                            AttributeModifier.Operation.ADD_VALUE
+                    ),
+                    EquipmentSlotGroup.MAINHAND
+            );
+        }
     }
 
     @SubscribeEvent

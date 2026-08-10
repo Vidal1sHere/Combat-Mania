@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.registry.strike;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 import com.vidal1shere.combatmania.item.DaggerItem;
 import com.vidal1shere.combatmania.item.GlaiveItem;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
@@ -49,11 +50,12 @@ public class CMStrikeStyles {
                     .swingHand(false)
                     .overlap(false)
                     .set(SweepStrikeStyle.SWEEP_PARTICLE, GlaiveItem::sweepParticle)
-                    .set(SweepStrikeStyle.ANIMATION_GETTER, GlaiveItem::glaiveAnimation)
+                    .set(SweepStrikeStyle.ANIMATION_FUNCTION, GlaiveItem::glaiveAnimation)
                     .build()));
 
     public static final DeferredHolder<StrikeStyle, CleaveStrikeStyle> CLEAVE =
             STRIKE_STYLES.register("cleave", () -> new CleaveStrikeStyle(StrikeProperties.builder()
+                    .minStrengthScale(0.05F)
                     .overlap(true)
                     .build()));
     
@@ -76,6 +78,14 @@ public class CMStrikeStyles {
                     .speedAttribute(CMAttributes.JAB_SPEED)
                     .swingHand(false)
                     .overlap(true)
+                    .build()));
+
+    public static final DeferredHolder<StrikeStyle, JabStrikeStyle> TRIDENT_JAB =
+            STRIKE_STYLES.register("trident_jab", () -> new JabStrikeStyle(StrikeProperties.builder()
+                    .speedAttribute(CMAttributes.JAB_SPEED)
+                    .swingHand(false)
+                    .set(JabStrikeStyle.ANIMATION_FUNCTION, (i, h, p, s) -> 
+                            SpearAnimations.tridentJab())
                     .build()));
 
     public static final DeferredHolder<StrikeStyle, JoustStrikeStyle> JOUST =

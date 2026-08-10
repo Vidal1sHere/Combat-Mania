@@ -1,9 +1,11 @@
 package com.vidal1shere.combatmania.registry.item;
 
+import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.function.Function;
 
@@ -12,7 +14,10 @@ public class CMItemProperties {
 //        makeCustomBow(ModItems.RHODONITE_BOW.get());
 //        makeCustomBow(ModItems.BONE_BOW.get());
         
-        
+        ItemProperties.register(Items.TRIDENT, CMUtil.modResLoc("trident_2d"),
+                (stack, level, entity, seed) -> 
+                    CMClientConfig.TWO_DIMENSIONAL_TRIDENT.get() ? 1 : 0
+                );
     }
 
     private static <E extends Enum<E>> void makeEnumBasedItem(Item item, String name, Function<ItemStack, E> getter) {

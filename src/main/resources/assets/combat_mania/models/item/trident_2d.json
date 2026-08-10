@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "combat_mania:item/spear_in_hand",
+    "textures": {
+      "layer0": "combat_mania:item/trident_in_hand"
+    }
+  },
+  "loader": "neoforge:separate_transforms",
+  "perspectives": {
+    "fixed": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "minecraft:item/trident"
+      }
+    },
+    "ground": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "minecraft:item/trident"
+      }
+    },
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "minecraft:item/trident"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "predicate": { "minecraft:throwing": 1 },
+      "model": "combat_mania:item/trident_throwing_2d"
+    }
+  ]
+}

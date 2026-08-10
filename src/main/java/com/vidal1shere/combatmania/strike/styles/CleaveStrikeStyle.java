@@ -67,7 +67,7 @@ public class CleaveStrikeStyle extends StrikeStyle {
         float f = baseDamage * (0.2F + strengthScale * strengthScale * 0.8F);
         float f1 = enchBonus * strengthScale;
 
-        boolean fullStrength = strengthScale > 0.9F;
+        boolean fullStrength = strengthScale >= 1.0F;
 
         boolean sprintKnockback = false;
         if (player.isSprinting() && fullStrength) {

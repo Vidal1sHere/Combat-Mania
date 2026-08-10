@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/trident"
+  },
+  "overrides": [
+    {
+      "predicate": { "combat_mania:trident_2d": 1 },
+      "model": "combat_mania:item/trident_2d"
+    }
+  ]
+}

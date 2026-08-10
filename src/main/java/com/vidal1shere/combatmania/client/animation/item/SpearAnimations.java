@@ -78,6 +78,29 @@ public class SpearAnimations {
                 .build();
     }
 
+    public static ItemAnimationDefinition tridentJab() {
+        return ItemAnimationDefinition.Builder
+                .withLength(1.0f)
+                .pivot(SPEAR_PIVOT)
+                .addChannel("position", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.POSITION,
+                        new Keyframe(0.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.posVec(0.0f, -0.25f, 0.5f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.15f, KeyframeVecs.posVec(0.0f, -0.25f, -0.5f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.2f, KeyframeVecs.posVec(0.0f, -0.25f, -0.25f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.75f, KeyframeVecs.posVec(0.0f, -0.25f, -0.25f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(1.0f, KeyframeVecs.posVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .addChannel("rotation", new ItemAnimationChannel(
+                        ItemAnimationTarget.Targets.ROTATION,
+                        new Keyframe(0.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.degreeVec(-70f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.75f, KeyframeVecs.degreeVec(-70f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(1.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .build();
+    }
+
     public static ItemAnimationDefinition joustEngaged() {
         return ItemAnimationDefinition.Builder
                 .withLength(JoustProperties.ENGAGED_DURATION)

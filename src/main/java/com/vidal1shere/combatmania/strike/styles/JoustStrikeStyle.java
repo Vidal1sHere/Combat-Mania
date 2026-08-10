@@ -85,6 +85,7 @@ public class JoustStrikeStyle extends StrikeStyle {
     
     @Override
     public void onTick(StrikeContext ctx, int ticksHeld) {
+        System.out.println("I AM TICKING");
         Player player = ctx.player();
         ItemStack stack = ctx.itemStack();
         JoustProperties props = stack.getOrDefault(CMDataComponents.JOUST, new JoustProperties());
