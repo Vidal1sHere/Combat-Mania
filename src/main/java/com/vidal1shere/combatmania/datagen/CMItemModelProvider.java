@@ -130,12 +130,38 @@ public class CMItemModelProvider extends ItemModelProvider {
                 .texture("layer0", CMUtil.modResLoc("item/" + item.getId().getPath()));
     }
 
+    private void claymoreItem(DeferredItem<?> item) {
+        String itemName = item.getId().getPath();
+        ResourceLocation claymoreTexture = CMUtil.modResLoc("item/" + itemName);
+        ResourceLocation claymoreInHandBase = CMUtil.modResLoc("item/handheld_claymore");
+
+        ItemModelBuilder onHandModel = this.withExistingParent(itemName + "_in_hand", claymoreInHandBase)
+                .texture("layer0", CMUtil.modResLoc("item/" + itemName + "_in_hand"));
+
+        this.withExistingParent(itemName, mcLoc("item/handheld"))
+                .customLoader(SeparateTransformsModelBuilder::begin)
+                .base(onHandModel)
+                .perspective(ItemDisplayContext.GUI,
+                        this.withExistingParent(itemName + "_gui", mcLoc("item/generated"))
+                                .texture("layer0", claymoreTexture)
+                )
+                .perspective(ItemDisplayContext.GROUND,
+                        this.withExistingParent(itemName + "_ground", mcLoc("item/generated"))
+                                .texture("layer0", claymoreTexture)
+                )
+                .perspective(ItemDisplayContext.FIXED,
+                        this.withExistingParent(itemName + "_fixed", mcLoc("item/generated"))
+                                .texture("layer0", claymoreTexture)
+                )
+                .end();
+    }
+
     private void spearItem(DeferredItem<?> item) {
         String itemName = item.getId().getPath();
         ResourceLocation spearTexture = CMUtil.modResLoc("item/" + itemName);
-        ResourceLocation spearInHandBase = CMUtil.modResLoc("item/spear_in_hand");
+        ResourceLocation spearInHandBase = CMUtil.modResLoc("item/handheld_spear");
 
-        ItemModelBuilder onHandModel = this.withExistingParent(itemName + "_on_hand", spearInHandBase)
+        ItemModelBuilder onHandModel = this.withExistingParent(itemName + "_in_hand", spearInHandBase)
                 .texture("layer0", CMUtil.modResLoc("item/" + itemName + "_in_hand"));
 
         this.withExistingParent(itemName, mcLoc("item/handheld"))

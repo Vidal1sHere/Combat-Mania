@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/handheld",
   "base": {
-    "parent": "combat_mania:item/spear_in_hand",
+    "parent": "combat_mania:item/handheld_spear",
     "textures": {
       "layer0": "combat_mania:item/stone_glaive_in_hand"
     }
