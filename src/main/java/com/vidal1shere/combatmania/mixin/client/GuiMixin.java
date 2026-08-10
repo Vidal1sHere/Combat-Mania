@@ -1,7 +1,6 @@
 package com.vidal1shere.combatmania.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.vidal1shere.combatmania.api.IVanillaStrikeWeapon;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;

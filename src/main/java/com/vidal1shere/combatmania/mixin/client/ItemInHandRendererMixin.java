@@ -1,11 +1,7 @@
 package com.vidal1shere.combatmania.mixin.client;
 
 import com.vidal1shere.combatmania.api.IAnimatedItem;
-import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.api.IVanillaStrikeWeapon;
-import com.vidal1shere.combatmania.strike.StrikeStyle;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

@@ -2,7 +2,6 @@ package com.vidal1shere.combatmania.event;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
-import com.vidal1shere.combatmania.api.IVanillaStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
