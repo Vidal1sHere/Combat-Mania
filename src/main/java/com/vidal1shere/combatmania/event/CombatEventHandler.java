@@ -40,8 +40,12 @@ public class CombatEventHandler {
 
             if (!IStrikeWeapon.isStrikeWeapon(stack)) {
                 changed = true;
-            } else if (!(((IStrikeWeapon) stack.getItem()).getActiveStyle(stack) instanceof JoustStrikeStyle)) {
-                changed = true;
+            } else {
+                IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
+                
+                if (weapon.hasActiveStyle(stack) && !(weapon.getActiveStyle(stack) instanceof JoustStrikeStyle)) {
+                    changed = true;
+                }
             }
 
             if (changed) {
@@ -56,7 +60,12 @@ public class CombatEventHandler {
         }
         
         @SubscribeEvent
-        public static void clearJoustOnLeave(PlayerEvent.PlayerLoggedInEvent event) {
+        public static void clearJoustOnLeave(PlayerEvent.PlayerLoggedOutEvent event) {
+            JoustData.reset(event.getEntity());
+        }
+
+        @SubscribeEvent
+        public static void clearJoustOnJoin(PlayerEvent.PlayerLoggedInEvent event) {
             JoustData.reset(event.getEntity());
         }
     }

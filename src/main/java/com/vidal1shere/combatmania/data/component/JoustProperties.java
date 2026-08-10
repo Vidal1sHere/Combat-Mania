@@ -25,6 +25,8 @@ public class JoustProperties {
             instance.group(
                     Codec.FLOAT.fieldOf("damage_multiplier")
                             .forGetter(JoustProperties::getDamageMultiplier),
+                    Codec.FLOAT.fieldOf("max_damage")
+                            .forGetter(JoustProperties::getMaxDamage),
                     Codec.FLOAT.fieldOf("min_dismount_speed")
                             .forGetter(JoustProperties::getMinDismountSpeed),
                     Codec.FLOAT.fieldOf("equip_speed")
@@ -39,26 +41,37 @@ public class JoustProperties {
     );
 
     public static final StreamCodec<ByteBuf, JoustProperties> STREAM_CODEC =
-            StreamCodec.composite(
-                    ByteBufCodecs.FLOAT, JoustProperties::getDamageMultiplier,
-                    ByteBufCodecs.FLOAT, JoustProperties::getMinDismountSpeed,
-                    ByteBufCodecs.FLOAT, JoustProperties::getEquipSpeed,
-                    ByteBufCodecs.FLOAT, JoustProperties::getEngagedSpeed,
-                    ByteBufCodecs.FLOAT, JoustProperties::getTiredSpeed,
-                    ByteBufCodecs.FLOAT, JoustProperties::getDisengagedSpeed,
-                    JoustProperties::new
+            StreamCodec.of(
+                    (buf, data) -> {
+                        buf.writeFloat(data.damageMultiplier);
+                        buf.writeFloat(data.maxDamage);
+                        buf.writeFloat(data.minDismountSpeed);
+                        buf.writeFloat(data.equipSpeed);
+                        buf.writeFloat(data.engagedSpeed);
+                        buf.writeFloat(data.tiredSpeed);
+                        buf.writeFloat(data.disengagedSpeed);
+                    },
+                    buf -> {
+                        return new JoustProperties(
+                                buf.readFloat(), buf.readFloat(), buf.readFloat(),
+                                buf.readFloat(), buf.readFloat(), buf.readFloat(),
+                                buf.readFloat()
+                        );
+                    }
             );
 
     private final float damageMultiplier;
+    private final float maxDamage;
     private final float minDismountSpeed;
     private final float equipSpeed;
     private final float engagedSpeed;
     private final float tiredSpeed;
     private final float disengagedSpeed;
 
-    public JoustProperties(float damageMultiplier, float minDismountSpeed, float equipSpeed, 
+    public JoustProperties(float damageMultiplier, float maxDamage, float minDismountSpeed, float equipSpeed, 
                            float engagedSpeed, float tiredSpeed, float disengagedSpeed) {
         this.damageMultiplier = damageMultiplier;
+        this.maxDamage = maxDamage;
         this.minDismountSpeed = minDismountSpeed;
         this.equipSpeed = equipSpeed;
         this.engagedSpeed = engagedSpeed;
@@ -67,19 +80,23 @@ public class JoustProperties {
     }
 
     public JoustProperties() {
-        this(0.7F, 10.0F, 1.0F, 1.0F, 1.0F, 1.0F);
+        this(0.7F, 0.0F, 10.0F, 1.0F, 1.0F, 1.0F, 1.0F);
     }
     
-    public static Set<JoustProperties> of(float damageMultiplier, float minDismountSpeed, float equipSpeed,
+    public static Set<JoustProperties> of(float damageMultiplier, float maxDamage, float minDismountSpeed, float equipSpeed,
                                    float engagedSpeed, float tiredSpeed, float disengagedSpeed) {
         return new Set<>(KEY, new JoustProperties(
-                damageMultiplier, minDismountSpeed, equipSpeed, 
+                damageMultiplier, maxDamage, minDismountSpeed, equipSpeed, 
                 engagedSpeed, tiredSpeed, disengagedSpeed)
         );
     }
 
     public float getDamageMultiplier() {
         return damageMultiplier;
+    }
+
+    public float getMaxDamage() {
+        return maxDamage;
     }
 
     public float getMinDismountSpeed() {

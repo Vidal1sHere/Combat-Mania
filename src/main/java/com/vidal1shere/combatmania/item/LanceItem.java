@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.item;
 import com.vidal1shere.combatmania.api.IExtendedTier;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.LanceAnimations;
 import com.vidal1shere.combatmania.client.animation.item.SwordAnimations;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
@@ -11,6 +12,7 @@ import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -47,13 +49,30 @@ public class LanceItem extends TieredItem implements IStrikeWeapon {
         return (IExtendedTier) super.getTier();
     }
 
-    public static ItemAttributeModifiers createAttributes(Tier tier, double damage, double joustSpeed) {
+    public static ItemAttributeModifiers createAttributes(IExtendedTier tier, double joustSpeed) {
+        return createAttributes(
+                tier.getJoustProperties().getDamageMultiplier(), 
+                tier.getJoustProperties().getMaxDamage(), 
+                joustSpeed
+        );
+    }
+
+    public static ItemAttributeModifiers createAttributes(double damageMultiplier, double maxDamage, double joustSpeed) {
         return ItemAttributeModifiers.builder()
                 .add(
-                        Attributes.ATTACK_DAMAGE,
+                        CMAttributes.JOUST_DAMAGE_MULTIPLIER,
                         new AttributeModifier(
-                                BASE_ATTACK_DAMAGE_ID,
-                                (double) (damage + tier.getAttackDamageBonus()),
+                                CMAttributes.BASE_JOUST_DAMAGE_MULTIPLIER_ID,
+                                damageMultiplier,
+                                AttributeModifier.Operation.ADD_VALUE
+                        ),
+                        EquipmentSlotGroup.MAINHAND
+                )
+                .add(
+                        CMAttributes.MAX_JOUST_DAMAGE,
+                        new AttributeModifier(
+                                CMAttributes.BASE_MAX_JOUST_DAMAGE_ID,
+                                maxDamage,
                                 AttributeModifier.Operation.ADD_VALUE
                         ),
                         EquipmentSlotGroup.MAINHAND
@@ -69,7 +88,7 @@ public class LanceItem extends TieredItem implements IStrikeWeapon {
                 )
                 .build();
     }
-
+    
     @Override
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
         return false;
@@ -92,9 +111,9 @@ public class LanceItem extends TieredItem implements IStrikeWeapon {
     public static ItemAnimationDefinition joustAnimation(JoustData.Stage stage) {
         return switch (stage) {
             case NONE -> null;
-            case ENGAGED -> SwordAnimations.joustEngaged();
-            case TIRED -> SwordAnimations.joustTired();
-            case DISENGAGED -> SwordAnimations.joustDisengaged();
+            case ENGAGED -> LanceAnimations.joustEngaged();
+            case TIRED -> LanceAnimations.joustTired();
+            case DISENGAGED -> LanceAnimations.joustDisengaged();
         };
     }
 }

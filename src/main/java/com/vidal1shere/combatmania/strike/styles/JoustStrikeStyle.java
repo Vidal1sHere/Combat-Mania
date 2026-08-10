@@ -9,6 +9,7 @@ import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
+import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
@@ -77,8 +78,14 @@ public class JoustStrikeStyle extends StrikeStyle {
         Player player = ctx.player();
         ItemStack itemstack = ctx.itemStack();
         boolean isLight = properties().get(IS_LIGHT).test(itemstack, player);
-        
+
+//        System.out.println("----");
+//        System.out.println("[Joust Start] STARTING");
+//        System.out.println("[Joust Start] STAGE BEFORE: " + JoustData.get(player).getStage().name());
+//        System.out.println("[Joust Start] ANIMATION QUEUED BEFORE?: " + (JoustData.get(player).hasQueuedAnimation() ? "true" : "false"));
         JoustData.start(player);
+//        System.out.println("[Joust Start] STAGE AFTER: " + JoustData.get(player).getStage().name());
+//        System.out.println("[Joust Start] ANIMATION QUEUED AFTER?: " + (JoustData.get(player).hasQueuedAnimation() ? "true" : "false"));
 
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                 isLight ? properties().get(LIGHT_ENGAGE_SOUND) : properties().get(ENGAGE_SOUND), 
@@ -105,7 +112,13 @@ public class JoustStrikeStyle extends StrikeStyle {
     
     @Override
     public void onStop(StrikeContext ctx, int ticksHeld) {
+//        System.out.println("----");
+//        System.out.println("[Joust Stop] STOPPING");
+//        System.out.println("[Joust Stop] LAST STAGE: " + JoustData.get(ctx.player()).getStage().name());
+//        System.out.println("[Joust Start] ANIMATION QUEUED BEFORE?: " + (JoustData.get(ctx.player()).hasQueuedAnimation() ? "true" : "false"));
         JoustData.reset(ctx.player());
+//        System.out.println("[Joust Stop] STAGE AFTER RESET: " + JoustData.get(ctx.player()).getStage().name());
+//        System.out.println("[Joust Start] ANIMATION QUEUED AFTER?: " + (JoustData.get(ctx.player()).hasQueuedAnimation() ? "true" : "false"));
     }
     
     @Override
@@ -130,7 +143,13 @@ public class JoustStrikeStyle extends StrikeStyle {
         }
         
         if (stage != oldStage) {
+//            System.out.println("----");
+//            System.out.println("[Joust Tick] CHANGING STAGE");
+//            System.out.println("[Joust Tick] OLD STAGE: " + oldStage.name());
+//            System.out.println("[Joust Start] ANIMATION QUEUED BEFORE?: " + (JoustData.get(player).hasQueuedAnimation() ? "true" : "false"));
             JoustData.increaseStage(player);
+//            System.out.println("[Joust Tick] NEW STAGE: " + stage.name());
+//            System.out.println("[Joust Start] ANIMATION QUEUED AFTER?: " + (JoustData.get(player).hasQueuedAnimation() ? "true" : "false"));
         }
     }
 
@@ -183,9 +202,7 @@ public class JoustStrikeStyle extends StrikeStyle {
 
             Optional<Vec3> hit = boundingBox.clip(from, to);
 
-            if (hit.isPresent()) {
-                hits.add(new EntityHitResult(entity, hit.get()));
-            }
+            hit.ifPresent(vec3 -> hits.add(new EntityHitResult(entity, vec3)));
         }
 
         return hits;
@@ -208,12 +225,18 @@ public class JoustStrikeStyle extends StrikeStyle {
         if (relativeSpeed < minDamageSpeed) return;
 
         var damagesource = player.damageSources().playerAttack(player);
-        float damage = props.getDamageMultiplier() * relativeSpeed;
+        float damageCap = (float) player.getAttributeValue(CMAttributes.MAX_JOUST_DAMAGE);
+        float damage = (float) (player.getAttributeValue(CMAttributes.JOUST_DAMAGE_MULTIPLIER) * relativeSpeed);
         damage = getEnchantedDamage(player, stack, target, damage, damagesource);
+        
+        if (damageCap > 0) {
+            damage = Math.min(damageCap, damage);
+        }
 
         float targetHealthBefore = target instanceof LivingEntity le ? le.getHealth() : 0;
         Vec3 targetMotionBefore = target.getDeltaMovement();
         boolean hurt = target.hurt(damagesource, damage);
+        System.out.println(damage);
         if (!hurt) return;
 
         JoustData.registerEntity(player, target);
@@ -296,15 +319,10 @@ public class JoustStrikeStyle extends StrikeStyle {
     }
 
     @Override
-    public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-//        state.start(tickCount);
-    }
-
-    @Override
     public void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick) {
         JoustData data = player.getData(CMAttachments.JOUST);
         JoustData.Stage stage = data.getStage();
-       
+        
         if (!data.hasQueuedAnimation()) {
             return;
         }
@@ -314,16 +332,28 @@ public class JoustStrikeStyle extends StrikeStyle {
             default -> ItemAnimationState.LoopType.HOLD_ON_LAST_FRAME;
         };
         
+        ItemAnimationDefinition definition = properties().get(ANIMATION_FUNCTION).get(data.getStage());
+
+//        System.out.println("-----");
+//        System.out.println("[Joust SetupAnim] ANIMATION QUEUED");
+//        System.out.println("[Joust SetupAnim] STAGE: " + stage.name());
+//        System.out.println("[Joust SetupAnim] STATE STARTED BEFORE?: " + (state.isStarted() ? "true" : false));
+//        System.out.println("[Joust SetupAnim] ANIMATION QUEUED BEFORE?: " + (data.hasQueuedAnimation() ? "true" : false));
+//        System.out.println("[Joust SetupAnim] ANIMATION DEFINITION BEFORE: " + (definition == null ? "null" : definition));
         JoustData.consumeAnimation(player);
+        state.setActiveDefinition(definition);
         state.start(player.tickCount, loopType);
+//        System.out.println("[Joust SetupAnim] STATE STARTED AFTER?: " + (state.isStarted() ? "true" : false));
+//        System.out.println("[Joust SetupAnim] ANIMATION QUEUED AFTER?: " + (data.hasQueuedAnimation() ? "true" : false));
+//        System.out.println("[Joust SetupAnim] ANIMATION DEFINITION AFTER: " + (definition == null ? "null" : definition));
     }
 
     @Override
     public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
-        JoustData data = player.getData(CMAttachments.JOUST);
+        JoustData data = JoustData.get(player);
         return properties().get(ANIMATION_FUNCTION).get(data.getStage());
     }
-    
+
     public static ItemAnimationDefinition defaultJoustAnimation(JoustData.Stage stage) {
         return switch (stage) {
             case NONE -> null;

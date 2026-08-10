@@ -16,7 +16,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
@@ -46,7 +45,7 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
         return (IExtendedTier) super.getTier();
     }
 
-    public static ItemAttributeModifiers createAttributes(Tier tier, double damage, double jabSpeed, double joustSpeed) {
+    public static ItemAttributeModifiers createAttributes(IExtendedTier tier, double damage, double jabSpeed, double joustSpeed) {
         return ItemAttributeModifiers.builder()
                 .add(
                         Attributes.ATTACK_DAMAGE,
@@ -62,6 +61,24 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
                         new AttributeModifier(
                                 CMAttributes.BASE_JAB_SPEED_ID,
                                 jabSpeed,
+                                AttributeModifier.Operation.ADD_VALUE
+                        ),
+                        EquipmentSlotGroup.MAINHAND
+                )
+                .add(
+                        CMAttributes.JOUST_DAMAGE_MULTIPLIER,
+                        new AttributeModifier(
+                                CMAttributes.BASE_JOUST_DAMAGE_MULTIPLIER_ID,
+                                tier.getJoustProperties().getDamageMultiplier(),
+                                AttributeModifier.Operation.ADD_VALUE
+                        ),
+                        EquipmentSlotGroup.MAINHAND
+                )
+                .add(
+                        CMAttributes.MAX_JOUST_DAMAGE,
+                        new AttributeModifier(
+                                CMAttributes.BASE_MAX_JOUST_DAMAGE_ID,
+                                tier.getJoustProperties().getMaxDamage(),
                                 AttributeModifier.Operation.ADD_VALUE
                         ),
                         EquipmentSlotGroup.MAINHAND

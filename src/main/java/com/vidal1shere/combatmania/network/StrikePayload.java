@@ -127,6 +127,8 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 float scale = strikeData.getScale(slot);
                 if (scale < style.getMinStrengthScale()) return;
 
+                if (strikeData.isActive(slot)) return;
+
                 Entity target = payload.targetId() != -1 ? player.level().getEntity(payload.targetId()) : null;
 
                 StrikeContext ctx = new StrikeContext(

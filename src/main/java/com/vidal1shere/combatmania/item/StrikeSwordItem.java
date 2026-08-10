@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.item;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.LanceAnimations;
 import com.vidal1shere.combatmania.client.animation.item.SwordAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
@@ -35,6 +36,6 @@ public class StrikeSwordItem extends SwordItem implements IStrikeWeapon {
 
     @Override
     public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
-        return SwordAnimations.sweep();
+        return ItemAnimationDefinition.debug(1);
     }
 }

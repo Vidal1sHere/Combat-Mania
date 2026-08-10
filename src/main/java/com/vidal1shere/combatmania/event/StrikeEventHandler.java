@@ -74,6 +74,12 @@ public class StrikeEventHandler {
                 event.setSwingHand(false);
                 return;
             }
+            
+            if (strikeData.isActive(slot)) {
+                event.setCanceled(true);
+                event.setSwingHand(false);
+                return;
+            }
 
             if (strikeData.isActive(slot.other())) {
                 PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, slot.other() == StrikeSlot.PRIMARY, -1));
@@ -183,7 +189,20 @@ public class StrikeEventHandler {
         
         IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
         StrikeData strikeData = player.getData(CMAttachments.STRIKE);
-        if (strikeData.isBlocked(StrikeSlot.SECONDARY, weapon)) {
+        if (strikeData.isActive(StrikeSlot.SECONDARY) || strikeData.isBlocked(StrikeSlot.SECONDARY, weapon)) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+        Player player = event.getEntity();
+        ItemStack stack = player.getMainHandItem();
+        if (!IStrikeWeapon.isStrikeWeapon(stack)) return;
+
+        IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
+        StrikeData strikeData = player.getData(CMAttachments.STRIKE);
+        if (strikeData.isActive(StrikeSlot.PRIMARY) || strikeData.isBlocked(StrikeSlot.PRIMARY, weapon)) {
             event.setCanceled(true);
         }
     }

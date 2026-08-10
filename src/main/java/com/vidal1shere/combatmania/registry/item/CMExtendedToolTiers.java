@@ -13,12 +13,12 @@ import net.minecraft.world.level.block.Block;
 import static com.vidal1shere.combatmania.util.CustomProperties.*;
 
 public enum CMExtendedToolTiers implements IExtendedTier {
-    WOOD(Tiers.WOOD, JoustProperties.of(0.7F, 14.0F, 0.666667F, 0.600000F, 0.600000F, 0.700000F)),
-    STONE(Tiers.STONE, JoustProperties.of(0.82F, 13.0F, 0.714286F, 0.666667F, 0.666667F, 0.736842F)),
-    IRON(Tiers.IRON, JoustProperties.of(0.95F, 11.0F, 0.833333F, 1.200000F, 0.705882F, 0.777778F)),
-    DIAMOND(Tiers.DIAMOND, JoustProperties.of(1.075F, 10.0F, 1.000000F, 1.000000F, 1.000000F, 1.000000F)),
-    GOLD(Tiers.GOLD, JoustProperties.of(0.7F, 13.0F, 0.714286F, 0.857143F, 0.600000F, 0.666667F)),
-    NETHERITE(Tiers.NETHERITE, JoustProperties.of(1.2F, 9.0F, 1.250000F, 1.200000F, 1.000000F, 1.076923F));
+    WOOD(Tiers.WOOD, JoustProperties.of(0.7F, 20.0F, 14.0F, 0.666667F, 0.600000F, 0.600000F, 0.700000F)),
+    STONE(Tiers.STONE, JoustProperties.of(0.82F, 25.0F, 13.0F, 0.714286F, 0.666667F, 0.666667F, 0.736842F)),
+    IRON(Tiers.IRON, JoustProperties.of(0.95F, 30.0F, 11.0F, 0.833333F, 1.200000F, 0.705882F, 0.777778F)),
+    DIAMOND(Tiers.DIAMOND, JoustProperties.of(1.075F, 35.0F, 10.0F, 1.000000F, 1.000000F, 1.000000F, 1.000000F)),
+    GOLD(Tiers.GOLD, JoustProperties.of(0.7F, 25.0F, 13.0F, 0.714286F, 0.857143F, 0.600000F, 0.666667F)),
+    NETHERITE(Tiers.NETHERITE, JoustProperties.of(1.2F, 40.0F, 9.0F, 1.250000F, 1.200000F, 1.000000F, 1.076923F));
 
     private final ToolProperties toolProperties;
     private final CustomProperties customProperties;
