@@ -338,7 +338,7 @@ public class JoustStrikeStyle extends StrikeStyle {
         return player.getDeltaMovement();
     }
 
-    // todo fix the bug where walking backwards boosts your relative speed
+    // todo make entities in high speed also take damage
     private float getRelativeSpeed(Player player, Entity target) {
         Vec3 attackerMovement = ((JoustMotionAware) player).getJoustMovement();
         Vec3 targetMovement = target.getDeltaMovement();
