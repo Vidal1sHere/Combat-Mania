@@ -51,6 +51,7 @@ public class JoustStrikeStyle extends StrikeStyle {
 
     public static final Key<Float> JOUST_MIN_SCALE = new Key<>(0.0F);
     public static final Key<Float> HIT_INFLATION = new Key<>(0.125F);
+    public static final Key<Float> MIN_REACH = new Key<>(2.0F);
     public static final Key<Float> MIN_SPEED_FOR_DAMAGE = new Key<>(4.6F);
     public static final Key<Float> MIN_SPEED_FOR_KNOCKBACK = new Key<>(5.1F);
     public static final Key<BiPredicate<ItemStack, Player>> IS_LIGHT = new Key<>((s, p) ->
@@ -85,7 +86,6 @@ public class JoustStrikeStyle extends StrikeStyle {
     
     @Override
     public void onTick(StrikeContext ctx, int ticksHeld) {
-        System.out.println("I AM TICKING");
         Player player = ctx.player();
         ItemStack stack = ctx.itemStack();
         JoustProperties props = stack.getOrDefault(CMDataComponents.JOUST, new JoustProperties());
@@ -104,7 +104,6 @@ public class JoustStrikeStyle extends StrikeStyle {
     
     @Override
     public void onStop(StrikeContext ctx, int ticksHeld) {
-        System.out.println("[JOUST] STOP ticks=" + ticksHeld);
         JoustData.reset(ctx.player());
     }
     
@@ -168,6 +167,7 @@ public class JoustStrikeStyle extends StrikeStyle {
         // build a search volume along the attack segment
         AABB searchArea = AABB.ofSize(from, 0.0, 0.0, 0.0).expandTowards(to.subtract(from)).inflate(1.0);
 
+        float minReach = properties().get(MIN_REACH);
         List<EntityHitResult> hits = new ArrayList<>();
 
         for (Entity entity : player.level().getEntities(
@@ -176,6 +176,7 @@ public class JoustStrikeStyle extends StrikeStyle {
                 target -> target.isAttackable()
                         && !target.isSpectator()
                         && target != player
+                        && target.distanceToSqr(player) >= minReach * minReach
         )) {
             AABB boundingBox = entity.getBoundingBox().inflate(properties().get(HIT_INFLATION));
 
@@ -339,7 +340,6 @@ public class JoustStrikeStyle extends StrikeStyle {
         return player.getDeltaMovement();
     }
 
-    // todo make entities in high speed also take damage
     private float getRelativeSpeed(Player player, Entity target) {
         Vec3 attackerMovement = ((JoustMotionAware) player).getJoustMovement();
         Vec3 targetMovement = target.getDeltaMovement();
