@@ -103,6 +103,7 @@ public class CMStrikeStyles {
                     .speedAttribute(CMAttributes.JOUST_SPEED)
                     .swingHand(false)
                     .lowerHand(true)
+                    .minStrengthScale(0.8f)
                     .set(JoustStrikeStyle.ANIMATION_FUNCTION, LanceItem::joustAnimation)
                     .build()));
 
