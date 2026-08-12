@@ -4,7 +4,9 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
+import com.vidal1shere.combatmania.event.custom.ItemInHandChangeEvent;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
+import com.vidal1shere.combatmania.strike.StrikeStyle;
 import com.vidal1shere.combatmania.strike.styles.JoustStrikeStyle;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -33,24 +35,8 @@ public class CombatEventHandler {
     @EventBusSubscriber(modid = CombatMania.MOD_ID)
     public static class JoustStrike {
         @SubscribeEvent
-        public static void clearJoustOnWeaponSwap(PlayerTickEvent.Pre event) {
-            Player player = event.getEntity();
-            ItemStack stack = player.getMainHandItem();
-            boolean changed = false;
-
-            if (!IStrikeWeapon.isStrikeWeapon(stack)) {
-                changed = true;
-            } else {
-                IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
-                
-                if (weapon.hasActiveStyle(stack) && !(weapon.getActiveStyle(stack) instanceof JoustStrikeStyle)) {
-                    changed = true;
-                }
-            }
-
-            if (changed) {
-                JoustData.reset(player);
-            }
+        public static void clearJoustOnWeaponSwap(ItemInHandChangeEvent event) {
+            JoustData.reset(event.getEntity());
         }
         
         @SubscribeEvent

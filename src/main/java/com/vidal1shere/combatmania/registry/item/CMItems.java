@@ -68,27 +68,27 @@ public class CMItems {
 
     public static final DeferredItem<LanceItem> WOODEN_LANCE = ITEMS.register(
             "wooden_lance", () -> new LanceItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.WOOD, -2.8F)))
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.WOOD, 10.0F, -2.8F)))
     );
 
     public static final DeferredItem<LanceItem> STONE_LANCE = ITEMS.register(
             "stone_lance", () -> new LanceItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.STONE, -2.8F)))
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.STONE, 10.0F, -2.8F)))
     );
 
     public static final DeferredItem<LanceItem> GOLDEN_LANCE = ITEMS.register(
             "golden_lance", () -> new LanceItem(CMExtendedToolTiers.GOLD, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.GOLD, -2.8F)))
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.GOLD, 10.0F, -2.8F)))
     );
 
     public static final DeferredItem<LanceItem> IRON_LANCE = ITEMS.register(
             "iron_lance", () -> new LanceItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.IRON, -2.8F)))
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.IRON, 10.0F, -2.8F)))
     );
 
     public static final DeferredItem<LanceItem> DIAMOND_LANCE = ITEMS.register(
             "diamond_lance", () -> new LanceItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.DIAMOND, -2.8F)))
+                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.DIAMOND, 10.0F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> WOODEN_SPEAR = ITEMS.register(

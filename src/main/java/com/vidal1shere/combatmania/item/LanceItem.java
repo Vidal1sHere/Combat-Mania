@@ -49,10 +49,10 @@ public class LanceItem extends TieredItem implements IStrikeWeapon {
         return (IExtendedTier) super.getTier();
     }
 
-    public static ItemAttributeModifiers createAttributes(IExtendedTier tier, double joustSpeed) {
+    public static ItemAttributeModifiers createAttributes(IExtendedTier tier, double maxDamage, double joustSpeed) {
         return createAttributes(
                 tier.getJoustProperties().getDamageMultiplier(), 
-                tier.getJoustProperties().getMaxDamage(), 
+                tier.getJoustProperties().getMaxDamage() + maxDamage, 
                 joustSpeed
         );
     }

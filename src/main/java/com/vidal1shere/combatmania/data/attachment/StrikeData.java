@@ -31,6 +31,7 @@ public class StrikeData {
 
                         buf.writeInt(data.primaryActiveTicks);
                         buf.writeInt(data.secondaryActiveTicks);
+                        buf.writeInt(data.activeInventorySlot);
                     },
                     buf -> {
                         StrikeData data = new StrikeData();
@@ -46,6 +47,8 @@ public class StrikeData {
                         data.primaryActiveTicks = buf.readInt();
                         data.secondaryActiveTicks = buf.readInt();
 
+                        data.activeInventorySlot = buf.readInt();
+                        
                         return data;
                     }
             );
@@ -61,6 +64,7 @@ public class StrikeData {
     private boolean secondaryActive = false;
     private int primaryActiveTicks = 0;
     private int secondaryActiveTicks = 0;
+    private int activeInventorySlot = -1;
 
     public StrikeData() {}
 
@@ -108,10 +112,16 @@ public class StrikeData {
     public void setActive(StrikeSlot slot, boolean active) {
         if (slot == StrikeSlot.PRIMARY) {
             primaryActive = active;
-            if (!active) primaryActiveTicks = 0;
+            if (!active) {
+                primaryActiveTicks = 0;
+                activeInventorySlot = -1;
+            }
         } else {
             secondaryActive = active;
-            if (!active) secondaryActiveTicks = 0;
+            if (!active) {
+                secondaryActiveTicks = 0;
+                activeInventorySlot = -1;
+            }
         }
     }
 
@@ -121,6 +131,14 @@ public class StrikeData {
 
     public int getActiveTicks(StrikeSlot slot) {
         return slot == StrikeSlot.PRIMARY ? primaryActiveTicks : secondaryActiveTicks;
+    }
+
+    public void setActiveInventorySlot(int slot) {
+        this.activeInventorySlot = slot;
+    }
+
+    public int getActiveInventorySlot() {
+        return activeInventorySlot;
     }
 
     // -- overlap / block check --

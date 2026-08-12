@@ -4,6 +4,7 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
+import com.vidal1shere.combatmania.event.custom.ItemInHandChangeEvent;
 import com.vidal1shere.combatmania.network.StrikePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.strike.StrikeContext;
@@ -87,8 +88,9 @@ public class StrikeEventHandler {
             
             Entity target = mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult) mc.hitResult).getEntity() : null;
 
+            strikeData.setActiveInventorySlot(player.getInventory().selected);
             PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.START, slot == StrikeSlot.PRIMARY, target != null ? target.getId() : -1));
-
+            
             event.setCanceled(true);
             event.setSwingHand(false);
         }
@@ -111,12 +113,18 @@ public class StrikeEventHandler {
         }
 
         private static void checkStop(Minecraft mc, Player player, ItemStack stack, StrikeData strikeData, StrikeSlot slot) {
+            boolean isPrimary = slot == StrikeSlot.PRIMARY;
+            
+            int activeSlot = strikeData.getActiveInventorySlot();
+            if (activeSlot != -1 && player.getInventory().selected != activeSlot) {
+                PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, isPrimary, -1));
+                return;
+            }
+            
             if (!strikeData.isActive(slot)) {
                 return;
             }
             
-            boolean isPrimary = slot == StrikeSlot.PRIMARY;
-
             if (!IStrikeWeapon.isStrikeWeapon(stack)) {
                 PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, isPrimary, -1));
                 return;
@@ -211,6 +219,12 @@ public class StrikeEventHandler {
     public static void onDeath(LivingDeathEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
 
+        PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, true, -1));
+        PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, false, -1));
+    }
+    
+    @SubscribeEvent
+    public static void onItemSwap(ItemInHandChangeEvent event) {
         PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, true, -1));
         PacketDistributor.sendToServer(new StrikePayload.Request(StrikePayload.Action.STOP, false, -1));
     }

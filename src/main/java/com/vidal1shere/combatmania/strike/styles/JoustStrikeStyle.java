@@ -227,16 +227,12 @@ public class JoustStrikeStyle extends StrikeStyle {
         var damagesource = player.damageSources().playerAttack(player);
         float damageCap = (float) player.getAttributeValue(CMAttributes.MAX_JOUST_DAMAGE);
         float damage = (float) (player.getAttributeValue(CMAttributes.JOUST_DAMAGE_MULTIPLIER) * relativeSpeed);
+        if (damageCap > 0) damage = Math.min(damageCap, damage);
         damage = getEnchantedDamage(player, stack, target, damage, damagesource);
-        
-        if (damageCap > 0) {
-            damage = Math.min(damageCap, damage);
-        }
 
         float targetHealthBefore = target instanceof LivingEntity le ? le.getHealth() : 0;
         Vec3 targetMotionBefore = target.getDeltaMovement();
         boolean hurt = target.hurt(damagesource, damage);
-        System.out.println(damage);
         if (!hurt) return;
 
         JoustData.registerEntity(player, target);
@@ -352,6 +348,11 @@ public class JoustStrikeStyle extends StrikeStyle {
     public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
         JoustData data = JoustData.get(player);
         return properties().get(ANIMATION_FUNCTION).get(data.getStage());
+    }
+
+    @Override
+    public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
+        state.stop();
     }
 
     public static ItemAnimationDefinition defaultJoustAnimation(JoustData.Stage stage) {
