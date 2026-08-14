@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "combat_mania:item/handheld_spear",
+    "textures": {
+      "layer0": "combat_mania:item/diamond_javelin_in_hand"
+    }
+  },
+  "loader": "neoforge:separate_transforms",
+  "overrides": [
+    {
+      "model": "combat_mania:item/diamond_javelin_throwing",
+      "predicate": {
+        "minecraft:throwing": 1
+      }
+    }
+  ],
+  "perspectives": {
+    "fixed": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/diamond_javelin"
+      }
+    },
+    "ground": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/diamond_javelin"
+      }
+    },
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/diamond_javelin"
+      }
+    }
+  }
+}

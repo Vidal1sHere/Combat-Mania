@@ -20,6 +20,8 @@ public class CMTags {
     }
     
     public static class Items {
+        public static final TagKey<Item> JAVELIN = createTag("javelin");
+        
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(CMUtil.modResLoc(name));
         }

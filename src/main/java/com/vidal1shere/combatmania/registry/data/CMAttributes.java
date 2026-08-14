@@ -15,103 +15,74 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
 
 public class CMAttributes {
-    public static final DeferredRegister<Attribute> ATTRIBUTES =
+    public static final DeferredRegister<Attribute> ATTRIBUTES = 
             DeferredRegister.create(Registries.ATTRIBUTE, CombatMania.MOD_ID);
 
+    // ------ Custom Attributes
     public static final ResourceLocation BASE_ENTITY_INTERACTION_RANGE_ID = CMUtil.modResLoc("base_entity_interaction_range");
     public static final ResourceLocation BASE_JAB_SPEED_ID = CMUtil.modResLoc("base_jab_speed");
     public static final ResourceLocation BASE_STAB_SPEED_ID = CMUtil.modResLoc("base_stab_speed");
     public static final ResourceLocation BASE_JOUST_SPEED_ID = CMUtil.modResLoc("base_joust_speed");
     public static final ResourceLocation BASE_JOUST_DAMAGE_MULTIPLIER_ID = CMUtil.modResLoc("base_joust_multiplier");
     public static final ResourceLocation BASE_MAX_JOUST_DAMAGE_ID = CMUtil.modResLoc("base_max_joust_damage");
+    public static final ResourceLocation BASE_SHOOT_POWER_ID = CMUtil.modResLoc("shoot_power");
     public static final ResourceLocation BASE_ATTACK_STAGGER_ID = CMUtil.modResLoc("base_attack_stagger");
     public static final ResourceLocation BASE_STAGGER_RESISTANCE_ID = CMUtil.modResLoc("base_attack_stagger");
+
+    // ------ Modifier Keys
     public static final ResourceLocation STAGGER_MOVEMENT_SPEED_MODIFIER = CMUtil.modResLoc("stagger_movement_speed");
 
     public static final DeferredHolder<Attribute, Attribute> JAB_SPEED =
-            ATTRIBUTES.register("jab_speed",
-                    () -> new NamedRangedAttribute(
-                            BASE_JAB_SPEED_ID,
-                            "attribute.name.combat_mania.jab_speed",
-                            4.0,
-                            0.0,
-                            1024.0
-                    ).setSyncable(true));
+            registerAttribute("jab_speed", 4.0, 0.0, 1024.0);
 
     public static final DeferredHolder<Attribute, Attribute> STAB_SPEED =
-            ATTRIBUTES.register("stab_speed",
-                    () -> new NamedRangedAttribute(
-                            BASE_STAB_SPEED_ID,
-                            "attribute.name.combat_mania.stab_speed",
-                            4.0,
-                            0.0,
-                            1024.0
-                    ).setSyncable(true));
+            registerAttribute("stab_speed", 4.0, 0.0, 1024.0);
 
     public static final DeferredHolder<Attribute, Attribute> JOUST_SPEED =
-            ATTRIBUTES.register("joust_speed",
-                    () -> new NamedRangedAttribute(
-                            BASE_JOUST_SPEED_ID,
-                            "attribute.name.combat_mania.joust_speed",
-                            4.0,
-                            0.0,
-                            1024.0
-                    ).setSyncable(true));
+            registerAttribute("joust_speed", 4.0, 0.0, 1024.0);
 
     public static final DeferredHolder<Attribute, Attribute> JOUST_DAMAGE_MULTIPLIER =
-            ATTRIBUTES.register("joust_multiplier",
-                    () -> new NamedRangedAttribute(
-                            BASE_JOUST_SPEED_ID,
-                            "attribute.name.combat_mania.joust_multiplier",
-                            0.0,
-                            0.0,
-                            50
-                    ).setSyncable(true));
+            registerAttribute("joust_multiplier",0.0, 0.0, 50.0);
 
-    public static final DeferredHolder<Attribute, Attribute> MAX_JOUST_DAMAGE =
-            ATTRIBUTES.register("max_joust_damage",
-                    () -> new NamedRangedAttribute(
-                            BASE_JOUST_SPEED_ID,
-                            "attribute.name.combat_mania.max_joust_damage",
-                            0.0,
-                            0.0,
-                            1024.0
-                    ).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> MAX_JOUST_DAMAGE = 
+            registerAttribute("max_joust_damage", 0.0, 0.0, 1024.0);
 
-    public static final DeferredHolder<Attribute, Attribute> ATTACK_STAGGER =
-            ATTRIBUTES.register("attack_stagger",
-                    () -> new NamedRangedAttribute(
-                            BASE_ATTACK_STAGGER_ID,
-                            "attribute.name.combat_mania.attack_stagger",
-                            0.0,
-                            0.0,
-                            5.0
-                    ).setSyncable(true));
+    public static final DeferredHolder<Attribute, Attribute> SHOOT_POWER = 
+            registerAttribute("shoot_power", 1.0, 0.0, 1024.0);
+
+    public static final DeferredHolder<Attribute, Attribute> ATTACK_STAGGER = 
+            registerAttribute("attack_stagger", 0.0, 0.0, 5.0);
 
     public static final DeferredHolder<Attribute, Attribute> STAGGER_RESISTANCE =
-            ATTRIBUTES.register("stagger_resistance",
-                    () -> new NamedRangedAttribute(
-                            BASE_STAGGER_RESISTANCE_ID,
-                            "attribute.name.combat_mania.stagger_resistance",
-                            0.0,
-                            0.0,
-                            1.0
-                    ).setSyncable(true));
+            registerAttribute("stagger_resistance", 0.0, 0.0, 1.0);
     
     public static void register(IEventBus eventBus) {
         ATTRIBUTES.register(eventBus);
     }
+    
     public static void registerAttributes(EntityAttributeModificationEvent event) {
         event.add(EntityType.PLAYER, JAB_SPEED);
         event.add(EntityType.PLAYER, STAB_SPEED);
         event.add(EntityType.PLAYER, JOUST_SPEED);
         event.add(EntityType.PLAYER, JOUST_DAMAGE_MULTIPLIER);
         event.add(EntityType.PLAYER, MAX_JOUST_DAMAGE);
+        event.add(EntityType.PLAYER, SHOOT_POWER);
         
         for (EntityType<? extends LivingEntity> type : event.getTypes()) {
             event.add(type, ATTACK_STAGGER);
             event.add(type, STAGGER_RESISTANCE);
         }
+    }
+    
+    private static DeferredHolder<Attribute, Attribute> registerAttribute(String id, double defaultValue, double min, double max) {
+        return ATTRIBUTES.register(id,
+                () -> new NamedRangedAttribute(
+                        CMUtil.modResLoc("base_" + id),
+                        "attribute.name.combat_mania." + id,
+                        defaultValue,
+                        min,
+                        max
+                ).setSyncable(true));
     }
     
     public static class NamedRangedAttribute extends RangedAttribute {

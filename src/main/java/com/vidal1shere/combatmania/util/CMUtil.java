@@ -31,6 +31,10 @@ public final class CMUtil {
         return ResourceLocation.withDefaultNamespace(path);
     }
 
+    public static ResourceLocation neoforgeResLoc(String path) {
+        return ResourceLocation.fromNamespaceAndPath("neoforge", path);
+    }
+
     public static ResourceLocation resLoc(EntityType<?> entity) {
         return EntityType.getKey(entity);
     }
@@ -49,6 +53,33 @@ public final class CMUtil {
     
     public static boolean isWoodTier(Tier tier) {
         return tier == CMExtendedToolTiers.WOOD || tier == Tiers.WOOD;
+    }
+    
+    public static String tierName(Tier tier) {
+        if (tier instanceof CMExtendedToolTiers) {
+            tier = ((CMExtendedToolTiers) tier).getVanillaTier();
+        }
+        
+        return switch (tier) {
+            case Tiers.WOOD -> "wooden";
+            case Tiers.STONE -> "stone";
+            case Tiers.GOLD -> "golden";
+            case Tiers.IRON -> "iron";
+            case Tiers.DIAMOND -> "diamond";
+            case Tiers.NETHERITE -> "netherite";
+            default -> "";
+        };
+    }
+
+    public static Tier tierFromName(String name) {
+        return switch (name) {
+            case "wooden" -> Tiers.WOOD;
+            case "stone" -> Tiers.STONE;
+            case "golden" -> Tiers.GOLD;
+            case "diamond" -> Tiers.DIAMOND;
+            case "netherite" -> Tiers.NETHERITE;
+            default -> Tiers.IRON;
+        };
     }
 
     public static CompoundTag getNbt(ItemStack stack) {

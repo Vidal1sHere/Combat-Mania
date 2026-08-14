@@ -18,6 +18,19 @@ public class CMItemProperties {
                 (stack, level, entity, seed) -> 
                     CMClientConfig.TWO_DIMENSIONAL_TRIDENT.get() ? 1 : 0
                 );
+        
+        makeThrowingItem(CMItems.WOODEN_JAVELIN.get());
+        makeThrowingItem(CMItems.STONE_JAVELIN.get());
+        makeThrowingItem(CMItems.IRON_JAVELIN.get());
+        makeThrowingItem(CMItems.GOLDEN_JAVELIN.get());
+        makeThrowingItem(CMItems.DIAMOND_JAVELIN.get());
+    }
+    
+    private static void makeThrowingItem(Item item) {
+        ItemProperties.register(item, CMUtil.mcResLoc("throwing"),
+                (stack, level, entity, seed) ->
+                        entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F
+                );
     }
 
     private static <E extends Enum<E>> void makeEnumBasedItem(Item item, String name, Function<ItemStack, E> getter) {

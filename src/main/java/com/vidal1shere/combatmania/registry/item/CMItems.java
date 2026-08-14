@@ -120,6 +120,31 @@ public class CMItems {
             "netherite_spear", () -> new SpearItem(CMExtendedToolTiers.NETHERITE, new Item.Properties()
                     .attributes(SpearItem.createAttributes(CMExtendedToolTiers.NETHERITE, 2.0F, -3.13F, -2.8F)))
     );
+
+    public static final DeferredItem<JavelinItem> WOODEN_JAVELIN = ITEMS.register(
+            "wooden_javelin", () -> new JavelinItem(CMExtendedToolTiers.WOOD, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.WOOD, 2.0F, -2.46F, 0.5F)))
+    );
+
+    public static final DeferredItem<JavelinItem> STONE_JAVELIN = ITEMS.register(
+            "stone_javelin", () -> new JavelinItem(CMExtendedToolTiers.STONE, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.STONE, 2.0F, -2.67F, 1.0F)))
+    );
+
+    public static final DeferredItem<JavelinItem> GOLDEN_JAVELIN = ITEMS.register(
+            "golden_javelin", () -> new JavelinItem(CMExtendedToolTiers.GOLD, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.GOLD, 2.0F, -2.95F, 0.5F)))
+    );
+
+    public static final DeferredItem<JavelinItem> IRON_JAVELIN = ITEMS.register(
+            "iron_javelin", () -> new JavelinItem(CMExtendedToolTiers.IRON, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.IRON, 2.0F, -2.95F, 1.5F)))
+    );
+
+    public static final DeferredItem<JavelinItem> DIAMOND_JAVELIN = ITEMS.register(
+            "diamond_javelin", () -> new JavelinItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F, -3.05F, 2.0F)))
+    );
     
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -20,12 +20,18 @@
   "item.combat_mania.golden_dagger": "Golden Dagger",
   "item.combat_mania.iron_dagger": "Iron Dagger",
   "item.combat_mania.diamond_dagger": "Diamond Dagger",
+  "item.combat_mania.wooden_javelin": "Wooden Javelin",
+  "item.combat_mania.stone_javelin": "Stone Javelin",
+  "item.combat_mania.golden_javelin": "Golden Javelin",
+  "item.combat_mania.iron_javelin": "Iron Javelin",
+  "item.combat_mania.diamond_javelin": "Diamond Javelin",
 
   "attribute.name.combat_mania.jab_speed": "Jab Speed",
   "attribute.name.combat_mania.stab_speed": "Stab Speed",
   "attribute.name.combat_mania.joust_speed": "Joust Speed",
   "attribute.name.combat_mania.joust_multiplier": "Joust Damage",
   "attribute.name.combat_mania.max_joust_damage": "Max Joust Damage",
+  "attribute.name.combat_mania.shoot_power": "Shoot Power",
   "attribute.name.combat_mania.attack_stagger": "Attack Stagger",
   "attribute.name.combat_mania.stagger_resistance": "Stagger Resistance"
 }

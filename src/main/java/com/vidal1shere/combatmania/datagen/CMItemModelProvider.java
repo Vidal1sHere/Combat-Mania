@@ -1,5 +1,7 @@
 package com.vidal1shere.combatmania.datagen;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.registry.item.CMItems;
@@ -12,6 +14,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -21,6 +24,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.LinkedHashMap;
+import java.util.function.Consumer;
 
 public class CMItemModelProvider extends ItemModelProvider {
     private static LinkedHashMap<ResourceKey<TrimMaterial>, Float> trimMaterials = new LinkedHashMap<>();
@@ -67,6 +71,12 @@ public class CMItemModelProvider extends ItemModelProvider {
         spearItem(CMItems.IRON_SPEAR);
         spearItem(CMItems.DIAMOND_SPEAR);
         spearItem(CMItems.NETHERITE_SPEAR);
+
+        javelinItem(CMItems.WOODEN_JAVELIN);
+        javelinItem(CMItems.STONE_JAVELIN);
+        javelinItem(CMItems.GOLDEN_JAVELIN);
+        javelinItem(CMItems.IRON_JAVELIN);
+        javelinItem(CMItems.DIAMOND_JAVELIN);
     }
 
     private void trimmedArmorItem(DeferredItem<ArmorItem> itemDeferredItem) {
@@ -137,37 +147,66 @@ public class CMItemModelProvider extends ItemModelProvider {
     }
 
     private void spearItem(DeferredItem<?> item) {
-        handheldTransformedItem(item, "spear");
+        handheldTransformedItem(item, "handheld_spear");
     }
 
     private void lanceItem(DeferredItem<?> item) {
-        handheldTransformedItem(item, "lance");
+        handheldTransformedItem(item, "handheld_lance");
     }
-    
-    private void handheldTransformedItem(DeferredItem<?> item, String handHeldName) {
+
+    private void javelinItem(DeferredItem<?> item) {
         String itemName = item.getId().getPath();
         ResourceLocation texture = CMUtil.modResLoc("item/" + itemName);
-        ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld_" + handHeldName);
+        ResourceLocation inHandTexture = CMUtil.modResLoc("item/" + itemName + "_in_hand");
+        ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld_spear");
+        ResourceLocation throwingBase = CMUtil.modResLoc("item/spear_throwing");
 
-        ItemModelBuilder onHandModel = this.withExistingParent(itemName + "_in_hand", inHandBase)
-                .texture("layer0", CMUtil.modResLoc("item/" + itemName + "_in_hand"));
+        this.withExistingParent(itemName + "_in_hand", inHandBase).texture("layer0", inHandTexture);
 
-        this.withExistingParent(itemName, mcLoc("item/handheld"))
-                .customLoader(SeparateTransformsModelBuilder::begin)
-                .base(onHandModel)
-                .perspective(ItemDisplayContext.GUI,
-                        this.withExistingParent(itemName + "_gui", mcLoc("item/generated"))
-                                .texture("layer0", texture)
-                )
-                .perspective(ItemDisplayContext.GROUND,
-                        this.withExistingParent(itemName + "_ground", mcLoc("item/generated"))
-                                .texture("layer0", texture)
-                )
-                .perspective(ItemDisplayContext.FIXED,
-                        this.withExistingParent(itemName + "_fixed", mcLoc("item/generated"))
-                                .texture("layer0", texture)
-                )
-                .end();
+        this.getBuilder(itemName).customLoader((parent, existingFileHelper) ->
+                new InlineSeparateTransformsModelBuilder(parent, existingFileHelper, inHandBase, inHandTexture, texture, json -> {
+                    JsonArray overrides = new JsonArray();
+                    JsonObject override = new JsonObject();
+                    JsonObject predicate = new JsonObject();
+
+                    predicate.addProperty("minecraft:throwing", 1);
+                    override.add("predicate", predicate);
+                    override.addProperty("model", "combat_mania:item/" + itemName + "_throwing");
+
+                    overrides.add(override);
+                    json.add("overrides", overrides);
+                })
+        );
+
+        this.getBuilder(itemName + "_throwing").customLoader((parent, existingFileHelper) ->
+                new InlineSeparateTransformsModelBuilder(parent, existingFileHelper, throwingBase, inHandTexture, texture)
+        );
+    }
+
+    private void handheldTransformedItem(DeferredItem<?> item, String handHeldName) {
+        handheldTransformedItem(item, handHeldName, j -> {});
+    }
+
+    private void handheldTransformedItem(DeferredItem<?> item, String handHeldName, Consumer<JsonObject> mutator) {
+        String itemName = item.getId().getPath();
+        ResourceLocation texture = CMUtil.modResLoc("item/" + itemName);
+        ResourceLocation inHandTexture = CMUtil.modResLoc("item/" + itemName + "_in_hand");
+        ResourceLocation inHandBase = CMUtil.modResLoc("item/" + handHeldName);
+
+        this.withExistingParent(itemName + "_in_hand", inHandBase)
+                .texture("layer0", inHandTexture);
+
+        this.getBuilder(itemName)
+                .customLoader((parent, existingFileHelper) ->
+                        new InlineSeparateTransformsModelBuilder(
+                                parent,
+                                existingFileHelper,
+                                inHandBase,
+                                inHandTexture,
+                                texture,
+                                mutator
+                        )
+                );
     }
 
     private void bowItem(DeferredItem<?> item) {
@@ -225,5 +264,76 @@ public class CMItemModelProvider extends ItemModelProvider {
         this.withExistingParent(itemName + "_pulling_2", mcLoc("item/generated"))
                 .parent(new ModelFile.UncheckedModelFile(bow))
                 .texture("layer0", bow_2);
+    }
+
+    private static class InlineSeparateTransformsModelBuilder extends CustomLoaderBuilder<ItemModelBuilder> {
+
+        private final ResourceLocation inHandBase;
+        private final ResourceLocation inHandTexture;
+        private final ResourceLocation itemTexture;
+        private Consumer<JsonObject> overrides = j -> {};
+
+        private InlineSeparateTransformsModelBuilder(ItemModelBuilder parent, ExistingFileHelper existingFileHelper, 
+                                                     ResourceLocation inHandBase, ResourceLocation inHandTexture, 
+                                                     ResourceLocation itemTexture) {
+            super(CMUtil.neoforgeResLoc("separate_transforms"), parent, existingFileHelper, true);
+
+            this.inHandBase = inHandBase;
+            this.inHandTexture = inHandTexture;
+            this.itemTexture = itemTexture;
+        }
+
+        private InlineSeparateTransformsModelBuilder(ItemModelBuilder parent, ExistingFileHelper existingFileHelper,
+                                                     ResourceLocation inHandBase, ResourceLocation inHandTexture, 
+                                                     ResourceLocation itemTexture, Consumer<JsonObject> overrides) {
+            super(CMUtil.neoforgeResLoc("separate_transforms"), parent, existingFileHelper, true);
+
+            this.inHandBase = inHandBase;
+            this.inHandTexture = inHandTexture;
+            this.itemTexture = itemTexture;
+            this.overrides = overrides;
+        }
+
+        @Override
+        public JsonObject toJson(JsonObject json) {
+            json.addProperty("parent", "minecraft:item/handheld");
+            json.add("base", createInHandModel());
+            json.addProperty("loader", "neoforge:separate_transforms");
+
+            JsonObject perspectives = new JsonObject();
+            perspectives.add("fixed", createGeneratedModel());
+            perspectives.add("ground", createGeneratedModel());
+            perspectives.add("gui", createGeneratedModel());
+
+            json.add("perspectives", perspectives);
+            
+            overrides.accept(json);
+
+            return json;
+        }
+
+        private JsonObject createInHandModel() {
+            JsonObject model = new JsonObject();
+            model.addProperty("parent", inHandBase.toString());
+
+            JsonObject textures = new JsonObject();
+            textures.addProperty("layer0", inHandTexture.toString());
+
+            model.add("textures", textures);
+
+            return model;
+        }
+
+        private JsonObject createGeneratedModel() {
+            JsonObject model = new JsonObject();
+            model.addProperty("parent", "minecraft:item/generated");
+
+            JsonObject textures = new JsonObject();
+            textures.addProperty("layer0", itemTexture.toString());
+
+            model.add("textures", textures);
+
+            return model;
+        }
     }
 }

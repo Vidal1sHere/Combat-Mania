@@ -6,6 +6,7 @@ import com.vidal1shere.combatmania.registry.block.CMBlocks;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
+import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItemProperties;
 import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
@@ -39,7 +40,7 @@ public class CombatMania {
         CMDataComponents.register(modEventBus);
         CMAttachments.register(modEventBus);
         CMAttributes.register(modEventBus);
-        CMItemProperties.addCustomItemsProperties();
+        CMEntities.register(modEventBus);
         CMItems.register(modEventBus);
         CMBlocks.register(modEventBus);
         CMParticles.register(modEventBus);
@@ -65,6 +66,14 @@ public class CombatMania {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.IRON_LANCE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.STONE_LANCE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.WOODEN_LANCE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+
+            if (CMClientConfig.JAVELIN_ITEMS.get()) {
+                event.insertBefore(new ItemStack(Items.TRIDENT), CMItems.WOODEN_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertBefore(new ItemStack(Items.TRIDENT), CMItems.STONE_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertBefore(new ItemStack(Items.TRIDENT), CMItems.IRON_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertBefore(new ItemStack(Items.TRIDENT), CMItems.GOLDEN_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertBefore(new ItemStack(Items.TRIDENT), CMItems.DIAMOND_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
             
             if (CMClientConfig.GLAIVE_ITEMS.get()) {

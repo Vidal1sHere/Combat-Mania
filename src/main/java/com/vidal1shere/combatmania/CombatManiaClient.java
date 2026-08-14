@@ -1,7 +1,14 @@
 package com.vidal1shere.combatmania;
 
+import com.vidal1shere.combatmania.client.renderer.projectile.ThrownJavelinRenderer;
+import com.vidal1shere.combatmania.client.renderer.projectile.ThrownTrident2dRenderer;
+import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.particle.CustomParticle;
+import com.vidal1shere.combatmania.registry.entity.CMEntities;
+import com.vidal1shere.combatmania.registry.item.CMItemProperties;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.entity.EntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -21,6 +28,13 @@ public class CombatManiaClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
+        CMItemProperties.addCustomItemsProperties();
+
+        EntityRenderers.register(CMEntities.THROWN_JAVELIN.get(), ThrownJavelinRenderer::new);
+        
+        if (CMClientConfig.TWO_DIMENSIONAL_TRIDENT.get()) {
+            EntityRenderers.register(EntityType.TRIDENT, ThrownTrident2dRenderer::new);
+        }
     }
 
     @SubscribeEvent
