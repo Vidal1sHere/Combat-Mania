@@ -1,0 +1,58 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "gui_light": "front",
+  "base": {
+    "parent": "builtin/entity",
+    "textures": {
+      "particle": "minecraft:item/mace"
+    },
+    "display": {
+      "thirdperson_righthand": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 1, 1, 1 ]
+      },
+      "thirdperson_lefthand": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 1, 1, 1 ]
+      },
+      "firstperson_righthand": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 0.9, 0.9, 0.9 ]
+      },
+      "firstperson_lefthand": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 0.9, 0.9, 0.9 ]
+      }
+    }
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": { 
+        "layer0": "minecraft:item/mace"
+      }
+    },
+    "ground": {
+      "parent": "minecraft:item/generated",
+      "textures": { 
+        "layer0": "minecraft:item/mace"
+      }
+    },
+    "fixed": {
+      "parent": "minecraft:item/generated",
+      "textures": { 
+        "layer0": "minecraft:item/mace"
+      }
+    },
+    "head": {
+      "parent": "minecraft:item/generated",
+      "textures": { 
+        "layer0": "minecraft:item/mace"
+      }
+    }
+  }
+}

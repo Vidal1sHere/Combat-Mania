@@ -24,6 +24,20 @@ public class CMItemProperties {
         makeThrowingItem(CMItems.IRON_JAVELIN.get());
         makeThrowingItem(CMItems.GOLDEN_JAVELIN.get());
         makeThrowingItem(CMItems.DIAMOND_JAVELIN.get());
+        
+        makeMaceItem(CMItems.WOODEN_MACE.get());
+        makeMaceItem(CMItems.STONE_MACE.get());
+        makeMaceItem(CMItems.GOLDEN_MACE.get());
+        makeMaceItem(CMItems.IRON_MACE.get());
+        makeMaceItem(CMItems.DIAMOND_MACE.get());
+        makeMaceItem(Items.MACE);
+    }
+    
+    private static void makeMaceItem(Item item) {
+        ItemProperties.register(item, CMUtil.modResLoc("mace_3d"),
+                (stack, level, entity, seed) ->
+                        CMClientConfig.THREE_DIMENSIONAL_MACES.get() ? 1 : 0
+        );
     }
     
     private static void makeThrowingItem(Item item) {

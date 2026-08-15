@@ -5,8 +5,11 @@ import com.vidal1shere.combatmania.item.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.Collection;
 
 public class CMItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CombatMania.MOD_ID);
@@ -145,6 +148,30 @@ public class CMItems {
             "diamond_javelin", () -> new JavelinItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
                     .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F, -3.05F, 2.0F)))
     );
+
+    public static final DeferredItem<StrikeMaceItem> WOODEN_MACE = ITEMS.register(
+            "wooden_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.WOOD, new Item.Properties())
+    );
+
+    public static final DeferredItem<StrikeMaceItem> STONE_MACE = ITEMS.register(
+            "stone_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.STONE, new Item.Properties())
+    );
+
+    public static final DeferredItem<StrikeMaceItem> GOLDEN_MACE = ITEMS.register(
+            "golden_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.GOLD, new Item.Properties())
+    );
+
+    public static final DeferredItem<StrikeMaceItem> IRON_MACE = ITEMS.register(
+            "iron_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.IRON, new Item.Properties())
+    );
+
+    public static final DeferredItem<StrikeMaceItem> DIAMOND_MACE = ITEMS.register(
+            "diamond_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.DIAMOND, new Item.Properties())
+    );
+    
+    public static Collection<DeferredHolder<Item, ? extends Item>> getItems() {
+        return ITEMS.getEntries();
+    }
     
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

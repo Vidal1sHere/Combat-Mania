@@ -25,6 +25,10 @@ public class CMClientConfig {
             .comment("Add javelin items in the creative menu")
             .define("javelinItems", false);
 
+    public static final ModConfigSpec.BooleanValue MACE_ITEMS = BUILDER
+            .comment("Add mace items in the creative menu")
+            .define("maceItems", false);
+
     public static final ModConfigSpec.BooleanValue TWO_DIMENSIONAL_TRIDENT = BUILDER
             .comment("Makes the trident two-dimensional to match javelins")
             .define("2DTrident", false);

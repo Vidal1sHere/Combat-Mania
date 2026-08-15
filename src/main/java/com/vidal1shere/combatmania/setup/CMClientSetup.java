@@ -1,26 +1,32 @@
 package com.vidal1shere.combatmania.setup;
 
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.api.extension.client.IMinecraftInstance;
+import com.vidal1shere.combatmania.api.extension.item.ClientMaceExtensions;
+import com.vidal1shere.combatmania.client.model.TieredMaceHeadModel;
+import com.vidal1shere.combatmania.client.model.VanillaMaceHeadModel;
+import com.vidal1shere.combatmania.client.renderer.item.VanillaMaceRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownJavelinRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownTrident2dRenderer;
 import com.vidal1shere.combatmania.config.CMClientConfig;
+import com.vidal1shere.combatmania.constants.TieredMaceTextures;
+import com.vidal1shere.combatmania.item.StrikeMaceItem;
 import com.vidal1shere.combatmania.particle.CustomParticle;
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItemProperties;
+import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
-import com.vidal1shere.combatmania.util.ClientUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
 @EventBusSubscriber(modid = CombatMania.MOD_ID, value = Dist.CLIENT)
 public class CMClientSetup {
@@ -28,15 +34,36 @@ public class CMClientSetup {
     public static void clientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             CMItemProperties.addCustomItemsProperties();
-            
-            ClientUtil.INSTANCE = new IMinecraftInstance() {
-                @Override
-                public @Nullable Player player() {
-                    return Minecraft.getInstance().player;
-                }
-            };
         });
 
+    }
+
+    @SubscribeEvent
+    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new ClientMaceExtensions.Tiered(), CMItems.getItems()
+                .stream()
+                .filter(item -> item.get() instanceof StrikeMaceItem)
+                .map(holder -> (Item) holder.get())
+                .toArray(Item[]::new));
+        
+        event.registerItem(new ClientMaceExtensions.Vanilla(), Items.MACE);
+    }
+    
+    @SubscribeEvent
+    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(TieredMaceHeadModel.LAYER_LOCATION, TieredMaceHeadModel::createBodyLayer);
+        event.registerLayerDefinition(VanillaMaceHeadModel.LAYER_LOCATION, VanillaMaceHeadModel::createBodyLayer);
+    }
+
+    @SubscribeEvent
+    public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
+        for (TieredMaceTextures tier : TieredMaceTextures.values()) {
+            event.register(ModelResourceLocation.standalone(tier.getFullTexture()));
+            event.register(ModelResourceLocation.standalone(tier.getHandleModel()));
+        }
+
+        event.register(ModelResourceLocation.standalone(VanillaMaceRenderer.MACE_MODELS.getFullTexture()));
+        event.register(ModelResourceLocation.standalone(VanillaMaceRenderer.MACE_MODELS.getHandleModel()));
     }
     
     @SubscribeEvent

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld_mace",
+  "textures": {
+    "layer0": "combat_mania:item/wooden_mace_handle"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld_mace",
+  "textures": {
+    "layer0": "combat_mania:item/diamond_mace"
+  },
+  "overrides": [
+    {
+      "predicate": { "combat_mania:mace_3d": 1 },
+      "model": "combat_mania:item/diamond_mace_3d"
+    }
+  ]
+}

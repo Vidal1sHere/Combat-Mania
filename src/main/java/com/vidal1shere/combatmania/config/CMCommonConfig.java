@@ -17,5 +17,9 @@ public class CMCommonConfig {
             .comment("Modifies vanilla trident to use Strike Styles")
             .define("modifyVanillaTrident", false);
 
+    public static final ModConfigSpec.BooleanValue MODIFY_MACE = BUILDER
+            .comment("Modifies vanilla mace to use Strike Styles")
+            .define("modifyVanillaMace", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }
