@@ -28,6 +28,10 @@ public class CMClientConfig {
     public static final ModConfigSpec.BooleanValue TWO_DIMENSIONAL_TRIDENT = BUILDER
             .comment("Makes the trident two-dimensional to match javelins")
             .define("2DTrident", false);
+
+    public static final ModConfigSpec.BooleanValue THREE_DIMENSIONAL_MACES = BUILDER
+            .comment("Makes all maces three-dimensional")
+            .define("3DMaces", false);
     
     public static final ModConfigSpec SPEC = BUILDER.build();
 }
