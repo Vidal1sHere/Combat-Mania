@@ -151,12 +151,12 @@ public class CMItems {
 
     public static final DeferredItem<StrikeMaceItem> WOODEN_MACE = ITEMS.register(
             "wooden_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.WOOD, 2.5F, -2.9)))
+                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.WOOD, 2.0F, -2.9)))
     );
 
     public static final DeferredItem<StrikeMaceItem> STONE_MACE = ITEMS.register(
             "stone_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.DIAMOND, 3.0F, -3.05F)))
+                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.STONE, 1.5F, -3.05F)))
     );
 
     public static final DeferredItem<StrikeMaceItem> GOLDEN_MACE = ITEMS.register(
@@ -166,12 +166,12 @@ public class CMItems {
 
     public static final DeferredItem<StrikeMaceItem> IRON_MACE = ITEMS.register(
             "iron_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.IRON, 3.5F, -3.2F)))
+                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.IRON, 1.0F, -3.2F)))
     );
 
     public static final DeferredItem<StrikeMaceItem> DIAMOND_MACE = ITEMS.register(
             "diamond_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.DIAMOND, 4.0F, -3.35F)))
+                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.DIAMOND, 0.5F, -3.35F)))
     );
     
     public static Collection<DeferredHolder<Item, ? extends Item>> getItems() {

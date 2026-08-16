@@ -25,6 +25,11 @@
   "item.combat_mania.golden_javelin": "Golden Javelin",
   "item.combat_mania.iron_javelin": "Iron Javelin",
   "item.combat_mania.diamond_javelin": "Diamond Javelin",
+  "item.combat_mania.wooden_mace": "Wooden Mace",
+  "item.combat_mania.stone_mace": "Stone Mace",
+  "item.combat_mania.golden_mace": "Golden Mace",
+  "item.combat_mania.iron_mace": "Iron Mace",
+  "item.combat_mania.diamond_mace": "Diamond Mace",
 
   "attribute.name.combat_mania.jab_speed": "Jab Speed",
   "attribute.name.combat_mania.stab_speed": "Stab Speed",
