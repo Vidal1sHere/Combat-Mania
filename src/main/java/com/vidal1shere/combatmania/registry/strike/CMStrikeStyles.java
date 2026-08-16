@@ -28,10 +28,7 @@ public class CMStrikeStyles {
 
     public static final DeferredRegister<StrikeStyle> STRIKE_STYLES =
             DeferredRegister.create(REGISTRY_KEY, CombatMania.MOD_ID);
-
-    public static final DeferredHolder<StrikeStyle, VanillaSweepStrikeStyle> VANILLA_SWEEP =
-            STRIKE_STYLES.register("vanilla_sweep", VanillaSweepStrikeStyle::new);
-
+    
     public static final DeferredHolder<StrikeStyle, SweepStrikeStyle> SWEEP =
             STRIKE_STYLES.register("sweep", () -> new SweepStrikeStyle(StrikeProperties.builder()
                     .minStrengthScale(0.05F)
