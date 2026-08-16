@@ -1,0 +1,222 @@
+package com.vidal1shere.combatmania.item.armor;
+
+import com.vidal1shere.combatmania.data.component.QuiverContents;
+import com.vidal1shere.combatmania.registry.data.CMDataComponents;
+import com.vidal1shere.combatmania.util.Color;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.SlotAccess;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.renderer.GeoArmorRenderer;
+import software.bernie.geckolib.util.GeckoLibUtil;
+
+import javax.annotation.Nullable;
+import java.util.Set;
+import java.util.function.Consumer;
+
+public abstract class QuiverItem extends ArmorItem implements GeoItem {
+
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
+    public QuiverItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
+        super(material, type, properties.component(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY));
+    }
+
+    public abstract Set<EquipmentSlot> getAllowedSlots();
+
+    @OnlyIn(Dist.CLIENT)
+    public abstract GeoArmorRenderer<?> supplyRenderer();
+
+    @Override
+    public EquipmentSlot getEquipmentSlot(ItemStack stack) {
+        return stack.getOrDefault(CMDataComponents.EQUIPPED_SLOT, getDefaultSlot());
+    }
+
+    public EquipmentSlot getDefaultSlot() {
+        return getAllowedSlots().iterator().next();
+    }
+
+    @Override
+    public boolean canEquip(ItemStack stack, EquipmentSlot slot, LivingEntity entity) {
+        return getAllowedSlots().contains(slot);
+    }
+    
+    @Override
+    public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction action, Player player) {
+        if (stack.getCount() != 1 || action != ClickAction.SECONDARY) return false;
+
+        QuiverContents contents = stack.get(CMDataComponents.QUIVER_CONTENTS);
+        if (contents == null) return false;
+
+        ItemStack slotItem = slot.getItem();
+        QuiverContents.Mutable mutable = new QuiverContents.Mutable(contents);
+
+        if (slotItem.isEmpty()) {
+            playRemoveOneSound(player);
+            ItemStack removed = mutable.removeOne();
+            if (removed != null) {
+                ItemStack leftover = slot.safeInsert(removed);
+                mutable.tryInsert(leftover);
+            }
+        } else {
+            int inserted = mutable.tryTransfer(slot, player);
+            if (inserted > 0) {
+                playInsertSound(player);
+            }
+        }
+
+        stack.set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
+        return true;
+    }
+    
+    @Override
+    public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other, Slot slot,
+                                            ClickAction action, Player player, SlotAccess access) {
+        if (stack.getCount() != 1) 
+            return false;
+        if (action != ClickAction.SECONDARY || !slot.allowModification(player)) 
+            return false;
+
+        QuiverContents contents = stack.get(CMDataComponents.QUIVER_CONTENTS);
+        if (contents == null) 
+            return false;
+
+        QuiverContents.Mutable mutable = new QuiverContents.Mutable(contents);
+
+        if (other.isEmpty()) {
+            ItemStack removed = mutable.removeOne();
+            if (removed != null) {
+                playRemoveOneSound(player);
+                access.set(removed);
+            }
+        } else {
+            int inserted = mutable.tryInsert(other);
+            if (inserted > 0) {
+                playInsertSound(player);
+            }
+        }
+
+        stack.set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
+        return true;
+    }
+
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (dropContents(stack, player)) {
+            playDropContentsSound(player);
+            player.awardStat(Stats.ITEM_USED.get(this));
+            return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+        }
+        return InteractionResultHolder.fail(stack);
+    }
+
+    private static boolean dropContents(ItemStack stack, Player player) {
+        QuiverContents contents = stack.get(CMDataComponents.QUIVER_CONTENTS);
+        if (contents == null || contents.isEmpty()) return false;
+
+        stack.set(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
+        if (player instanceof ServerPlayer) {
+            contents.itemsCopy().forEach(arrow -> player.drop(arrow, true));
+        }
+        return true;
+    }
+    
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        QuiverContents contents = stack.getOrDefault(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
+        return contents.count() > 0;
+    }
+
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        QuiverContents contents = stack.getOrDefault(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
+        return Math.min(1 + Mth.floor(contents.count() * 12.0F / QuiverContents.MAX_ARROWS), 13);
+    }
+
+    @Override
+    public int getBarColor(ItemStack stack) {
+        return new Color(0.4F, 0.4F, 1.0F, 1.0F).color;
+    }
+
+    public static void modifyTooltip(ItemTooltipEvent event) {
+        if (!(event.getItemStack().getItem() instanceof QuiverItem)) return;
+
+        event.getToolTip().clear();
+    }
+    
+    @Override
+    public void onDestroyed(ItemEntity itemEntity) {
+        QuiverContents contents = itemEntity.getItem().get(CMDataComponents.QUIVER_CONTENTS);
+        if (contents != null) {
+            itemEntity.getItem().set(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
+            net.minecraft.world.item.ItemUtils.onContainerDestroyed(itemEntity, contents.itemsCopy());
+        }
+    }
+
+    private void playInsertSound(Entity entity) {
+        entity.playSound(SoundEvents.BUNDLE_INSERT,
+                0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
+    }
+
+    private void playRemoveOneSound(Entity entity) {
+        entity.playSound(SoundEvents.BUNDLE_REMOVE_ONE,
+                0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
+    }
+
+    private void playDropContentsSound(Entity entity) {
+        entity.playSound(SoundEvents.BUNDLE_DROP_CONTENTS,
+                0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
+    }
+    
+    @Override
+    public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
+        consumer.accept(new GeoRenderProvider() {
+            private GeoArmorRenderer<?> renderer;
+
+            @Override
+            public <T extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(
+                    @Nullable T livingEntity, ItemStack itemStack,
+                    @Nullable EquipmentSlot equipmentSlot,
+                    @Nullable HumanoidModel<T> original) {
+                if (this.renderer == null) this.renderer = supplyRenderer();
+                return this.renderer;
+            }
+        });
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {}
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+}

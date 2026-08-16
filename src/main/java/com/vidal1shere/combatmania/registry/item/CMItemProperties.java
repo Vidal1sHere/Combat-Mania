@@ -1,6 +1,8 @@
 package com.vidal1shere.combatmania.registry.item;
 
 import com.vidal1shere.combatmania.config.CMClientConfig;
+import com.vidal1shere.combatmania.data.component.QuiverContents;
+import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
@@ -31,6 +33,31 @@ public class CMItemProperties {
         makeMaceItem(CMItems.IRON_MACE.get());
         makeMaceItem(CMItems.DIAMOND_MACE.get());
         makeMaceItem(Items.MACE);
+        
+        makeQuiverItem(CMItems.LEATHER_QUIVER.get());
+    }
+    
+    private static void makeQuiverItem(Item item) {
+        ItemProperties.register(item, CMUtil.modResLoc("filled"),
+                (stack, level, entity, seed) -> {
+                    QuiverContents contents = stack.getOrDefault(
+                            CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY
+                    );
+
+                    int count = contents.count();
+                    int max = QuiverContents.MAX_ARROWS;
+                    
+                    if (count >= max) {
+                        return 3.0F;
+                    } else if (count >= max / 2) {
+                        return 2.0F;
+                    } else if (count > 0) {
+                        return 1.0F;
+                    } else {
+                        return 0.0F;
+                    }
+                }
+        );
     }
     
     private static void makeMaceItem(Item item) {

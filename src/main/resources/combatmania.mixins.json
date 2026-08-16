@@ -16,7 +16,8 @@
     "client.ItemRendererMixin",
     "client.BlockEntityWithoutLevelRendererMixin",
     "client.ItemInHandRendererMixin",
-    "client.GuiMixin"
+    "client.GuiMixin",
+    "client.InternalUtilMixin"
   ],
   "injectors": {
     "defaultRequire": 1

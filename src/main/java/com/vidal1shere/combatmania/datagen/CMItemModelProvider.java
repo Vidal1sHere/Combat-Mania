@@ -77,6 +77,8 @@ public class CMItemModelProvider extends ItemModelProvider {
         javelinItem(CMItems.GOLDEN_JAVELIN);
         javelinItem(CMItems.IRON_JAVELIN);
         javelinItem(CMItems.DIAMOND_JAVELIN);
+        
+        quiverItem(CMItems.LEATHER_QUIVER);
     }
 
     private void trimmedArmorItem(DeferredItem<ArmorItem> itemDeferredItem) {
@@ -207,6 +209,39 @@ public class CMItemModelProvider extends ItemModelProvider {
                                 mutator
                         )
                 );
+    }
+    
+    private void quiverItem(DeferredItem<?> item) {
+        String itemName = item.getId().getPath();
+        ResourceLocation quiver = CMUtil.modResLoc("item/" + itemName);
+        ResourceLocation quiver_0 = CMUtil.modResLoc("item/" + itemName + "_filled_0");
+        ResourceLocation quiver_1 = CMUtil.modResLoc("item/" + itemName + "_filled_1");
+        ResourceLocation quiver_2 = CMUtil.modResLoc("item/" + itemName + "_filled_2");
+
+        this.withExistingParent(itemName, mcLoc("item/generated"))
+                .texture("layer0", quiver)
+                .override()
+                .predicate(CMUtil.modResLoc("filled"), 1)
+                .model(new ModelFile.UncheckedModelFile(quiver_0))
+                .end()
+                .override()
+                .predicate(CMUtil.modResLoc("filled"), 2)
+                .model(new ModelFile.UncheckedModelFile(quiver_1))
+                .end()
+                .override()
+                .predicate(CMUtil.modResLoc("filled"), 3)
+                .model(new ModelFile.UncheckedModelFile(quiver_2))
+                .end();
+
+        this.withExistingParent(itemName + "_filled_0", mcLoc("item/generated"))
+                .parent(new ModelFile.UncheckedModelFile(quiver))
+                .texture("layer0", quiver_0);
+        this.withExistingParent(itemName + "_filled_1", mcLoc("item/generated"))
+                .parent(new ModelFile.UncheckedModelFile(quiver))
+                .texture("layer0", quiver_1);
+        this.withExistingParent(itemName + "_filled_2", mcLoc("item/generated"))
+                .parent(new ModelFile.UncheckedModelFile(quiver))
+                .texture("layer0", quiver_2);
     }
 
     private void bowItem(DeferredItem<?> item) {

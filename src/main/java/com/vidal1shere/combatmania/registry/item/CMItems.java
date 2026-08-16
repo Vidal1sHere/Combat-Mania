@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.registry.item;
 import com.mojang.serialization.MapCodec;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.config.ItemConfigCondition;
+import com.vidal1shere.combatmania.item.armor.LeatherQuiverItem;
 import com.vidal1shere.combatmania.item.weapon.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
@@ -183,6 +184,10 @@ public class CMItems {
     public static final DeferredItem<StrikeMaceItem> DIAMOND_MACE = ITEMS.register(
             "diamond_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
                     .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.DIAMOND, 0.5F, -3.35F)))
+    );
+
+    public static final DeferredItem<LeatherQuiverItem> LEATHER_QUIVER = ITEMS.register(
+            "leather_quiver", () -> new LeatherQuiverItem(new Item.Properties())
     );
     
     public static Collection<DeferredHolder<Item, ? extends Item>> getItems() {

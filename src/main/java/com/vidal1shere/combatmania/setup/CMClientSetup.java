@@ -9,8 +9,11 @@ import com.vidal1shere.combatmania.client.renderer.projectile.ThrownJavelinRende
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownTrident2dRenderer;
 import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.constants.TieredMaceModels;
+import com.vidal1shere.combatmania.data.component.QuiverContents;
+import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import com.vidal1shere.combatmania.item.weapon.StrikeMaceItem;
 import com.vidal1shere.combatmania.particle.CustomParticle;
+import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItemProperties;
 import com.vidal1shere.combatmania.registry.item.CMItems;
@@ -25,6 +28,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
@@ -82,5 +86,28 @@ public class CMClientSetup {
         event.registerSpriteSet(CMParticles.RIGHT_SWEEP_ATTACK.get(), CustomParticle.Provider::new);
         event.registerSpriteSet(CMParticles.RIGHT_SHORT_SWEEP_ATTACK.get(), CustomParticle.Provider::new);
         event.registerSpriteSet(CMParticles.SLASH_ATTACK.get(), CustomParticle.Provider::new);
+    }
+
+    @SubscribeEvent
+    public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register((stack, index) -> {
+            if (!(stack.getItem() instanceof QuiverItem) || index < 1 || index > 3) return 0xFFFFFFFF;
+
+            QuiverContents contents = stack.getOrDefault(
+                    CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY
+            );
+
+            int count = contents.count();
+            int max = QuiverContents.MAX_ARROWS;
+
+            boolean show = switch (index) {
+                case 1 -> count > 0 && count < max / 2;
+                case 2 -> count >= max / 2 && count < max;
+                case 3 -> count >= max;
+                default -> false;
+            };
+
+            return show ? 0xFFFFFFFF : 0x00FFFFFF;
+        }, CMItems.LEATHER_QUIVER.get());
     }
 }

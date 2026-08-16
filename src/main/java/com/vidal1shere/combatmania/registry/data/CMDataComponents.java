@@ -3,10 +3,12 @@ package com.vidal1shere.combatmania.registry.data;
 import com.mojang.serialization.Codec;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
+import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -40,6 +42,23 @@ public class CMDataComponents {
             register("smash", b -> b
                     .persistent(SmashProperties.CODEC)
                     .networkSynchronized(SmashProperties.STREAM_CODEC)
+            );
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<EquipmentSlot>> EQUIPPED_SLOT =
+            register("equipped_slot", b -> b
+                    .persistent(EquipmentSlot.CODEC)
+                    .networkSynchronized(
+                            ByteBufCodecs.STRING_UTF8.map(
+                                    EquipmentSlot::byName,
+                                    EquipmentSlot::getName
+                            )
+                    )
+            );
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuiverContents>> QUIVER_CONTENTS =
+            register("quiver_contents", b -> b
+                    .persistent(QuiverContents.CODEC)
+                    .networkSynchronized(QuiverContents.STREAM_CODEC)
             );
 
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name,
