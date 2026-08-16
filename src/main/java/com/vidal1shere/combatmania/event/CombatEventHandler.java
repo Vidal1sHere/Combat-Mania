@@ -1,22 +1,19 @@
 package com.vidal1shere.combatmania.event;
 
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.event.custom.ItemInHandChangeEvent;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
-import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.strike.styles.JoustStrikeStyle;
+import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 public class CombatEventHandler {
     @EventBusSubscriber(modid = CombatMania.MOD_ID)

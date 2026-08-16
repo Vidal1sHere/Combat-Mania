@@ -33,24 +33,7 @@ public class CMCommonSetup {
     
     @SubscribeEvent
     public static void modifyItemAttributes(ItemAttributeModifierEvent event) {
-        ItemStack stack = event.getItemStack();
-        
-        if (stack.is(Items.TRIDENT)) {
-            if (!CMCommonConfig.MODIFY_TRIDENT.get()) {
-                return;
-            }
-            
-            event.removeModifier(Attributes.ATTACK_SPEED, Item.BASE_ATTACK_SPEED_ID);
-            event.addModifier(
-                    CMAttributes.JAB_SPEED,
-                    new AttributeModifier(
-                            CMAttributes.BASE_JAB_SPEED_ID,
-                            -2.95F,
-                            AttributeModifier.Operation.ADD_VALUE
-                    ),
-                    EquipmentSlotGroup.MAINHAND
-            );
-        }
+        CMAttributes.modifyItemAttributes(event);
     }
 
     @SubscribeEvent

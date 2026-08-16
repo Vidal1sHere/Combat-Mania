@@ -1,5 +1,6 @@
 package com.vidal1shere.combatmania.strike.styles;
 
+import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.event.custom.StaggerAttackEvent;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
@@ -127,8 +128,7 @@ public class CleaveStrikeStyle extends StrikeStyle {
                     NeoForge.EVENT_BUS.post(event);
 
                     if (!event.isCanceled()) {
-                        living.getData(CMAttachments.STAGGER)
-                                .applyStagger(living, event.getStrength(), event.getDuration());
+                        StaggerData.applyStagger(living, event.getStrength(), event.getDuration());
                     }
                 }
             }

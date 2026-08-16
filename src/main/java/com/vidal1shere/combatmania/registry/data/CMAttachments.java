@@ -29,7 +29,9 @@ public class CMAttachments {
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<StaggerData>> STAGGER =
             ATTACHMENT_TYPES.register("stagger",
-                    () -> AttachmentType.builder(StaggerData::new).serialize(StaggerData.CODEC).build());
+                    () -> AttachmentType.builder(StaggerData::new)
+                            .sync(StaggerData.STREAM_CODEC)
+                            .serialize(StaggerData.CODEC).build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<JoustData>> JOUST =
             ATTACHMENT_TYPES.register("joust",

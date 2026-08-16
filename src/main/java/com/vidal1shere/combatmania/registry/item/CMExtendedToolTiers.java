@@ -51,35 +51,16 @@ public enum CMExtendedToolTiers implements IExtendedTier {
         this.customProperties = CustomProperties.ofImmutable(customProperties);
     }
 
-    public int getUses() {
-        return this.toolProperties.getUses();
-    }
-
-    public float getSpeed() {
-        return this.toolProperties.getSpeed();
-    }
-
-    public float getAttackDamageBonus() {
-        return this.toolProperties.getAttackDamageBonus();
-    }
-
-    public TagKey<Block> getIncorrectBlocksForDrops() {
-        return this.toolProperties.getIncorrectBlocksForDrops();
-    }
-
-    public int getEnchantmentValue() {
-        return this.toolProperties.getEnchantmentValue();
-    }
-
-    public Ingredient getRepairIngredient() {
-        return this.toolProperties.getRepairIngredient();
-    }
-
     @Override
     public CustomProperties getCustomProperties() {
         return customProperties;
     }
-    
+
+    @Override
+    public ToolProperties getToolProperties() {
+        return toolProperties;
+    }
+
     public Tier getVanillaTier() {
         return switch (this) {
             case WOOD -> Tiers.WOOD;
@@ -88,6 +69,18 @@ public enum CMExtendedToolTiers implements IExtendedTier {
             case GOLD -> Tiers.GOLD;
             case DIAMOND -> Tiers.DIAMOND;
             case NETHERITE -> Tiers.NETHERITE;
+        };
+    }
+    
+    public static IExtendedTier getVanillaTier(Tier tier) {
+        return switch (tier) {
+            case Tiers.WOOD -> WOOD;
+            case Tiers.STONE -> STONE;
+            case Tiers.IRON -> IRON;
+            case Tiers.GOLD -> GOLD;
+            case Tiers.DIAMOND -> DIAMOND;
+            case Tiers.NETHERITE -> NETHERITE;
+            default -> null;
         };
     }
 }

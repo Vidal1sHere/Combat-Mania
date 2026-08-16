@@ -8,6 +8,7 @@ import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.constants.TieredMaceTextures;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
+import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
@@ -44,8 +45,12 @@ public class StrikeMaceItem extends TieredItem implements IStrikeWeapon {
         if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.SMASH;
         return null;
     }
-    
+
     public static ItemAttributeModifiers createAttributes(IExtendedTier tier, double damage, double speed) {
+        return createAttributes(tier, damage, speed, tier.getAttackStagger());
+    }
+    
+    public static ItemAttributeModifiers createAttributes(IExtendedTier tier, double damage, double speed, double stagger) {
         return ItemAttributeModifiers.builder()
                 .add(
                         Attributes.ATTACK_DAMAGE,
@@ -61,6 +66,14 @@ public class StrikeMaceItem extends TieredItem implements IStrikeWeapon {
                         new AttributeModifier(
                                 BASE_ATTACK_SPEED_ID,
                                 speed, AttributeModifier.Operation.ADD_VALUE
+                        ),
+                        EquipmentSlotGroup.MAINHAND
+                )
+                .add(
+                        CMAttributes.ATTACK_STAGGER,
+                        new AttributeModifier(
+                                CMAttributes.BASE_ATTACK_STAGGER_ID,
+                                stagger, AttributeModifier.Operation.ADD_VALUE
                         ),
                         EquipmentSlotGroup.MAINHAND
                 )

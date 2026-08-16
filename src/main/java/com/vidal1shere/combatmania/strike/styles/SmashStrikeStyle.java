@@ -2,7 +2,11 @@ package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
+import com.vidal1shere.combatmania.event.custom.StaggerAttackEvent;
+import com.vidal1shere.combatmania.registry.data.CMAttachments;
+import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
@@ -33,6 +37,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 
@@ -151,6 +156,28 @@ public class SmashStrikeStyle extends StrikeStyle {
                 player.setSprinting(false);
             }
         }
+        
+        if (canHeavySmashAttack(player, properties) && target instanceof LivingEntity living) {
+            float attackStagger = (float) player.getAttributeValue(CMAttributes.ATTACK_STAGGER);
+
+            if (attackStagger > 0.0F) {
+                float resistance = (float) living.getAttributeValue(CMAttributes.STAGGER_RESISTANCE);
+
+                float strength = attackStagger * (1.0F - resistance);
+
+                if (strength > 0.0F) {
+                    int duration = Mth.floor(strength * 8.0F);
+
+                    StaggerAttackEvent event = new StaggerAttackEvent(living, player, strength, duration);
+
+                    NeoForge.EVENT_BUS.post(event);
+
+                    if (!event.isCanceled()) {
+                        StaggerData.applyStagger(living, event.getStrength(), event.getDuration());
+                    }
+                }
+            }
+        }
 
         if (target instanceof ServerPlayer sp && sp.hurtMarked) {
             sp.connection.send(new ClientboundSetEntityMotionPacket(sp));
@@ -208,7 +235,7 @@ public class SmashStrikeStyle extends StrikeStyle {
     }
     
     public static boolean canHeavySmashAttack(LivingEntity entity, SmashProperties props) {
-        return entity.fallDistance > props.getHeavyThreshold() && !entity.isFallFlying();
+        return entity.fallDistance > props.getHeavyThreshold();
     }
 
     public static float getSmashDamageBonus(ItemStack stack, Entity target, DamageSource damageSource) {

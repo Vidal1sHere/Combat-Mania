@@ -1,14 +1,24 @@
 package com.vidal1shere.combatmania.registry.data;
 
+import com.vidal1shere.combatmania.api.IExtendedTier;
+import com.vidal1shere.combatmania.config.CMCommonConfig;
+import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -83,6 +93,65 @@ public class CMAttributes {
                         min,
                         max
                 ).setSyncable(true));
+    }
+    
+    public static void modifyItemAttributes(ItemAttributeModifierEvent event) {
+        ItemStack stack = event.getItemStack();
+        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+
+        if (CMCommonConfig.MODIFY_AXES.get() && stack.getItem() instanceof AxeItem item && itemId.getNamespace().equals("minecraft")) {
+            IExtendedTier tier = CMExtendedToolTiers.getVanillaTier(item.getTier());
+            if (tier == null) return;
+            
+            double currentStagger = 0;
+
+            for (ItemAttributeModifiers.Entry entry : event.getModifiers()) {
+                if (entry.attribute().is(CMAttributes.ATTACK_STAGGER)) {
+                    currentStagger = entry.modifier().amount();
+                }
+            }
+            
+            if (currentStagger != 0.0F || tier.getAttackStagger() <= 0) return;
+            
+            event.addModifier(
+                    CMAttributes.ATTACK_STAGGER,
+                    new AttributeModifier(
+                            BASE_ATTACK_STAGGER_ID,
+                            tier.getAttackStagger(),
+                            AttributeModifier.Operation.ADD_VALUE
+                    ),
+                    EquipmentSlotGroup.MAINHAND
+            );
+        }
+        
+        if (CMCommonConfig.MODIFY_MACE.get() && stack.is(Items.MACE)) {
+            event.addModifier(
+                    CMAttributes.ATTACK_STAGGER,
+                    new AttributeModifier(
+                            BASE_ATTACK_STAGGER_ID,
+                            CMExtendedToolTiers.NETHERITE.getAttackStagger(), 
+                            AttributeModifier.Operation.ADD_VALUE
+                    ),
+                    EquipmentSlotGroup.MAINHAND
+            );
+        }
+        
+        if (stack.is(Items.TRIDENT)) {
+            if (!CMCommonConfig.MODIFY_TRIDENT.get()) {
+                return;
+            }
+
+            event.removeModifier(Attributes.ATTACK_SPEED, Item.BASE_ATTACK_SPEED_ID);
+            event.addModifier(
+                    CMAttributes.JAB_SPEED,
+                    new AttributeModifier(
+                            CMAttributes.BASE_JAB_SPEED_ID,
+                            -2.95F,
+                            AttributeModifier.Operation.ADD_VALUE
+                    ),
+                    EquipmentSlotGroup.MAINHAND
+            );
+        }
     }
     
     public static class NamedRangedAttribute extends RangedAttribute {
