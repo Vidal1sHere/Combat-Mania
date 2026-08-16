@@ -100,8 +100,13 @@ public class StrikeMaceItem extends TieredItem implements IStrikeWeapon {
         stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
     }
 
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return slotChanged;
+    }
+
     public static ItemAnimationDefinition maceAnimation(ItemStack stack, InteractionHand hand,
-                                                         Player player, ItemAnimationState state) {
+                                                        Player player, ItemAnimationState state) {
         return HammerAnimations.whack();
     }
 }

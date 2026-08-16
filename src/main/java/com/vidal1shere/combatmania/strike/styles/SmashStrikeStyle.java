@@ -9,7 +9,6 @@ import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
-import com.vidal1shere.combatmania.util.AnimationSupplier;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.core.Direction;
@@ -44,7 +43,8 @@ import java.util.function.Predicate;
 
 public class SmashStrikeStyle extends StrikeStyle {
 
-    public static final CustomProperties.PropertyKey<SoundEvent> WEAK_HIT_SOUND = new CustomProperties.PropertyKey<>(SoundEvents.PLAYER_ATTACK_WEAK);
+    public static final CustomProperties.PropertyKey<SoundEvent> WEAK_HIT_SOUND = new CustomProperties.PropertyKey<>(SoundEvents.PLAYER_ATTACK_STRONG);
+    public static final CustomProperties.PropertyKey<SoundEvent> STRONG_HIT_SOUND = new CustomProperties.PropertyKey<>(SoundEvents.PLAYER_ATTACK_CRIT);
     public static final CustomProperties.PropertyKey<SoundEvent> LIGHT_SMASH_SOUND = new CustomProperties.PropertyKey<>(SoundEvents.MACE_SMASH_GROUND);
     public static final CustomProperties.PropertyKey<SoundEvent> HEAVY_SMASH_SOUND = new CustomProperties.PropertyKey<>(SoundEvents.MACE_SMASH_GROUND_HEAVY);
     public static final CustomProperties.PropertyKey<SoundEvent> AIR_SMASH_SOUND = new CustomProperties.PropertyKey<>(SoundEvents.MACE_SMASH_AIR);
@@ -172,6 +172,16 @@ public class SmashStrikeStyle extends StrikeStyle {
                         StaggerData.applyStagger(living, event.getStrength(), event.getDuration());
                     }
                 }
+            }
+        }
+        
+        if (player instanceof ServerPlayer sp && sp.level() instanceof ServerLevel sl) {
+            if (smashAttack) {
+                sl.playSound(null, sp.getX(), sp.getY(), sp.getZ(),
+                        properties().get(STRONG_HIT_SOUND), sp.getSoundSource(), 1.0F, 1.0F);
+            } else {
+                sl.playSound(null, sp.getX(), sp.getY(), sp.getZ(),
+                        properties().get(WEAK_HIT_SOUND), sp.getSoundSource(), 1.0F, 1.0F);
             }
         }
 
