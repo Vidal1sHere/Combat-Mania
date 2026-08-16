@@ -16,7 +16,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
@@ -103,16 +102,6 @@ public class CMAttributes {
             IExtendedTier tier = CMExtendedToolTiers.getVanillaTier(item.getTier());
             if (tier == null) return;
             
-            double currentStagger = 0;
-
-            for (ItemAttributeModifiers.Entry entry : event.getModifiers()) {
-                if (entry.attribute().is(CMAttributes.ATTACK_STAGGER)) {
-                    currentStagger = entry.modifier().amount();
-                }
-            }
-            
-            if (currentStagger != 0.0F || tier.getAttackStagger() <= 0) return;
-            
             event.addModifier(
                     CMAttributes.ATTACK_STAGGER,
                     new AttributeModifier(
@@ -128,25 +117,21 @@ public class CMAttributes {
             event.addModifier(
                     CMAttributes.ATTACK_STAGGER,
                     new AttributeModifier(
-                            BASE_ATTACK_STAGGER_ID,
-                            CMExtendedToolTiers.NETHERITE.getAttackStagger(), 
+                            BASE_ATTACK_STAGGER_ID, 
+                            VanillaModifiers.MACE_ATTACK_STAGGER, 
                             AttributeModifier.Operation.ADD_VALUE
                     ),
                     EquipmentSlotGroup.MAINHAND
             );
         }
         
-        if (stack.is(Items.TRIDENT)) {
-            if (!CMCommonConfig.MODIFY_TRIDENT.get()) {
-                return;
-            }
-
+        if (CMCommonConfig.MODIFY_TRIDENT.get() && stack.is(Items.TRIDENT)) {
             event.removeModifier(Attributes.ATTACK_SPEED, Item.BASE_ATTACK_SPEED_ID);
             event.addModifier(
                     CMAttributes.JAB_SPEED,
                     new AttributeModifier(
                             CMAttributes.BASE_JAB_SPEED_ID,
-                            -2.95F,
+                            VanillaModifiers.TRIDENT_JAB_SPEED,
                             AttributeModifier.Operation.ADD_VALUE
                     ),
                     EquipmentSlotGroup.MAINHAND
@@ -166,5 +151,10 @@ public class CMAttributes {
         public @Nullable ResourceLocation getBaseId() {
             return baseId;
         }
+    }
+
+    public static class VanillaModifiers {
+        public static final float TRIDENT_JAB_SPEED = -2.95f;
+        public static final float MACE_ATTACK_STAGGER = 2.0f;
     }
 }
