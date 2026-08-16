@@ -34,19 +34,19 @@ import net.minecraft.core.particles.ParticleTypes;
 
 import java.util.function.BiPredicate;
 
-import static com.vidal1shere.combatmania.util.CustomProperties.Key;
+import static com.vidal1shere.combatmania.util.CustomProperties.PropertyKey;
 
 public class JabStrikeStyle extends StrikeStyle {
 
-    public static final Key<Float> JAB_MIN_REACH = new Key<>(2.0F);
-    public static final Key<Float> HIT_INFLATION = new Key<>(0.125F);
-    public static final Key<BiPredicate<ItemStack, Player>> IS_LIGHT = new Key<>((s, p) -> 
+    public static final PropertyKey<Float> JAB_MIN_REACH = new PropertyKey<>(2.0F);
+    public static final PropertyKey<Float> HIT_INFLATION = new PropertyKey<>(0.125F);
+    public static final PropertyKey<BiPredicate<ItemStack, Player>> IS_LIGHT = new PropertyKey<>((s, p) -> 
             s.getItem() instanceof TieredItem t && CMUtil.isWoodTier(t.getTier()));
-    public static final Key<SoundEvent> JAB_SOUND = new Key<>(CMSounds.SPEAR_JAB.get());
-    public static final Key<SoundEvent> LIGHT_JAB_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_JAB.get());
-    public static final Key<SoundEvent> HIT_SOUND = new Key<>(CMSounds.SPEAR_HIT.get());
-    public static final Key<SoundEvent> LIGHT_HIT_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_HIT.get());
-    public static final Key<AnimationSupplier> ANIMATION_FUNCTION = new Key<>(
+    public static final PropertyKey<SoundEvent> JAB_SOUND = new PropertyKey<>(CMSounds.SPEAR_JAB.get());
+    public static final PropertyKey<SoundEvent> LIGHT_JAB_SOUND = new PropertyKey<>(CMSounds.WOODEN_SPEAR_JAB.get());
+    public static final PropertyKey<SoundEvent> HIT_SOUND = new PropertyKey<>(CMSounds.SPEAR_HIT.get());
+    public static final PropertyKey<SoundEvent> LIGHT_HIT_SOUND = new PropertyKey<>(CMSounds.WOODEN_SPEAR_HIT.get());
+    public static final PropertyKey<AnimationSupplier> ANIMATION_FUNCTION = new PropertyKey<>(
             (s, h, p, st) -> SpearAnimations.jab());
 
     public JabStrikeStyle(StrikeProperties properties) {

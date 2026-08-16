@@ -10,7 +10,7 @@ public class ExtendedTier implements IExtendedTier {
     private final ToolProperties toolProperties;
     private final CustomProperties customProperties;
 
-    public ExtendedTier(ToolProperties toolProperties, CustomProperties.Set<?>... customProperties) {
+    public ExtendedTier(ToolProperties toolProperties, CustomProperties.PropertySet<?>... customProperties) {
         this.toolProperties = toolProperties;
         this.customProperties = CustomProperties.ofImmutable(customProperties);
     }

@@ -60,7 +60,7 @@ public class StrikeProperties {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T get(CustomProperties.Key<T> key) {
+    public <T> T get(CustomProperties.PropertyKey<T> key) {
         return customProperties.get(key);
     }
 
@@ -132,7 +132,7 @@ public class StrikeProperties {
             return this;
         }
 
-        public <T> Builder set(CustomProperties.Key<T> key, T value) {
+        public <T> Builder set(CustomProperties.PropertyKey<T> key, T value) {
             customProperties.set(key, value);
             return this;
         }

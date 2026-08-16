@@ -36,22 +36,22 @@ import net.minecraft.core.particles.ParticleTypes;
 
 import java.util.function.BiConsumer;
 
-import static com.vidal1shere.combatmania.util.CustomProperties.Key;
+import static com.vidal1shere.combatmania.util.CustomProperties.PropertyKey;
 
 public class SweepStrikeStyle extends StrikeStyle {
 
-    public static final Key<Boolean> CAN_CRIT = new Key<>(true);
-    public static final Key<Boolean> CAN_SPRINT_KNOCKBACK = new Key<>(true);
-    public static final Key<Vec3> SWEEP_HITBOX = new Key<>(new Vec3(1.0, 0.25, 1.0));
-    public static final Key<BiConsumer<Player, LivingEntity>> SWEEP_PARTICLE = new Key<>((p, t) -> 
+    public static final PropertyKey<Boolean> CAN_CRIT = new PropertyKey<>(true);
+    public static final PropertyKey<Boolean> CAN_SPRINT_KNOCKBACK = new PropertyKey<>(true);
+    public static final PropertyKey<Vec3> SWEEP_HITBOX = new PropertyKey<>(new Vec3(1.0, 0.25, 1.0));
+    public static final PropertyKey<BiConsumer<Player, LivingEntity>> SWEEP_PARTICLE = new PropertyKey<>((p, t) -> 
             sweepParticle(p, p.onGround()));
-    public static final Key<SoundEvent> SWEEP_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_SWEEP);
-    public static final Key<SoundEvent> CRIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_CRIT);
-    public static final Key<SoundEvent> WEAK_HIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_WEAK);
-    public static final Key<SoundEvent> STRONG_HIT_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_STRONG);
-    public static final Key<SoundEvent> MISS_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_NODAMAGE);
-    public static final Key<SoundEvent> KNOCKBACK_SOUND = new Key<>(SoundEvents.PLAYER_ATTACK_KNOCKBACK);
-    public static final Key<AnimationSupplier> ANIMATION_FUNCTION = new Key<>(
+    public static final PropertyKey<SoundEvent> SWEEP_SOUND = new PropertyKey<>(SoundEvents.PLAYER_ATTACK_SWEEP);
+    public static final PropertyKey<SoundEvent> CRIT_SOUND = new PropertyKey<>(SoundEvents.PLAYER_ATTACK_CRIT);
+    public static final PropertyKey<SoundEvent> WEAK_HIT_SOUND = new PropertyKey<>(SoundEvents.PLAYER_ATTACK_WEAK);
+    public static final PropertyKey<SoundEvent> STRONG_HIT_SOUND = new PropertyKey<>(SoundEvents.PLAYER_ATTACK_STRONG);
+    public static final PropertyKey<SoundEvent> MISS_SOUND = new PropertyKey<>(SoundEvents.PLAYER_ATTACK_NODAMAGE);
+    public static final PropertyKey<SoundEvent> KNOCKBACK_SOUND = new PropertyKey<>(SoundEvents.PLAYER_ATTACK_KNOCKBACK);
+    public static final PropertyKey<AnimationSupplier> ANIMATION_FUNCTION = new PropertyKey<>(
             (s, h, p, st) -> null);
 
     public SweepStrikeStyle(StrikeProperties properties) {

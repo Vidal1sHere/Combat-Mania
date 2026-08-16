@@ -46,22 +46,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
-import static com.vidal1shere.combatmania.util.CustomProperties.Key;
+import static com.vidal1shere.combatmania.util.CustomProperties.PropertyKey;
 
 public class JoustStrikeStyle extends StrikeStyle {
 
-    public static final Key<Float> JOUST_MIN_SCALE = new Key<>(0.0F);
-    public static final Key<Float> HIT_INFLATION = new Key<>(0.125F);
-    public static final Key<Float> MIN_REACH = new Key<>(2.0F);
-    public static final Key<Float> MIN_SPEED_FOR_DAMAGE = new Key<>(4.6F);
-    public static final Key<Float> MIN_SPEED_FOR_KNOCKBACK = new Key<>(5.1F);
-    public static final Key<BiPredicate<ItemStack, Player>> IS_LIGHT = new Key<>((s, p) ->
+    public static final PropertyKey<Float> JOUST_MIN_SCALE = new PropertyKey<>(0.0F);
+    public static final PropertyKey<Float> HIT_INFLATION = new PropertyKey<>(0.125F);
+    public static final PropertyKey<Float> MIN_REACH = new PropertyKey<>(2.0F);
+    public static final PropertyKey<Float> MIN_SPEED_FOR_DAMAGE = new PropertyKey<>(4.6F);
+    public static final PropertyKey<Float> MIN_SPEED_FOR_KNOCKBACK = new PropertyKey<>(5.1F);
+    public static final PropertyKey<BiPredicate<ItemStack, Player>> IS_LIGHT = new PropertyKey<>((s, p) ->
             s.getItem() instanceof TieredItem t && CMUtil.isWoodTier(t.getTier()));
-    public static final Key<SoundEvent> ENGAGE_SOUND = new Key<>(CMSounds.SPEAR_USE.get());
-    public static final Key<SoundEvent> LIGHT_ENGAGE_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_USE.get());
-    public static final Key<SoundEvent> HIT_SOUND = new Key<>(CMSounds.SPEAR_HIT.get());
-    public static final Key<SoundEvent> LIGHT_HIT_SOUND = new Key<>(CMSounds.WOODEN_SPEAR_HIT.get());
-    public static final Key<JoustAnimationFunction> ANIMATION_FUNCTION = new Key<>(JoustStrikeStyle::defaultJoustAnimation);
+    public static final PropertyKey<SoundEvent> ENGAGE_SOUND = new PropertyKey<>(CMSounds.SPEAR_USE.get());
+    public static final PropertyKey<SoundEvent> LIGHT_ENGAGE_SOUND = new PropertyKey<>(CMSounds.WOODEN_SPEAR_USE.get());
+    public static final PropertyKey<SoundEvent> HIT_SOUND = new PropertyKey<>(CMSounds.SPEAR_HIT.get());
+    public static final PropertyKey<SoundEvent> LIGHT_HIT_SOUND = new PropertyKey<>(CMSounds.WOODEN_SPEAR_HIT.get());
+    public static final PropertyKey<JoustAnimationFunction> ANIMATION_FUNCTION = new PropertyKey<>(JoustStrikeStyle::defaultJoustAnimation);
     
     public JoustStrikeStyle(StrikeProperties properties) {
         super(StrikeProperties.builder(properties)

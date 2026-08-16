@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.registry.strike;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.client.animation.item.HammerAnimations;
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 import com.vidal1shere.combatmania.item.DaggerItem;
 import com.vidal1shere.combatmania.item.GlaiveItem;
@@ -66,14 +67,6 @@ public class CMStrikeStyles {
                     .swingHand(false)
                     .build()));
 
-    public static final DeferredHolder<StrikeStyle, StabStrikeStyle> STAB =
-            STRIKE_STYLES.register("stab", () -> new StabStrikeStyle(StrikeProperties.builder()
-                    .speedAttribute(CMAttributes.STAB_SPEED)
-                    .swingHand(false)
-                    .overlap(false)
-                    .minStrengthScale(0.5F)
-                    .build()));
-
     public static final DeferredHolder<StrikeStyle, JabStrikeStyle> SPEAR_JAB =
             STRIKE_STYLES.register("spear_jab", () -> new JabStrikeStyle(StrikeProperties.builder()
                     .speedAttribute(CMAttributes.JAB_SPEED)
@@ -85,10 +78,19 @@ public class CMStrikeStyles {
             STRIKE_STYLES.register("trident_jab", () -> new JabStrikeStyle(StrikeProperties.builder()
                     .speedAttribute(CMAttributes.JAB_SPEED)
                     .swingHand(false)
-                    .set(JabStrikeStyle.ANIMATION_FUNCTION, (i, h, p, s) -> 
+                    .set(JabStrikeStyle.ANIMATION_FUNCTION, (i, h, p, s) ->
                             SpearAnimations.tridentJab())
                     .build()));
 
+
+    public static final DeferredHolder<StrikeStyle, StabStrikeStyle> STAB =
+            STRIKE_STYLES.register("stab", () -> new StabStrikeStyle(StrikeProperties.builder()
+                    .speedAttribute(CMAttributes.STAB_SPEED)
+                    .swingHand(false)
+                    .overlap(false)
+                    .minStrengthScale(0.5F)
+                    .build()));
+    
     public static final DeferredHolder<StrikeStyle, JoustStrikeStyle> JOUST =
             STRIKE_STYLES.register("joust", () -> new JoustStrikeStyle(StrikeProperties.builder()
                     .speedAttribute(CMAttributes.JOUST_SPEED)
@@ -105,6 +107,14 @@ public class CMStrikeStyles {
                     .lowerHand(true)
                     .minStrengthScale(0.8f)
                     .set(JoustStrikeStyle.ANIMATION_FUNCTION, LanceItem::joustAnimation)
+                    .build()));
+
+    public static final DeferredHolder<StrikeStyle, SmashStrikeStyle> SMASH =
+            STRIKE_STYLES.register("smash", () -> new SmashStrikeStyle(StrikeProperties.builder()
+                    .overlap(false)
+                    .swingHand(false)
+                    .syncAnimSpeed(false)
+                    .set(SmashStrikeStyle.ANIMATION_FUNCTION, (a, b, c, d) -> HammerAnimations.whack())
                     .build()));
 
     public static void register(IEventBus eventBus) {

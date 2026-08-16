@@ -4,7 +4,6 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.event.custom.ItemInHandChangeEvent;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;

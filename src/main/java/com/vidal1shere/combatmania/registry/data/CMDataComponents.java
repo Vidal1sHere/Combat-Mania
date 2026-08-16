@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.registry.data;
 import com.mojang.serialization.Codec;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
+import com.vidal1shere.combatmania.data.component.SmashProperties;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -29,15 +30,16 @@ public class CMDataComponents {
                     .networkSynchronized(ByteBufCodecs.INT)
             );
 
-    public static final Supplier<DataComponentType<Boolean>> BACK_STAB =
-            register("back_stab", b -> b
-                    .networkSynchronized(ByteBufCodecs.BOOL)
-            );
-
     public static final Supplier<DataComponentType<JoustProperties>> JOUST =
             register("joust", b -> b
                     .persistent(JoustProperties.CODEC)
                     .networkSynchronized(JoustProperties.STREAM_CODEC)
+            );
+
+    public static final Supplier<DataComponentType<SmashProperties>> SMASH =
+            register("smash", b -> b
+                    .persistent(SmashProperties.CODEC)
+                    .networkSynchronized(SmashProperties.STREAM_CODEC)
             );
 
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name,

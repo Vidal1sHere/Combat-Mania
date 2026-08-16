@@ -38,14 +38,14 @@ public record ItemAnimationDefinition(float lengthInSeconds, Map<String, List<It
         return Builder
                 .withLength(length)
                 .debug()
-                .pivot(0.71f, -0.64f, -0.61f)
+                .pivot(0.56f, -0.49f, -0.73f)
                 .addChannel("position", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.POSITION,
-                        new Keyframe(length, KeyframeVecs.posVec(0, -0.3f, -0.2f), AnimationChannel.Interpolations.LINEAR)
+                        new Keyframe(length, KeyframeVecs.posVec(0, 0, 0f), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .addChannel("rotation", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.ROTATION,
-                        new Keyframe(length, KeyframeVecs.degreeVec(-90, 0, 0), AnimationChannel.Interpolations.LINEAR)
+                        new Keyframe(length, KeyframeVecs.degreeVec(0, 0, 0), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .build();
     }

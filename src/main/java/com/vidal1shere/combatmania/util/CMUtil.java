@@ -5,12 +5,17 @@ import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
@@ -129,5 +134,16 @@ public final class CMUtil {
         }
 
         return entity == null ? null : new EntityHitResult(entity, vec3);
+    }
+
+    public static float getEnchantedDamage(Player player, ItemStack weapon, Entity entity, float damage, DamageSource damageSource) {
+        if (!(player.level() instanceof ServerLevel serverLevel)) return damage;
+
+        return EnchantmentHelper.modifyDamage(serverLevel, weapon, entity, damageSource, damage);
+    }
+
+    public static float getKnockbackStrength(Player player, ItemStack itemstack, Entity target, DamageSource damagesource) {
+        return (float) player.getAttributeValue(Attributes.ATTACK_KNOCKBACK)
+                + EnchantmentHelper.modifyKnockback((ServerLevel) player.level(), itemstack, target, damagesource, 0);
     }
 }

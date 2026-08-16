@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.api;
 
 import com.vidal1shere.combatmania.data.component.JoustProperties;
+import com.vidal1shere.combatmania.data.component.SmashProperties;
 import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.world.item.Tier;
 
@@ -9,5 +10,9 @@ public interface IExtendedTier extends Tier {
     
     default JoustProperties getJoustProperties() {
         return getCustomProperties().get(JoustProperties.KEY);
+    }
+
+    default SmashProperties getSmashProperties() {
+        return getCustomProperties().get(SmashProperties.KEY);
     }
 }

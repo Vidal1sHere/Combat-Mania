@@ -1,10 +1,7 @@
 package com.vidal1shere.combatmania.registry.data;
 
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.data.attachment.ItemInHandData;
-import com.vidal1shere.combatmania.data.attachment.JoustData;
-import com.vidal1shere.combatmania.data.attachment.StaggerData;
-import com.vidal1shere.combatmania.data.attachment.StrikeData;
+import com.vidal1shere.combatmania.data.attachment.*;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.bus.api.IEventBus;
@@ -39,11 +36,11 @@ public class CMAttachments {
                     () -> AttachmentType.builder(() -> new JoustData())
                             .sync(JoustData.STREAM_CODEC).build());
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> BACKSTAB =
-            ATTACHMENT_TYPES.register("backstab",
-                    () -> AttachmentType.builder(() -> false)
-                            .sync(ByteBufCodecs.BOOL).build());
-
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<AnimationQueueData>> ANIMATION_QUEUE =
+            ATTACHMENT_TYPES.register("animation_queue",
+                    () -> AttachmentType.builder(() -> new AnimationQueueData())
+                            .sync(AnimationQueueData.STREAM_CODEC).build());
+    
     public static void register(IEventBus eventBus) {
         ATTACHMENT_TYPES.register(eventBus);
     }

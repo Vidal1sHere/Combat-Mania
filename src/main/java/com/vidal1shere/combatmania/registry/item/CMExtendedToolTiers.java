@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.registry.item;
 
 import com.vidal1shere.combatmania.api.IExtendedTier;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
+import com.vidal1shere.combatmania.data.component.SmashProperties;
 import com.vidal1shere.combatmania.item.tool.ToolProperties;
 import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.tags.TagKey;
@@ -13,22 +14,39 @@ import net.minecraft.world.level.block.Block;
 import static com.vidal1shere.combatmania.util.CustomProperties.*;
 
 public enum CMExtendedToolTiers implements IExtendedTier {
-    WOOD(Tiers.WOOD, JoustProperties.of(0.7F, 20.0F, 14.0F, 0.666667F, 0.600000F, 0.600000F, 0.700000F)),
-    STONE(Tiers.STONE, JoustProperties.of(0.82F, 25.0F, 13.0F, 0.714286F, 0.666667F, 0.666667F, 0.736842F)),
-    IRON(Tiers.IRON, JoustProperties.of(0.95F, 30.0F, 11.0F, 0.833333F, 1.200000F, 0.705882F, 0.777778F)),
-    DIAMOND(Tiers.DIAMOND, JoustProperties.of(1.075F, 35.0F, 10.0F, 1.000000F, 1.000000F, 1.000000F, 1.000000F)),
-    GOLD(Tiers.GOLD, JoustProperties.of(0.7F, 25.0F, 13.0F, 0.714286F, 0.857143F, 0.600000F, 0.666667F)),
-    NETHERITE(Tiers.NETHERITE, JoustProperties.of(1.2F, 40.0F, 9.0F, 1.250000F, 1.200000F, 1.000000F, 1.076923F));
+    WOOD(Tiers.WOOD,
+            JoustProperties.of(0.7F, 20.0F, 14.0F, 0.666667F, 0.600000F, 0.600000F, 0.700000F),
+            SmashProperties.of(2.5F, 8.0F, 6.0F, 2.5F, 0.5F, 60.0F, 2.5F, 0.5F)),
+
+    STONE(Tiers.STONE,
+            JoustProperties.of(0.82F, 25.0F, 13.0F, 0.714286F, 0.666667F, 0.666667F, 0.736842F),
+            SmashProperties.of(2.25F, 7.0F, 5.5F, 2.5F, 0.6F, 55.0F, 2.75F, 0.55F)),
+
+    IRON(Tiers.IRON,
+            JoustProperties.of(0.95F, 30.0F, 11.0F, 0.833333F, 1.200000F, 0.705882F, 0.777778F),
+            SmashProperties.of(2.0F, 6.0F, 5.0F, 2.25F, 0.7F, 50.0F, 3.0F, 0.6F)),
+
+    DIAMOND(Tiers.DIAMOND,
+            JoustProperties.of(1.075F, 35.0F, 10.0F, 1.000000F, 1.000000F, 1.000000F, 1.000000F),
+            SmashProperties.of(1.75F, 5.5F, 4.5F, 2.0F, 0.8F, 45.0F, 3.25F, 0.65F)),
+
+    GOLD(Tiers.GOLD,
+            JoustProperties.of(0.7F, 25.0F, 13.0F, 0.714286F, 0.857143F, 0.600000F, 0.666667F),
+            SmashProperties.of(2.5F, 8.0F, 4.0F, 2.0F, 1.0F, 60.0F, 3.5F, 0.7F)),
+
+    NETHERITE(Tiers.NETHERITE,
+            JoustProperties.of(1.2F, 40.0F, 9.0F, 1.250000F, 1.200000F, 1.000000F, 1.076923F),
+            SmashProperties.of(1.5F, 5.0F, 4.0F, 2.0F, 1.0F, 40.0F, 3.75F, 0.75F));
 
     private final ToolProperties toolProperties;
     private final CustomProperties customProperties;
     
-    CMExtendedToolTiers(Tier tier, Set<?>... customProperties) {
+    CMExtendedToolTiers(Tier tier, PropertySet<?>... customProperties) {
         this.toolProperties = new ToolProperties(tier);
         this.customProperties = CustomProperties.ofImmutable(customProperties);
     }
 
-    CMExtendedToolTiers(ToolProperties toolProperties, Set<?>... customProperties) {
+    CMExtendedToolTiers(ToolProperties toolProperties, PropertySet<?>... customProperties) {
         this.toolProperties = toolProperties;
         this.customProperties = CustomProperties.ofImmutable(customProperties);
     }

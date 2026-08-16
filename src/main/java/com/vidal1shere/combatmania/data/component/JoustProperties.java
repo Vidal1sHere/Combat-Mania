@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.util.CMUtil;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 import java.util.Objects;
@@ -14,7 +13,7 @@ import static com.vidal1shere.combatmania.util.CustomProperties.*;
 
 public class JoustProperties {
     
-    public static final Key<JoustProperties> KEY = new Key<>(new JoustProperties());
+    public static final PropertyKey<JoustProperties> KEY = new PropertyKey<>(new JoustProperties());
 
     public static final float EQUIP_DURATION = 0.5F;
     public static final float ENGAGED_DURATION = 3.0F;
@@ -30,13 +29,13 @@ public class JoustProperties {
                     Codec.FLOAT.fieldOf("min_dismount_speed")
                             .forGetter(JoustProperties::getMinDismountSpeed),
                     Codec.FLOAT.fieldOf("equip_speed")
-                            .forGetter(properties -> properties.equipSpeed),
+                            .forGetter(JoustProperties::getEquipSpeed),
                     Codec.FLOAT.fieldOf("engaged_speed")
-                            .forGetter(properties -> properties.engagedSpeed),
+                            .forGetter(JoustProperties::getEngagedSpeed),
                     Codec.FLOAT.fieldOf("tired_speed")
-                            .forGetter(properties -> properties.tiredSpeed),
+                            .forGetter(JoustProperties::getTiredSpeed),
                     Codec.FLOAT.fieldOf("disengaged_speed")
-                            .forGetter(properties -> properties.disengagedSpeed)
+                            .forGetter(JoustProperties::getDisengagedSpeed)
             ).apply(instance, JoustProperties::new)
     );
 
@@ -51,13 +50,11 @@ public class JoustProperties {
                         buf.writeFloat(data.tiredSpeed);
                         buf.writeFloat(data.disengagedSpeed);
                     },
-                    buf -> {
-                        return new JoustProperties(
-                                buf.readFloat(), buf.readFloat(), buf.readFloat(),
-                                buf.readFloat(), buf.readFloat(), buf.readFloat(),
-                                buf.readFloat()
-                        );
-                    }
+                    buf -> new JoustProperties(
+                            buf.readFloat(), buf.readFloat(), buf.readFloat(),
+                            buf.readFloat(), buf.readFloat(), buf.readFloat(),
+                            buf.readFloat()
+                    )
             );
 
     private final float damageMultiplier;
@@ -83,9 +80,9 @@ public class JoustProperties {
         this(0.7F, 0.0F, 10.0F, 1.0F, 1.0F, 1.0F, 1.0F);
     }
     
-    public static Set<JoustProperties> of(float damageMultiplier, float maxDamage, float minDismountSpeed, float equipSpeed,
-                                   float engagedSpeed, float tiredSpeed, float disengagedSpeed) {
-        return new Set<>(KEY, new JoustProperties(
+    public static PropertySet<JoustProperties> of(float damageMultiplier, float maxDamage, float minDismountSpeed, float equipSpeed,
+                                                  float engagedSpeed, float tiredSpeed, float disengagedSpeed) {
+        return new PropertySet<>(KEY, new JoustProperties(
                 damageMultiplier, maxDamage, minDismountSpeed, equipSpeed, 
                 engagedSpeed, tiredSpeed, disengagedSpeed)
         );

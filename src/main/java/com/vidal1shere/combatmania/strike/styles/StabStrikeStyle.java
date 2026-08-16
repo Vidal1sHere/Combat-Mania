@@ -31,14 +31,14 @@ import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 
 import java.util.function.BiFunction;
 
-import static com.vidal1shere.combatmania.util.CustomProperties.Key;
+import static com.vidal1shere.combatmania.util.CustomProperties.PropertyKey;
 
 public class StabStrikeStyle extends StrikeStyle {
 
-    public static final Key<Float> BACKSTAB_MAX_REACH = new Key<>(2F);
-    public static final Key<Float> BACKSTAB_ANGLE = new Key<>(30.0F);
-    public static final Key<BiFunction<ItemStack, Player, Float>> BACKSTAB_MULTIPLIER = 
-            new Key<>(StabStrikeStyle::getBackStabMultiplier);
+    public static final PropertyKey<Float> BACKSTAB_MAX_REACH = new PropertyKey<>(2F);
+    public static final PropertyKey<Float> BACKSTAB_ANGLE = new PropertyKey<>(30.0F);
+    public static final PropertyKey<BiFunction<ItemStack, Player, Float>> BACKSTAB_MULTIPLIER = 
+            new PropertyKey<>(StabStrikeStyle::getBackStabMultiplier);
 
     public StabStrikeStyle(StrikeProperties properties) {
         super(properties);
