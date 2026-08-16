@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "combat_mania:item/leather_quiver_filled_0",
+      "predicate": {
+        "combat_mania:filled": 1.0
+      }
+    },
+    {
+      "model": "combat_mania:item/leather_quiver_filled_1",
+      "predicate": {
+        "combat_mania:filled": 2.0
+      }
+    },
+    {
+      "model": "combat_mania:item/leather_quiver_filled_2",
+      "predicate": {
+        "combat_mania:filled": 3.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "combat_mania:item/leather_quiver"
+  }
+}

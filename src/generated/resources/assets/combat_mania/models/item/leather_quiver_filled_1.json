@@ -1,0 +1,6 @@
+{
+  "parent": "combat_mania:item/leather_quiver",
+  "textures": {
+    "layer0": "combat_mania:item/leather_quiver_filled_1"
+  }
+}
