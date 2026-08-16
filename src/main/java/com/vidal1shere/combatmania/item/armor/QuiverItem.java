@@ -4,6 +4,7 @@ import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.util.Color;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -45,7 +46,7 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public QuiverItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
-        super(material, type, properties.component(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY));
+        super(material, type, properties.stacksTo(1).component(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY));
     }
 
     public abstract Set<EquipmentSlot> getAllowedSlots();
@@ -79,7 +80,7 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
 
         if (slotItem.isEmpty()) {
             playRemoveOneSound(player);
-            ItemStack removed = mutable.removeOne();
+            ItemStack removed = mutable.remove(0);
             if (removed != null) {
                 ItemStack leftover = slot.safeInsert(removed);
                 mutable.tryInsert(leftover);
@@ -169,7 +170,11 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
     public static void modifyTooltip(ItemTooltipEvent event) {
         if (!(event.getItemStack().getItem() instanceof QuiverItem)) return;
 
-        event.getToolTip().clear();
+        if (event.getToolTip().size() > 1) {
+            event.getToolTip()
+                    .subList(1, event.getToolTip().size())
+                    .clear();
+        }
     }
     
     @Override

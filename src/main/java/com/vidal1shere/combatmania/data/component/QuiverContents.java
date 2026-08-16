@@ -131,15 +131,40 @@ public final class QuiverContents {
         }
 
         @Nullable
+        public ItemStack remove(int index) {
+            if (index < 0 || index >= items.size()) return null;
+
+            ItemStack removed = items.remove(index);
+            this.count -= removed.getCount();
+            return removed;
+        }
+
+        @Nullable
+        public ItemStack removeOne(int index) {
+            if (index < 0 || index >= items.size()) return null;
+
+            ItemStack stack = items.get(index);
+            ItemStack removed = stack.copyWithCount(1);
+
+            stack.shrink(1);
+            count--;
+
+            if (stack.isEmpty()) items.remove(index);
+
+            return removed;
+        }
+
+        @Nullable
         public ItemStack removeOne() {
-            if (items.isEmpty()) return null;
-            ItemStack stack = items.remove(0).copy();
-            this.count -= stack.getCount();
-            return stack;
+            return removeOne(0);
         }
 
         public int count() {
             return this.count;
+        }
+
+        public int size() {
+            return this.items.size();
         }
 
         public QuiverContents toImmutable() {

@@ -38,6 +38,14 @@ public class CMAttachments {
                     () -> AttachmentType.builder(() -> new JoustData())
                             .sync(JoustData.STREAM_CODEC).build());
 
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<QuiverData>> QUIVER =
+            ATTACHMENT_TYPES.register("quiver",
+                    () -> AttachmentType.builder(() -> QuiverData.EMPTY)
+                            .serialize(QuiverData.CODEC)
+                            .sync(QuiverData.STREAM_CODEC)
+                            .copyOnDeath()
+                            .build());
+
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<AnimationQueueData>> ANIMATION_QUEUE =
             ATTACHMENT_TYPES.register("animation_queue",
                     () -> AttachmentType.builder(() -> new AnimationQueueData())
