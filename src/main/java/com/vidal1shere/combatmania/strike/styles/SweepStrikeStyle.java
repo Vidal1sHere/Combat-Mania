@@ -51,8 +51,6 @@ public class SweepStrikeStyle extends StrikeStyle {
     public static final PropertyKey<SoundEvent> STRONG_HIT_SOUND = new PropertyKey<>(SoundEvents.PLAYER_ATTACK_STRONG);
     public static final PropertyKey<SoundEvent> MISS_SOUND = new PropertyKey<>(SoundEvents.PLAYER_ATTACK_NODAMAGE);
     public static final PropertyKey<SoundEvent> KNOCKBACK_SOUND = new PropertyKey<>(SoundEvents.PLAYER_ATTACK_KNOCKBACK);
-    public static final PropertyKey<AnimationSupplier> ANIMATION_FUNCTION = new PropertyKey<>(
-            (s, h, p, st) -> null);
 
     public SweepStrikeStyle(StrikeProperties properties) {
         super(properties);
@@ -267,8 +265,8 @@ public class SweepStrikeStyle extends StrikeStyle {
     @Override
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
         if (swingHand()) return;
-        
-        state.setActiveDefinition(properties().get(ANIMATION_FUNCTION).get(stack, hand, player, state));
+
+        state.setActiveDefinition(supplyAnimation(stack, hand, player, state));
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
     }
 

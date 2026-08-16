@@ -61,7 +61,7 @@ public class JoustStrikeStyle extends StrikeStyle {
     public static final PropertyKey<SoundEvent> LIGHT_ENGAGE_SOUND = new PropertyKey<>(CMSounds.WOODEN_SPEAR_USE.get());
     public static final PropertyKey<SoundEvent> HIT_SOUND = new PropertyKey<>(CMSounds.SPEAR_HIT.get());
     public static final PropertyKey<SoundEvent> LIGHT_HIT_SOUND = new PropertyKey<>(CMSounds.WOODEN_SPEAR_HIT.get());
-    public static final PropertyKey<JoustAnimationFunction> ANIMATION_FUNCTION = new PropertyKey<>(JoustStrikeStyle::defaultJoustAnimation);
+    public static final PropertyKey<JoustAnimationSupplier> JOUST_ANIMATION = new PropertyKey<>(JoustStrikeStyle::defaultJoustAnimation);
     
     public JoustStrikeStyle(StrikeProperties properties) {
         super(StrikeProperties.builder(properties)
@@ -71,6 +71,11 @@ public class JoustStrikeStyle extends StrikeStyle {
 
     public static int getMaxDuration(ItemStack stack, LivingEntity entity) {
         return stack.getOrDefault(CMDataComponents.JOUST, new JoustProperties()).getTotalDuration();
+    }
+
+    public ItemAnimationDefinition supplyAnimation(ItemStack stack, InteractionHand hand, Player player, 
+                                                   ItemAnimationState state, JoustData.Stage stage) {
+        return properties().get(JOUST_ANIMATION).get(stack, hand, player, state, stage);
     }
     
     @Override
@@ -328,7 +333,8 @@ public class JoustStrikeStyle extends StrikeStyle {
             default -> ItemAnimationState.LoopType.HOLD_ON_LAST_FRAME;
         };
         
-        ItemAnimationDefinition definition = properties().get(ANIMATION_FUNCTION).get(data.getStage());
+        ItemAnimationDefinition definition = properties().get(JOUST_ANIMATION)
+                .get(stack, hand, player, state, data.getStage());
 
 //        System.out.println("-----");
 //        System.out.println("[Joust SetupAnim] ANIMATION QUEUED");
@@ -345,17 +351,12 @@ public class JoustStrikeStyle extends StrikeStyle {
     }
 
     @Override
-    public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
-        JoustData data = JoustData.get(player);
-        return properties().get(ANIMATION_FUNCTION).get(data.getStage());
-    }
-
-    @Override
     public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
         state.stop();
     }
 
-    public static ItemAnimationDefinition defaultJoustAnimation(JoustData.Stage stage) {
+    public static ItemAnimationDefinition defaultJoustAnimation(ItemStack stack, InteractionHand hand, Player player, 
+                                                                ItemAnimationState state, JoustData.Stage stage) {
         return switch (stage) {
             case NONE -> null;
             case ENGAGED -> SpearAnimations.joustEngaged();
@@ -417,7 +418,7 @@ public class JoustStrikeStyle extends StrikeStyle {
     }
     
     @FunctionalInterface
-    public interface JoustAnimationFunction {
-        ItemAnimationDefinition get(JoustData.Stage stage);
+    public interface JoustAnimationSupplier {
+        ItemAnimationDefinition get(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, JoustData.Stage stage);
     }
 }

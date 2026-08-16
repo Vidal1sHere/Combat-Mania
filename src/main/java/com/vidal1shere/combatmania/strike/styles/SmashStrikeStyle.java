@@ -1,11 +1,9 @@
 package com.vidal1shere.combatmania.strike.styles;
 
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
 import com.vidal1shere.combatmania.event.custom.StaggerAttackEvent;
-import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.strike.StrikeContext;
@@ -51,8 +49,6 @@ public class SmashStrikeStyle extends StrikeStyle {
     public static final CustomProperties.PropertyKey<SoundEvent> HEAVY_SMASH_SOUND = new CustomProperties.PropertyKey<>(SoundEvents.MACE_SMASH_GROUND_HEAVY);
     public static final CustomProperties.PropertyKey<SoundEvent> AIR_SMASH_SOUND = new CustomProperties.PropertyKey<>(SoundEvents.MACE_SMASH_AIR);
     public static final CustomProperties.PropertyKey<SoundEvent> MISS_SOUND = new CustomProperties.PropertyKey<>(SoundEvents.PLAYER_ATTACK_NODAMAGE);
-    public static final CustomProperties.PropertyKey<AnimationSupplier> ANIMATION_FUNCTION = new CustomProperties.PropertyKey<>(
-            (s, h, p, st) -> null);
     
     public SmashStrikeStyle(StrikeProperties properties) {
         super(properties);
@@ -350,7 +346,7 @@ public class SmashStrikeStyle extends StrikeStyle {
 
     @Override
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-        state.setActiveDefinition(properties().get(ANIMATION_FUNCTION).get(stack, hand, player, state));
+        state.setActiveDefinition(supplyAnimation(stack, hand, player, state));
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
     }
 }

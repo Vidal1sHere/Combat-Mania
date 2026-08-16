@@ -1,10 +1,15 @@
 package com.vidal1shere.combatmania.strike;
 
+import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.util.AnimationSupplier;
 import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.core.Holder;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.BiFunction;
@@ -18,6 +23,7 @@ public class StrikeProperties {
     private final boolean overlap;
     private final boolean swingHand;
     private final boolean lowerHand;
+    private final AnimationSupplier animationSupplier;
     private final CustomProperties customProperties;
     
     protected StrikeProperties(Builder builder) {
@@ -28,6 +34,7 @@ public class StrikeProperties {
         this.overlap = builder.overlap;
         this.swingHand = builder.swingHand;
         this.lowerHand = builder.lowerHand;
+        this.animationSupplier = builder.animationSupplier;
         this.customProperties = builder.customProperties;
     }
 
@@ -58,6 +65,11 @@ public class StrikeProperties {
     public boolean lowerHand() {
         return lowerHand;
     }
+    
+    public ItemAnimationDefinition supplyAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
+        if (animationSupplier == null) return null;
+        return animationSupplier.get(stack, hand, player, state);
+    }
 
     @SuppressWarnings("unchecked")
     public <T> T get(CustomProperties.PropertyKey<T> key) {
@@ -83,6 +95,8 @@ public class StrikeProperties {
         private boolean overlap = false;
         private boolean swingHand = true;
         private boolean lowerHand = false;
+        private AnimationSupplier animationSupplier = 
+                ((stack, hand, player, state) -> null);
         private CustomProperties customProperties = CustomProperties.of();
         
         public Builder() {}
@@ -129,6 +143,11 @@ public class StrikeProperties {
 
         public Builder lowerHand(boolean value) {
             this.lowerHand = value;
+            return this;
+        }
+        
+        public Builder animationSupplier(AnimationSupplier supplier) {
+            this.animationSupplier = supplier;
             return this;
         }
 

@@ -46,8 +46,6 @@ public class JabStrikeStyle extends StrikeStyle {
     public static final PropertyKey<SoundEvent> LIGHT_JAB_SOUND = new PropertyKey<>(CMSounds.WOODEN_SPEAR_JAB.get());
     public static final PropertyKey<SoundEvent> HIT_SOUND = new PropertyKey<>(CMSounds.SPEAR_HIT.get());
     public static final PropertyKey<SoundEvent> LIGHT_HIT_SOUND = new PropertyKey<>(CMSounds.WOODEN_SPEAR_HIT.get());
-    public static final PropertyKey<AnimationSupplier> ANIMATION_FUNCTION = new PropertyKey<>(
-            (s, h, p, st) -> SpearAnimations.jab());
 
     public JabStrikeStyle(StrikeProperties properties) {
         super(properties);
@@ -189,7 +187,7 @@ public class JabStrikeStyle extends StrikeStyle {
 
     @Override
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-        state.setActiveDefinition(properties().get(ANIMATION_FUNCTION).get(stack, hand, player, state));
+        state.setActiveDefinition(supplyAnimation(stack, hand, player, state));
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
     }
 }

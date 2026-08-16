@@ -45,6 +45,10 @@ public abstract class StrikeStyle {
     public boolean lowerHand() {
         return properties.lowerHand();
     }
+    
+    public ItemAnimationDefinition supplyAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
+        return properties.supplyAnimation(stack, hand, player, state);
+    }
 
     protected StrikeProperties properties() {
         return properties;

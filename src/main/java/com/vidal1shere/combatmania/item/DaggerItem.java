@@ -1,6 +1,10 @@
 package com.vidal1shere.combatmania.item;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.DaggerAnimations;
+import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
+import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
@@ -12,16 +16,14 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.Level;
@@ -121,5 +123,15 @@ public class DaggerItem extends TieredItem implements IStrikeWeapon {
             serverLevel.sendParticles(ParticleUtil.sweep(false, true, !player.onGround(), false),
                     target.getX() - d0, target.getY() + 1, target.getZ() - d1, 0, d0, 0.0F, d1, 0.0F);
         }
+    }
+
+    public static ItemAnimationDefinition stabAnimation(ItemStack stack, InteractionHand hand,
+                                                         Player player, ItemAnimationState state) {
+        return DaggerAnimations.stab();
+    }
+
+    public static ItemAnimationDefinition backstabAnimation(ItemStack stack, InteractionHand hand,
+                                                        Player player, ItemAnimationState state) {
+        return DaggerAnimations.backStab();
     }
 }

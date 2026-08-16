@@ -1,11 +1,13 @@
 package com.vidal1shere.combatmania.strike.styles;
 
+import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.DaggerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.item.DaggerItem;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import com.vidal1shere.combatmania.util.AnimationSupplier;
 import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -39,6 +41,9 @@ public class StabStrikeStyle extends StrikeStyle {
     public static final PropertyKey<Float> BACKSTAB_ANGLE = new PropertyKey<>(30.0F);
     public static final PropertyKey<BiFunction<ItemStack, Player, Float>> BACKSTAB_MULTIPLIER = 
             new PropertyKey<>(StabStrikeStyle::getBackStabMultiplier);
+    public static final PropertyKey<AnimationSupplier> BACKSTAB_ANIMATION = 
+            new PropertyKey<>((i, h, p, s) -> 
+                    DaggerAnimations.backStab());
 
     public StabStrikeStyle(StrikeProperties properties) {
         super(properties);
@@ -61,6 +66,12 @@ public class StabStrikeStyle extends StrikeStyle {
                 .sum();
 
         return (float) (damage * 0.48125D + 0.59375D);
+    }
+    
+    public ItemAnimationDefinition supplyBackstabAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
+        AnimationSupplier animation = properties().get(BACKSTAB_ANIMATION);
+        if (animation == null) return null;
+        return animation.get(stack, hand, player, state);
     }
     
     private boolean isBackstab(Player player, Entity target) {
@@ -213,7 +224,8 @@ public class StabStrikeStyle extends StrikeStyle {
 
     @Override
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-        state.setActiveDefinition(DaggerItem.backStabQueued(player) ? DaggerAnimations.backStab() : DaggerAnimations.stab());
+        state.setActiveDefinition(DaggerItem.backStabQueued(player) ? 
+                supplyBackstabAnimation(stack, hand, player, state) : supplyAnimation(stack, hand, player, state));
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
         DaggerItem.clearBackStab(player);
     }

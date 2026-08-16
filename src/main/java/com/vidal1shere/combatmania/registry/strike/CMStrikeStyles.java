@@ -3,9 +3,7 @@ package com.vidal1shere.combatmania.registry.strike;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.client.animation.item.HammerAnimations;
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
-import com.vidal1shere.combatmania.item.DaggerItem;
-import com.vidal1shere.combatmania.item.GlaiveItem;
-import com.vidal1shere.combatmania.item.LanceItem;
+import com.vidal1shere.combatmania.item.*;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
@@ -48,8 +46,8 @@ public class CMStrikeStyles {
                     .minStrengthScale(0.25F)
                     .swingHand(false)
                     .overlap(false)
+                    .animationSupplier(GlaiveItem::glaiveAnimation)
                     .set(SweepStrikeStyle.SWEEP_PARTICLE, GlaiveItem::sweepParticle)
-                    .set(SweepStrikeStyle.ANIMATION_FUNCTION, GlaiveItem::glaiveAnimation)
                     .build()));
 
     public static final DeferredHolder<StrikeStyle, CleaveStrikeStyle> CLEAVE =
@@ -62,6 +60,7 @@ public class CMStrikeStyles {
             STRIKE_STYLES.register("jab", () -> new JabStrikeStyle(StrikeProperties.builder()
                     .speedAttribute(CMAttributes.JAB_SPEED)
                     .swingHand(false)
+                    .animationSupplier(SpearItem::spearAnimation)
                     .build()));
 
     public static final DeferredHolder<StrikeStyle, JabStrikeStyle> SPEAR_JAB =
@@ -69,14 +68,14 @@ public class CMStrikeStyles {
                     .speedAttribute(CMAttributes.JAB_SPEED)
                     .swingHand(false)
                     .overlap(true)
+                    .animationSupplier(SpearItem::spearAnimation)
                     .build()));
 
     public static final DeferredHolder<StrikeStyle, JabStrikeStyle> TRIDENT_JAB =
             STRIKE_STYLES.register("trident_jab", () -> new JabStrikeStyle(StrikeProperties.builder()
                     .speedAttribute(CMAttributes.JAB_SPEED)
                     .swingHand(false)
-                    .set(JabStrikeStyle.ANIMATION_FUNCTION, (i, h, p, s) ->
-                            SpearAnimations.tridentJab())
+                    .animationSupplier(SpearItem::spearAnimation)
                     .build()));
 
 
@@ -86,6 +85,7 @@ public class CMStrikeStyles {
                     .swingHand(false)
                     .overlap(false)
                     .minStrengthScale(0.5F)
+                    .animationSupplier(DaggerItem::stabAnimation)
                     .build()));
     
     public static final DeferredHolder<StrikeStyle, JoustStrikeStyle> JOUST =
@@ -103,7 +103,7 @@ public class CMStrikeStyles {
                     .swingHand(false)
                     .lowerHand(true)
                     .minStrengthScale(0.8f)
-                    .set(JoustStrikeStyle.ANIMATION_FUNCTION, LanceItem::joustAnimation)
+                    .set(JoustStrikeStyle.JOUST_ANIMATION, LanceItem::joustAnimation)
                     .build()));
 
     public static final DeferredHolder<StrikeStyle, SmashStrikeStyle> SMASH =
@@ -111,7 +111,7 @@ public class CMStrikeStyles {
                     .overlap(false)
                     .swingHand(false)
                     .syncAnimSpeed(false)
-                    .set(SmashStrikeStyle.ANIMATION_FUNCTION, (a, b, c, d) -> HammerAnimations.whack())
+                    .animationSupplier(StrikeMaceItem::maceAnimation)
                     .build()));
 
     public static void register(IEventBus eventBus) {

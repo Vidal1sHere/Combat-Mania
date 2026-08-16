@@ -5,6 +5,7 @@ import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.LanceAnimations;
 import com.vidal1shere.combatmania.client.animation.item.SwordAnimations;
+import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
@@ -14,6 +15,7 @@ import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -110,7 +112,8 @@ public class LanceItem extends TieredItem implements IStrikeWeapon {
         return slotChanged;
     }
 
-    public static ItemAnimationDefinition joustAnimation(JoustData.Stage stage) {
+    public static ItemAnimationDefinition joustAnimation(ItemStack stack, InteractionHand hand, 
+                                                         Player player, ItemAnimationState state, JoustData.Stage stage) {
         return switch (stage) {
             case NONE -> null;
             case ENGAGED -> LanceAnimations.joustEngaged();
