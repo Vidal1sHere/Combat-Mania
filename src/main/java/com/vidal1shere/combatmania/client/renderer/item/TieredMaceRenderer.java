@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.vidal1shere.combatmania.client.model.TieredMaceHeadModel;
 import com.vidal1shere.combatmania.config.CMClientConfig;
-import com.vidal1shere.combatmania.constants.TieredMaceTextures;
+import com.vidal1shere.combatmania.constants.TieredMaceModels;
 import com.vidal1shere.combatmania.item.StrikeMaceItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -24,8 +24,8 @@ import java.util.Map;
 
 public class TieredMaceRenderer extends BlockEntityWithoutLevelRenderer {
     private final ItemRenderer renderer;
-    private final Map<TieredMaceTextures, BakedModel> handleModels = new HashMap<>();
-    private final Map<TieredMaceTextures, BakedModel> fullModels = new HashMap<>();
+    private final Map<TieredMaceModels, BakedModel> handleModels = new HashMap<>();
+    private final Map<TieredMaceModels, BakedModel> fullModels = new HashMap<>();
     public final TieredMaceHeadModel headModel;
     private boolean modelsLoaded;
 
@@ -37,11 +37,11 @@ public class TieredMaceRenderer extends BlockEntityWithoutLevelRenderer {
 
     private void loadModelsIfNeeded() {
         if (modelsLoaded) return;
-        for (TieredMaceTextures tier : TieredMaceTextures.values()) {
+        for (TieredMaceModels tier : TieredMaceModels.values()) {
             handleModels.put(tier, renderer.getItemModelShaper().getModelManager()
                     .getModel(ModelResourceLocation.standalone(tier.getHandleModel())));
             fullModels.put(tier, renderer.getItemModelShaper().getModelManager()
-                    .getModel(ModelResourceLocation.standalone(tier.getFullTexture())));
+                    .getModel(ModelResourceLocation.standalone(tier.getFullModel())));
         }
         modelsLoaded = true;
     }
@@ -52,7 +52,7 @@ public class TieredMaceRenderer extends BlockEntityWithoutLevelRenderer {
 
         loadModelsIfNeeded();
         
-        TieredMaceTextures tier = maceItem.getTierTexture();
+        TieredMaceModels tier = maceItem.getTierTexture();
         boolean is3D = CMClientConfig.THREE_DIMENSIONAL_MACES.get();
         boolean inHand = transformType == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND
                 || transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND
@@ -73,7 +73,7 @@ public class TieredMaceRenderer extends BlockEntityWithoutLevelRenderer {
         poseStack.popPose();
     }
 
-    private void render3D(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemStack, ItemDisplayContext transformType, int light, int overlay, boolean leftHanded, TieredMaceTextures tier) {
+    private void render3D(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemStack, ItemDisplayContext transformType, int light, int overlay, boolean leftHanded, TieredMaceModels tier) {
         BakedModel handleModel = handleModels.get(tier);
 
         renderer.render(itemStack, transformType, leftHanded, poseStack, bufferSource, light, overlay, handleModel);
@@ -93,7 +93,7 @@ public class TieredMaceRenderer extends BlockEntityWithoutLevelRenderer {
         poseStack.popPose();
     }
 
-    private void render2D(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemStack, ItemDisplayContext transformType, int light, int overlay, boolean leftHanded, TieredMaceTextures tier) {
+    private void render2D(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemStack, ItemDisplayContext transformType, int light, int overlay, boolean leftHanded, TieredMaceModels tier) {
         BakedModel fullModel = fullModels.get(tier);
         renderer.render(itemStack, transformType, leftHanded, poseStack, bufferSource, light, overlay, fullModel);
     }

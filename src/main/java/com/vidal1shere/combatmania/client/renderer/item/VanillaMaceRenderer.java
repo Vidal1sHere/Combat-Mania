@@ -5,7 +5,6 @@ import com.mojang.math.Axis;
 import com.vidal1shere.combatmania.api.extension.item.IMaceTexture;
 import com.vidal1shere.combatmania.client.model.VanillaMaceHeadModel;
 import com.vidal1shere.combatmania.config.CMClientConfig;
-import com.vidal1shere.combatmania.item.StrikeMaceItem;
 import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -30,7 +29,7 @@ public class VanillaMaceRenderer extends BlockEntityWithoutLevelRenderer {
     
     public static final IMaceTexture MACE_MODELS = new IMaceTexture() {
         @Override
-        public ResourceLocation getFullTexture() {
+        public ResourceLocation getFullModel() {
             return CMUtil.mcResLoc("item/mace");
         }
 
@@ -56,7 +55,7 @@ public class VanillaMaceRenderer extends BlockEntityWithoutLevelRenderer {
         this.handleModel = renderer.getItemModelShaper().getModelManager()
                 .getModel(ModelResourceLocation.standalone(MACE_MODELS.getHandleModel()));
         this.fullModel = renderer.getItemModelShaper().getModelManager()
-                .getModel(ModelResourceLocation.standalone(MACE_MODELS.getFullTexture()));
+                .getModel(ModelResourceLocation.standalone(MACE_MODELS.getFullModel()));
         modelsLoaded = true;
     }
 

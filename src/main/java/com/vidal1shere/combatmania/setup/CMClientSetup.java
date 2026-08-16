@@ -8,7 +8,7 @@ import com.vidal1shere.combatmania.client.renderer.item.VanillaMaceRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownJavelinRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownTrident2dRenderer;
 import com.vidal1shere.combatmania.config.CMClientConfig;
-import com.vidal1shere.combatmania.constants.TieredMaceTextures;
+import com.vidal1shere.combatmania.constants.TieredMaceModels;
 import com.vidal1shere.combatmania.item.StrikeMaceItem;
 import com.vidal1shere.combatmania.particle.CustomParticle;
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
@@ -57,12 +57,12 @@ public class CMClientSetup {
 
     @SubscribeEvent
     public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
-        for (TieredMaceTextures tier : TieredMaceTextures.values()) {
-            event.register(ModelResourceLocation.standalone(tier.getFullTexture()));
+        for (TieredMaceModels tier : TieredMaceModels.values()) {
+            event.register(ModelResourceLocation.standalone(tier.getFullModel()));
             event.register(ModelResourceLocation.standalone(tier.getHandleModel()));
         }
 
-        event.register(ModelResourceLocation.standalone(VanillaMaceRenderer.MACE_MODELS.getFullTexture()));
+        event.register(ModelResourceLocation.standalone(VanillaMaceRenderer.MACE_MODELS.getFullModel()));
         event.register(ModelResourceLocation.standalone(VanillaMaceRenderer.MACE_MODELS.getHandleModel()));
     }
     
