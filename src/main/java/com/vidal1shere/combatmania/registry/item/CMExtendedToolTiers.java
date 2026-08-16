@@ -3,13 +3,10 @@ package com.vidal1shere.combatmania.registry.item;
 import com.vidal1shere.combatmania.api.IExtendedTier;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
-import com.vidal1shere.combatmania.item.tool.ToolProperties;
+import com.vidal1shere.combatmania.item.tier.ToolProperties;
 import com.vidal1shere.combatmania.util.CustomProperties;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Block;
 
 import static com.vidal1shere.combatmania.util.CustomProperties.*;
 

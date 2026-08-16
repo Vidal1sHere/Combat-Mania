@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.item;
+package com.vidal1shere.combatmania.item.weapon;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.constants.StrikeSlot;

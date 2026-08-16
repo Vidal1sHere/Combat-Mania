@@ -3,7 +3,7 @@ package com.vidal1shere.combatmania.strike.styles;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.DaggerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
-import com.vidal1shere.combatmania.item.DaggerItem;
+import com.vidal1shere.combatmania.item.weapon.DaggerItem;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;

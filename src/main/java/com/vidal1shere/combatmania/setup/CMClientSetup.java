@@ -9,7 +9,7 @@ import com.vidal1shere.combatmania.client.renderer.projectile.ThrownJavelinRende
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownTrident2dRenderer;
 import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.constants.TieredMaceModels;
-import com.vidal1shere.combatmania.item.StrikeMaceItem;
+import com.vidal1shere.combatmania.item.weapon.StrikeMaceItem;
 import com.vidal1shere.combatmania.particle.CustomParticle;
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItemProperties;

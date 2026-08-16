@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.item.tool;
+package com.vidal1shere.combatmania.item.tier;
 
 import com.vidal1shere.combatmania.api.IExtendedTier;
 import com.vidal1shere.combatmania.util.CustomProperties;

@@ -3,7 +3,7 @@ package com.vidal1shere.combatmania.registry.item;
 import com.mojang.serialization.MapCodec;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.config.ItemConfigCondition;
-import com.vidal1shere.combatmania.item.*;
+import com.vidal1shere.combatmania.item.weapon.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.bus.api.IEventBus;

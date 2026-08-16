@@ -1,9 +1,7 @@
 package com.vidal1shere.combatmania.registry.strike;
 
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.client.animation.item.HammerAnimations;
-import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
-import com.vidal1shere.combatmania.item.*;
+import com.vidal1shere.combatmania.item.weapon.*;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;

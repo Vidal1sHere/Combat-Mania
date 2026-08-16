@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.item.tool;
+package com.vidal1shere.combatmania.item.tier;
 
 import com.google.common.base.Suppliers;
 import net.minecraft.tags.TagKey;

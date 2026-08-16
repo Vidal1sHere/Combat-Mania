@@ -5,7 +5,7 @@ import com.mojang.math.Axis;
 import com.vidal1shere.combatmania.client.model.TieredMaceHeadModel;
 import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.constants.TieredMaceModels;
-import com.vidal1shere.combatmania.item.StrikeMaceItem;
+import com.vidal1shere.combatmania.item.weapon.StrikeMaceItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
