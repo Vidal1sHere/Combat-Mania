@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.setup;
 import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.config.CMCommonConfig;
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.config.CMItemConfig;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataMaps;
 import com.vidal1shere.combatmania.registry.item.CMItems;
@@ -44,7 +45,7 @@ public class CMCommonSetup {
     @SubscribeEvent
     public static void registeCreativeItems(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            if (CMClientConfig.DAGGER_ITEMS.get()) {
+            if (CMItemConfig.DAGGER_ITEMS.get()) {
                 event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.DIAMOND_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.GOLDEN_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.IRON_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -52,7 +53,7 @@ public class CMCommonSetup {
                 event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.WOODEN_DAGGER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
 
-            if (CMClientConfig.LANCE_ITEMS.get()) {
+            if (CMItemConfig.LANCE_ITEMS.get()) {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.DIAMOND_LANCE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.GOLDEN_LANCE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.IRON_LANCE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -60,7 +61,7 @@ public class CMCommonSetup {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.WOODEN_LANCE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
 
-            if (CMClientConfig.JAVELIN_ITEMS.get()) {
+            if (CMItemConfig.JAVELIN_ITEMS.get()) {
                 event.insertBefore(new ItemStack(Items.TRIDENT), CMItems.WOODEN_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertBefore(new ItemStack(Items.TRIDENT), CMItems.STONE_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertBefore(new ItemStack(Items.TRIDENT), CMItems.IRON_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -68,7 +69,7 @@ public class CMCommonSetup {
                 event.insertBefore(new ItemStack(Items.TRIDENT), CMItems.DIAMOND_JAVELIN.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
 
-            if (CMClientConfig.MACE_ITEMS.get()) {
+            if (CMItemConfig.MACE_ITEMS.get()) {
                 event.insertBefore(new ItemStack(Items.MACE), CMItems.WOODEN_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertBefore(new ItemStack(Items.MACE), CMItems.STONE_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertBefore(new ItemStack(Items.MACE), CMItems.IRON_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -76,7 +77,7 @@ public class CMCommonSetup {
                 event.insertBefore(new ItemStack(Items.MACE), CMItems.DIAMOND_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
 
-            if (CMClientConfig.GLAIVE_ITEMS.get()) {
+            if (CMItemConfig.GLAIVE_ITEMS.get()) {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.DIAMOND_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.GOLDEN_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.IRON_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -84,7 +85,7 @@ public class CMCommonSetup {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.WOODEN_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
 
-            if (CMClientConfig.SPEAR_ITEMS.get()) {
+            if (CMItemConfig.SPEAR_ITEMS.get()) {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.NETHERITE_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.DIAMOND_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.GOLDEN_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);

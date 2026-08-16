@@ -1,18 +1,29 @@
 package com.vidal1shere.combatmania.registry.item;
 
+import com.mojang.serialization.MapCodec;
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.config.ItemConfigCondition;
 import com.vidal1shere.combatmania.item.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 public class CMItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CombatMania.MOD_ID);
+
+    public static final DeferredRegister<MapCodec<? extends ICondition>> CONDITION_CODECS =
+            DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, CombatMania.MOD_ID);
+
+    public static final Supplier<MapCodec<ItemConfigCondition>> ITEM_CONFIG_ENABLED_CONDITION =
+            CONDITION_CODECS.register("item_config_enabled", () -> ItemConfigCondition.CODEC);
 
     public static final DeferredItem<StrikeSwordItem> STRIKE_SWORD = ITEMS.register(
             "strike_sword", () -> new StrikeSwordItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
@@ -180,5 +191,6 @@ public class CMItems {
     
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
+        CONDITION_CODECS.register(eventBus);
     }
 }

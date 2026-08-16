@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "combat_mania:item_config_enabled"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "M": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "  M",
+    " S ",
+    "S  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "combat_mania:iron_javelin"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "combat_mania:item_config_enabled"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_stick": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:stick"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "combat_mania:golden_mace"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_stick"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "combat_mania:golden_mace"
+    ]
+  }
+}
