@@ -4,7 +4,6 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.client.gui.access.QuiverHudState;
 import com.vidal1shere.combatmania.data.attachment.QuiverData;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
-import com.vidal1shere.combatmania.mixin.client.GuiMixin;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import io.netty.buffer.ByteBuf;
@@ -17,17 +16,17 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public abstract class QuiverArrowCycle implements CustomPacketPayload {
+public abstract class QuiverArrowCyclePayload implements CustomPacketPayload {
 
     public enum Direction { NEXT, PREVIOUS }
 
     protected final Direction direction;
 
-    protected QuiverArrowCycle(Direction direction) {
+    protected QuiverArrowCyclePayload(Direction direction) {
         this.direction = direction;
     }
     
-    public static final class Request extends QuiverArrowCycle {
+    public static final class Request extends QuiverArrowCyclePayload {
 
         public static final Type<Request> TYPE = new Type<>(
                 ResourceLocation.fromNamespaceAndPath(CombatMania.MOD_ID, "quiver_arrow_cycle_request")
@@ -81,7 +80,7 @@ public abstract class QuiverArrowCycle implements CustomPacketPayload {
         }
     }
 
-    public static final class Confirm extends QuiverArrowCycle {
+    public static final class Confirm extends QuiverArrowCyclePayload {
 
         public static final Type<Confirm> TYPE = new Type<>(
                 ResourceLocation.fromNamespaceAndPath(CombatMania.MOD_ID, "quiver_arrow_cycle_confirm")

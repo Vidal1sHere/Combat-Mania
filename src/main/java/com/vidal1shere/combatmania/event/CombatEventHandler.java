@@ -9,7 +9,7 @@ import com.vidal1shere.combatmania.event.game.ItemInHandChangeEvent;
 import com.vidal1shere.combatmania.event.game.ProjectileCreateEvent;
 import com.vidal1shere.combatmania.event.game.ProjectileShootEvent;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
-import com.vidal1shere.combatmania.network.QuiverArrowCycle;
+import com.vidal1shere.combatmania.network.QuiverArrowCyclePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.keybind.CMKeyBindings;
@@ -117,6 +117,7 @@ public class CombatEventHandler {
 
         @SubscribeEvent
         public static void findQuiverAmmo(LivingGetProjectileEvent event) {
+            if (event.getEntity().level().isClientSide()) return;
             if (!(event.getEntity() instanceof Player player)) return;
 
             QuiverData data = player.getData(CMAttachments.QUIVER);
@@ -137,7 +138,7 @@ public class CombatEventHandler {
             if (selected == null || selected.isEmpty()) return;
 
             data.setQuiverAmmoUsed(true);
-            player.syncData(CMAttachments.QUIVER);
+//            player.syncData(CMAttachments.QUIVER);
             event.setProjectileItemStack(selected.copyWithCount(1));
         }
         
@@ -212,6 +213,7 @@ public class CombatEventHandler {
             if (equippedQuiver == null) return;
 
             if (data.equippedQuiver() == null || !data.equippedQuiver().slot().equals(equippedQuiver.slot())) {
+                System.out.println("data slot: " + data.equippedQuiver().slot() + " | novo slot: " + equippedQuiver.slot());
                 data.reset(equippedQuiver);
                 return;
             }
@@ -280,9 +282,9 @@ public class CombatEventHandler {
                     QuiverContents contents = equippedQuiver.stack().getOrDefault(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
                     if (contents.isEmpty()) continue;
 
-                    QuiverArrowCycle.Direction direction = player.isShiftKeyDown() ? QuiverArrowCycle.Direction.PREVIOUS : QuiverArrowCycle.Direction.NEXT;
+                    QuiverArrowCyclePayload.Direction direction = player.isShiftKeyDown() ? QuiverArrowCyclePayload.Direction.PREVIOUS : QuiverArrowCyclePayload.Direction.NEXT;
 
-                    PacketDistributor.sendToServer(new QuiverArrowCycle.Request(direction));
+                    PacketDistributor.sendToServer(new QuiverArrowCyclePayload.Request(direction));
                 }
             }
         }

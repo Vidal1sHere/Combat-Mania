@@ -68,6 +68,7 @@ public final class QuiverData {
     }
 
     public void reset(@Nullable EquippedQuiver equippedQuiver) {
+        System.out.println("QuiverData reset chamado, stack: " + Thread.currentThread().getStackTrace()[2]);
         this.equippedQuiver = equippedQuiver;
         this.selectedIndex = 0;
         this.quiverAmmoUsed = false;
