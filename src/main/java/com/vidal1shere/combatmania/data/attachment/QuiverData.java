@@ -19,6 +19,7 @@ public final class QuiverData {
             StreamCodec.composite(ByteBufCodecs.VAR_INT, QuiverData::selectedIndex, QuiverData::new);
 
     public static final QuiverData EMPTY = new QuiverData(null, 0);
+
     public static final EquipmentSlot[] QUIVER_SEARCH_SLOTS = {
             EquipmentSlot.HEAD,
             EquipmentSlot.CHEST,
@@ -42,11 +43,11 @@ public final class QuiverData {
 
     @Nullable
     public EquippedQuiver equippedQuiver() {
-        return equippedQuiver;
+        return this.equippedQuiver;
     }
 
     public int selectedIndex() {
-        return selectedIndex;
+        return this.selectedIndex;
     }
 
     public boolean quiverAmmoUsed() {
@@ -68,6 +69,7 @@ public final class QuiverData {
     public void reset(@Nullable EquippedQuiver equippedQuiver) {
         this.equippedQuiver = equippedQuiver;
         this.selectedIndex = 0;
+        this.quiverAmmoUsed = false;
     }
 
     public void next(int size) {
@@ -112,12 +114,12 @@ public final class QuiverData {
     public record EquippedQuiver(EquipmentSlot slot, ItemStack stack) {}
 
     @Nullable
-    public static QuiverData.EquippedQuiver findFirstEquippedQuiver(Player player) {
+    public static EquippedQuiver findFirstEquippedQuiver(Player player) {
         for (EquipmentSlot slot : QUIVER_SEARCH_SLOTS) {
             ItemStack stack = player.getItemBySlot(slot);
 
             if (stack.getItem() instanceof QuiverItem) {
-                return new QuiverData.EquippedQuiver(slot, stack);
+                return new EquippedQuiver(slot, stack);
             }
         }
 

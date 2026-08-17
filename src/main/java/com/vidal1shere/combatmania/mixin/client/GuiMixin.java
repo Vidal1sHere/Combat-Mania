@@ -1,6 +1,10 @@
 package com.vidal1shere.combatmania.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.vidal1shere.combatmania.client.gui.access.QuiverHudState;
+import com.vidal1shere.combatmania.data.attachment.QuiverData;
+import com.vidal1shere.combatmania.data.component.QuiverContents;
+import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;
@@ -14,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -120,6 +125,54 @@ public class GuiMixin {
         }
 
         RenderSystem.defaultBlendFunc();
+        RenderSystem.disableBlend();
+    }
+
+    @Inject(
+            method = "renderCrosshair",
+            at = @At("TAIL")
+    )
+    private void combatmania_renderQuiverAmmo(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        Player player = this.minecraft.player;
+        if (player == null || this.minecraft.level == null) return;
+
+        if (!(player.getMainHandItem().getItem() instanceof ProjectileWeaponItem)) return;
+
+        float alpha = QuiverHudState.getAlpha(this.minecraft.level.getGameTime());
+        if (alpha == 0F) return;
+
+        QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+        if (equippedQuiver == null) return;
+
+        QuiverContents contents = equippedQuiver.stack().getOrDefault(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
+        if (contents.isEmpty()) return;
+
+        QuiverData data = player.getData(CMAttachments.QUIVER);
+        ItemStack selected = data.getSelectedStack(contents);
+        if (selected == null || selected.isEmpty()) return;
+
+        int centerX = guiGraphics.guiWidth() / 2;
+        int centerY = guiGraphics.guiHeight() / 2;
+        int itemX = centerX - 8;
+        int itemY = centerY + 11;
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        guiGraphics.setColor(1.0F, 1.0F, 1.0F, alpha);
+        guiGraphics.renderItem(selected, itemX, itemY);
+        guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+        int a = (int)(alpha * 255) << 24;
+        String countText = String.valueOf(selected.getCount());
+        guiGraphics.drawString(
+                this.minecraft.font,
+                countText,
+                itemX + 19 - this.minecraft.font.width(countText),
+                itemY + 9,
+                a | 0xFFFFFF,
+                true
+        );
+
         RenderSystem.disableBlend();
     }
 }

@@ -7,17 +7,22 @@ import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.event.custom.ItemInHandChangeEvent;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
+import com.vidal1shere.combatmania.network.QuiverArrowCycle;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
+import com.vidal1shere.combatmania.registry.keybind.CMKeyBindings;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingGetProjectileEvent;
@@ -25,6 +30,7 @@ import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 
@@ -132,6 +138,7 @@ public class CombatEventHandler {
             if (selected == null || selected.isEmpty()) return;
 
             data.setQuiverAmmoUsed(true);
+            player.syncData(CMAttachments.QUIVER);
             event.setProjectileItemStack(selected.copyWithCount(1));
         }
 
@@ -167,6 +174,8 @@ public class CombatEventHandler {
             equippedQuiver.stack().set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
 
             if (index >= mutable.size()) data.setSelectedIndex(Math.max(0, mutable.size() - 1));
+
+            player.syncData(CMAttachments.QUIVER);
         }
 
         @SubscribeEvent
@@ -195,7 +204,28 @@ public class CombatEventHandler {
 
             item.shrink(inserted);
             equippedQuiver.stack().set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
-            player.setData(CMAttachments.QUIVER, player.getData(CMAttachments.QUIVER));
+            player.syncData(CMAttachments.QUIVER);
+        }
+
+        @EventBusSubscriber(modid = CombatMania.MOD_ID, value = Dist.CLIENT)
+        public static class Client {
+            @SubscribeEvent
+            public static void onClientTick(ClientTickEvent.Post event) {
+                while (CMKeyBindings.QUIVER_ARROW_CYCLE.consumeClick()) {
+                    Player player = Minecraft.getInstance().player;
+                    if (player == null) continue;
+
+                    QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+                    if (equippedQuiver == null) continue;
+
+                    QuiverContents contents = equippedQuiver.stack().getOrDefault(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
+                    if (contents.isEmpty()) continue;
+
+                    QuiverArrowCycle.Direction direction = player.isShiftKeyDown() ? QuiverArrowCycle.Direction.PREVIOUS : QuiverArrowCycle.Direction.NEXT;
+
+                    PacketDistributor.sendToServer(new QuiverArrowCycle.Request(direction));
+                }
+            }
         }
     }
 }
