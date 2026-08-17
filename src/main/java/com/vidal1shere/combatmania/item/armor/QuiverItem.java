@@ -49,6 +49,10 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
         super(material, type, properties.stacksTo(1).component(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY));
     }
 
+    public QuiverItem(Holder<ArmorMaterial> material, Properties properties) {
+        super(material, Type.CHESTPLATE, properties.stacksTo(1).component(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY));
+    }
+
     public abstract Set<EquipmentSlot> getAllowedSlots();
 
     @OnlyIn(Dist.CLIENT)

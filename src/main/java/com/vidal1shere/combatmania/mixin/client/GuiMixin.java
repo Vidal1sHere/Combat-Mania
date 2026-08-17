@@ -164,6 +164,8 @@ public class GuiMixin {
 
         int a = (int)(alpha * 255) << 24;
         String countText = String.valueOf(selected.getCount());
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(0, 0, 200);
         guiGraphics.drawString(
                 this.minecraft.font,
                 countText,
@@ -172,6 +174,7 @@ public class GuiMixin {
                 a | 0xFFFFFF,
                 true
         );
+        guiGraphics.pose().popPose();
 
         RenderSystem.disableBlend();
     }

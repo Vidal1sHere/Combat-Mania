@@ -15,7 +15,7 @@ public class LeatherQuiverItem extends QuiverItem {
     );
     
     public LeatherQuiverItem(Properties properties) {
-        super(CMArmorMaterials.QUIVER_ARMOR_MATERIAL, Type.CHESTPLATE, properties);
+        super(CMArmorMaterials.QUIVER_MATERIAL, properties);
     }
 
     @Override

@@ -112,15 +112,23 @@ public final class QuiverContents {
             int toInsert = Math.min(stack.getCount(), space);
             if (toInsert <= 0) return 0;
 
-            this.count += toInsert;
             int idx = findStackIndex(stack);
             if (idx != -1) {
-                ItemStack existing = items.remove(idx);
-                items.add(0, existing.copyWithCount(existing.getCount() + toInsert));
+                ItemStack existing = items.get(idx);
+                int canAdd = Math.min(toInsert, existing.getMaxStackSize() - existing.getCount());
+                if (canAdd <= 0) {
+                    items.add(0, stack.split(toInsert));
+                } else {
+                    items.remove(idx);
+                    items.add(0, existing.copyWithCount(existing.getCount() + canAdd));
+                    stack.shrink(canAdd);
+                    toInsert = canAdd;
+                }
             } else {
                 items.add(0, stack.split(toInsert));
             }
-            stack.shrink(toInsert);
+
+            this.count += toInsert;
             return toInsert;
         }
 

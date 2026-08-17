@@ -183,10 +183,23 @@ public class CombatEventHandler {
         }
 
         @SubscribeEvent
-        public static void consumeQuiverAmmo(ArrowLooseEvent event) {
+        public static void quiverOnArrowLoose(ArrowLooseEvent event) {
             if (event.isCanceled()) return;
 
             Player player = event.getEntity();
+            if (player.level().isClientSide()) return;
+
+            QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+            if (equippedQuiver == null) return;
+
+            if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
+                quiver.onArrowLoose(event);
+            }
+        }
+
+        @SubscribeEvent
+        public static void consumeQuiverAmmo(ProjectileShootEvent event) {
+            if (!(event.getShooter() instanceof Player player)) return;
             if (player.level().isClientSide()) return;
 
             QuiverData data = player.getData(CMAttachments.QUIVER);
@@ -218,9 +231,9 @@ public class CombatEventHandler {
             }
 
             player.syncData(CMAttachments.QUIVER);
-            
+
             if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
-                quiver.onArrowLoose(event);
+                quiver.onArrowShoot(event);
             }
         }
 
