@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.registry.entity;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.entity.FlamingArrow;
 import com.vidal1shere.combatmania.entity.ThrownJavelin;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
@@ -21,6 +22,14 @@ public class CMEntities {
                     .clientTrackingRange(4)
                     .updateInterval(20)
                     .build("thrown_javelin"));
+
+    public static final Supplier<EntityType<FlamingArrow>> FLAMING_ARROW =
+            ENTITY_TYPES.register("flaming_arrow", () -> EntityType.Builder.<FlamingArrow>of(FlamingArrow::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F)
+                    .eyeHeight(0.13F)
+                    .clientTrackingRange(4)
+                    .updateInterval(20)
+                    .build("flaming_arrow"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

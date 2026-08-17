@@ -133,4 +133,25 @@ public final class QuiverData {
 
         return fallback;
     }
+    
+    @Nullable
+    public static EquippedQuiver findFirstEmptyEquippedQuiver(Player player) {
+        EquippedQuiver quiver = null;
+        
+        for (EquipmentSlot slot : QUIVER_SEARCH_SLOTS) {
+            ItemStack stack = player.getItemBySlot(slot);
+
+            if (!(stack.getItem() instanceof QuiverItem)) continue;
+
+            QuiverContents contents = stack.getOrDefault(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
+            if (contents.isFull()) {
+                continue;
+            } else {
+                quiver = new EquippedQuiver(slot, stack);
+                break;
+            }
+        }
+        
+        return quiver;
+    }
 }

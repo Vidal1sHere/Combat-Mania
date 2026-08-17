@@ -14,6 +14,7 @@ import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.keybind.CMKeyBindings;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -213,7 +214,6 @@ public class CombatEventHandler {
             if (equippedQuiver == null) return;
 
             if (data.equippedQuiver() == null || !data.equippedQuiver().slot().equals(equippedQuiver.slot())) {
-                System.out.println("data slot: " + data.equippedQuiver().slot() + " | novo slot: " + equippedQuiver.slot());
                 data.reset(equippedQuiver);
                 return;
             }
@@ -224,12 +224,13 @@ public class CombatEventHandler {
             int index = data.getSelectedIndex(contents);
             QuiverContents.Mutable mutable = new QuiverContents.Mutable(contents);
 
-            if (mutable.removeOne(index) == null) return;
+            if (!player.hasInfiniteMaterials()) {
+                if (mutable.removeOne(index) == null) return;
+                equippedQuiver.stack().set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
 
-            equippedQuiver.stack().set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
-
-            if (index >= mutable.size()) {
-                data.setSelectedIndex(Math.max(0, mutable.size() - 1));
+                if (index >= mutable.size()) {
+                    data.setSelectedIndex(Math.max(0, mutable.size() - 1));
+                }
             }
 
             player.syncData(CMAttachments.QUIVER);
@@ -246,12 +247,13 @@ public class CombatEventHandler {
             Player player = event.getEntity();
             if (player.level().isClientSide()) return;
 
-            QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+            QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEmptyEquippedQuiver(player);
             if (equippedQuiver == null) return;
 
             ItemStack item = event.getItemStack();
 
             if (!(item.getItem() instanceof ArrowItem)) return;
+            event.setCanceled(true);
 
             QuiverContents contents = equippedQuiver.stack().getOrDefault(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
             QuiverContents.Mutable mutable = new QuiverContents.Mutable(contents);
@@ -266,6 +268,7 @@ public class CombatEventHandler {
             item.shrink(inserted);
             equippedQuiver.stack().set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
             player.syncData(CMAttachments.QUIVER);
+            event.setCancellationResult(InteractionResult.SUCCESS);
         }
 
         @EventBusSubscriber(modid = CombatMania.MOD_ID, value = Dist.CLIENT)

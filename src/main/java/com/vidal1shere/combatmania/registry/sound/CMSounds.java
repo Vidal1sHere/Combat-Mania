@@ -25,6 +25,8 @@ public class CMSounds {
     public static final Supplier<SoundEvent> SPEAR_JAB = registerSoundEvent("item.spear.attack");
     public static final Supplier<SoundEvent> SPEAR_HIT = registerSoundEvent("item.spear.hit");
     public static final Supplier<SoundEvent> SPEAR_USE = registerSoundEvent("item.spear.use");
+    public static final Supplier<SoundEvent> FLAMING_ARROW_SHOOT = registerSoundEvent("item.flaming_arrow.shoot");
+    public static final Supplier<SoundEvent> FLAMING_ARROW_IMPACT = registerSoundEvent("item.flaming_arrow.impact");
     
     private static ResourceKey<JukeboxSong> createSong(String name) {
         return ResourceKey.create(

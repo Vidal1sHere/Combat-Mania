@@ -5,6 +5,7 @@ import com.vidal1shere.combatmania.api.extension.item.ClientMaceExtensions;
 import com.vidal1shere.combatmania.client.model.TieredMaceHeadModel;
 import com.vidal1shere.combatmania.client.model.VanillaMaceHeadModel;
 import com.vidal1shere.combatmania.client.renderer.item.VanillaMaceRenderer;
+import com.vidal1shere.combatmania.client.renderer.projectile.FlamingArrowRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownJavelinRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownTrident2dRenderer;
 import com.vidal1shere.combatmania.config.CMClientConfig;
@@ -73,6 +74,7 @@ public class CMClientSetup {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(CMEntities.THROWN_JAVELIN.get(), ThrownJavelinRenderer::new);
+        event.registerEntityRenderer(CMEntities.FLAMING_ARROW.get(), FlamingArrowRenderer::new);
 
         if (CMClientConfig.TWO_DIMENSIONAL_TRIDENT.get()) {
             event.registerEntityRenderer(EntityType.TRIDENT, ThrownTrident2dRenderer::new);
