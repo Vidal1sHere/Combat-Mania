@@ -68,7 +68,6 @@ public final class QuiverData {
     }
 
     public void reset(@Nullable EquippedQuiver equippedQuiver) {
-        System.out.println("QuiverData reset chamado, stack: " + Thread.currentThread().getStackTrace()[2]);
         this.equippedQuiver = equippedQuiver;
         this.selectedIndex = 0;
         this.quiverAmmoUsed = false;
@@ -144,9 +143,7 @@ public final class QuiverData {
             if (!(stack.getItem() instanceof QuiverItem)) continue;
 
             QuiverContents contents = stack.getOrDefault(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
-            if (contents.isFull()) {
-                continue;
-            } else {
+            if (!contents.isFull()) {
                 quiver = new EquippedQuiver(slot, stack);
                 break;
             }

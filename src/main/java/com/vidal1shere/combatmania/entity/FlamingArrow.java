@@ -4,8 +4,8 @@ import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -18,18 +18,23 @@ import net.minecraft.world.phys.BlockHitResult;
 import javax.annotation.Nullable;
 
 public class FlamingArrow extends AbstractArrow {
-    private static final int FLAME_DURATION = 200;
+    private static final int FLAME_DURATION = 50;
+    private static final int MAX_FLAME_DURATION = 300;
+    private static final float BASE_DAMAGE = 3.0F;
     
     public FlamingArrow(EntityType<? extends FlamingArrow> entityType, Level level) {
         super(entityType, level);
+        this.setBaseDamage(BASE_DAMAGE);
     }
 
     public FlamingArrow(Level level, LivingEntity owner, ItemStack pickupItemStack, @Nullable ItemStack firedFromWeapon) {
         super(CMEntities.FLAMING_ARROW.get(), owner, level, pickupItemStack, firedFromWeapon);
+        this.setBaseDamage(BASE_DAMAGE);
     }
 
     public FlamingArrow(Level level, double x, double y, double z, ItemStack pickupItemStack, @Nullable ItemStack firedFromWeapon) {
         super(CMEntities.FLAMING_ARROW.get(), x, y, z, level, pickupItemStack, firedFromWeapon);
+        this.setBaseDamage(BASE_DAMAGE);
     }
 
     public void tick() {
@@ -41,7 +46,17 @@ public class FlamingArrow extends AbstractArrow {
 
     @Override
     protected void doPostHurtEffects(LivingEntity target) {
-        target.setRemainingFireTicks(target.getRemainingFireTicks() + FLAME_DURATION);
+//        target.setRemainingFireTicks(Math.min(MAX_FLAME_DURATION, target.getRemainingFireTicks() + FLAME_DURATION));
+        
+        if (level() instanceof ServerLevel level) {
+            level.sendParticles(
+                    ParticleTypes.FLAME,
+                    getX(),
+                    getEyeY(),
+                    getZ(),
+                    32, 0, 0, 0, 0.5
+            );
+        }
     }
 
     @Override
@@ -56,6 +71,16 @@ public class FlamingArrow extends AbstractArrow {
             this.level().setBlockAndUpdate(pos, BaseFireBlock.getState(this.level(), pos));
         }
 
+        if (level() instanceof ServerLevel level) {
+            level.sendParticles(
+                    ParticleTypes.FLAME,
+                    getX(),
+                    getEyeY(),
+                    getZ(),
+                    32, 0, 0, 0, 0.5
+            );
+        }
+
         this.discard();
     }
 
@@ -66,7 +91,8 @@ public class FlamingArrow extends AbstractArrow {
 
     @Override
     public boolean isOnFire() {
-        return false;
+        if (level().isClientSide()) return false;
+        return super.isOnFire();
     }
 
     protected ItemStack getDefaultPickupItem() {

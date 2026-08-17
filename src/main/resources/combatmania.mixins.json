@@ -6,10 +6,12 @@
     "EntityMixin",
     "PlayerMixin",
     "ServerPlayerMixin",
+    "ItemMixin",
     "SwordItemMixin",
     "AxeItemMixin",
     "TridentItemMixin",
     "MaceItemMixin",
+    "CrossbowItemMixin",
     "ProjectileWeaponItemMixin"
   ],
   "client": [

@@ -47,8 +47,7 @@
     "subtitle": "sounds.cotn.item.flaming_arrow.shoot",
     "sounds": [
       "combat_mania:flaming_arrow_shoot1",
-      "combat_mania:flaming_arrow_shoot2",
-      "combat_mania:flaming_arrow_shoot3"
+      "combat_mania:flaming_arrow_shoot2"
     ]
   },
   "item.flaming_arrow.impact": {

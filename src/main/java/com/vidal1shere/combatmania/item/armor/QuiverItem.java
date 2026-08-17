@@ -1,12 +1,18 @@
 package com.vidal1shere.combatmania.item.armor;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
+import com.vidal1shere.combatmania.event.game.BowChargeEvent;
 import com.vidal1shere.combatmania.event.game.ProjectileCreateEvent;
 import com.vidal1shere.combatmania.event.game.ProjectileShootEvent;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.util.Color;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
@@ -65,6 +71,8 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
     public void onArrowCreate(ProjectileCreateEvent event) {}
     
     public void onArrowShoot(ProjectileShootEvent event) {}
+
+    public void onBowCharge(BowChargeEvent event) {}
 
     @Override
     public EquipmentSlot getEquipmentSlot(ItemStack stack) {
@@ -235,5 +243,42 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
+    }
+
+    public record ChargeData(boolean charged, long chargeStartTick, String selectedArrow) {
+
+        public static final ChargeData EMPTY = new ChargeData(false, -1L, "");
+
+        public static final Codec<ChargeData> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        Codec.BOOL.fieldOf("charged").forGetter(ChargeData::charged),
+                        Codec.LONG.fieldOf("charge_start_tick").forGetter(ChargeData::chargeStartTick),
+                        Codec.STRING.fieldOf("selected_arrow").forGetter(ChargeData::selectedArrow)
+                ).apply(instance, ChargeData::new)
+        );
+
+        public static final StreamCodec<RegistryFriendlyByteBuf, ChargeData> STREAM_CODEC =
+                StreamCodec.composite(
+                        ByteBufCodecs.BOOL, ChargeData::charged,
+                        ByteBufCodecs.VAR_LONG, ChargeData::chargeStartTick,
+                        ByteBufCodecs.STRING_UTF8, ChargeData::selectedArrow,
+                        ChargeData::new
+                );
+
+        public boolean isCharging() {
+            return chargeStartTick >= 0;
+        }
+
+        public ChargeData withCharged(boolean charged) {
+            return new ChargeData(charged, chargeStartTick, selectedArrow);
+        }
+
+        public ChargeData startCharging(long tick, String arrow) {
+            return new ChargeData(false, tick, arrow);
+        }
+
+        public ChargeData reset() {
+            return EMPTY;
+        }
     }
 }

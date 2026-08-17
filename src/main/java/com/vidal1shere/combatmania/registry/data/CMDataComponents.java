@@ -5,6 +5,8 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
+import com.vidal1shere.combatmania.item.armor.FlamingQuiverItem;
+import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -59,6 +61,12 @@ public class CMDataComponents {
             register("quiver_contents", b -> b
                     .persistent(QuiverContents.CODEC)
                     .networkSynchronized(QuiverContents.STREAM_CODEC)
+            );
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuiverItem.ChargeData>> FLAMING_QUIVER =
+            register("quiver_charge", b -> b
+                    .persistent(QuiverItem.ChargeData.CODEC)
+                    .networkSynchronized(QuiverItem.ChargeData.STREAM_CODEC)
             );
 
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name,
