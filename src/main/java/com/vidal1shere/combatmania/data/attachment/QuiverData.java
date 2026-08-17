@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.data.attachment;
 import com.mojang.serialization.Codec;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
+import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -115,14 +116,20 @@ public final class QuiverData {
 
     @Nullable
     public static EquippedQuiver findFirstEquippedQuiver(Player player) {
+        EquippedQuiver fallback = null;
+
         for (EquipmentSlot slot : QUIVER_SEARCH_SLOTS) {
             ItemStack stack = player.getItemBySlot(slot);
 
-            if (stack.getItem() instanceof QuiverItem) {
-                return new EquippedQuiver(slot, stack);
-            }
+            if (!(stack.getItem() instanceof QuiverItem)) continue;
+
+            QuiverContents contents = stack.getOrDefault(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY);
+
+            if (!contents.isEmpty()) return new EquippedQuiver(slot, stack);
+
+            if (fallback == null) fallback = new EquippedQuiver(slot, stack);
         }
 
-        return null;
+        return fallback;
     }
 }

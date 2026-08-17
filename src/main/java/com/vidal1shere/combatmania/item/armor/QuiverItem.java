@@ -79,9 +79,9 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
         QuiverContents.Mutable mutable = new QuiverContents.Mutable(contents);
 
         if (slotItem.isEmpty()) {
-            playRemoveOneSound(player);
             ItemStack removed = mutable.remove(0);
             if (removed != null) {
+                playRemoveOneSound(player);
                 ItemStack leftover = slot.safeInsert(removed);
                 mutable.tryInsert(leftover);
             }

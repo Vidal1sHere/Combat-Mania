@@ -17,25 +17,19 @@ import software.bernie.geckolib.util.InternalUtil;
 public class InternalUtilMixin {
 
     @Redirect(
-        method = "tryRenderGeoArmorPiece",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/item/Equipable;getEquipmentSlot()Lnet/minecraft/world/entity/EquipmentSlot;"
-        ),
-        remap = true
+            method = "tryRenderGeoArmorPiece",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/Equipable;getEquipmentSlot()Lnet/minecraft/world/entity/EquipmentSlot;"
+            ),
+            remap = true
     )
-    private static <T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> EquipmentSlot 
+    private static <T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> EquipmentSlot
     cm$redirectQuiverEquipmentSlot(Equipable equipable, PoseStack poseStack, MultiBufferSource bufferSource,
-            T entity, ItemStack stack, EquipmentSlot equipmentSlot) {
+                                   T entity, ItemStack stack, EquipmentSlot equipmentSlot) {
 
-        if (!(equipable instanceof QuiverItem)) 
-            return equipable.getEquipmentSlot();
-
-        for (EquipmentSlot s : EquipmentSlot.values()) {
-            if (!s.isArmor()) continue;
-            if (entity.getItemBySlot(s).getItem() instanceof QuiverItem)
-                return s;
-        }
+        if (equipable instanceof QuiverItem)
+            return equipmentSlot;
 
         return equipable.getEquipmentSlot();
     }
