@@ -128,6 +128,7 @@ public class GuiMixin {
         RenderSystem.disableBlend();
     }
 
+    // TODO find out why the icon flashes in the first index
     @Inject(
             method = "renderCrosshair",
             at = @At("TAIL")
