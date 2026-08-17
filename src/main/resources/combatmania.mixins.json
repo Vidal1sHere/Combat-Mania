@@ -9,7 +9,8 @@
     "SwordItemMixin",
     "AxeItemMixin",
     "TridentItemMixin",
-    "MaceItemMixin"
+    "MaceItemMixin",
+    "ProjectileWeaponItemMixin"
   ],
   "client": [
     "client.MinecraftMixin",

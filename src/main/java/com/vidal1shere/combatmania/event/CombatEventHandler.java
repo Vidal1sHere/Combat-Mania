@@ -6,6 +6,8 @@ import com.vidal1shere.combatmania.data.attachment.QuiverData;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.event.custom.ItemInHandChangeEvent;
+import com.vidal1shere.combatmania.event.custom.ProjectileCreateEvent;
+import com.vidal1shere.combatmania.event.custom.ProjectileShootEvent;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import com.vidal1shere.combatmania.network.QuiverArrowCycle;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
@@ -13,12 +15,16 @@ import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.keybind.CMKeyBindings;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.FireworkRocketEntity;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -27,6 +33,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingGetProjectileEvent;
 import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
+import net.neoforged.neoforge.event.entity.player.ArrowNockEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -141,6 +148,47 @@ public class CombatEventHandler {
             player.syncData(CMAttachments.QUIVER);
             event.setProjectileItemStack(selected.copyWithCount(1));
         }
+        
+        @SubscribeEvent
+        public static void quiverOnArrowNock(ArrowNockEvent event) {
+            if (event.isCanceled()) return;
+
+            Player player = event.getEntity();
+            if (player.level().isClientSide()) return;
+
+            QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+            if (equippedQuiver == null) return;
+
+            if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
+                quiver.onArrowNock(event);
+            }
+        }
+
+        @SubscribeEvent
+        public static void quiverOnArrowCreated(ProjectileCreateEvent event) {
+            Player player = (Player) event.getShooter();
+            if (player.level().isClientSide()) return;
+
+            QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+            if (equippedQuiver == null) return;
+
+            if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
+                quiver.onArrowCreate(event);
+            }
+        }
+
+        @SubscribeEvent
+        public static void quiverOnArrowShot(ProjectileShootEvent event) {
+            Player player = (Player) event.getShooter();
+            if (player.level().isClientSide()) return;
+
+            QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+            if (equippedQuiver == null) return;
+
+            if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
+                quiver.onArrowShoot(event);
+            }
+        }
 
         @SubscribeEvent
         public static void consumeQuiverAmmo(ArrowLooseEvent event) {
@@ -173,9 +221,15 @@ public class CombatEventHandler {
 
             equippedQuiver.stack().set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
 
-            if (index >= mutable.size()) data.setSelectedIndex(Math.max(0, mutable.size() - 1));
+            if (index >= mutable.size()) {
+                data.setSelectedIndex(Math.max(0, mutable.size() - 1));
+            }
 
             player.syncData(CMAttachments.QUIVER);
+            
+            if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
+                quiver.onArrowLoose(event);
+            }
         }
 
         @SubscribeEvent

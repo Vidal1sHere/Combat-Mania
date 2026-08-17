@@ -1,6 +1,8 @@
 package com.vidal1shere.combatmania.item.armor;
 
 import com.vidal1shere.combatmania.data.component.QuiverContents;
+import com.vidal1shere.combatmania.event.custom.ProjectileCreateEvent;
+import com.vidal1shere.combatmania.event.custom.ProjectileShootEvent;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.util.Color;
 import net.minecraft.ChatFormatting;
@@ -29,6 +31,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
+import net.neoforged.neoforge.event.entity.player.ArrowNockEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
@@ -53,6 +57,14 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
 
     @OnlyIn(Dist.CLIENT)
     public abstract GeoArmorRenderer<?> supplyRenderer();
+    
+    public void onArrowLoose(ArrowLooseEvent event) {}
+
+    public void onArrowNock(ArrowNockEvent event) {}
+    
+    public void onArrowCreate(ProjectileCreateEvent event) {}
+    
+    public void onArrowShoot(ProjectileShootEvent event) {}
 
     @Override
     public EquipmentSlot getEquipmentSlot(ItemStack stack) {
