@@ -79,6 +79,7 @@ public class CMItemModelProvider extends ItemModelProvider {
         javelinItem(CMItems.DIAMOND_JAVELIN);
         
         quiverItem(CMItems.LEATHER_QUIVER);
+        quiverItem(CMItems.FLAMING_QUIVER);
     }
 
     private void trimmedArmorItem(DeferredItem<ArmorItem> itemDeferredItem) {

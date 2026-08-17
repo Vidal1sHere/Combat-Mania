@@ -35,6 +35,7 @@ public class CMItemProperties {
         makeMaceItem(Items.MACE);
         
         makeQuiverItem(CMItems.LEATHER_QUIVER.get());
+        makeQuiverItem(CMItems.FLAMING_QUIVER.get());
     }
     
     private static void makeQuiverItem(Item item) {

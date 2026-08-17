@@ -1,7 +1,5 @@
 package com.vidal1shere.combatmania.setup;
 
-import com.vidal1shere.combatmania.config.CMClientConfig;
-import com.vidal1shere.combatmania.config.CMCommonConfig;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.config.CMItemConfig;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
@@ -9,13 +7,9 @@ import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataMaps;
 import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.AddAttributeTooltipsEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
@@ -104,6 +98,7 @@ public class CMCommonSetup {
 
             if (CMItemConfig.QUIVER_ITEMS.get()) {
                 event.insertBefore(new ItemStack(Items.ARROW), CMItems.LEATHER_QUIVER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertBefore(new ItemStack(Items.ARROW), CMItems.FLAMING_QUIVER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
     }
