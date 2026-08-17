@@ -15,9 +15,9 @@
     }
   },
   "pattern": [
-    "SLS",
-    "L L",
-    "LLL"
+    "SL ",
+    " LL",
+    "SLL"
   ],
   "result": {
     "count": 1,

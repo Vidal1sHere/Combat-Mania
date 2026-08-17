@@ -82,9 +82,9 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
         }
         
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, CMItems.LEATHER_QUIVER)
-                .pattern("SLS")
-                .pattern("L L")
-                .pattern("LLL")
+                .pattern("SL ")
+                .pattern(" LL")
+                .pattern("SLL")
                 .define('S', Items.STRING)
                 .define('L', Items.LEATHER)
                 .unlockedBy("has_string", has(Items.STRING))
