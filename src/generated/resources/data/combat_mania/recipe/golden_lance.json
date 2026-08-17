@@ -5,7 +5,7 @@
     }
   ],
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "equipment",
   "key": {
     "M": {
       "item": "minecraft:gold_ingot"

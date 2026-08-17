@@ -80,6 +80,16 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             javelin(recipeOutput, tier);
             mace(recipeOutput, tier);
         }
+        
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, CMItems.LEATHER_QUIVER)
+                .pattern("SLS")
+                .pattern("L L")
+                .pattern("LLL")
+                .define('S', Items.STRING)
+                .define('L', Items.LEATHER)
+                .unlockedBy("has_string", has(Items.STRING))
+                .unlockedBy("has_leather", has(Items.LEATHER))
+                .save(recipeOutput.withConditions(new ItemConfigCondition(CMItemConfig.QUIVER_ITEMS)));
     }
 
     private static void weapon(RecipeOutput recipeOutput, IExtendedTier tier,
@@ -89,7 +99,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
         Item[] outputs = WOOD_TO_DIAMOND_WEAPON_OUTPUTS.get(tier);
         if (material == null || outputs == null) return;
 
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputs[outputIndex]);
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, outputs[outputIndex]);
         for (String row : pattern) builder = builder.pattern(row);
 
         builder.define('M', material)
