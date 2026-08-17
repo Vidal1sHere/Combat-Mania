@@ -2,8 +2,7 @@ package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
-import com.vidal1shere.combatmania.event.custom.StaggerAttackEvent;
-import com.vidal1shere.combatmania.registry.data.CMAttachments;
+import com.vidal1shere.combatmania.event.game.StaggerAttackEvent;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;

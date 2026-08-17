@@ -1,9 +1,8 @@
-package com.vidal1shere.combatmania.event.custom;
+package com.vidal1shere.combatmania.event.game;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.Event;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 public class ItemInHandChangeEvent extends PlayerEvent {

@@ -5,26 +5,20 @@ import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.attachment.QuiverData;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
-import com.vidal1shere.combatmania.event.custom.ItemInHandChangeEvent;
-import com.vidal1shere.combatmania.event.custom.ProjectileCreateEvent;
-import com.vidal1shere.combatmania.event.custom.ProjectileShootEvent;
+import com.vidal1shere.combatmania.event.game.ItemInHandChangeEvent;
+import com.vidal1shere.combatmania.event.game.ProjectileCreateEvent;
+import com.vidal1shere.combatmania.event.game.ProjectileShootEvent;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import com.vidal1shere.combatmania.network.QuiverArrowCycle;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
-import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.keybind.CMKeyBindings;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.FireworkRocketEntity;
-import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -38,8 +32,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
-
-import javax.annotation.Nullable;
 
 public class CombatEventHandler {
     @EventBusSubscriber(modid = CombatMania.MOD_ID)

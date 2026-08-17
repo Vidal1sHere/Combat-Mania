@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.event.custom;
+package com.vidal1shere.combatmania.event.game;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.ICancellableEvent;

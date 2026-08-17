@@ -1,16 +1,12 @@
 package com.vidal1shere.combatmania.item.armor;
 
 import com.vidal1shere.combatmania.data.component.QuiverContents;
-import com.vidal1shere.combatmania.event.custom.ProjectileCreateEvent;
-import com.vidal1shere.combatmania.event.custom.ProjectileShootEvent;
+import com.vidal1shere.combatmania.event.game.ProjectileCreateEvent;
+import com.vidal1shere.combatmania.event.game.ProjectileShootEvent;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.util.Color;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;

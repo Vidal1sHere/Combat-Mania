@@ -4,7 +4,7 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
-import com.vidal1shere.combatmania.event.custom.ItemInHandChangeEvent;
+import com.vidal1shere.combatmania.event.game.ItemInHandChangeEvent;
 import com.vidal1shere.combatmania.network.StrikePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.strike.StrikeContext;
