@@ -8,7 +8,6 @@ import com.vidal1shere.combatmania.client.animation.keyframe.ItemKeyframeAnimati
 import com.vidal1shere.combatmania.client.animation.keyframe.ItemTransformAccumulator;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
-import com.vidal1shere.combatmania.event.ItemAnimationHandler;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
