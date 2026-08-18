@@ -9,7 +9,7 @@ import net.minecraft.client.animation.Keyframe;
 import org.joml.Vector3f;
 
 public class DaggerAnimations {
-    public static final Vector3f DAGGER_PIVOT = new Vector3f(0.63f, -0.5f, -0.72f);
+    public static final Vector3f DAGGER_PIVOT = new Vector3f(0.07f, -0.05f, -0.025f);
     
     public static ItemAnimationDefinition stab() {
         return ItemAnimationDefinition.Builder

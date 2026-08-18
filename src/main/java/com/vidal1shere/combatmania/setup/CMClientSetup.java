@@ -14,6 +14,7 @@ import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import com.vidal1shere.combatmania.item.weapon.StrikeMaceItem;
 import com.vidal1shere.combatmania.particle.CustomParticle;
+import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItemProperties;
@@ -32,6 +33,7 @@ import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 @EventBusSubscriber(modid = CombatMania.MOD_ID, value = Dist.CLIENT)
 public class CMClientSetup {
@@ -111,5 +113,10 @@ public class CMClientSetup {
 
             return show ? 0xFFFFFFFF : 0x00FFFFFF;
         }, CMItems.LEATHER_QUIVER.get());
+    }
+
+    @SubscribeEvent
+    public static void stopStates(PlayerEvent.PlayerLoggedOutEvent event) {
+        event.getEntity().getData(CMAttachments.ITEM_ANIMATIONS).stopAll();
     }
 }

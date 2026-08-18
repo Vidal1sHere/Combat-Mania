@@ -201,10 +201,6 @@ public abstract class StrikePayload implements CustomPacketPayload {
                     player.resetAttackStrengthTicker();
                 }
 
-                if (payload.swingHand()) {
-                    player.swing(InteractionHand.MAIN_HAND);
-                }
-
                 ItemStack stack = player.getMainHandItem();
                 if (!IStrikeWeapon.isStrikeWeapon(stack)) return;
                 
@@ -216,12 +212,19 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 if (styleHolder == null) return;
 
                 StrikeStyle style = styleHolder.get();
-                ItemAnimationState state = player.getData(CMAttachments.ITEM_ANIMATIONS).get(InteractionHand.MAIN_HAND);
-
-                if (payload.action() == Action.START) {
-                    style.onAnimStart(stack, InteractionHand.MAIN_HAND, player, state, player.tickCount);
-                } else {
-                    style.onAnimStop(stack, InteractionHand.MAIN_HAND, player, state, player.tickCount);
+                
+                for (InteractionHand hand : style.animatedHands(stack, player)) {
+                    if (payload.swingHand()) {
+                        player.swing(hand);
+                    }
+                    
+                    ItemAnimationState state = player.getData(CMAttachments.ITEM_ANIMATIONS).get(hand);
+    
+                    if (payload.action() == Action.START) {
+                        style.onAnimStart(stack, hand, player, state, player.tickCount);
+                    } else {
+                        style.onAnimStop(stack, hand, player, state, player.tickCount);
+                    }
                 }
             });
         }

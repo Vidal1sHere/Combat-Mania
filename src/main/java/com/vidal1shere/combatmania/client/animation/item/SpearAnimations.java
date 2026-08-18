@@ -10,7 +10,7 @@ import net.minecraft.client.animation.Keyframe;
 import org.joml.Vector3f;
 
 public class SpearAnimations {
-    public static final Vector3f SPEAR_PIVOT = new Vector3f(0.75f, -0.5f, -0.7f);
+    public static final Vector3f SPEAR_PIVOT = new Vector3f(0.2f, 0, 0.03f);
     
     public static ItemAnimationDefinition jab() {
         return ItemAnimationDefinition.Builder

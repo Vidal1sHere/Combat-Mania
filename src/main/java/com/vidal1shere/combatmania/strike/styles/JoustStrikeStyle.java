@@ -321,6 +321,8 @@ public class JoustStrikeStyle extends StrikeStyle {
 
     @Override
     public void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick) {
+        if (hand != InteractionHand.MAIN_HAND) return;
+        
         JoustData data = player.getData(CMAttachments.JOUST);
         JoustData.Stage stage = data.getStage();
         

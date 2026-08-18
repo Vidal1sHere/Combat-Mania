@@ -9,7 +9,7 @@ import net.minecraft.client.animation.Keyframe;
 import org.joml.Vector3f;
 
 public class HammerAnimations {
-    public static final Vector3f PIVOT = new Vector3f(0.56f, -0.49f, -0.73f);
+    public static final Vector3f PIVOT = new Vector3f(0, 0, -0.01f);
 
     public static ItemAnimationDefinition whack() {
         return ItemAnimationDefinition.Builder

@@ -9,7 +9,7 @@ import net.minecraft.client.animation.Keyframe;
 import org.joml.Vector3f;
 
 public class SwordAnimations {
-    public static final Vector3f SWORD_PIVOT = new Vector3f(0.63f, -0.5f, -0.72f);
+    public static final Vector3f SWORD_PIVOT = new Vector3f(0.065f, -0.02f, 0);
 
     public static ItemAnimationDefinition sweep() {
         return ItemAnimationDefinition.Builder

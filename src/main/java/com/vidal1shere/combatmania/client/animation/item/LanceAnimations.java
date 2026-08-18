@@ -10,7 +10,7 @@ import net.minecraft.client.animation.Keyframe;
 import org.joml.Vector3f;
 
 public class LanceAnimations {
-    public static final Vector3f LANCE_PIVOT = new Vector3f(0.71f, -0.64f, -0.61f);
+    public static final Vector3f LANCE_PIVOT = new Vector3f(0.155f, -0.118f, 0.125f);
 
     public static ItemAnimationDefinition joustEngaged() {
         return ItemAnimationDefinition.Builder

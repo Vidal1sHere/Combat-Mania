@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "combat_mania:item/handheld_lance",
   "textures": {
-    "layer0": "minecraft:item/diamond_sword"
+    "layer0": "combat_mania:item/diamond_lance_in_hand"
   }
 }

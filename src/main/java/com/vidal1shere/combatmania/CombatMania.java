@@ -1,5 +1,6 @@
 package com.vidal1shere.combatmania;
 
+import com.mojang.logging.LogUtils;
 import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.config.CMCommonConfig;
 import com.vidal1shere.combatmania.config.CMItemConfig;
@@ -19,10 +20,12 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import org.slf4j.Logger;
 
 @Mod(CombatMania.MOD_ID)
 public class CombatMania {
     public static final String MOD_ID = "combat_mania";
+    public static final Logger LOGGER = LogUtils.getLogger();
     
     public CombatMania(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, CMCommonConfig.SPEC);
