@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.registry.sound;
 
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -27,6 +28,11 @@ public class CMSounds {
     public static final Supplier<SoundEvent> SPEAR_USE = registerSoundEvent("item.spear.use");
     public static final Supplier<SoundEvent> FLAMING_ARROW_SHOOT = registerSoundEvent("item.flaming_arrow.shoot");
     public static final Supplier<SoundEvent> FLAMING_ARROW_IMPACT = registerSoundEvent("item.flaming_arrow.impact");
+    public static final Supplier<SoundEvent> QUIVER_EQUIP = registerSoundEvent("item.quiver.equip");
+    
+    public static Holder<SoundEvent> wrapAsHolder(Supplier<SoundEvent> sound) {
+        return SOUND_EVENTS.getRegistry().get().wrapAsHolder(sound.get());
+    }
     
     private static ResourceKey<JukeboxSong> createSong(String name) {
         return ResourceKey.create(

@@ -12,9 +12,11 @@ import com.vidal1shere.combatmania.network.QuiverArrowCyclePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.keybind.CMKeyBindings;
+import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArrowItem;
@@ -46,6 +48,12 @@ public class QuiverEventHandler {
 
         if (!slot.isArmor())
             return;
+
+        LivingEntity entity = event.getEntity();
+        entity.level().playSeededSound(
+                null, entity.getX(), entity.getY(), entity.getZ(),
+                CMSounds.wrapAsHolder(CMSounds.QUIVER_EQUIP), entity.getSoundSource(), 0.5F, 0.75F, entity.getRandom().nextLong()
+        );
 
         EquipmentSlot current = newStack.getOrDefault(CMDataComponents.EQUIPPED_SLOT, null);
         if (slot.equals(current))

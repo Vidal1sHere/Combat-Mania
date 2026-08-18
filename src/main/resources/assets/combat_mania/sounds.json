@@ -58,5 +58,11 @@
       "combat_mania:flaming_arrow_impact3",
       "combat_mania:flaming_arrow_impact4"
     ]
+  },
+  "item.quiver.equip": {
+    "subtitle": "sounds.cotn.item.quiver.equip",
+    "sounds": [
+      "combat_mania:quiver_equip"
+    ]
   }
 }

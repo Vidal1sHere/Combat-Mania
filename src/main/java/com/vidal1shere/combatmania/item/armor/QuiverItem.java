@@ -7,6 +7,7 @@ import com.vidal1shere.combatmania.event.game.BowChargeEvent;
 import com.vidal1shere.combatmania.event.game.ProjectileCreateEvent;
 import com.vidal1shere.combatmania.event.game.ProjectileShootEvent;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
+import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.util.Color;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
@@ -14,6 +15,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
@@ -77,6 +79,11 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
     @Override
     public EquipmentSlot getEquipmentSlot(ItemStack stack) {
         return stack.getOrDefault(CMDataComponents.EQUIPPED_SLOT, getDefaultSlot());
+    }
+
+    @Override
+    public Holder<SoundEvent> getEquipSound() {
+        return CMSounds.wrapAsHolder(() -> SoundEvents.EMPTY);
     }
 
     public EquipmentSlot getDefaultSlot() {

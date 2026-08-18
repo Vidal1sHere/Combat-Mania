@@ -1,5 +1,6 @@
 package com.vidal1shere.combatmania.registry.item;
 
+import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
@@ -25,7 +26,7 @@ public class CMArmorMaterials {
                 attribute.put(ArmorItem.Type.CHESTPLATE, 0);
                 attribute.put(ArmorItem.Type.LEGGINGS, 0);
                 attribute.put(ArmorItem.Type.BOOTS, 0);
-            }), 15, 0.0F, 0.0F, () -> Ingredient.of(Items.LEATHER), SoundEvents.ARMOR_EQUIP_DIAMOND);
+            }), 15, 0.0F, 0.0F, () -> Ingredient.of(Items.LEATHER), CMSounds.wrapAsHolder(() -> SoundEvents.EMPTY));
 
     private static Holder<ArmorMaterial> register(String name, EnumMap<ArmorItem.Type, Integer> typeProtection,
                                                   int enchantability, float toughness, float knockbackResistance,
