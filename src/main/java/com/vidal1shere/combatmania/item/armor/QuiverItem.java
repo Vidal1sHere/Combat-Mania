@@ -46,10 +46,9 @@ import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.Nullable;
-import java.util.Set;
 import java.util.function.Consumer;
 
-public abstract class QuiverItem extends ArmorItem implements GeoItem {
+public abstract class QuiverItem extends MultiSlotArmorItem implements GeoItem {
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -60,9 +59,7 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
     public QuiverItem(Holder<ArmorMaterial> material, Properties properties) {
         super(material, Type.CHESTPLATE, properties.stacksTo(1).component(CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY));
     }
-
-    public abstract Set<EquipmentSlot> getAllowedSlots();
-
+    
     @OnlyIn(Dist.CLIENT)
     public abstract GeoArmorRenderer<?> supplyRenderer();
     
@@ -77,22 +74,8 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
     public void onBowCharge(BowChargeEvent event) {}
 
     @Override
-    public EquipmentSlot getEquipmentSlot(ItemStack stack) {
-        return stack.getOrDefault(CMDataComponents.EQUIPPED_SLOT, getDefaultSlot());
-    }
-
-    @Override
     public Holder<SoundEvent> getEquipSound() {
         return CMSounds.wrapAsHolder(CMSounds.QUIVER_EQUIP);
-    }
-
-    public EquipmentSlot getDefaultSlot() {
-        return getAllowedSlots().iterator().next();
-    }
-
-    @Override
-    public boolean canEquip(ItemStack stack, EquipmentSlot slot, LivingEntity entity) {
-        return getAllowedSlots().contains(slot);
     }
     
     @Override

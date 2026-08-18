@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.vidal1shere.combatmania.item.armor.MultiSlotArmorItem;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -28,7 +29,7 @@ public class InternalUtilMixin {
     cm$redirectQuiverEquipmentSlot(Equipable equipable, PoseStack poseStack, MultiBufferSource bufferSource,
                                    T entity, ItemStack stack, EquipmentSlot equipmentSlot) {
 
-        if (equipable instanceof QuiverItem)
+        if (equipable instanceof MultiSlotArmorItem)
             return equipmentSlot;
 
         return equipable.getEquipmentSlot();

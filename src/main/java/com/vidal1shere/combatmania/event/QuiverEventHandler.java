@@ -40,25 +40,6 @@ import java.util.function.Predicate;
 public class QuiverEventHandler {
 
     @SubscribeEvent
-    public static void saveNewQuiverSlot(LivingEquipmentChangeEvent event) {
-        ItemStack newStack = event.getTo();
-
-        if (!(newStack.getItem() instanceof QuiverItem))
-            return;
-
-        EquipmentSlot slot = event.getSlot();
-
-        if (!slot.isArmor())
-            return;
-
-        EquipmentSlot current = newStack.getOrDefault(CMDataComponents.EQUIPPED_SLOT, null);
-        if (slot.equals(current))
-            return;
-        
-        newStack.set(CMDataComponents.EQUIPPED_SLOT, slot);
-    }
-
-    @SubscribeEvent
     public static void readOrClearQuiverData(LivingEquipmentChangeEvent event) {
         if (!(event.getEntity() instanceof Player player))
             return;
