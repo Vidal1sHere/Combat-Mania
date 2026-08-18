@@ -83,7 +83,7 @@ public abstract class QuiverItem extends ArmorItem implements GeoItem {
 
     @Override
     public Holder<SoundEvent> getEquipSound() {
-        return CMSounds.wrapAsHolder(() -> SoundEvents.EMPTY);
+        return CMSounds.wrapAsHolder(CMSounds.QUIVER_EQUIP);
     }
 
     public EquipmentSlot getDefaultSlot() {

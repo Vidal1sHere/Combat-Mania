@@ -20,12 +20,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
 import java.util.Set;
+import java.util.function.Predicate;
 
 public class FlamingQuiverItem extends QuiverItem {
 
@@ -108,6 +110,15 @@ public class FlamingQuiverItem extends QuiverItem {
         ItemStack selected = data.getSelectedStack(contents);
 
         if (selected == null || !selected.is(Items.ARROW)) {
+            equippedQuiver.stack().set(CMDataComponents.FLAMING_QUIVER, ChargeData.EMPTY);
+            return;
+        }
+
+        ItemStack weapon = event.getWeapon();
+        Predicate<ItemStack> predicate = ((ProjectileWeaponItem)weapon.getItem()).getSupportedHeldProjectiles(weapon);
+        ItemStack heldProjectile = ProjectileWeaponItem.getHeldProjectile(player, predicate);
+
+        if (!heldProjectile.isEmpty()) {
             equippedQuiver.stack().set(CMDataComponents.FLAMING_QUIVER, ChargeData.EMPTY);
             return;
         }

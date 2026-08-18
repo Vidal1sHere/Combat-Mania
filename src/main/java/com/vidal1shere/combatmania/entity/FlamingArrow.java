@@ -46,7 +46,7 @@ public class FlamingArrow extends AbstractArrow {
 
     @Override
     protected void doPostHurtEffects(LivingEntity target) {
-//        target.setRemainingFireTicks(Math.min(MAX_FLAME_DURATION, target.getRemainingFireTicks() + FLAME_DURATION));
+        target.setRemainingFireTicks(Math.min(MAX_FLAME_DURATION, target.getRemainingFireTicks() + FLAME_DURATION));
         
         if (level() instanceof ServerLevel level) {
             level.sendParticles(

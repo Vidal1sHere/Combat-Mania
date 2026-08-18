@@ -34,6 +34,8 @@ import net.neoforged.neoforge.event.entity.player.ArrowNockEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import java.util.function.Predicate;
+
 @EventBusSubscriber(modid = CombatMania.MOD_ID)
 public class QuiverEventHandler {
 
@@ -49,16 +51,10 @@ public class QuiverEventHandler {
         if (!slot.isArmor())
             return;
 
-        LivingEntity entity = event.getEntity();
-        entity.level().playSeededSound(
-                null, entity.getX(), entity.getY(), entity.getZ(),
-                CMSounds.wrapAsHolder(CMSounds.QUIVER_EQUIP), entity.getSoundSource(), 0.5F, 0.75F, entity.getRandom().nextLong()
-        );
-
         EquipmentSlot current = newStack.getOrDefault(CMDataComponents.EQUIPPED_SLOT, null);
         if (slot.equals(current))
             return;
-
+        
         newStack.set(CMDataComponents.EQUIPPED_SLOT, slot);
     }
 
@@ -92,8 +88,18 @@ public class QuiverEventHandler {
     public static void findQuiverAmmo(LivingGetProjectileEvent event) {
         if (event.getEntity().level().isClientSide())
             return;
+        
         if (!(event.getEntity() instanceof Player player))
             return;
+        
+        if (!event.getProjectileItemStack().isEmpty()) {
+            ItemStack weapon = event.getProjectileWeaponItemStack();
+            Predicate<ItemStack> predicate = ((ProjectileWeaponItem)weapon.getItem()).getSupportedHeldProjectiles(weapon);
+            ItemStack heldAmmo = ProjectileWeaponItem.getHeldProjectile(player, predicate);
+            if (ItemStack.isSameItemSameComponents(event.getProjectileItemStack(), heldAmmo)) {
+                return;
+            }
+        }
 
         QuiverData data = player.getData(CMAttachments.QUIVER);
         QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
@@ -116,7 +122,7 @@ public class QuiverEventHandler {
             return;
 
         data.setQuiverAmmoUsed(true);
-        //            player.syncData(CMAttachments.QUIVER);
+        //player.syncData(CMAttachments.QUIVER);
         event.setProjectileItemStack(selected.copyWithCount(1));
     }
 
