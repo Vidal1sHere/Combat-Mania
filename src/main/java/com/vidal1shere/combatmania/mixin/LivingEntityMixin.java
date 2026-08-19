@@ -27,7 +27,7 @@ public abstract class LivingEntityMixin {
 
         LivingEntity self = (LivingEntity) (Object) this;
         if (self.level().isClientSide()) return;
-        if (ItemStack.isSameItemSameComponents(oldItem, newItem)) return;
+        if (ItemStack.isSameItem(oldItem, newItem)) return;
         if (newItem.isEmpty() && oldItem.isEmpty()) return;
 
         self.level().playSeededSound(
@@ -44,7 +44,7 @@ public abstract class LivingEntityMixin {
             ),
             cancellable = true
     )
-    private void cm$muffleEquipSound(EquipmentSlot slot, ItemStack oldItem, ItemStack newItem, CallbackInfo ci) {
+    private void cm$muteOriginalEquipSound(EquipmentSlot slot, ItemStack oldItem, ItemStack newItem, CallbackInfo ci) {
         Equipable equipable = Equipable.get(newItem);
         if (!(equipable instanceof MultiSlotArmorItem)) return;
         ci.cancel();

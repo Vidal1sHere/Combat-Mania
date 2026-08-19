@@ -134,6 +134,7 @@ public final class QuiverContents {
 
         public int tryTransfer(Slot slot, Player player) {
             ItemStack stack = slot.getItem();
+            if (stack.isEmpty() || !isArrow(stack)) return 0;
             int space = MAX_ARROWS - this.count;
             return tryInsert(slot.safeTake(stack.getCount(), space, player));
         }

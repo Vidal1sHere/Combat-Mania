@@ -80,7 +80,7 @@ public abstract class QuiverItem extends MultiSlotArmorItem implements GeoItem {
     
     @Override
     public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction action, Player player) {
-        if (stack.getCount() != 1 || action != ClickAction.SECONDARY) return false;
+        if (stack.getCount() != 1) return false;
 
         QuiverContents contents = stack.get(CMDataComponents.QUIVER_CONTENTS);
         if (contents == null) return false;
@@ -88,18 +88,20 @@ public abstract class QuiverItem extends MultiSlotArmorItem implements GeoItem {
         ItemStack slotItem = slot.getItem();
         QuiverContents.Mutable mutable = new QuiverContents.Mutable(contents);
 
-        if (slotItem.isEmpty()) {
+        if (slotItem.isEmpty() && action == ClickAction.SECONDARY) {
             ItemStack removed = mutable.remove(0);
             if (removed != null) {
                 playRemoveOneSound(player);
                 ItemStack leftover = slot.safeInsert(removed);
                 mutable.tryInsert(leftover);
             }
-        } else {
+        } else if (!slotItem.isEmpty() && action == ClickAction.PRIMARY) {
             int inserted = mutable.tryTransfer(slot, player);
             if (inserted > 0) {
                 playInsertSound(player);
             }
+        } else {
+            return false;
         }
 
         stack.set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
@@ -109,9 +111,7 @@ public abstract class QuiverItem extends MultiSlotArmorItem implements GeoItem {
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other, Slot slot,
                                             ClickAction action, Player player, SlotAccess access) {
-        if (stack.getCount() != 1) 
-            return false;
-        if (action != ClickAction.SECONDARY || !slot.allowModification(player)) 
+        if (stack.getCount() != 1 || !slot.allowModification(player)) 
             return false;
 
         QuiverContents contents = stack.get(CMDataComponents.QUIVER_CONTENTS);
@@ -120,17 +120,19 @@ public abstract class QuiverItem extends MultiSlotArmorItem implements GeoItem {
 
         QuiverContents.Mutable mutable = new QuiverContents.Mutable(contents);
 
-        if (other.isEmpty()) {
-            ItemStack removed = mutable.removeOne();
+        if (other.isEmpty() && action == ClickAction.SECONDARY) {
+            ItemStack removed = mutable.remove(0);
             if (removed != null) {
                 playRemoveOneSound(player);
                 access.set(removed);
             }
-        } else {
+        } else if (!other.isEmpty() && action == ClickAction.PRIMARY) {
             int inserted = mutable.tryInsert(other);
             if (inserted > 0) {
                 playInsertSound(player);
             }
+        } else {
+            return false;
         }
 
         stack.set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
