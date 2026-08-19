@@ -1,0 +1,9 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "combat_mania:item_config_enabled"
+    }
+  ],
+  "type": "combat_mania:firework_arrow",
+  "category": "equipment"
+}

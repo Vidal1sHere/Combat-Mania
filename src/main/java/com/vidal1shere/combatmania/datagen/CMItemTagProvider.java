@@ -32,5 +32,7 @@ public class CMItemTagProvider extends ItemTagsProvider {
         this.tag(ItemTags.TRIDENT_ENCHANTABLE)
                 .addTag(CMTags.Items.JAVELIN);
                 
+        this.tag(ItemTags.ARROWS)
+                .add(CMItems.FIREWORK_ARROW.get());
     }
 }

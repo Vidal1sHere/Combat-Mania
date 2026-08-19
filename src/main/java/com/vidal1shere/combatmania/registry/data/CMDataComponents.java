@@ -69,6 +69,12 @@ public class CMDataComponents {
                     .networkSynchronized(QuiverItem.ChargeData.STREAM_CODEC)
             );
 
+    public static final Supplier<DataComponentType<Boolean>> FIREWORK_ARROW =
+            register("firework_arrow", b -> b
+                    .persistent(Codec.BOOL)
+                    .networkSynchronized(ByteBufCodecs.BOOL)
+            );
+
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name,
                                                                                            UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPES.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());

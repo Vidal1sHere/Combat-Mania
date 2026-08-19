@@ -10,6 +10,7 @@ import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItems;
+import com.vidal1shere.combatmania.registry.item.CMRecipes;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
@@ -40,6 +41,7 @@ public class CombatMania {
         CMAttributes.register(modEventBus);
         CMEntities.register(modEventBus);
         CMItems.register(modEventBus);
+        CMRecipes.register(modEventBus);
         CMBlocks.register(modEventBus);
         CMParticles.register(modEventBus);
         CMSounds.register(modEventBus);

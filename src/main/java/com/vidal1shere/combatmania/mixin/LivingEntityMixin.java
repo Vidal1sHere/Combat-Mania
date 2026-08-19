@@ -23,10 +23,11 @@ public abstract class LivingEntityMixin {
     )
     private void cm$playEquipSound(EquipmentSlot slot, ItemStack oldItem, ItemStack newItem, CallbackInfo ci) {
         Equipable equipable = Equipable.get(newItem);
-        if (!(equipable instanceof MultiSlotArmorItem)) return;
+        if (!(equipable instanceof MultiSlotArmorItem armor)) return;
 
         LivingEntity self = (LivingEntity) (Object) this;
         if (self.level().isClientSide()) return;
+        if (!armor.getAllowedSlots().contains(slot)) return;
         if (ItemStack.isSameItem(oldItem, newItem)) return;
         if (newItem.isEmpty() && oldItem.isEmpty()) return;
 

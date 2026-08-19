@@ -111,7 +111,7 @@ public class ItemInHandData {
                 return false;
             }
 
-            ItemStack oldStack = currentStack.copy();
+            ItemStack oldStack = currentStack;
             int oldSlot = currentSlot;
 
             boolean sameComponents = Objects.equals(stack.getComponents(), currentStack.getComponents());
@@ -125,7 +125,7 @@ public class ItemInHandData {
             NeoForge.EVENT_BUS.post(
                     new ItemInHandChangeEvent(
                             player, hand,
-                            oldStack, currentStack.copy(),
+                            oldStack, currentStack,
                             oldSlot, currentSlot, sameComponents
                     )
             );

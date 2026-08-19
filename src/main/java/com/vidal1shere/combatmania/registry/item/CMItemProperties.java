@@ -20,6 +20,11 @@ public class CMItemProperties {
                 (stack, level, entity, seed) -> 
                     CMClientConfig.TWO_DIMENSIONAL_TRIDENT.get() ? 1 : 0
                 );
+
+        ItemProperties.register(Items.BOW, CMUtil.modResLoc("firework"),
+                (stack, level, entity, seed) ->
+                        stack.getOrDefault(CMDataComponents.FIREWORK_ARROW, false) ? 1 : 0
+        );
         
         makeThrowingItem(CMItems.WOODEN_JAVELIN.get());
         makeThrowingItem(CMItems.STONE_JAVELIN.get());

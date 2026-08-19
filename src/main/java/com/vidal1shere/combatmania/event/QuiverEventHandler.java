@@ -3,20 +3,14 @@ package com.vidal1shere.combatmania.event;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.attachment.QuiverData;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
-import com.vidal1shere.combatmania.event.game.BowChargeEvent;
-import com.vidal1shere.combatmania.event.game.ItemInHandChangeEvent;
-import com.vidal1shere.combatmania.event.game.ProjectileCreateEvent;
-import com.vidal1shere.combatmania.event.game.ProjectileShootEvent;
+import com.vidal1shere.combatmania.event.game.*;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import com.vidal1shere.combatmania.network.QuiverArrowCyclePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.keybind.CMKeyBindings;
-import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArrowItem;
@@ -26,6 +20,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingGetProjectileEvent;
@@ -102,9 +97,16 @@ public class QuiverEventHandler {
         if (selected == null || selected.isEmpty())
             return;
 
-        data.setQuiverAmmoUsed(true);
-        //player.syncData(CMAttachments.QUIVER);
-        event.setProjectileItemStack(selected.copyWithCount(1));
+        QuiverGetProjectileEvent quiverEvent = new QuiverGetProjectileEvent(
+                player, 
+                equippedQuiver.stack(),
+                event.getProjectileWeaponItemStack(), 
+                selected.copyWithCount(1));
+
+        if (!NeoForge.EVENT_BUS.post(quiverEvent).isCanceled()) {
+            data.setQuiverAmmoUsed(true);
+            event.setProjectileItemStack(quiverEvent.getProjectile().copyWithCount(1));
+        }
     }
 
     @SubscribeEvent
