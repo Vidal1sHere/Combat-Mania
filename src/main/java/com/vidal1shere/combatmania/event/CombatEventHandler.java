@@ -4,6 +4,10 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.event.game.*;
+import com.vidal1shere.combatmania.event.game.bow.BowShootEvent;
+import com.vidal1shere.combatmania.event.game.bow.CrossbowLoadEvent;
+import com.vidal1shere.combatmania.event.game.bow.QuiverArrowCycleEvent;
+import com.vidal1shere.combatmania.event.game.bow.QuiverGetProjectileEvent;
 import com.vidal1shere.combatmania.item.FireworkArrowItem;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
@@ -12,7 +16,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.Fireworks;
@@ -141,8 +144,25 @@ public class CombatEventHandler {
             evaluate(event.getWeapon(), event.getProjectile());
         }
 
+        @SubscribeEvent
+        public static void applyFireworkDataOnCycle(QuiverArrowCycleEvent event) {
+            if (event.getToArrow().isEmpty())
+                return;
+            
+            ItemStack weapon = event.getEntity().getUseItem();
+            ItemStack ammo = event.getToArrow();
 
-        // todo kill yourself
+            if (!weapon.is(Items.BOW))
+                return;
+
+            if (!ammo.is(CMItems.FIREWORK_ARROW.get())) {
+                weapon.set(CMDataComponents.FIREWORK_ARROW, false);
+                return;
+            }
+
+            weapon.set(CMDataComponents.FIREWORK_ARROW, true);
+        }
+        
         private static void evaluate(ItemStack weapon, ItemStack ammo) {
             if (!weapon.is(Items.BOW))
                 return;

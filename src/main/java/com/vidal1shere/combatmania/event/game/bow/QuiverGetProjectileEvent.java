@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.event.game;
+package com.vidal1shere.combatmania.event.game.bow;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

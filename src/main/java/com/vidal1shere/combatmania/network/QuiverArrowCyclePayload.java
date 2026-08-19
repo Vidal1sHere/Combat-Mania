@@ -4,6 +4,7 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.client.gui.access.QuiverHudState;
 import com.vidal1shere.combatmania.data.attachment.QuiverData;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
+import com.vidal1shere.combatmania.event.game.bow.QuiverArrowCycleEvent;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import io.netty.buffer.ByteBuf;
@@ -13,6 +14,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -63,6 +66,16 @@ public abstract class QuiverArrowCyclePayload implements CustomPacketPayload {
                     data.setSelectedIndex(0);
                     return;
                 }
+
+                ItemStack from = contents.items().get(data.getSelectedIndex(contents));
+                int nextIndex = this.direction == Direction.NEXT
+                        ? (data.getSelectedIndex(contents) + 1) % contents.size()
+                        : (data.getSelectedIndex(contents) - 1 + contents.size()) % contents.size();
+                ItemStack to = contents.items().get(nextIndex);
+
+                QuiverArrowCycleEvent event = new QuiverArrowCycleEvent(context.player(), equippedQuiver.stack(), from, to);
+                NeoForge.EVENT_BUS.post(event);
+                if (event.isCanceled()) return;
 
                 if (this.direction == Direction.NEXT) {
                     data.next(contents.size());

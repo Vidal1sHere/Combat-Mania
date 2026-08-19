@@ -4,6 +4,7 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.attachment.QuiverData;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.event.game.*;
+import com.vidal1shere.combatmania.event.game.bow.*;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import com.vidal1shere.combatmania.network.QuiverArrowCyclePayload;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
@@ -60,6 +61,7 @@ public class QuiverEventHandler {
         }
     }
 
+    // todo find out why ts flickers 
     @SubscribeEvent
     public static void findQuiverAmmo(LivingGetProjectileEvent event) {
         if (event.getEntity().level().isClientSide())
@@ -194,6 +196,24 @@ public class QuiverEventHandler {
         equippedQuiver.stack().set(CMDataComponents.QUIVER_CONTENTS, mutable.toImmutable());
         player.syncData(CMAttachments.QUIVER);
         event.setCancellationResult(InteractionResult.SUCCESS);
+    }
+
+    @SubscribeEvent
+    public static void quiverOnCycle(QuiverArrowCycleEvent event) {
+        if (event.isCanceled())
+            return;
+
+        Player player = event.getEntity();
+        if (player.level().isClientSide())
+            return;
+
+        QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+        if (equippedQuiver == null)
+            return;
+
+        if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
+            quiver.onArrowCycle(event);
+        }
     }
 
     @SubscribeEvent

@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.event.game;
+package com.vidal1shere.combatmania.event.game.bow;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;

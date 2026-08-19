@@ -3,9 +3,10 @@ package com.vidal1shere.combatmania.item.armor;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
-import com.vidal1shere.combatmania.event.game.BowChargeEvent;
-import com.vidal1shere.combatmania.event.game.BowShootEvent;
-import com.vidal1shere.combatmania.event.game.CrossbowLoadEvent;
+import com.vidal1shere.combatmania.event.game.bow.BowChargeEvent;
+import com.vidal1shere.combatmania.event.game.bow.BowShootEvent;
+import com.vidal1shere.combatmania.event.game.bow.CrossbowLoadEvent;
+import com.vidal1shere.combatmania.event.game.bow.QuiverArrowCycleEvent;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.util.Color;
@@ -29,7 +30,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -62,6 +62,8 @@ public abstract class QuiverItem extends MultiSlotArmorItem implements GeoItem {
     
     @OnlyIn(Dist.CLIENT)
     public abstract GeoArmorRenderer<?> supplyRenderer();
+    
+    public void onArrowCycle(QuiverArrowCycleEvent event) {}
     
     public void onArrowLoose(ArrowLooseEvent event) {}
 

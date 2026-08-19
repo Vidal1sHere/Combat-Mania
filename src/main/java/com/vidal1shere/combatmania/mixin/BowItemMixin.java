@@ -1,7 +1,7 @@
 package com.vidal1shere.combatmania.mixin;
 
-import com.vidal1shere.combatmania.event.game.BowChargeEvent;
-import com.vidal1shere.combatmania.event.game.BowShootEvent;
+import com.vidal1shere.combatmania.event.game.bow.BowChargeEvent;
+import com.vidal1shere.combatmania.event.game.bow.BowShootEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
