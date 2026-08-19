@@ -110,22 +110,30 @@ public class QuiverEventHandler {
     }
 
     @SubscribeEvent
-    public static void consumeQuiverAmmo(ProjectileShootEvent event) {
-        if (!(event.getShooter() instanceof Player player))
+    public static void consumeQuiverAmmo(BowShootEvent event) {
+        if (!(event.getEntity() instanceof Player player))
             return;
         if (player.level().isClientSide())
             return;
 
+        QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+        if (equippedQuiver == null)
+            return;
+
+        consume(player, equippedQuiver);
+
+        if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
+            quiver.onBowShoot(event);
+        }
+    }
+    
+    private static void consume(Player player, QuiverData.EquippedQuiver equippedQuiver) {
         QuiverData data = player.getData(CMAttachments.QUIVER);
 
         if (!data.quiverAmmoUsed())
             return;
 
         data.setQuiverAmmoUsed(false);
-
-        QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
-        if (equippedQuiver == null)
-            return;
 
         if (data.equippedQuiver() == null || !data.equippedQuiver().slot().equals(equippedQuiver.slot())) {
             data.reset(equippedQuiver);
@@ -150,10 +158,6 @@ public class QuiverEventHandler {
         }
 
         player.syncData(CMAttachments.QUIVER);
-
-        if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
-            quiver.onArrowShoot(event);
-        }
     }
 
     @SubscribeEvent
@@ -211,36 +215,6 @@ public class QuiverEventHandler {
     }
 
     @SubscribeEvent
-    public static void quiverOnArrowCreated(ProjectileCreateEvent event) {
-        Player player = (Player) event.getShooter();
-        if (player.level().isClientSide())
-            return;
-
-        QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
-        if (equippedQuiver == null)
-            return;
-
-        if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
-            quiver.onArrowCreate(event);
-        }
-    }
-
-    @SubscribeEvent
-    public static void quiverOnArrowShot(ProjectileShootEvent event) {
-        Player player = (Player) event.getShooter();
-        if (player.level().isClientSide())
-            return;
-
-        QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
-        if (equippedQuiver == null)
-            return;
-
-        if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
-            quiver.onArrowShoot(event);
-        }
-    }
-
-    @SubscribeEvent
     public static void quiverOnArrowLoose(ArrowLooseEvent event) {
         if (event.isCanceled())
             return;
@@ -263,7 +237,7 @@ public class QuiverEventHandler {
         if (event.isCanceled())
             return;
 
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (player.level().isClientSide())
             return;
 
@@ -273,6 +247,24 @@ public class QuiverEventHandler {
 
         if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
             quiver.onBowCharge(event);
+        }
+    }
+
+    @SubscribeEvent
+    public static void quiverOnCrossbowLoad(CrossbowLoadEvent event) {
+        if (event.isCanceled())
+            return;
+
+        Player player = event.getEntity();
+        if (player.level().isClientSide())
+            return;
+
+        QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
+        if (equippedQuiver == null)
+            return;
+
+        if (equippedQuiver.stack().getItem() instanceof QuiverItem quiver) {
+            quiver.onCrossbowLoad(event);
         }
     }
 

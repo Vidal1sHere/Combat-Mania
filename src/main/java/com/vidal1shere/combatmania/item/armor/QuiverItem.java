@@ -4,8 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.event.game.BowChargeEvent;
-import com.vidal1shere.combatmania.event.game.ProjectileCreateEvent;
-import com.vidal1shere.combatmania.event.game.ProjectileShootEvent;
+import com.vidal1shere.combatmania.event.game.BowShootEvent;
+import com.vidal1shere.combatmania.event.game.CrossbowLoadEvent;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.util.Color;
@@ -67,11 +67,11 @@ public abstract class QuiverItem extends MultiSlotArmorItem implements GeoItem {
 
     public void onArrowNock(ArrowNockEvent event) {}
     
-    public void onArrowCreate(ProjectileCreateEvent event) {}
-    
-    public void onArrowShoot(ProjectileShootEvent event) {}
+    public void onBowShoot(BowShootEvent event) {}
 
     public void onBowCharge(BowChargeEvent event) {}
+    
+    public void onCrossbowLoad(CrossbowLoadEvent event) {}
 
     @Override
     public Holder<SoundEvent> getEquipSound() {

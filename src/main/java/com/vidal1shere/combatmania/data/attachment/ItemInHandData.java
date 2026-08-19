@@ -100,7 +100,7 @@ public class ItemInHandData {
             int slot = getSlot(player);
 
             if (!initialized) {
-                currentStack = stack.copy();
+                currentStack = stack;
                 currentSlot = slot;
                 initialized = true;
 
@@ -119,7 +119,7 @@ public class ItemInHandData {
             previousStack = currentStack;
             previousSlot = currentSlot;
 
-            currentStack = stack.copy();
+            currentStack = stack;
             currentSlot = slot;
 
             NeoForge.EVENT_BUS.post(

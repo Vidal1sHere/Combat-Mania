@@ -5,8 +5,7 @@ import com.vidal1shere.combatmania.data.attachment.QuiverData;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.entity.FlamingArrow;
 import com.vidal1shere.combatmania.event.game.BowChargeEvent;
-import com.vidal1shere.combatmania.event.game.ProjectileCreateEvent;
-import com.vidal1shere.combatmania.event.game.ProjectileShootEvent;
+import com.vidal1shere.combatmania.event.game.BowShootEvent;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.item.CMArmorMaterials;
@@ -23,7 +22,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
 import java.util.Set;
@@ -53,43 +51,24 @@ public class FlamingQuiverItem extends QuiverItem {
     }
 
     @Override
-    public void onArrowCreate(ProjectileCreateEvent event) {
-        if (event.getShooter() == null || !event.getAmmo().is(Items.ARROW)) return;
-
-        QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver((Player) event.getShooter());
-        if (equippedQuiver == null) return;
-
-        ChargeData chargeData = equippedQuiver.stack().getOrDefault(CMDataComponents.FLAMING_QUIVER, ChargeData.EMPTY);
-        if (!chargeData.charged()) return;
-
-        FlamingArrow flamingArrow = new FlamingArrow(
-                event.getShooter().level(), event.getShooter(),
-                event.getAmmo().copyWithCount(1), event.getWeapon()
-        );
-
-        event.setProjectile(flamingArrow);
-    }
-
-    @Override
-    public void onArrowLoose(ArrowLooseEvent event) {
-    }
-
-    @Override
-    public void onArrowShoot(ProjectileShootEvent event) {
-        if (event.getShooter() == null || !event.getAmmo().is(Items.ARROW)) return;
-        if (!(event.getShooter() instanceof Player player)) return;
+    public void onBowShoot(BowShootEvent event) {
+        if (!(event.getEntity() instanceof Player player)|| !event.getAmmo().is(Items.ARROW)) return;
 
         QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
         if (equippedQuiver == null) return;
 
         ChargeData chargeData = equippedQuiver.stack().getOrDefault(CMDataComponents.FLAMING_QUIVER, ChargeData.EMPTY);
-        equippedQuiver.stack().set(CMDataComponents.FLAMING_QUIVER, ChargeData.EMPTY);
 
+        equippedQuiver.stack().set(CMDataComponents.FLAMING_QUIVER, ChargeData.EMPTY);
         if (!chargeData.charged()) return;
 
-        equippedQuiver.stack().set(CMDataComponents.FLAMING_QUIVER, ChargeData.EMPTY);
+        FlamingArrow flamingArrow = new FlamingArrow(
+                player.level(), player,
+                event.getAmmo().copyWithCount(1), event.getWeapon()
+        );
 
-        event.getProjectile().playSound(CMSounds.FLAMING_ARROW_SHOOT.get(), 1.0F, 1.0F);
+        event.setProjectile(flamingArrow);
+        flamingArrow.playSound(CMSounds.FLAMING_ARROW_SHOOT.get(), 1.0F, 1.0F);
 
         if (player.level() instanceof ServerLevel level) {
             spawnShootParticles(player, level);
@@ -98,7 +77,7 @@ public class FlamingQuiverItem extends QuiverItem {
 
     @Override
     public void onBowCharge(BowChargeEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
 
         QuiverData.EquippedQuiver equippedQuiver = QuiverData.findFirstEquippedQuiver(player);
         if (equippedQuiver == null) return;
