@@ -204,7 +204,6 @@ public class SmashStrikeStyle extends StrikeStyle {
             if (actualTarget instanceof LivingEntity le) {
                 itemHurt = itemStack.hurtEnemy(le, player);
             }
-            // todo why tf is this not compatible with wind burst
             EnchantmentHelper.doPostAttackEffects(sl, target, damagesource);
 
             if (!itemStack.isEmpty() && actualTarget instanceof LivingEntity le) {
