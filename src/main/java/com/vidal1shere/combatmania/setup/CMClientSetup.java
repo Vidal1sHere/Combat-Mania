@@ -1,7 +1,9 @@
 package com.vidal1shere.combatmania.setup;
 
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.api.extension.item.ClientHammerExtension;
 import com.vidal1shere.combatmania.api.extension.item.ClientMaceExtensions;
+import com.vidal1shere.combatmania.client.model.TieredHammerHeadModel;
 import com.vidal1shere.combatmania.client.model.TieredMaceHeadModel;
 import com.vidal1shere.combatmania.client.model.VanillaMaceHeadModel;
 import com.vidal1shere.combatmania.client.renderer.item.VanillaMaceRenderer;
@@ -9,9 +11,11 @@ import com.vidal1shere.combatmania.client.renderer.projectile.FlamingArrowRender
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownJavelinRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownTrident2dRenderer;
 import com.vidal1shere.combatmania.config.CMClientConfig;
+import com.vidal1shere.combatmania.constants.TieredHammerModels;
 import com.vidal1shere.combatmania.constants.TieredMaceModels;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
+import com.vidal1shere.combatmania.item.weapon.HammerItem;
 import com.vidal1shere.combatmania.item.weapon.StrikeMaceItem;
 import com.vidal1shere.combatmania.particle.CustomParticle;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
@@ -54,17 +58,29 @@ public class CMClientSetup {
                 .toArray(Item[]::new));
         
         event.registerItem(new ClientMaceExtensions.Vanilla(), Items.MACE);
+
+        event.registerItem(new ClientHammerExtension(), CMItems.getItems()
+                .stream()
+                .filter(item -> item.get() instanceof HammerItem)
+                .map(holder -> (Item) holder.get())
+                .toArray(Item[]::new));
     }
     
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(TieredMaceHeadModel.LAYER_LOCATION, TieredMaceHeadModel::createBodyLayer);
         event.registerLayerDefinition(VanillaMaceHeadModel.LAYER_LOCATION, VanillaMaceHeadModel::createBodyLayer);
+        event.registerLayerDefinition(TieredHammerHeadModel.LAYER_LOCATION, TieredHammerHeadModel::createBodyLayer);
     }
 
     @SubscribeEvent
     public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
         for (TieredMaceModels tier : TieredMaceModels.values()) {
+            event.register(ModelResourceLocation.standalone(tier.getFullModel()));
+            event.register(ModelResourceLocation.standalone(tier.getHandleModel()));
+        }
+
+        for (TieredHammerModels tier : TieredHammerModels.values()) {
             event.register(ModelResourceLocation.standalone(tier.getFullModel()));
             event.register(ModelResourceLocation.standalone(tier.getHandleModel()));
         }

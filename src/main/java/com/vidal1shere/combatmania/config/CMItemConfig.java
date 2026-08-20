@@ -29,6 +29,10 @@ public class CMItemConfig {
             .comment("Add mace items in the creative menu")
             .define("maceItems", false);
 
+    public static final ModConfigSpec.BooleanValue HAMMER_ITEMS = BUILDER
+            .comment("Add hammer items in the creative menu")
+            .define("hammerItems", false);
+
     public static final ModConfigSpec.BooleanValue QUIVER_ITEMS = BUILDER
             .comment("Add quiver items in the creative menu")
             .define("quiverItems", false);

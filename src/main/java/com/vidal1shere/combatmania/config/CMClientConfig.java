@@ -12,6 +12,10 @@ public class CMClientConfig {
     public static final ModConfigSpec.BooleanValue THREE_DIMENSIONAL_MACES = BUILDER
             .comment("Makes all maces three-dimensional")
             .define("3DMaces", false);
+
+    public static final ModConfigSpec.BooleanValue THREE_DIMENSIONAL_HAMMERS = BUILDER
+            .comment("Makes all hammers three-dimensional")
+            .define("3DHammers", false);
     
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

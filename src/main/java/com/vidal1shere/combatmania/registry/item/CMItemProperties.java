@@ -39,6 +39,12 @@ public class CMItemProperties {
         makeMaceItem(CMItems.DIAMOND_MACE.get());
         makeMaceItem(Items.MACE);
         
+        makeHammerItem(CMItems.WOODEN_HAMMER.get());
+        makeHammerItem(CMItems.STONE_HAMMER.get());
+        makeHammerItem(CMItems.IRON_HAMMER.get());
+        makeHammerItem(CMItems.GOLDEN_HAMMER.get());
+        makeHammerItem(CMItems.DIAMOND_HAMMER.get());
+        
         makeQuiverItem(CMItems.LEATHER_QUIVER.get());
         makeQuiverItem(CMItems.FLAMING_QUIVER.get());
     }
@@ -70,6 +76,13 @@ public class CMItemProperties {
         ItemProperties.register(item, CMUtil.modResLoc("mace_3d"),
                 (stack, level, entity, seed) ->
                         CMClientConfig.THREE_DIMENSIONAL_MACES.get() ? 1 : 0
+        );
+    }
+
+    private static void makeHammerItem(Item item) {
+        ItemProperties.register(item, CMUtil.modResLoc("hammer_3d"),
+                (stack, level, entity, seed) ->
+                        CMClientConfig.THREE_DIMENSIONAL_HAMMERS.get() ? 1 : 0
         );
     }
     

@@ -199,6 +199,31 @@ public class CMItems {
     public static final DeferredItem<FireworkArrowItem> FIREWORK_ARROW = ITEMS.register(
             "firework_arrow", () -> new FireworkArrowItem(new Item.Properties())
     );
+
+    public static final DeferredItem<HammerItem> WOODEN_HAMMER = ITEMS.register(
+            "wooden_hammer", () -> new HammerItem(CMExtendedToolTiers.WOOD, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.WOOD, 1.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<HammerItem> STONE_HAMMER = ITEMS.register(
+            "stone_hammer", () -> new HammerItem(CMExtendedToolTiers.STONE, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.STONE, 1.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<HammerItem> IRON_HAMMER = ITEMS.register(
+            "iron_hammer", () -> new HammerItem(CMExtendedToolTiers.IRON, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.IRON, 1.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<HammerItem> GOLDEN_HAMMER = ITEMS.register(
+            "golden_hammer", () -> new HammerItem(CMExtendedToolTiers.GOLD, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.GOLD, 1.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<HammerItem> DIAMOND_HAMMER = ITEMS.register(
+            "diamond_hammer", () -> new HammerItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.DIAMOND, 1.0F, -3.2F)))
+    );
     
     public static Collection<DeferredHolder<Item, ? extends Item>> getItems() {
         return ITEMS.getEntries();

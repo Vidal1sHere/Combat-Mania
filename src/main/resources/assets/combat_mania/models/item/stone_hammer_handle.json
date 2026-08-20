@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld_mace",
+  "textures": {
+    "layer0": "combat_mania:item/stone_hammer_handle"
+  }
+}

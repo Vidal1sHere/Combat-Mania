@@ -78,6 +78,14 @@ public class CMCommonSetup {
                 event.insertBefore(new ItemStack(Items.MACE), CMItems.GOLDEN_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertBefore(new ItemStack(Items.MACE), CMItems.DIAMOND_MACE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
+            
+            if (CMItemConfig.HAMMER_ITEMS.get()) {
+                event.insertAfter(new ItemStack(Items.MACE), CMItems.DIAMOND_HAMMER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.MACE), CMItems.GOLDEN_HAMMER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.MACE), CMItems.IRON_HAMMER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.MACE), CMItems.STONE_HAMMER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.MACE), CMItems.WOODEN_HAMMER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
 
             if (CMItemConfig.GLAIVE_ITEMS.get()) {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.DIAMOND_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -99,6 +107,7 @@ public class CMCommonSetup {
             if (CMItemConfig.QUIVER_ITEMS.get()) {
                 event.insertBefore(new ItemStack(Items.ARROW), CMItems.LEATHER_QUIVER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertBefore(new ItemStack(Items.ARROW), CMItems.FLAMING_QUIVER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                event.insertAfter(new ItemStack(Items.SPECTRAL_ARROW), CMItems.FIREWORK_ARROW.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
     }
