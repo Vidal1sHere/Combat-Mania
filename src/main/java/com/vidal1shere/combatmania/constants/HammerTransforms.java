@@ -1,10 +1,10 @@
 package com.vidal1shere.combatmania.constants;
 
-import com.vidal1shere.combatmania.api.extension.item.ITransformProfile;
+import com.vidal1shere.combatmania.api.extension.item.ITransform;
 import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.resources.ResourceLocation;
 
-public enum HammerTransforms implements ITransformProfile {
+public enum HammerTransforms implements ITransform {
     WOOD("wooden_hammer"),
     STONE("stone_hammer"),
     IRON("iron_hammer"),

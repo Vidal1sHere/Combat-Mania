@@ -1,10 +1,10 @@
 package com.vidal1shere.combatmania.constants;
 
-import com.vidal1shere.combatmania.api.extension.item.ITransformProfile;
+import com.vidal1shere.combatmania.api.extension.item.ITransform;
 import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.resources.ResourceLocation;
 
-public enum MaceTransforms implements ITransformProfile {
+public enum MaceTransforms implements ITransform {
     WOOD("wooden_mace"),
     STONE("stone_mace"),
     IRON("iron_mace"),
