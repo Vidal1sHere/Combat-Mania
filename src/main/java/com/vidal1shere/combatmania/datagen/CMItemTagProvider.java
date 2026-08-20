@@ -7,6 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -20,18 +21,32 @@ public class CMItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        this.tag(CMTags.Items.JAVELIN)
+        this.tag(CMTags.Items.JAVELINS)
                 .add(
                         CMItems.WOODEN_JAVELIN.get(),
                         CMItems.STONE_JAVELIN.get(),
                         CMItems.GOLDEN_JAVELIN.get(),
                         CMItems.IRON_JAVELIN.get(),
-                        CMItems.DIAMOND_JAVELIN.get()
+                        CMItems.DIAMOND_JAVELIN.get(),
+                        Items.TRIDENT
+                );
+
+        this.tag(CMTags.Items.MACES)
+                .add(
+                        CMItems.WOODEN_MACE.get(),
+                        CMItems.STONE_MACE.get(),
+                        CMItems.GOLDEN_MACE.get(),
+                        CMItems.IRON_MACE.get(),
+                        CMItems.DIAMOND_MACE.get(),
+                        Items.MACE
                 );
         
-        this.tag(ItemTags.TRIDENT_ENCHANTABLE)
-                .addTag(CMTags.Items.JAVELIN);
-                
+        this.tag(CMTags.Items.SMASH_ENCHANTABLE)
+                .addTag(CMTags.Items.MACES);
+
+        this.tag(CMTags.Items.THROW_ENCHANTABLE)
+                .addTag(CMTags.Items.JAVELINS);
+        
         this.tag(ItemTags.ARROWS)
                 .add(CMItems.FIREWORK_ARROW.get());
     }

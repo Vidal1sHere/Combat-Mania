@@ -20,7 +20,10 @@ public class CMTags {
     }
     
     public static class Items {
-        public static final TagKey<Item> JAVELIN = createTag("javelin");
+        public static final TagKey<Item> MACES = createTag("maces");
+        public static final TagKey<Item> JAVELINS = createTag("javelins");
+        public static final TagKey<Item> SMASH_ENCHANTABLE = createTag("enchantable/smash");
+        public static final TagKey<Item> THROW_ENCHANTABLE = createTag("enchantable/throw");
         
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(CMUtil.modResLoc(name));

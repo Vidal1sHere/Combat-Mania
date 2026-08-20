@@ -84,7 +84,12 @@ public class TieredHammerRenderer extends BlockEntityWithoutLevelRenderer {
         ItemTransform transform = handleModel.getTransforms().getTransform(transformType);
         applyTransform(transform, leftHanded, poseStack);
         poseStack.mulPose(Axis.ZP.rotationDegrees(135));
+        poseStack.mulPose(Axis.YP.rotationDegrees(180));
         poseStack.translate(0, -24.0 / 16, 0);
+        if (transformType.firstPerson()) {
+            poseStack.scale(0.75f, 0.75f, 0.75f);
+            poseStack.translate(0, 5.5 / 16, 0);
+        }
 
         RenderType renderType = RenderType.entityCutoutNoCull(tier.getHeadTexture());
         headModel.renderToBuffer(poseStack,

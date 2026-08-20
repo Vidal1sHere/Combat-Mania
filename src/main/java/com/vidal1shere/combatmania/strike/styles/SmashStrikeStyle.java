@@ -13,6 +13,7 @@ import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -94,12 +95,14 @@ public class SmashStrikeStyle extends StrikeStyle {
             targetHealthBefore = living.getHealth();
             
             if (canSmashAttack(player, properties)) {
-                f += getSmashDamageBonus(itemStack, living, damagesource);
+                float smashBonus = getSmashDamageBonus(itemStack, living, damagesource);
+                f += smashBonus;
             }
         }
         
         float totalDamage = f + f1;
         
+        player.sendSystemMessage(Component.literal(totalDamage + ""));
         boolean hurt = target.hurt(damagesource, totalDamage);
 
         if (!hurt) {
@@ -193,7 +196,6 @@ public class SmashStrikeStyle extends StrikeStyle {
 
         if (f1 > 0.0F) player.magicCrit(target);
         player.setLastHurtMob(target);
-        player.resetFallDistance();
 
         Entity actualTarget = target instanceof PartEntity<?> pe ? pe.getParent() : target;
         Level level = player.level();
@@ -225,6 +227,7 @@ public class SmashStrikeStyle extends StrikeStyle {
             }
         }
 
+        player.resetFallDistance();
         player.causeFoodExhaustion(0.1F);
     }
 
@@ -278,6 +281,12 @@ public class SmashStrikeStyle extends StrikeStyle {
         } else {
             smashDamage = secondBaseDamage + highFallMultiplier * (fallDistance - secondFallDistance);
         }
+        
+        float softDamageCap = smashProperties.getMaxDamage();
+
+        if (softDamageCap > 0.0F) {
+            smashDamage = Math.min(softDamageCap, smashDamage);
+        }
 
         Level level = livingEntity.level();
 
@@ -286,14 +295,12 @@ public class SmashStrikeStyle extends StrikeStyle {
             float enchantmentDamage = EnchantmentHelper.modifyFallBasedDamage(serverLevel, weapon, target, damageSource, 0.0F);
             smashDamage += enchantmentDamage * fallDistance;
         }
-
-        float maxDamage = smashProperties.getMaxDamage();
-
-        if (maxDamage <= 0.0F) {
-            return smashDamage;
+        
+        if (softDamageCap > 0.0F) {
+            return Math.min(softDamageCap * 2, smashDamage);
         }
 
-        return Math.min(maxDamage, smashDamage);
+        return smashDamage;
     }
 
     private static void knockback(Level level, Player player, Entity entity, SmashProperties properties) {
