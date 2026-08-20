@@ -128,7 +128,7 @@ public class SmashStrikeStyle extends StrikeStyle {
             serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
             if (target.onGround()) {
                 serverPlayer.setSpawnExtraParticlesOnFall(true);
-                SoundEvent soundEvent = serverPlayer.fallDistance > properties.getHeavyThreshold() ? 
+                SoundEvent soundEvent = serverPlayer.fallDistance > properties.heavyThreshold() ? 
                         properties().get(HEAVY_SMASH_SOUND) :
                         properties().get(LIGHT_SMASH_SOUND);
                 serverLevel.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), soundEvent, serverPlayer.getSoundSource(), 1.0F, 1.0F);
@@ -231,20 +231,20 @@ public class SmashStrikeStyle extends StrikeStyle {
     }
 
     public static double getKnockbackPower(Player player, LivingEntity entity, Vec3 entityPos, SmashProperties props) {
-        double radius = props.getKnockbackRadius();
-        double power = props.getKnockbackPower();
-        double multiplier = player.fallDistance > props.getHeavyThreshold() ? 2 : 1;
+        double radius = props.knockbackRadius();
+        double power = props.knockbackPower();
+        double multiplier = player.fallDistance > props.heavyThreshold() ? 2 : 1;
         double kbResistance = (double) 1.0F - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
         
         return (radius - entityPos.length()) * power * multiplier * kbResistance;
     }
 
     public static boolean canSmashAttack(LivingEntity entity, SmashProperties props) {
-        return entity.fallDistance > props.getLightThreshold() && !entity.isFallFlying();
+        return entity.fallDistance > props.lightThreshold() && !entity.isFallFlying();
     }
     
     public static boolean canHeavySmashAttack(LivingEntity entity, SmashProperties props) {
-        return entity.fallDistance > props.getHeavyThreshold();
+        return entity.fallDistance > props.heavyThreshold();
     }
 
     public static float getSmashDamageBonus(ItemStack stack, Entity target, DamageSource damageSource) {
@@ -260,13 +260,13 @@ public class SmashStrikeStyle extends StrikeStyle {
             return 0.0F;
         }
 
-        float firstFallDistance = smashProperties.getLightThreshold() * 2.0F;
-        float secondFallDistance = firstFallDistance + smashProperties.getHeavyThreshold();
+        float firstFallDistance = smashProperties.lightThreshold() * 2.0F;
+        float secondFallDistance = firstFallDistance + smashProperties.heavyThreshold();
         float fallDistance = livingEntity.fallDistance;
 
-        float lowFallMultiplier = smashProperties.getLowFallMultiplier();
-        float mediumFallMultiplier = smashProperties.getMediumFallMultiplier();
-        float highFallMultiplier = smashProperties.getHighFallMultiplier();
+        float lowFallMultiplier = smashProperties.lowFallMultiplier();
+        float mediumFallMultiplier = smashProperties.mediumFallMultiplier();
+        float highFallMultiplier = smashProperties.highFallMultiplier();
 
         float firstBaseDamage = firstFallDistance * lowFallMultiplier;
         float secondBaseDamage = firstBaseDamage + (secondFallDistance - firstFallDistance) * mediumFallMultiplier;
@@ -281,7 +281,7 @@ public class SmashStrikeStyle extends StrikeStyle {
             smashDamage = secondBaseDamage + highFallMultiplier * (fallDistance - secondFallDistance);
         }
         
-        float softDamageCap = smashProperties.getMaxDamage();
+        float softDamageCap = smashProperties.maxDamage();
 
         if (softDamageCap > 0.0F) {
             smashDamage = Math.min(softDamageCap, smashDamage);
@@ -305,7 +305,7 @@ public class SmashStrikeStyle extends StrikeStyle {
     private static void knockback(Level level, Player player, Entity entity, SmashProperties properties) {
         level.levelEvent(2013, entity.getOnPos(), 750);
 
-        double knockbackRadius = properties.getKnockbackRadius();
+        double knockbackRadius = properties.knockbackRadius();
         AABB searchBox = entity.getBoundingBox().inflate(knockbackRadius);
         Predicate<LivingEntity> predicate = knockbackPredicate(player, entity);
         List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, searchBox, predicate);

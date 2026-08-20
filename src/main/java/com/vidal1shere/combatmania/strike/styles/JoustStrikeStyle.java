@@ -247,7 +247,7 @@ public class JoustStrikeStyle extends StrikeStyle {
         player.syncData(CMAttachments.STRIKE);
 
         float minKnockbackSpeed = properties().get(MIN_SPEED_FOR_KNOCKBACK);
-        float minDismountSpeed = props.getMinDismountSpeed();
+        float minDismountSpeed = props.minDismountSpeed();
         boolean isLight = properties().get(IS_LIGHT).test(stack, player);
 
         player.level().playSound(null, 

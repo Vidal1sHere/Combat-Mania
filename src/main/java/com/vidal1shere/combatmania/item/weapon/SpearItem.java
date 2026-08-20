@@ -74,7 +74,7 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
                         CMAttributes.JOUST_DAMAGE_MULTIPLIER,
                         new AttributeModifier(
                                 CMAttributes.BASE_JOUST_DAMAGE_MULTIPLIER_ID,
-                                tier.getJoustProperties().getDamageMultiplier(),
+                                tier.getJoustProperties().damageMultiplier(),
                                 AttributeModifier.Operation.ADD_VALUE
                         ),
                         EquipmentSlotGroup.MAINHAND
@@ -83,7 +83,7 @@ public class SpearItem extends TieredItem implements IStrikeWeapon {
                         CMAttributes.MAX_JOUST_DAMAGE,
                         new AttributeModifier(
                                 CMAttributes.BASE_MAX_JOUST_DAMAGE_ID,
-                                tier.getJoustProperties().getMaxDamage(),
+                                tier.getJoustProperties().maxDamage(),
                                 AttributeModifier.Operation.ADD_VALUE
                         ),
                         EquipmentSlotGroup.MAINHAND

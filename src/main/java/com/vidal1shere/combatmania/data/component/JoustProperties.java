@@ -11,8 +11,9 @@ import java.util.Objects;
 
 import static com.vidal1shere.combatmania.util.CustomProperties.*;
 
-public class JoustProperties {
-    
+public record JoustProperties(float damageMultiplier, float maxDamage, float minDismountSpeed, float equipSpeed,
+                              float engagedSpeed, float tiredSpeed, float disengagedSpeed) {
+
     public static final PropertyKey<JoustProperties> KEY = new PropertyKey<>(new JoustProperties());
 
     public static final float EQUIP_DURATION = 0.5F;
@@ -20,100 +21,24 @@ public class JoustProperties {
     public static final float TIRED_DURATION = 3.5F;
     public static final float DISENGAGED_DURATION = 3.5F;
 
-    public static final Codec<JoustProperties> CODEC = RecordCodecBuilder.create(instance ->
-            instance.group(
-                    Codec.FLOAT.fieldOf("damage_multiplier")
-                            .forGetter(JoustProperties::getDamageMultiplier),
-                    Codec.FLOAT.fieldOf("max_damage")
-                            .forGetter(JoustProperties::getMaxDamage),
-                    Codec.FLOAT.fieldOf("min_dismount_speed")
-                            .forGetter(JoustProperties::getMinDismountSpeed),
-                    Codec.FLOAT.fieldOf("equip_speed")
-                            .forGetter(JoustProperties::getEquipSpeed),
-                    Codec.FLOAT.fieldOf("engaged_speed")
-                            .forGetter(JoustProperties::getEngagedSpeed),
-                    Codec.FLOAT.fieldOf("tired_speed")
-                            .forGetter(JoustProperties::getTiredSpeed),
-                    Codec.FLOAT.fieldOf("disengaged_speed")
-                            .forGetter(JoustProperties::getDisengagedSpeed)
-            ).apply(instance, JoustProperties::new)
-    );
+    public static final Codec<JoustProperties> CODEC = RecordCodecBuilder.create(instance -> instance.group(Codec.FLOAT.fieldOf("damage_multiplier").forGetter(JoustProperties::damageMultiplier), Codec.FLOAT.fieldOf("max_damage").forGetter(JoustProperties::maxDamage), Codec.FLOAT.fieldOf("min_dismount_speed").forGetter(JoustProperties::minDismountSpeed), Codec.FLOAT.fieldOf("equip_speed").forGetter(JoustProperties::equipSpeed), Codec.FLOAT.fieldOf("engaged_speed").forGetter(JoustProperties::engagedSpeed), Codec.FLOAT.fieldOf("tired_speed").forGetter(JoustProperties::tiredSpeed), Codec.FLOAT.fieldOf("disengaged_speed").forGetter(JoustProperties::disengagedSpeed)).apply(instance, JoustProperties::new));
 
-    public static final StreamCodec<ByteBuf, JoustProperties> STREAM_CODEC =
-            StreamCodec.of(
-                    (buf, data) -> {
-                        buf.writeFloat(data.damageMultiplier);
-                        buf.writeFloat(data.maxDamage);
-                        buf.writeFloat(data.minDismountSpeed);
-                        buf.writeFloat(data.equipSpeed);
-                        buf.writeFloat(data.engagedSpeed);
-                        buf.writeFloat(data.tiredSpeed);
-                        buf.writeFloat(data.disengagedSpeed);
-                    },
-                    buf -> new JoustProperties(
-                            buf.readFloat(), buf.readFloat(), buf.readFloat(),
-                            buf.readFloat(), buf.readFloat(), buf.readFloat(),
-                            buf.readFloat()
-                    )
-            );
-
-    private final float damageMultiplier;
-    private final float maxDamage;
-    private final float minDismountSpeed;
-    private final float equipSpeed;
-    private final float engagedSpeed;
-    private final float tiredSpeed;
-    private final float disengagedSpeed;
-
-    public JoustProperties(float damageMultiplier, float maxDamage, float minDismountSpeed, float equipSpeed, 
-                           float engagedSpeed, float tiredSpeed, float disengagedSpeed) {
-        this.damageMultiplier = damageMultiplier;
-        this.maxDamage = maxDamage;
-        this.minDismountSpeed = minDismountSpeed;
-        this.equipSpeed = equipSpeed;
-        this.engagedSpeed = engagedSpeed;
-        this.tiredSpeed = tiredSpeed;
-        this.disengagedSpeed = disengagedSpeed;
-    }
+    public static final StreamCodec<ByteBuf, JoustProperties> STREAM_CODEC = StreamCodec.of((buf, data) -> {
+        buf.writeFloat(data.damageMultiplier);
+        buf.writeFloat(data.maxDamage);
+        buf.writeFloat(data.minDismountSpeed);
+        buf.writeFloat(data.equipSpeed);
+        buf.writeFloat(data.engagedSpeed);
+        buf.writeFloat(data.tiredSpeed);
+        buf.writeFloat(data.disengagedSpeed);
+    }, buf -> new JoustProperties(buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat()));
 
     public JoustProperties() {
         this(0.7F, 0.0F, 10.0F, 1.0F, 1.0F, 1.0F, 1.0F);
     }
-    
-    public static PropertySet<JoustProperties> of(float damageMultiplier, float maxDamage, float minDismountSpeed, float equipSpeed,
-                                                  float engagedSpeed, float tiredSpeed, float disengagedSpeed) {
-        return new PropertySet<>(KEY, new JoustProperties(
-                damageMultiplier, maxDamage, minDismountSpeed, equipSpeed, 
-                engagedSpeed, tiredSpeed, disengagedSpeed)
-        );
-    }
 
-    public float getDamageMultiplier() {
-        return damageMultiplier;
-    }
-
-    public float getMaxDamage() {
-        return maxDamage;
-    }
-
-    public float getMinDismountSpeed() {
-        return minDismountSpeed;
-    }
-
-    public float getEquipSpeed() {
-        return equipSpeed;
-    }
-
-    public float getEngagedSpeed() {
-        return engagedSpeed;
-    }
-
-    public float getTiredSpeed() {
-        return tiredSpeed;
-    }
-
-    public float getDisengagedSpeed() {
-        return disengagedSpeed;
+    public static PropertySet<JoustProperties> of(float damageMultiplier, float maxDamage, float minDismountSpeed, float equipSpeed, float engagedSpeed, float tiredSpeed, float disengagedSpeed) {
+        return new PropertySet<>(KEY, new JoustProperties(damageMultiplier, maxDamage, minDismountSpeed, equipSpeed, engagedSpeed, tiredSpeed, disengagedSpeed));
     }
 
     public float getSpeedForStage(JoustData.Stage stage) {
@@ -133,7 +58,7 @@ public class JoustProperties {
             case DISENGAGED -> DISENGAGED_DURATION / disengagedSpeed;
         };
     }
-    
+
     public int getEquipDurationTicks() {
         return CMUtil.secondsToTicks(EQUIP_DURATION / equipSpeed);
     }
@@ -143,33 +68,21 @@ public class JoustProperties {
     }
 
     public int getTotalDuration() {
-        return CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.ENGAGED)) +
-                CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.TIRED)) +
-                CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.DISENGAGED));
+        return CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.ENGAGED)) + CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.TIRED)) + CMUtil.secondsToTicks(getDurationSeconds(JoustData.Stage.DISENGAGED));
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof JoustProperties other)) return false;
+        if (this == obj)
+            return true;
+        if (!(obj instanceof JoustProperties other))
+            return false;
 
-        return Float.compare(damageMultiplier, other.damageMultiplier) == 0
-                && Float.compare(minDismountSpeed, other.minDismountSpeed) == 0
-                && Float.compare(equipSpeed, other.equipSpeed) == 0
-                && Float.compare(engagedSpeed, other.engagedSpeed) == 0
-                && Float.compare(tiredSpeed, other.tiredSpeed) == 0
-                && Float.compare(disengagedSpeed, other.disengagedSpeed) == 0;
+        return Float.compare(damageMultiplier, other.damageMultiplier) == 0 && Float.compare(minDismountSpeed, other.minDismountSpeed) == 0 && Float.compare(equipSpeed, other.equipSpeed) == 0 && Float.compare(engagedSpeed, other.engagedSpeed) == 0 && Float.compare(tiredSpeed, other.tiredSpeed) == 0 && Float.compare(disengagedSpeed, other.disengagedSpeed) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                damageMultiplier,
-                minDismountSpeed,
-                equipSpeed,
-                engagedSpeed,
-                tiredSpeed,
-                disengagedSpeed
-        );
+        return Objects.hash(damageMultiplier, minDismountSpeed, equipSpeed, engagedSpeed, tiredSpeed, disengagedSpeed);
     }
 }
