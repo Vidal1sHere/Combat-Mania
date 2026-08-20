@@ -11,8 +11,8 @@ import com.vidal1shere.combatmania.client.renderer.projectile.FlamingArrowRender
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownJavelinRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownTrident2dRenderer;
 import com.vidal1shere.combatmania.config.CMClientConfig;
-import com.vidal1shere.combatmania.constants.TieredHammerModels;
-import com.vidal1shere.combatmania.constants.TieredMaceModels;
+import com.vidal1shere.combatmania.constants.HammerTransforms;
+import com.vidal1shere.combatmania.constants.MaceTransforms;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import com.vidal1shere.combatmania.item.weapon.HammerItem;
@@ -75,12 +75,12 @@ public class CMClientSetup {
 
     @SubscribeEvent
     public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
-        for (TieredMaceModels tier : TieredMaceModels.values()) {
+        for (MaceTransforms tier : MaceTransforms.values()) {
             event.register(ModelResourceLocation.standalone(tier.getFullModel()));
             event.register(ModelResourceLocation.standalone(tier.getHandleModel()));
         }
 
-        for (TieredHammerModels tier : TieredHammerModels.values()) {
+        for (HammerTransforms tier : HammerTransforms.values()) {
             event.register(ModelResourceLocation.standalone(tier.getFullModel()));
             event.register(ModelResourceLocation.standalone(tier.getHandleModel()));
         }

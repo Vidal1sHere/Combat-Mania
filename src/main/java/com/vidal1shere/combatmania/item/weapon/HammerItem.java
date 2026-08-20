@@ -6,13 +6,9 @@ import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefi
 import com.vidal1shere.combatmania.client.animation.item.HammerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
-import com.vidal1shere.combatmania.constants.TieredHammerModels;
-import com.vidal1shere.combatmania.constants.TieredMaceModels;
-import com.vidal1shere.combatmania.data.component.SmashProperties;
+import com.vidal1shere.combatmania.constants.HammerTransforms;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
-import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
-import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -77,15 +73,15 @@ public class HammerItem extends TieredItem implements IStrikeWeapon {
                 .build();
     }
 
-    public TieredHammerModels getTierTexture() {
+    public HammerTransforms getTierTexture() {
         Tier tier = this.getTier() instanceof CMExtendedToolTiers ext ? ext.getVanillaTier() : getTier();
 
         return switch (tier) {
-            case Tiers.WOOD -> TieredHammerModels.WOOD;
-            case Tiers.STONE -> TieredHammerModels.STONE;
-            case Tiers.GOLD -> TieredHammerModels.GOLD;
-            case Tiers.DIAMOND -> TieredHammerModels.DIAMOND;
-            default -> TieredHammerModels.IRON;
+            case Tiers.WOOD -> HammerTransforms.WOOD;
+            case Tiers.STONE -> HammerTransforms.STONE;
+            case Tiers.GOLD -> HammerTransforms.GOLD;
+            case Tiers.DIAMOND -> HammerTransforms.DIAMOND;
+            default -> HammerTransforms.IRON;
         };
     }
 

@@ -2,7 +2,7 @@ package com.vidal1shere.combatmania.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.vidal1shere.combatmania.api.extension.item.IMaceTexture;
+import com.vidal1shere.combatmania.api.extension.item.ITransformProfile;
 import com.vidal1shere.combatmania.client.model.VanillaMaceHeadModel;
 import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.util.CMUtil;
@@ -27,7 +27,7 @@ public class VanillaMaceRenderer extends BlockEntityWithoutLevelRenderer {
     private BakedModel fullModel;
     private boolean modelsLoaded;
     
-    public static final IMaceTexture MACE_MODELS = new IMaceTexture() {
+    public static final ITransformProfile MACE_MODELS = new ITransformProfile() {
         @Override
         public ResourceLocation getFullModel() {
             return CMUtil.mcResLoc("item/mace");

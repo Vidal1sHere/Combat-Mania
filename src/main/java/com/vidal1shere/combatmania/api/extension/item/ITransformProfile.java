@@ -2,7 +2,7 @@ package com.vidal1shere.combatmania.api.extension.item;
 
 import net.minecraft.resources.ResourceLocation;
 
-public interface IMaceTexture {
+public interface ITransformProfile {
     ResourceLocation getFullModel();
 
     ResourceLocation getHandleModel();

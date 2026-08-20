@@ -6,7 +6,7 @@ import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefi
 import com.vidal1shere.combatmania.client.animation.item.HammerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
-import com.vidal1shere.combatmania.constants.TieredMaceModels;
+import com.vidal1shere.combatmania.constants.MaceTransforms;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
@@ -77,15 +77,15 @@ public class StrikeMaceItem extends TieredItem implements IStrikeWeapon {
                 .build();
     }
     
-    public TieredMaceModels getTierTexture() {
+    public MaceTransforms getTierTexture() {
         Tier tier = this.getTier() instanceof CMExtendedToolTiers ext ? ext.getVanillaTier() : getTier();
         
         return switch (tier) {
-            case Tiers.WOOD -> TieredMaceModels.WOOD;
-            case Tiers.STONE -> TieredMaceModels.STONE;
-            case Tiers.GOLD -> TieredMaceModels.GOLD;
-            case Tiers.DIAMOND -> TieredMaceModels.DIAMOND;
-            default -> TieredMaceModels.IRON;
+            case Tiers.WOOD -> MaceTransforms.WOOD;
+            case Tiers.STONE -> MaceTransforms.STONE;
+            case Tiers.GOLD -> MaceTransforms.GOLD;
+            case Tiers.DIAMOND -> MaceTransforms.DIAMOND;
+            default -> MaceTransforms.IRON;
         };
     }
 

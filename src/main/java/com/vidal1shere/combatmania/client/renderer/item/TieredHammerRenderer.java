@@ -4,9 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.vidal1shere.combatmania.client.model.TieredHammerHeadModel;
 import com.vidal1shere.combatmania.config.CMClientConfig;
-import com.vidal1shere.combatmania.constants.TieredHammerModels;
+import com.vidal1shere.combatmania.constants.HammerTransforms;
 import com.vidal1shere.combatmania.item.weapon.HammerItem;
-import com.vidal1shere.combatmania.item.weapon.StrikeMaceItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -25,8 +24,8 @@ import java.util.Map;
 
 public class TieredHammerRenderer extends BlockEntityWithoutLevelRenderer {
     private final ItemRenderer renderer;
-    private final Map<TieredHammerModels, BakedModel> handleModels = new HashMap<>();
-    private final Map<TieredHammerModels, BakedModel> fullModels = new HashMap<>();
+    private final Map<HammerTransforms, BakedModel> handleModels = new HashMap<>();
+    private final Map<HammerTransforms, BakedModel> fullModels = new HashMap<>();
     public final TieredHammerHeadModel headModel;
     private boolean modelsLoaded;
 
@@ -38,7 +37,7 @@ public class TieredHammerRenderer extends BlockEntityWithoutLevelRenderer {
 
     private void loadModelsIfNeeded() {
         if (modelsLoaded) return;
-        for (TieredHammerModels tier : TieredHammerModels.values()) {
+        for (HammerTransforms tier : HammerTransforms.values()) {
             handleModels.put(tier, renderer.getItemModelShaper().getModelManager()
                     .getModel(ModelResourceLocation.standalone(tier.getHandleModel())));
             fullModels.put(tier, renderer.getItemModelShaper().getModelManager()
@@ -53,7 +52,7 @@ public class TieredHammerRenderer extends BlockEntityWithoutLevelRenderer {
 
         loadModelsIfNeeded();
         
-        TieredHammerModels tier = hammerItem.getTierTexture();
+        HammerTransforms tier = hammerItem.getTierTexture();
         boolean is3D = CMClientConfig.THREE_DIMENSIONAL_MACES.get();
         boolean inHand = transformType == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND
                 || transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND
@@ -74,7 +73,7 @@ public class TieredHammerRenderer extends BlockEntityWithoutLevelRenderer {
         poseStack.popPose();
     }
 
-    private void render3D(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemStack, ItemDisplayContext transformType, int light, int overlay, boolean leftHanded, TieredHammerModels tier) {
+    private void render3D(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemStack, ItemDisplayContext transformType, int light, int overlay, boolean leftHanded, HammerTransforms tier) {
         BakedModel handleModel = handleModels.get(tier);
 
         renderer.render(itemStack, transformType, leftHanded, poseStack, bufferSource, light, overlay, handleModel);
@@ -99,7 +98,7 @@ public class TieredHammerRenderer extends BlockEntityWithoutLevelRenderer {
         poseStack.popPose();
     }
 
-    private void render2D(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemStack, ItemDisplayContext transformType, int light, int overlay, boolean leftHanded, TieredHammerModels tier) {
+    private void render2D(PoseStack poseStack, MultiBufferSource bufferSource, ItemStack itemStack, ItemDisplayContext transformType, int light, int overlay, boolean leftHanded, HammerTransforms tier) {
         BakedModel fullModel = fullModels.get(tier);
         renderer.render(itemStack, transformType, leftHanded, poseStack, bufferSource, light, overlay, fullModel);
     }
