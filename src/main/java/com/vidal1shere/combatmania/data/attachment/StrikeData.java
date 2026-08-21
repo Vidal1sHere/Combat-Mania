@@ -9,7 +9,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-public class StrikeData {
+public final class StrikeData {
 
     public static final Codec<StrikeData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("primary_ticker").forGetter(d -> d.primaryTicker),

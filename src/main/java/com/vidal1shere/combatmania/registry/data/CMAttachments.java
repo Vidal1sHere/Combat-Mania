@@ -1,5 +1,6 @@
 package com.vidal1shere.combatmania.registry.data;
 
+import com.mojang.serialization.Codec;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.attachment.*;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
@@ -45,11 +46,13 @@ public class CMAttachments {
                             .sync(QuiverData.STREAM_CODEC)
                             .copyOnDeath()
                             .build());
-
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<AnimationQueueData>> ANIMATION_QUEUE =
-            ATTACHMENT_TYPES.register("animation_queue",
-                    () -> AttachmentType.builder(() -> new AnimationQueueData())
-                            .sync(AnimationQueueData.STREAM_CODEC).build());
+    
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> BACKSTAB =
+            ATTACHMENT_TYPES.register("backstab",
+                    () -> AttachmentType.builder(() -> false)
+                            .serialize(Codec.BOOL)
+                            .sync(ByteBufCodecs.BOOL)
+                            .build());
     
     public static void register(IEventBus eventBus) {
         ATTACHMENT_TYPES.register(eventBus);

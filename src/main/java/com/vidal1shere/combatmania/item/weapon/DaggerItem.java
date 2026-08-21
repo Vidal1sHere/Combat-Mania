@@ -81,17 +81,17 @@ public class DaggerItem extends TieredItem implements IStrikeWeapon {
     }
     
     public static boolean backStabQueued(Player player) {
-        return player.getData(CMAttachments.ANIMATION_QUEUE).hasQueuedAnimation("BackStab");
+        return player.getData(CMAttachments.BACKSTAB);
     }
 
     public static void queueBackStab(Player player) {
-        player.getData(CMAttachments.ANIMATION_QUEUE).queueAnimation("BackStab");
-        player.syncData(CMAttachments.ANIMATION_QUEUE);
+        player.setData(CMAttachments.BACKSTAB, true);
+        player.syncData(CMAttachments.BACKSTAB);
     }
     
     public static void clearBackStab(Player player) {
-        player.getData(CMAttachments.ANIMATION_QUEUE).clearAnimation();
-        player.syncData(CMAttachments.ANIMATION_QUEUE);
+        player.setData(CMAttachments.BACKSTAB, false);
+        player.syncData(CMAttachments.BACKSTAB);
     }
     
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {

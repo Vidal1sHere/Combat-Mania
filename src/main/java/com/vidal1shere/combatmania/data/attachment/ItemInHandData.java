@@ -15,7 +15,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.util.Objects;
 
-public class ItemInHandData {
+public final class ItemInHandData {
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ItemInHandData> STREAM_CODEC =
             StreamCodec.of(

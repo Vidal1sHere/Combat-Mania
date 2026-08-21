@@ -12,7 +12,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-public class StaggerData {
+public final class StaggerData {
 
     public static final StreamCodec<ByteBuf, StaggerData> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.FLOAT, d -> d.strength,
