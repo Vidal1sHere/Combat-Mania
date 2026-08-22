@@ -113,6 +113,13 @@ public class CMStrikeStyles {
                     .animationSupplier(StrikeMaceItem::maceAnimation)
                     .build()));
 
+    public static final DeferredHolder<StrikeStyle, ShockwaveStrikeStyle> SHOCKWAVE =
+            STRIKE_STYLES.register("shockwave", () -> new ShockwaveStrikeStyle(StrikeProperties.builder()
+                    .overlap(false)
+                    .swingHand(false)
+                    .syncAnimSpeed(false)
+                    .build()));
+
     public static void register(IEventBus eventBus) {
         STRIKE_STYLES.register(eventBus);
     }

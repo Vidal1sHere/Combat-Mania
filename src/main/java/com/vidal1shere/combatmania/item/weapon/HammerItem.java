@@ -7,8 +7,11 @@ import com.vidal1shere.combatmania.client.animation.item.HammerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.constants.HammerTransforms;
+import com.vidal1shere.combatmania.data.component.ShockwaveProperties;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
+import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
+import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -29,13 +32,17 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class HammerItem extends TieredItem implements IStrikeWeapon {
 
+    public HammerItem(IExtendedTier tier, Properties properties, ShockwaveProperties shockwaveProperties) {
+        super(tier, properties.component(CMDataComponents.SHOCKWAVE, shockwaveProperties));
+    }
+    
     public HammerItem(IExtendedTier tier, Properties properties) {
-        super(tier, properties);
+        this(tier, properties, tier.getShockwaveProperties());
     }
 
     @Override
     public DeferredHolder<StrikeStyle, ? extends StrikeStyle> getStyle(StrikeSlot slot) {
-        if (slot == StrikeSlot.PRIMARY) return null;
+        if (slot == StrikeSlot.PRIMARY) return CMStrikeStyles.SHOCKWAVE;
         return null;
     }
 

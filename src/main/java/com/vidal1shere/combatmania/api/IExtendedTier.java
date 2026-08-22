@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.api;
 
 import com.vidal1shere.combatmania.data.component.JoustProperties;
+import com.vidal1shere.combatmania.data.component.ShockwaveProperties;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
 import com.vidal1shere.combatmania.item.tier.ToolProperties;
 import com.vidal1shere.combatmania.util.CustomProperties;
@@ -47,5 +48,9 @@ public interface IExtendedTier extends Tier {
 
     default SmashProperties getSmashProperties() {
         return getCustomProperties().get(SmashProperties.KEY);
+    }
+
+    default ShockwaveProperties getShockwaveProperties() {
+        return getCustomProperties().get(ShockwaveProperties.KEY);
     }
 }

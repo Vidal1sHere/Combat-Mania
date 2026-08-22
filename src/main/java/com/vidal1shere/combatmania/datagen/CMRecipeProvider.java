@@ -31,7 +31,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                     CMItems.WOODEN_DAGGER.get(), 
                     CMItems.WOODEN_LANCE.get(), 
                     CMItems.WOODEN_JAVELIN.get(), 
-                    CMItems.WOODEN_MACE.get()  
+                    CMItems.WOODEN_MACE.get(), 
+                    CMItems.WOODEN_HAMMER.get(), 
             },
             CMExtendedToolTiers.STONE, new Item[]{
                     CMItems.STONE_SPEAR.get(), 
@@ -39,7 +40,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                     CMItems.STONE_DAGGER.get(), 
                     CMItems.STONE_LANCE.get(), 
                     CMItems.STONE_JAVELIN.get(), 
-                    CMItems.STONE_MACE.get()   
+                    CMItems.STONE_MACE.get(),
+                    CMItems.STONE_HAMMER.get()
             },
             CMExtendedToolTiers.IRON, new Item[]{ 
                     CMItems.IRON_SPEAR.get(), 
@@ -47,7 +49,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                     CMItems.IRON_DAGGER.get(), 
                     CMItems.IRON_LANCE.get(), 
                     CMItems.IRON_JAVELIN.get(), 
-                    CMItems.IRON_MACE.get()    
+                    CMItems.IRON_MACE.get(),
+                    CMItems.IRON_HAMMER.get()    
             },
             CMExtendedToolTiers.GOLD, new Item[]{ 
                     CMItems.GOLDEN_SPEAR.get(), 
@@ -55,7 +58,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                     CMItems.GOLDEN_DAGGER.get(), 
                     CMItems.GOLDEN_LANCE.get(), 
                     CMItems.GOLDEN_JAVELIN.get(), 
-                    CMItems.GOLDEN_MACE.get()  
+                    CMItems.GOLDEN_MACE.get(),
+                    CMItems.GOLDEN_HAMMER.get()
             },
             CMExtendedToolTiers.DIAMOND, new Item[]{ 
                     CMItems.DIAMOND_SPEAR.get(), 
@@ -63,7 +67,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                     CMItems.DIAMOND_DAGGER.get(), 
                     CMItems.DIAMOND_LANCE.get(), 
                     CMItems.DIAMOND_JAVELIN.get(), 
-                    CMItems.DIAMOND_MACE.get() 
+                    CMItems.DIAMOND_MACE.get(),
+                    CMItems.DIAMOND_HAMMER.get()
             }
     );
     
@@ -81,6 +86,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             lance(recipeOutput, tier);
             javelin(recipeOutput, tier);
             mace(recipeOutput, tier);
+            hammer(recipeOutput, tier);
         }
         
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, CMItems.LEATHER_QUIVER)
@@ -156,6 +162,13 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                 " MM", 
                 " MM", 
                 "S  "
+        );
+    }
+    protected static void hammer(RecipeOutput recipeOutput, IExtendedTier tier) {
+        weapon(recipeOutput, tier, CMItemConfig.HAMMER_ITEMS, 6,
+                " M ",
+                "MMM",
+                "SM "
         );
     }
     

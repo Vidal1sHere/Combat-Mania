@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "combat_mania:item_config_enabled"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "item": "minecraft:diamond"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    " M ",
+    "MMM",
+    "SM "
+  ],
+  "result": {
+    "count": 1,
+    "id": "combat_mania:diamond_hammer"
+  }
+}

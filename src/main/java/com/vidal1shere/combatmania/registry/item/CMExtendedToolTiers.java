@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.registry.item;
 
 import com.vidal1shere.combatmania.api.IExtendedTier;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
+import com.vidal1shere.combatmania.data.component.ShockwaveProperties;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
 import com.vidal1shere.combatmania.item.tier.ToolProperties;
 import com.vidal1shere.combatmania.util.CustomProperties;
@@ -13,27 +14,33 @@ import static com.vidal1shere.combatmania.util.CustomProperties.*;
 public enum CMExtendedToolTiers implements IExtendedTier {
     WOOD(Tiers.WOOD,
             JoustProperties.of(0.7F, 20.0F, 14.0F, 0.666667F, 0.600000F, 0.600000F, 0.700000F),
-            SmashProperties.of(4.0F, 10.0F, 1.5F, 2.0F, 5.0F, 40.0F, 2.0F, 0.2F)),
+            SmashProperties.of(4.0F, 10.0F, 1.5F, 2.0F, 5.0F, 40.0F, 2.0F, 0.2F), 
+            ShockwaveProperties.of(200, 3.5F, 0.2F, 0.1F, 1.0F, 8.0F, 50.0F)),
 
     STONE(Tiers.STONE,
             JoustProperties.of(0.82F, 25.0F, 13.0F, 0.714286F, 0.666667F, 0.666667F, 0.736842F),
-            SmashProperties.of(3.5F, 9.0F, 2.0F, 2.0F, 4.0F, 50.0F, 2.5F, 0.3F)),
+            SmashProperties.of(3.5F, 9.0F, 2.0F, 2.0F, 4.0F, 50.0F, 2.5F, 0.3F),
+            ShockwaveProperties.of(180, 4.0F, 0.3F, 0.2F, 2.0F, 10.0F, 60.0F)),
 
     IRON(Tiers.IRON,
             JoustProperties.of(0.95F, 30.0F, 11.0F, 0.833333F, 1.200000F, 0.705882F, 0.777778F),
-            SmashProperties.of(3.0F, 8.0F, 2.5F, 2.0F, 3.0F, 60.0F, 3.0F, 0.4F)),
+            SmashProperties.of(3.0F, 8.0F, 2.5F, 2.0F, 3.0F, 60.0F, 3.0F, 0.4F),
+            ShockwaveProperties.of(160, 4.5F, 0.4F, 0.3F, 3.0F, 12.0F, 70.0F)),
 
     DIAMOND(Tiers.DIAMOND,
             JoustProperties.of(1.075F, 35.0F, 10.0F, 1.000000F, 1.000000F, 1.000000F, 1.000000F),
-            SmashProperties.of(2.5F, 7.0F, 3.5F, 2.0F, 2.0F, 70.0F, 3.5F, 0.5F)),
+            SmashProperties.of(2.5F, 7.0F, 3.5F, 2.0F, 2.0F, 70.0F, 3.5F, 0.5F),
+            ShockwaveProperties.of(140, 5.0F, 0.5F, 0.4F, 4.0F, 14.0F, 80.0F)),
 
     GOLD(Tiers.GOLD,
             JoustProperties.of(0.7F, 25.0F, 13.0F, 0.714286F, 0.857143F, 0.600000F, 0.666667F),
-            SmashProperties.of(4.0F, 10.0F, 1.5F, 2.0F, 5.0F, 80.0F, 3.5F, 0.7F)),
+            SmashProperties.of(4.0F, 10.0F, 1.5F, 2.0F, 5.0F, 80.0F, 3.5F, 0.7F),
+            ShockwaveProperties.of(100, 4.0F, 0.2F, 0.1F, 1.0F, 16.0F, 60.0F)),
 
     NETHERITE(Tiers.NETHERITE,
             JoustProperties.of(1.2F, 40.0F, 9.0F, 1.250000F, 1.200000F, 1.000000F, 1.076923F),
-            SmashProperties.of(1.5F, 5.0F, 5.0F, 2.0F, 1.0F, 80.0F, 4.0F, 0.8F));
+            SmashProperties.of(1.5F, 5.0F, 5.0F, 2.0F, 1.0F, 80.0F, 4.0F, 0.8F),
+            ShockwaveProperties.of(120, 5.5F, 0.6F, 0.5F, 5.0F, 16.0F, 90.0F));
 
     private final ToolProperties toolProperties;
     private final CustomProperties customProperties;

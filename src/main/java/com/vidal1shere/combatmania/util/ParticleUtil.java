@@ -2,7 +2,12 @@ package com.vidal1shere.combatmania.util;
 
 import com.vidal1shere.combatmania.particle.options.CustomParticleOptions;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.phys.Vec3;
 
 public final class ParticleUtil {
 
@@ -42,52 +47,32 @@ public final class ParticleUtil {
         return build(type).lifetime(4).rotation(rotation).rotationEnd(rotation).build();
     }
 
-    public static CustomParticleOptions simple(ParticleType<CustomParticleOptions> type) {
-        return CustomParticleOptions.builder(type).build();
-    }
-
-    public static CustomParticleOptions colored(ParticleType<CustomParticleOptions> type, int lifetime, Color color) {
-        return CustomParticleOptions.builder(type).color(color).lifetime(lifetime).colorEnd(color).build();
-    }
-
-    public static CustomParticleOptions colored(ParticleType<CustomParticleOptions> type, int lifetime, Color color, Color colorEnd) {
-        return CustomParticleOptions.builder(type).color(color).lifetime(lifetime).colorEnd(colorEnd).build();
-    }
-
-    public static CustomParticleOptions scaled(ParticleType<CustomParticleOptions> type, int lifetime, float scale) {
-        return CustomParticleOptions.builder(type).scale(scale).lifetime(lifetime).scaleEnd(scale).build();
-    }
-
-    public static CustomParticleOptions scaled(ParticleType<CustomParticleOptions> type, int lifetime, float scale, float scaleEnd) {
-        return CustomParticleOptions.builder(type).scale(scale).lifetime(lifetime).scaleEnd(scaleEnd).build();
-    }
-
-    public static CustomParticleOptions rotating(ParticleType<CustomParticleOptions> type, int lifetime, float rotation) {
-        return CustomParticleOptions.builder(type).lifetime(lifetime).rotation(rotation).rotationEnd(rotation).build();
-    }
-
-    public static CustomParticleOptions rotating(ParticleType<CustomParticleOptions> type, int lifetime, float rotation, float rotationEnd) {
-        return CustomParticleOptions.builder(type).lifetime(lifetime).rotation(rotation).rotationEnd(rotationEnd).build();
-    }
-
-    public static CustomParticleOptions timed(ParticleType<CustomParticleOptions> type, int lifetime) {
-        return CustomParticleOptions.builder(type).lifetime(lifetime).build();
-    }
-
-    public static CustomParticleOptions full(ParticleType<CustomParticleOptions> type,
-                                             Color color, Color colorEnd,
-                                             float scale, float scaleEnd,
-                                             float rotation, float rotationEnd,
-                                             int lifetime) {
-        return CustomParticleOptions.builder(type)
-                .color(color).colorEnd(colorEnd)
-                .scale(scale).scaleEnd(scaleEnd)
-                .rotation(rotation).rotationEnd(rotationEnd)
-                .lifetime(lifetime)
-                .build();
-    }
-
     public static CustomParticleOptions.Builder build(ParticleType<CustomParticleOptions> type) {
         return CustomParticleOptions.builder(type);
+    }
+
+    public static void spawnSmashAttackParticles(LevelAccessor level, BlockPos pos, int power, double radius, double spacing) {
+        Vec3 center = pos.getCenter().add(0.0, 0.5, 0.0);
+        BlockParticleOption particle = new BlockParticleOption(ParticleTypes.DUST_PILLAR, level.getBlockState(pos));
+
+        for (double ringRadius = 0.0; ringRadius <= radius; ringRadius += spacing) {
+            int particleCount = ringRadius == 0.0 ? Math.max(1, (int) (power / 1.5)) : Math.max(1, (int) (power / 1.5 * ringRadius / radius));
+
+            for (int i = 0; i < particleCount; i++) {
+                double angle = Math.PI * 2.0 * i / particleCount;
+                double x = center.x + ringRadius * Math.cos(angle);
+                double z = center.z + ringRadius * Math.sin(angle);
+
+                level.addParticle(
+                        particle,
+                        x + level.getRandom().nextGaussian() * 0.5,
+                        center.y,
+                        z + level.getRandom().nextGaussian() * 0.5,
+                        level.getRandom().nextGaussian() * 0.05,
+                        level.getRandom().nextGaussian() * 0.05,
+                        level.getRandom().nextGaussian() * 0.05
+                );
+            }
+        }
     }
 }

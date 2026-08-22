@@ -10,7 +10,7 @@ import java.util.Objects;
 import static com.vidal1shere.combatmania.util.CustomProperties.*;
 
 public record ShockwaveProperties(int maxLiftTicks, float knockbackRadius, float knockbackPower,
-                                  float fallRadiusMultiplier, float maxRadius, float maxDamage) {
+                                  float fallRadiusMultiplier, float fallSpeed, float maxRadius, float maxDamage) {
 
     public static final PropertyKey<ShockwaveProperties> KEY = new PropertyKey<>(new ShockwaveProperties());
 
@@ -19,6 +19,7 @@ public record ShockwaveProperties(int maxLiftTicks, float knockbackRadius, float
             Codec.FLOAT.fieldOf("knockback_radius").forGetter(ShockwaveProperties::knockbackRadius),
             Codec.FLOAT.fieldOf("knockback_power").forGetter(ShockwaveProperties::knockbackPower),
             Codec.FLOAT.fieldOf("fall_radius_multiplier").forGetter(ShockwaveProperties::fallRadiusMultiplier),
+            Codec.FLOAT.fieldOf("fall_speed").forGetter(ShockwaveProperties::fallRadiusMultiplier),
             Codec.FLOAT.fieldOf("max_radius").forGetter(ShockwaveProperties::maxRadius),
             Codec.FLOAT.fieldOf("max_damage").forGetter(ShockwaveProperties::maxDamage)
     ).apply(instance, ShockwaveProperties::new));
@@ -29,6 +30,7 @@ public record ShockwaveProperties(int maxLiftTicks, float knockbackRadius, float
                 buf.writeFloat(data.knockbackRadius);
                 buf.writeFloat(data.knockbackPower);
                 buf.writeFloat(data.fallRadiusMultiplier);
+                buf.writeFloat(data.fallSpeed);
                 buf.writeFloat(data.maxRadius);
                 buf.writeFloat(data.maxDamage);
             },
@@ -38,18 +40,20 @@ public record ShockwaveProperties(int maxLiftTicks, float knockbackRadius, float
                     buf.readFloat(),
                     buf.readFloat(),
                     buf.readFloat(),
+                    buf.readFloat(),
                     buf.readFloat()
             )
     );
 
     public ShockwaveProperties() {
-        this(40, 3.5F, 0.7F, 0.5F, 8.0F, 0.0F);
+        this(40, 3.5F, 0.7F, 0.5F, 2.0F, 8.0F, 0.0F);
     }
 
     public static PropertySet<ShockwaveProperties> of(int maxLiftTicks, float knockbackRadius, float knockbackPower,
-                                                       float fallRadiusMultiplier, float maxRadius, float maxDamage) {
+                                                      float fallRadiusMultiplier, float fallSpeed, float maxRadius, 
+                                                      float maxDamage) {
         return new PropertySet<>(KEY, new ShockwaveProperties(maxLiftTicks, knockbackRadius, knockbackPower,
-                fallRadiusMultiplier, maxRadius, maxDamage));
+                fallRadiusMultiplier, fallSpeed, maxRadius, maxDamage));
     }
 
     public float getEffectiveRadius(float fallDistance, int liftTicks) {
