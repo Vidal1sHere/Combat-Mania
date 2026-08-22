@@ -33,10 +33,6 @@ public final class JoustData {
 
     public JoustData() {}
 
-    public JoustData(Stage stage) {
-        this.stage = stage;
-    }
-
     public Stage getStage() {
         return stage;
     }

@@ -40,8 +40,13 @@ public class CMAttachments {
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<JoustData>> JOUST =
             ATTACHMENT_TYPES.register("joust",
-                    () -> AttachmentType.builder(() -> new JoustData())
+                    () -> AttachmentType.builder(JoustData::new)
                             .sync(JoustData.STREAM_CODEC).build());
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<ShockwaveData>> SHOCKWAVE =
+            ATTACHMENT_TYPES.register("shockwave",
+                    () -> AttachmentType.builder(ShockwaveData::new)
+                            .sync(ShockwaveData.STREAM_CODEC).build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<QuiverData>> QUIVER =
             ATTACHMENT_TYPES.register("quiver",

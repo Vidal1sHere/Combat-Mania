@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
 import com.vidal1shere.combatmania.data.component.QuiverContents;
+import com.vidal1shere.combatmania.data.component.ShockwaveProperties;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
 import com.vidal1shere.combatmania.item.armor.FlamingQuiverItem;
 import com.vidal1shere.combatmania.item.armor.QuiverItem;
@@ -44,6 +45,12 @@ public class CMDataComponents {
             register("smash", b -> b
                     .persistent(SmashProperties.CODEC)
                     .networkSynchronized(SmashProperties.STREAM_CODEC)
+            );
+
+    public static final Supplier<DataComponentType<ShockwaveProperties>> SHOCKWAVE =
+            register("shockwave", b -> b
+                    .persistent(ShockwaveProperties.CODEC)
+                    .networkSynchronized(ShockwaveProperties.STREAM_CODEC)
             );
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<EquipmentSlot>> EQUIPPED_SLOT =
