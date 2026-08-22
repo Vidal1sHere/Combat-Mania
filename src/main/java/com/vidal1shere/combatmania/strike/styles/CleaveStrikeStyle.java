@@ -1,6 +1,7 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.event.game.StaggerAttackEvent;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
@@ -31,6 +32,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
+import org.jetbrains.annotations.Nullable;
 
 public class CleaveStrikeStyle extends StrikeStyle {
 
@@ -229,5 +231,10 @@ public class CleaveStrikeStyle extends StrikeStyle {
         if (!(player.level() instanceof ServerLevel serverLevel)) return damage;
 
         return EnchantmentHelper.modifyDamage(serverLevel, weapon, entity, damageSource, damage);
+    }
+
+    @Override
+    public @Nullable StrikeIndicator getCustomStrikeIndicator() {
+        return StrikeIndicator.CLEAVE;
     }
 }

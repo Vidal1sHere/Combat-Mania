@@ -4,6 +4,7 @@ import com.vidal1shere.combatmania.api.extension.entity.JoustMotionAware;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.data.attachment.JoustData;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;
@@ -39,6 +40,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.minecraft.core.particles.ParticleTypes;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -418,7 +420,12 @@ public class JoustStrikeStyle extends StrikeStyle {
         if (!(player.level() instanceof ServerLevel sl)) return damage;
         return EnchantmentHelper.modifyDamage(sl, weapon, entity, damageSource, damage);
     }
-    
+
+    @Override
+    public @Nullable StrikeIndicator getCustomStrikeIndicator() {
+        return StrikeIndicator.JOUST;
+    }
+
     @FunctionalInterface
     public interface JoustAnimationSupplier {
         ItemAnimationDefinition get(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, JoustData.Stage stage);

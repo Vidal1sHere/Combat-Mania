@@ -1,7 +1,6 @@
 package com.vidal1shere.combatmania.strike.styles;
 
-import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
-import com.vidal1shere.combatmania.util.AnimationSupplier;
+import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
@@ -31,6 +30,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.minecraft.core.particles.ParticleTypes;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiPredicate;
 
@@ -189,5 +189,10 @@ public class JabStrikeStyle extends StrikeStyle {
     public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
         state.setActiveDefinition(supplyAnimation(stack, hand, player, state));
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
+    }
+
+    @Override
+    public @Nullable StrikeIndicator getCustomStrikeIndicator() {
+        return StrikeIndicator.JAB;
     }
 }

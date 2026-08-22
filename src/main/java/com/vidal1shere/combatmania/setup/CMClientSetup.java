@@ -1,8 +1,10 @@
 package com.vidal1shere.combatmania.setup;
 
+import com.ibm.icu.impl.Utility;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.extension.item.ClientHammerExtension;
 import com.vidal1shere.combatmania.api.extension.item.ClientMaceExtensions;
+import com.vidal1shere.combatmania.client.hud.overlay.StrikeIndicatorOverlay;
 import com.vidal1shere.combatmania.client.model.TieredHammerHeadModel;
 import com.vidal1shere.combatmania.client.model.TieredMaceHeadModel;
 import com.vidal1shere.combatmania.client.model.VanillaMaceHeadModel;
@@ -24,6 +26,7 @@ import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItemProperties;
 import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
+import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -32,11 +35,9 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.ModelEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 @EventBusSubscriber(modid = CombatMania.MOD_ID, value = Dist.CLIENT)
@@ -129,6 +130,15 @@ public class CMClientSetup {
 
             return show ? 0xFFFFFFFF : 0x00FFFFFF;
         }, CMItems.LEATHER_QUIVER.get());
+    }
+
+    @SubscribeEvent
+    public static void registerGuiLayers(RegisterGuiLayersEvent event) {
+        event.registerAbove(
+                VanillaGuiLayers.CROSSHAIR,
+                CMUtil.modResLoc("item_gauge_overlay"),
+                new StrikeIndicatorOverlay()
+        );
     }
 
     @SubscribeEvent

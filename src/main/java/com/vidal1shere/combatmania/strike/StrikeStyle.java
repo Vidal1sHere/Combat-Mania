@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.strike;
 
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
 import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -9,6 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
 
 public abstract class StrikeStyle {
 
@@ -68,16 +71,17 @@ public abstract class StrikeStyle {
     public void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick) {}
 
     @OnlyIn(Dist.CLIENT)
+    @Nullable
+    public StrikeIndicator getCustomStrikeIndicator() { return null; }
+    
+    @OnlyIn(Dist.CLIENT)
     public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
         return state.getActiveDefinition();
     }
     
     public float getAnimationSpeed(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
         if (!syncAnimationSpeed()) return 1.0F;
-        float speed = (float) player.getAttributeValue(getSpeedAttribute());
-        System.out.println(hand);
-        System.out.println(speed);
-        return speed;
+        return (float) player.getAttributeValue(getSpeedAttribute());
     }
 
     public InteractionHand[] animatedHands(ItemStack stack, Player player) {

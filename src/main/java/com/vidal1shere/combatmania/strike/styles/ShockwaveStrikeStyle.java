@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.strike.styles;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.HammerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
 import com.vidal1shere.combatmania.data.attachment.ShockwaveData;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.data.component.ShockwaveProperties;
@@ -44,6 +45,7 @@ import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.minecraft.core.particles.ParticleTypes;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -388,7 +390,12 @@ public class ShockwaveStrikeStyle extends StrikeStyle {
             }
         };
     }
-    
+
+    @Override
+    public @Nullable StrikeIndicator getCustomStrikeIndicator() {
+        return StrikeIndicator.SHOCKWAVE;
+    }
+
     @FunctionalInterface
     public interface ShockwaveAnimationSupplier {
         ItemAnimationDefinition get(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, ShockwaveData.Stage stage);
