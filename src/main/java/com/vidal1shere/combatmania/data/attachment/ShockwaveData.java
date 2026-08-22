@@ -47,8 +47,8 @@ public final class ShockwaveData {
 
     public ShockwaveData() {}
 
-    public Stage getStage()    { return stage; }
-    public int getLiftTicks()  { return liftTicks; }
+    public Stage getStage() { return stage; }
+    public int getLiftTicks() { return liftTicks; }
     public boolean hasQueuedAnimation() { return queuedAnimation; }
 
     public boolean hasHitEntity(Entity entity) {
