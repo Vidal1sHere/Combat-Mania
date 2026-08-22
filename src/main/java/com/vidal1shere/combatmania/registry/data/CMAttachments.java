@@ -28,6 +28,10 @@ public class CMAttachments {
             ATTACHMENT_TYPES.register("item_in_hand",
                     () -> AttachmentType.builder(ItemInHandData::new).sync(ItemInHandData.STREAM_CODEC).build());
 
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<SwingCountData>> SWING_COUNT =
+            ATTACHMENT_TYPES.register("swing_count",
+                    () -> AttachmentType.builder(() -> new SwingCountData()).sync(SwingCountData.STREAM_CODEC).build());
+
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<StaggerData>> STAGGER =
             ATTACHMENT_TYPES.register("stagger",
                     () -> AttachmentType.builder(StaggerData::new)

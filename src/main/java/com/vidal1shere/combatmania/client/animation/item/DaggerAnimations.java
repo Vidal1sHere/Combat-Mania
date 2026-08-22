@@ -49,8 +49,8 @@ public class DaggerAnimations {
                 .addChannel("rotation", new ItemAnimationChannel(
                         ItemAnimationTarget.Targets.ROTATION,
                         new Keyframe(0.0f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.1f, KeyframeVecs.degreeVec(-200f, -20.0f, 0f), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.4f, KeyframeVecs.degreeVec(-200f, -20.0f, 0f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.1f, KeyframeVecs.degreeVec(20.0f, 0.0f, 180f), AnimationChannel.Interpolations.LINEAR),
+                        new Keyframe(0.4f, KeyframeVecs.degreeVec(20.0f, 0.0f, 180f), AnimationChannel.Interpolations.LINEAR),
                         new Keyframe(0.7f, KeyframeVecs.degreeVec(0.0f, 0.0f, 0.0f), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .build();

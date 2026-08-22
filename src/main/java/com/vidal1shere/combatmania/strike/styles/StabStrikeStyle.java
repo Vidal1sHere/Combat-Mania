@@ -1,9 +1,12 @@
 package com.vidal1shere.combatmania.strike.styles;
 
+import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.DaggerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.data.attachment.SwingCountData;
 import com.vidal1shere.combatmania.item.weapon.DaggerItem;
+import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
@@ -30,6 +33,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.function.BiFunction;
 
@@ -37,6 +41,7 @@ import static com.vidal1shere.combatmania.util.CustomProperties.PropertyKey;
 
 public class StabStrikeStyle extends StrikeStyle {
 
+    public static final PropertyKey<Boolean> CAN_DUAL_WIELD = new PropertyKey<>(true);
     public static final PropertyKey<Float> BACKSTAB_MAX_REACH = new PropertyKey<>(2F);
     public static final PropertyKey<Float> BACKSTAB_ANGLE = new PropertyKey<>(30.0F);
     public static final PropertyKey<BiFunction<ItemStack, Player, Float>> BACKSTAB_MULTIPLIER = 
@@ -97,6 +102,10 @@ public class StabStrikeStyle extends StrikeStyle {
     @Override
     public void onStart(StrikeContext ctx) {
         Player player = ctx.player();
+        
+        player.getData(CMAttachments.SWING_COUNT).increase();
+        player.syncData(CMAttachments.SWING_COUNT);
+        
         if (!ctx.hasTarget()) return;
 
         Entity target = ctx.target();
@@ -228,5 +237,28 @@ public class StabStrikeStyle extends StrikeStyle {
                 supplyBackstabAnimation(stack, hand, player, state) : supplyAnimation(stack, hand, player, state));
         state.start(tickCount, ItemAnimationState.LoopType.PLAY_ONCE);
         DaggerItem.clearBackStab(player);
+    }
+
+    @Override
+    public InteractionHand[] animatedHands(ItemStack stack, Player player) {
+        if (!properties().get(CAN_DUAL_WIELD)) {
+            return super.animatedHands(stack, player);
+        }
+
+        ItemStack offhandStack = player.getOffhandItem();
+        boolean isStrikeWeapon = IStrikeWeapon.isStrikeWeapon(offhandStack);
+
+        if (!isStrikeWeapon) {
+            return super.animatedHands(stack, player);
+        }
+
+        DeferredHolder<StrikeStyle, ? extends StrikeStyle> offHandStrike = ((IStrikeWeapon) offhandStack.getItem()).getPrimaryStyle();
+        DeferredHolder<StrikeStyle, ? extends StrikeStyle> mainHandStrike = ((IStrikeWeapon) stack.getItem()).getPrimaryStyle();
+
+        if (!offHandStrike.equals(mainHandStrike)) {
+            return super.animatedHands(stack, player);
+        }
+
+        return new InteractionHand[]{SwingCountData.getHandForDualWield(player)};
     }
 }

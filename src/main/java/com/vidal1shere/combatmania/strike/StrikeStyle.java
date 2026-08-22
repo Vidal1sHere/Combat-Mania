@@ -74,7 +74,10 @@ public abstract class StrikeStyle {
     
     public float getAnimationSpeed(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
         if (!syncAnimationSpeed()) return 1.0F;
-        return (float) player.getAttributeValue(getSpeedAttribute());
+        float speed = (float) player.getAttributeValue(getSpeedAttribute());
+        System.out.println(hand);
+        System.out.println(speed);
+        return speed;
     }
 
     public InteractionHand[] animatedHands(ItemStack stack, Player player) {

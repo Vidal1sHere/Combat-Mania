@@ -1,6 +1,9 @@
 package com.vidal1shere.combatmania.strike.styles;
 
+import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.data.attachment.SwingCountData;
+import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
@@ -33,6 +36,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.stats.Stats;
 import net.minecraft.core.particles.ParticleTypes;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.function.BiConsumer;
 
@@ -40,6 +44,7 @@ import static com.vidal1shere.combatmania.util.CustomProperties.PropertyKey;
 
 public class SweepStrikeStyle extends StrikeStyle {
 
+    public static final PropertyKey<Boolean> CAN_DUAL_WIELD = new PropertyKey<>(false);
     public static final PropertyKey<Boolean> CAN_CRIT = new PropertyKey<>(true);
     public static final PropertyKey<Boolean> CAN_SPRINT_KNOCKBACK = new PropertyKey<>(true);
     public static final PropertyKey<Vec3> SWEEP_HITBOX = new PropertyKey<>(new Vec3(1.0, 0.25, 1.0));
@@ -85,6 +90,10 @@ public class SweepStrikeStyle extends StrikeStyle {
     @Override
     public void onStart(StrikeContext ctx) {
         Player player = ctx.player();
+        
+        player.getData(CMAttachments.SWING_COUNT).increase();
+        player.syncData(CMAttachments.SWING_COUNT);
+        
         if (!ctx.hasTarget()) return;
 
         Entity target = ctx.target();
@@ -279,5 +288,28 @@ public class SweepStrikeStyle extends StrikeStyle {
         if (!(player.level() instanceof ServerLevel serverLevel)) return damage;
 
         return EnchantmentHelper.modifyDamage(serverLevel, weapon, entity, damageSource, damage);
+    }
+
+    @Override
+    public InteractionHand[] animatedHands(ItemStack stack, Player player) {
+        if (!properties().get(CAN_DUAL_WIELD)) {
+            return super.animatedHands(stack, player);
+        }
+        
+        ItemStack offhandStack = player.getOffhandItem();
+        boolean isStrikeWeapon = IStrikeWeapon.isStrikeWeapon(offhandStack);
+        
+        if (!isStrikeWeapon) {
+            return super.animatedHands(stack, player);
+        }
+        
+        DeferredHolder<StrikeStyle, ? extends StrikeStyle> offHandStrike = ((IStrikeWeapon) offhandStack.getItem()).getPrimaryStyle();
+        DeferredHolder<StrikeStyle, ? extends StrikeStyle> mainHandStrike = ((IStrikeWeapon) stack.getItem()).getPrimaryStyle();
+
+        if (!offHandStrike.equals(mainHandStrike)) {
+            return super.animatedHands(stack, player);
+        }
+        
+        return new InteractionHand[]{SwingCountData.getHandForDualWield(player)};
     }
 }

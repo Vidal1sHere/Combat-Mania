@@ -36,6 +36,7 @@ public class CMStrikeStyles {
                     .set(SweepStrikeStyle.CAN_CRIT, false)
                     .set(SweepStrikeStyle.CAN_SPRINT_KNOCKBACK, false)
                     .set(SweepStrikeStyle.SWEEP_PARTICLE, DaggerItem::sweepParticle)
+                    .set(SweepStrikeStyle.CAN_DUAL_WIELD, true)
                     .overlap(false)
                     .build()));
 

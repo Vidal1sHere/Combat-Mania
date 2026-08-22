@@ -102,7 +102,6 @@ public class SmashStrikeStyle extends StrikeStyle {
         
         float totalDamage = f + f1;
         
-        player.sendSystemMessage(Component.literal(totalDamage + ""));
         boolean hurt = target.hurt(damagesource, totalDamage);
 
         if (!hurt) {
