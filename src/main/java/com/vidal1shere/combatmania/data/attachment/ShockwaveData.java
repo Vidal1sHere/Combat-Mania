@@ -29,6 +29,7 @@ public final class ShockwaveData {
             (buf, data) -> {
                 buf.writeInt(data.stage.ordinal());
                 buf.writeInt(data.liftTicks);
+                buf.writeInt(data.liftStartTick);
                 buf.writeFloat(data.fallDistance);
                 buf.writeBoolean(data.queuedAnimation);
                 buf.writeBoolean(data.earlyHit);
@@ -37,6 +38,7 @@ public final class ShockwaveData {
                 ShockwaveData data = new ShockwaveData();
                 data.stage = Stage.byOrdinal(buf.readInt());
                 data.liftTicks = buf.readInt();
+                data.liftStartTick = buf.readInt();
                 data.fallDistance = buf.readFloat();
                 data.queuedAnimation = buf.readBoolean();
                 data.earlyHit = buf.readBoolean();
@@ -46,6 +48,7 @@ public final class ShockwaveData {
     );
 
     private Stage stage = Stage.NONE;
+    private int liftStartTick = 0;
     private int liftTicks = 0;
     private float fallDistance = 0;
     private boolean queuedAnimation = false;
@@ -55,6 +58,7 @@ public final class ShockwaveData {
     public ShockwaveData() {}
 
     public Stage getStage() { return stage; }
+    public int getLiftStartTick() { return liftStartTick; }
     public int getLiftTicks() { return liftTicks; }
     public float getFallDistance() { return fallDistance; }
     public boolean hasQueuedAnimation() { return queuedAnimation; }
@@ -75,6 +79,7 @@ public final class ShockwaveData {
         ShockwaveData data = get(player);
         data.stage = Stage.LIFT;
         data.liftTicks = 0;
+        data.liftStartTick = player.tickCount;
         data.queuedAnimation = true;
         data.hitEntities.clear();
         player.syncData(CMAttachments.SHOCKWAVE);
@@ -112,6 +117,7 @@ public final class ShockwaveData {
     public static void reset(Player player, boolean clearEarlyHit) {
         ShockwaveData data = get(player);
         data.stage = Stage.NONE;
+        data.liftStartTick = 0;
         data.liftTicks = 0;
         data.fallDistance = 0;
         data.queuedAnimation = false;

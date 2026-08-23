@@ -1,5 +1,9 @@
 package com.vidal1shere.combatmania.strike.styles;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.Axis;
+import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.item.HammerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
@@ -15,7 +19,11 @@ import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import com.vidal1shere.combatmania.util.CMUtil;
+import com.vidal1shere.combatmania.util.Color;
 import com.vidal1shere.combatmania.util.RaycastUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -39,6 +47,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -122,14 +132,9 @@ public class ShockwaveStrikeStyle extends StrikeStyle {
                 ShockwaveData.reset(player, false);
             }
             case SWING -> {
-                int swingTicks = ticksHeld - props.maxLiftTicks();
-                if (swingTicks >= MIN_SWING_TICKS) {
-                    if (player.onGround()) {
-                        ShockwaveData.startHit(player, false);
-                        performHit(player, ctx.itemStack(), props, data);
-                    }
-                    ShockwaveData.reset(player, false);
-                }
+                ShockwaveData.startHit(player, false);
+                performHit(player, ctx.itemStack(), props, data);
+                ShockwaveData.reset(player, false);
             }
             case HIT, NONE -> ShockwaveData.reset(player, true);
         }
@@ -399,5 +404,101 @@ public class ShockwaveStrikeStyle extends StrikeStyle {
     @FunctionalInterface
     public interface ShockwaveAnimationSupplier {
         ItemAnimationDefinition get(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, ShockwaveData.Stage stage);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void preRenderStrikeIndicator(GuiGraphics guiGraphics, Player player, ItemStack stack, StrikeIndicator indicator, int x, int y, boolean rotated, float partialTick) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || mc.level == null || mc.options.hideGui) return;
+        
+        ShockwaveData data = ShockwaveData.get(player);
+        if (data.getStage() == ShockwaveData.Stage.NONE) return;
+
+        ShockwaveProperties properties = stack.getOrDefault(CMDataComponents.SHOCKWAVE, new ShockwaveProperties());
+        float elapsedTicks = (player.tickCount - data.getLiftStartTick()) + partialTick;
+        float scale = Math.min(1.0F, elapsedTicks / properties.maxLiftTicks());
+        int hexColor1;
+        int hexColor2;
+        float colorScale;
+
+        if (scale < 0.5F) {
+            hexColor1 = 0xFF0000;
+            hexColor2 = 0xFFFF00;
+            colorScale = scale / 0.5F;
+        } else {
+            hexColor1 = 0xFFFF00;
+            hexColor2 = 0x00C000;
+            colorScale = (scale - 0.5F) / 0.5F;
+        }
+        
+        Color color = Color.lerpRGBA(new Color(hexColor1, 0.5F), new Color(hexColor2, 0.5F), colorScale);
+        renderShockwaveOutline(guiGraphics, scale, x, y, rotated, color);
+
+        if (!(mc.crosshairPickEntity instanceof LivingEntity le) || !le.isAlive()) {
+            renderShockwaveIndicator(guiGraphics, x, y, rotated);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void renderShockwaveIndicator(GuiGraphics guiGraphics, int x, int y, boolean rotated) {
+        int width = StrikeIndicator.SHOCKWAVE.width();
+        int height = StrikeIndicator.SHOCKWAVE.height();
+
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(
+                GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
+                GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ZERO);
+        
+        guiGraphics.pose().pushPose();
+
+        if (rotated) {
+            guiGraphics.pose().translate(x + width / 2.0F, y + height / 2.0F, 0.0F);
+            guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(180.0F));
+            x = -width / 2;
+            y = -height / 2;
+        }
+
+        guiGraphics.blitSprite(StrikeIndicator.SHOCKWAVE.getBackgroundSprite(), x, y, width, height);
+        guiGraphics.blitSprite(StrikeIndicator.SHOCKWAVE.getProgressSprite(), width, height, 0, 0, x, y, width, height);
+
+        guiGraphics.pose().popPose();
+
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableBlend();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void renderShockwaveOutline(GuiGraphics guiGraphics, float scale, int x, int y, boolean rotated, Color color) {
+        int width = StrikeIndicator.SHOCKWAVE.width();
+        int height = StrikeIndicator.SHOCKWAVE.height();
+        int outlineWidth = 18;
+        int outlineHeight = 12;
+        int progress = Math.min(outlineWidth, (int)(scale * outlineWidth));
+
+        float alpha = color.alpha;
+        float red = color.getRedF();
+        float green = color.getGreenF();
+        float blue = color.getBlueF();
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShaderColor(red, green, blue, alpha);
+
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(x + width / 2.0F, y + height / 2.0F, 0.0F);
+
+        if (rotated) {
+            guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(180.0F));
+        }
+
+        guiGraphics.blitSprite(CMUtil.modResLoc("hud/shockwave_indicator_outline"), outlineWidth, outlineHeight, 0, 0, -outlineWidth / 2, -outlineHeight / 2, progress, outlineHeight);
+
+        guiGraphics.pose().popPose();
+
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.disableBlend();
     }
 }

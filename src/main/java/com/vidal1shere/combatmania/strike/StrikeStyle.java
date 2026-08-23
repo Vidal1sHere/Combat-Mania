@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.strike;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -73,6 +74,12 @@ public abstract class StrikeStyle {
     @OnlyIn(Dist.CLIENT)
     @Nullable
     public StrikeIndicator getCustomStrikeIndicator() { return null; }
+
+    @OnlyIn(Dist.CLIENT)
+    public void preRenderStrikeIndicator(GuiGraphics guiGraphics, Player player, ItemStack stack, StrikeIndicator indicator, int x, int y, boolean rotated, float partialTick) {}
+
+    @OnlyIn(Dist.CLIENT)
+    public void postRenderStrikeIndicator(GuiGraphics guiGraphics, Player player, ItemStack stack, StrikeIndicator indicator, int x, int y, boolean rotated, float partialTick) {}
     
     @OnlyIn(Dist.CLIENT)
     public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {

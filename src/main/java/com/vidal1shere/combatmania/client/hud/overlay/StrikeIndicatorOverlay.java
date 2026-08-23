@@ -48,17 +48,7 @@ public class StrikeIndicatorOverlay implements LayeredDraw.Layer {
 
         float primaryScale = hasPrimary ? strikeData.getScale(StrikeSlot.PRIMARY) : 1.0F;
         float secondaryScale = hasSecondary ? strikeData.getScale(StrikeSlot.SECONDARY) : 1.0F;
-
-        boolean primaryCooldown = primaryScale < 1.0F;
-        boolean secondaryCooldown = secondaryScale < 1.0F;
-        boolean hasPickEntity = mc.crosshairPickEntity instanceof LivingEntity le && le.isAlive();
-
-        if (!primaryCooldown && !secondaryCooldown && !hasPickEntity) return;
-
-        int j = guiGraphics.guiHeight() / 2 - 7 + 16;
-        int k = guiGraphics.guiWidth() / 2 - 8;
-
-        setup();
+        float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
 
         StrikeIndicator primaryIndicator = hasPrimary ? weapon.getPrimaryStyle().get().getCustomStrikeIndicator() : null;
         StrikeIndicator secondaryIndicator = hasSecondary ? weapon.getSecondaryStyle().get().getCustomStrikeIndicator() : null;
@@ -66,34 +56,91 @@ public class StrikeIndicatorOverlay implements LayeredDraw.Layer {
         if (primaryIndicator == null && hasPrimary) primaryIndicator = DEFAULT_INDICATOR;
         if (secondaryIndicator == null && hasSecondary) secondaryIndicator = DEFAULT_INDICATOR;
 
+        int j = guiGraphics.guiHeight() / 2 - 7 + 16;
+
+        int primaryX = hasPrimary
+                ? guiGraphics.guiWidth() / 2 - primaryIndicator.width() / 2
+                : guiGraphics.guiWidth() / 2 - secondaryIndicator.width() / 2;
+
+        int secondaryX = hasSecondary
+                ? guiGraphics.guiWidth() / 2 - secondaryIndicator.width() / 2
+                : primaryX;
+
+        int secondaryY = hasBoth ? j + primaryIndicator.height() + 3 : j;
+
+        if (hasPrimary) {
+            weapon.getPrimaryStyle().get().preRenderStrikeIndicator(
+                    guiGraphics, player, stack, primaryIndicator,
+                    primaryX, j, false, partialTick
+            );
+        }
+
+        if (hasSecondary) {
+            weapon.getSecondaryStyle().get().preRenderStrikeIndicator(
+                    guiGraphics, player, stack, secondaryIndicator,
+                    secondaryX, secondaryY, true, partialTick
+            );
+        }
+
+        boolean primaryCooldown = primaryScale < 1.0F;
+        boolean secondaryCooldown = secondaryScale < 1.0F;
+        boolean hasPickEntity = mc.crosshairPickEntity instanceof LivingEntity le && le.isAlive();
+
+        if (!primaryCooldown && !secondaryCooldown && !hasPickEntity) return;
+
+        setup();
+
         if (!hasBoth) {
             StrikeIndicator indicator = hasPrimary ? primaryIndicator : secondaryIndicator;
             float scale = hasPrimary ? primaryScale : secondaryScale;
+            int x = hasPrimary ? primaryX : secondaryX;
 
-            renderIndicator(guiGraphics, indicator, k, j, scale, false);
+            renderIndicator(guiGraphics, indicator, x, j, scale, false);
 
             if (hasPickEntity && !(hasPrimary ? primaryCooldown : secondaryCooldown)) {
-                int fullX = k + (indicator.width() - 3) / 2;
+                int fullX = x + (indicator.width() - 3) / 2;
                 int fullY = j + indicator.height();
                 guiGraphics.blitSprite(ATTACK_INDICATOR_FULL, fullX, fullY, 3, 3);
+            }
+
+            if (hasPrimary) {
+                weapon.getPrimaryStyle().get().postRenderStrikeIndicator(
+                        guiGraphics, player, stack, primaryIndicator,
+                        primaryX, j, false, partialTick
+                );
+            }
+
+            if (hasSecondary) {
+                weapon.getSecondaryStyle().get().postRenderStrikeIndicator(
+                        guiGraphics, player, stack, secondaryIndicator,
+                        secondaryX, j, false, partialTick
+                );
             }
 
             cleanup();
             return;
         }
 
-        renderIndicator(guiGraphics, primaryIndicator, k, j, primaryScale, false);
-
-        int secondaryY = j + primaryIndicator.height() + 3;
-        renderIndicator(guiGraphics, secondaryIndicator, k, secondaryY, secondaryScale, true);
+        renderIndicator(guiGraphics, primaryIndicator, primaryX, j, primaryScale, false);
+        renderIndicator(guiGraphics, secondaryIndicator, secondaryX, secondaryY, secondaryScale, true);
 
         if (hasPickEntity && !primaryCooldown && !secondaryCooldown) {
-            double primaryCenter = k + primaryIndicator.width() / 2.0;
-            double secondaryCenter = k + secondaryIndicator.width() / 2.0;
+            double primaryCenter = primaryX + primaryIndicator.width() / 2.0;
+            double secondaryCenter = secondaryX + secondaryIndicator.width() / 2.0;
             int fullX = (int)((primaryCenter + secondaryCenter) / 2.0 - 1.5);
             int fullY = j + primaryIndicator.height();
             guiGraphics.blitSprite(ATTACK_INDICATOR_FULL, fullX, fullY, 3, 3);
         }
+
+        weapon.getPrimaryStyle().get().postRenderStrikeIndicator(
+                guiGraphics, player, stack, primaryIndicator,
+                primaryX, j, false, partialTick
+        );
+
+        weapon.getSecondaryStyle().get().postRenderStrikeIndicator(
+                guiGraphics, player, stack, secondaryIndicator,
+                secondaryX, secondaryY, true, partialTick
+        );
 
         cleanup();
     }

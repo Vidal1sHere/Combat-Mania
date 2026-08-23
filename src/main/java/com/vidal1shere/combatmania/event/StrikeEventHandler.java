@@ -10,10 +10,13 @@ import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.api.distmarker.Dist;
@@ -37,12 +40,21 @@ public class StrikeEventHandler {
         public static void onInteractionKey(InputEvent.InteractionKeyMappingTriggered event) {
             Minecraft mc = Minecraft.getInstance();
             Player player = mc.player;
-            if (player == null)
+            if (player == null || mc.level == null)
                 return;
 
             ItemStack stack = player.getItemInHand(event.getHand());
             if (!IStrikeWeapon.isStrikeWeapon(stack))
                 return;
+
+            if (event.isAttack() && mc.hitResult instanceof BlockHitResult result) {
+                BlockPos pos = result.getBlockPos();
+                BlockState state = mc.level.getBlockState(pos);
+
+                if (stack.getItem().canAttackBlock(state, mc.level, pos, player)) {
+                    return;
+                }
+            }
 
             IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem(); 
             DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder;
