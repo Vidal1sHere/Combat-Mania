@@ -6,9 +6,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
-public abstract class ClientMaceExtensions {
+public abstract class ClientMaceExtensions extends ClientStrikeWeaponExtension {
     
-    public static class Tiered implements IClientItemExtensions {
+    public static class Tiered extends ClientMaceExtensions {
         @Override
         public BlockEntityWithoutLevelRenderer getCustomRenderer() {
             return new TieredMaceRenderer(Minecraft.getInstance().getItemRenderer(),
@@ -16,7 +16,7 @@ public abstract class ClientMaceExtensions {
         }
     }
 
-    public static class Vanilla implements IClientItemExtensions {
+    public static final class Vanilla extends ClientMaceExtensions {
         @Override
         public BlockEntityWithoutLevelRenderer getCustomRenderer() {
             return new VanillaMaceRenderer(Minecraft.getInstance().getItemRenderer(),

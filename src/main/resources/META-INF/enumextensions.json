@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "COMBAT_MANIA_SPEAR",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "com/vidal1shere/combatmania/client/animation/item/CMArmPoses",
+        "field": "SPEAR_PROXY"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "COMBAT_MANIA_HAMMER",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "com/vidal1shere/combatmania/client/animation/item/CMArmPoses",
+        "field": "HAMMER_PROXY"
+      }
+    }
+  ]
+}

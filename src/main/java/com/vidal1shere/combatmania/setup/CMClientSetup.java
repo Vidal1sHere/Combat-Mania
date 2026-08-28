@@ -2,8 +2,10 @@ package com.vidal1shere.combatmania.setup;
 
 import com.ibm.icu.impl.Utility;
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.api.extension.item.ClientHammerExtension;
 import com.vidal1shere.combatmania.api.extension.item.ClientMaceExtensions;
+import com.vidal1shere.combatmania.api.extension.item.ClientStrikeWeaponExtension;
 import com.vidal1shere.combatmania.client.hud.overlay.StrikeIndicatorOverlay;
 import com.vidal1shere.combatmania.client.model.TieredHammerHeadModel;
 import com.vidal1shere.combatmania.client.model.TieredMaceHeadModel;
@@ -40,6 +42,9 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 @EventBusSubscriber(modid = CombatMania.MOD_ID, value = Dist.CLIENT)
 public class CMClientSetup {
     @SubscribeEvent
@@ -52,19 +57,18 @@ public class CMClientSetup {
 
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-        event.registerItem(new ClientMaceExtensions.Tiered(), CMItems.getItems()
-                .stream()
-                .filter(item -> item.get() instanceof StrikeMaceItem)
-                .map(holder -> (Item) holder.get())
-                .toArray(Item[]::new));
-        
+        event.registerItem(new ClientMaceExtensions.Tiered(), itemsOf(StrikeMaceItem.class).toArray(Item[]::new));
         event.registerItem(new ClientMaceExtensions.Vanilla(), Items.MACE);
+        event.registerItem(new ClientHammerExtension(), itemsOf(HammerItem.class).toArray(Item[]::new));
+        event.registerItem(new ClientStrikeWeaponExtension(), itemsOf(IStrikeWeapon.class, StrikeMaceItem.class, HammerItem.class).toArray(Item[]::new));
+    }
 
-        event.registerItem(new ClientHammerExtension(), CMItems.getItems()
+    private static Stream<Item> itemsOf(Class<?> type, Class<?>... exclude) {
+        return CMItems.getItems()
                 .stream()
-                .filter(item -> item.get() instanceof HammerItem)
-                .map(holder -> (Item) holder.get())
-                .toArray(Item[]::new));
+                .filter(item -> type.isInstance(item.get())
+                        && Arrays.stream(exclude).noneMatch(ex -> ex.isInstance(item.get())))
+                .map(holder -> (Item) holder.get());
     }
     
     @SubscribeEvent

@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.item.weapon;
 import com.vidal1shere.combatmania.api.IExtendedTier;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.CMArmPoses;
 import com.vidal1shere.combatmania.client.animation.item.HammerAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
@@ -13,6 +14,7 @@ import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -29,6 +31,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.Nullable;
 
 public class HammerItem extends TieredItem implements IStrikeWeapon {
 
@@ -110,6 +113,11 @@ public class HammerItem extends TieredItem implements IStrikeWeapon {
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return slotChanged;
+    }
+
+    @Override
+    public HumanoidModel.@Nullable ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack stack) {
+        return CMArmPoses.HAMMER();
     }
 
     public static ItemAnimationDefinition maceAnimation(ItemStack stack, InteractionHand hand,

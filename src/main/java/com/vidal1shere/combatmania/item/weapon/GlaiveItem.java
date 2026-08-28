@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.item.weapon;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.CMArmPoses;
 import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
 import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
@@ -9,6 +10,7 @@ import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import com.vidal1shere.combatmania.util.ParticleUtil;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -26,6 +28,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.Nullable;
 
 public class GlaiveItem extends TieredItem implements IStrikeWeapon {
     
@@ -100,7 +103,12 @@ public class GlaiveItem extends TieredItem implements IStrikeWeapon {
         return slotChanged;
     }
 
-    public static ItemAnimationDefinition glaiveAnimation(ItemStack stack, InteractionHand hand, 
+    @Override
+    public HumanoidModel.@Nullable ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack stack) {
+        return CMArmPoses.SPEAR();
+    }
+
+    public static ItemAnimationDefinition glaiveAnimation(ItemStack stack, InteractionHand hand,
                                                           Player player, ItemAnimationState state) {
         return player.onGround() ? SpearAnimations.sweep() : SpearAnimations.whack();
     }

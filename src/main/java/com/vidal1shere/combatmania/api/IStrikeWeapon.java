@@ -6,10 +6,13 @@ import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.Nullable;
 
 public interface IStrikeWeapon extends IAnimatedItem {
 
@@ -21,6 +24,10 @@ public interface IStrikeWeapon extends IAnimatedItem {
 
     default DeferredHolder<StrikeStyle, ? extends StrikeStyle> getSecondaryStyle() {
         return getStyle(StrikeSlot.SECONDARY);
+    }
+
+    default HumanoidModel.@Nullable ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack stack) {
+        return null;
     }
 
     private static int styleToId(StrikeStyle style) {

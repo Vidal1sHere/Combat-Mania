@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
-public class ClientHammerExtension implements IClientItemExtensions {
+public class ClientHammerExtension extends ClientStrikeWeaponExtension {
 
     @Override
     public BlockEntityWithoutLevelRenderer getCustomRenderer() {
