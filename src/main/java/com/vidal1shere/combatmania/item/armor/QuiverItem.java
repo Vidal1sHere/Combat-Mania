@@ -48,6 +48,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
+// completely shelved for the time being
 public abstract class QuiverItem extends MultiSlotArmorItem implements GeoItem {
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
