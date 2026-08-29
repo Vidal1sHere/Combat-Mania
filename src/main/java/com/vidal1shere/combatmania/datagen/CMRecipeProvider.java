@@ -3,7 +3,6 @@ package com.vidal1shere.combatmania.datagen;
 import com.vidal1shere.combatmania.api.IExtendedTier;
 import com.vidal1shere.combatmania.config.CMItemConfig;
 import com.vidal1shere.combatmania.config.ItemConfigCondition;
-import com.vidal1shere.combatmania.data.recipe.FireworkArrowRecipe;
 import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
 import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.util.CMUtil;
@@ -88,23 +87,6 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             mace(recipeOutput, tier);
             hammer(recipeOutput, tier);
         }
-        
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, CMItems.LEATHER_QUIVER)
-                .pattern("SL ")
-                .pattern(" LL")
-                .pattern("SLL")
-                .define('S', Items.STRING)
-                .define('L', Items.LEATHER)
-                .unlockedBy("has_string", has(Items.STRING))
-                .unlockedBy("has_leather", has(Items.LEATHER))
-                .save(recipeOutput.withConditions(new ItemConfigCondition(CMItemConfig.QUIVER_ITEMS)));
-
-        recipeOutput.withConditions(new ItemConfigCondition(CMItemConfig.QUIVER_ITEMS))
-                .accept(
-                        CMUtil.modResLoc("firework_arrow"),
-                        new FireworkArrowRecipe(CraftingBookCategory.EQUIPMENT),
-                        null
-                );
     }
 
     private static void weapon(RecipeOutput recipeOutput, IExtendedTier tier,

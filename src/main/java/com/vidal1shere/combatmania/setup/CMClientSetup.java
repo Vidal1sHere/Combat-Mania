@@ -1,6 +1,5 @@
 package com.vidal1shere.combatmania.setup;
 
-import com.ibm.icu.impl.Utility;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.api.extension.item.ClientHammerExtension;
@@ -11,19 +10,15 @@ import com.vidal1shere.combatmania.client.model.TieredHammerHeadModel;
 import com.vidal1shere.combatmania.client.model.TieredMaceHeadModel;
 import com.vidal1shere.combatmania.client.model.VanillaMaceHeadModel;
 import com.vidal1shere.combatmania.client.renderer.item.VanillaMaceRenderer;
-import com.vidal1shere.combatmania.client.renderer.projectile.FlamingArrowRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownJavelinRenderer;
 import com.vidal1shere.combatmania.client.renderer.projectile.ThrownTrident2dRenderer;
 import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.constants.HammerTransforms;
 import com.vidal1shere.combatmania.constants.MaceTransforms;
-import com.vidal1shere.combatmania.data.component.QuiverContents;
-import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import com.vidal1shere.combatmania.item.weapon.HammerItem;
 import com.vidal1shere.combatmania.item.weapon.StrikeMaceItem;
 import com.vidal1shere.combatmania.particle.CustomParticle;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
-import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItemProperties;
 import com.vidal1shere.combatmania.registry.item.CMItems;
@@ -97,7 +92,6 @@ public class CMClientSetup {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(CMEntities.THROWN_JAVELIN.get(), ThrownJavelinRenderer::new);
-        event.registerEntityRenderer(CMEntities.FLAMING_ARROW.get(), FlamingArrowRenderer::new);
 
         if (CMClientConfig.TWO_DIMENSIONAL_TRIDENT.get()) {
             event.registerEntityRenderer(EntityType.TRIDENT, ThrownTrident2dRenderer::new);
@@ -111,29 +105,6 @@ public class CMClientSetup {
         event.registerSpriteSet(CMParticles.RIGHT_SWEEP_ATTACK.get(), CustomParticle.Provider::new);
         event.registerSpriteSet(CMParticles.RIGHT_SHORT_SWEEP_ATTACK.get(), CustomParticle.Provider::new);
         event.registerSpriteSet(CMParticles.SLASH_ATTACK.get(), CustomParticle.Provider::new);
-    }
-
-    @SubscribeEvent
-    public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register((stack, index) -> {
-            if (!(stack.getItem() instanceof QuiverItem) || index < 1 || index > 3) return 0xFFFFFFFF;
-
-            QuiverContents contents = stack.getOrDefault(
-                    CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY
-            );
-
-            int count = contents.count();
-            int max = QuiverContents.MAX_ARROWS;
-
-            boolean show = switch (index) {
-                case 1 -> count > 0 && count < max / 2;
-                case 2 -> count >= max / 2 && count < max;
-                case 3 -> count >= max;
-                default -> false;
-            };
-
-            return show ? 0xFFFFFFFF : 0x00FFFFFF;
-        }, CMItems.LEATHER_QUIVER.get());
     }
 
     @SubscribeEvent

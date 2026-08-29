@@ -42,27 +42,5 @@
     "sounds": [
       "combat_mania:spear_use"
     ]
-  },
-  "item.flaming_arrow.shoot": {
-    "subtitle": "sounds.cotn.item.flaming_arrow.shoot",
-    "sounds": [
-      "combat_mania:flaming_arrow_shoot1",
-      "combat_mania:flaming_arrow_shoot2"
-    ]
-  },
-  "item.flaming_arrow.impact": {
-    "subtitle": "sounds.cotn.item.flaming_arrow.impact",
-    "sounds": [
-      "combat_mania:flaming_arrow_impact1",
-      "combat_mania:flaming_arrow_impact2",
-      "combat_mania:flaming_arrow_impact3",
-      "combat_mania:flaming_arrow_impact4"
-    ]
-  },
-  "item.quiver.equip": {
-    "subtitle": "sounds.cotn.item.quiver.equip",
-    "sounds": [
-      "combat_mania:quiver_equip"
-    ]
   }
 }

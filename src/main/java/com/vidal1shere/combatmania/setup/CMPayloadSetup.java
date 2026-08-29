@@ -1,7 +1,6 @@
 package com.vidal1shere.combatmania.setup;
 
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.network.QuiverArrowCyclePayload;
 import com.vidal1shere.combatmania.network.ShockwaveParticlePayload;
 import com.vidal1shere.combatmania.network.StrikePayload;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -25,18 +24,6 @@ public class CMPayloadSetup {
                 StrikePayload.Confirm.TYPE,
                 StrikePayload.Confirm.STREAM_CODEC,
                 StrikePayload.Confirm::handle
-        );
-        
-        registrar.playToServer(
-                QuiverArrowCyclePayload.Request.TYPE, 
-                QuiverArrowCyclePayload.Request.STREAM_CODEC, 
-                QuiverArrowCyclePayload.Request::handle
-        );
-
-        registrar.playToClient(
-                QuiverArrowCyclePayload.Confirm.TYPE,
-                QuiverArrowCyclePayload.Confirm.STREAM_CODEC,
-                QuiverArrowCyclePayload.Confirm::handle
         );
 
         registrar.playToClient(

@@ -47,14 +47,6 @@ public class CMAttachments {
             ATTACHMENT_TYPES.register("shockwave",
                     () -> AttachmentType.builder(ShockwaveData::new)
                             .sync(ShockwaveData.STREAM_CODEC).build());
-
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<QuiverData>> QUIVER =
-            ATTACHMENT_TYPES.register("quiver",
-                    () -> AttachmentType.builder(() -> QuiverData.EMPTY)
-                            .serialize(QuiverData.CODEC)
-                            .sync(QuiverData.STREAM_CODEC)
-                            .copyOnDeath()
-                            .build());
     
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> BACKSTAB =
             ATTACHMENT_TYPES.register("backstab",

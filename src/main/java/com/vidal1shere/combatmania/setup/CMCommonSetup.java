@@ -2,7 +2,6 @@ package com.vidal1shere.combatmania.setup;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.config.CMItemConfig;
-import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.data.CMDataMaps;
 import com.vidal1shere.combatmania.registry.item.CMItems;
@@ -13,7 +12,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
-import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
@@ -32,11 +30,6 @@ public class CMCommonSetup {
     @SubscribeEvent
     public static void modifyItemAttributes(ItemAttributeModifierEvent event) {
         CMAttributes.modifyItemAttributes(event);
-    }
-
-    @SubscribeEvent
-    public static void modifyItemTooltips(ItemTooltipEvent event) {
-        QuiverItem.modifyTooltip(event);
     }
 
     @SubscribeEvent
@@ -102,12 +95,6 @@ public class CMCommonSetup {
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.IRON_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.STONE_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.WOODEN_SPEAR.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            }
-
-            if (CMItemConfig.QUIVER_ITEMS.get()) {
-                event.insertBefore(new ItemStack(Items.ARROW), CMItems.LEATHER_QUIVER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertBefore(new ItemStack(Items.ARROW), CMItems.FLAMING_QUIVER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                event.insertAfter(new ItemStack(Items.SPECTRAL_ARROW), CMItems.FIREWORK_ARROW.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
     }

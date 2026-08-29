@@ -3,11 +3,8 @@ package com.vidal1shere.combatmania.registry.data;
 import com.mojang.serialization.Codec;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
-import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.data.component.ShockwaveProperties;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
-import com.vidal1shere.combatmania.item.armor.FlamingQuiverItem;
-import com.vidal1shere.combatmania.item.armor.QuiverItem;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -62,24 +59,6 @@ public class CMDataComponents {
                                     EquipmentSlot::getName
                             )
                     )
-            );
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuiverContents>> QUIVER_CONTENTS =
-            register("quiver_contents", b -> b
-                    .persistent(QuiverContents.CODEC)
-                    .networkSynchronized(QuiverContents.STREAM_CODEC)
-            );
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuiverItem.ChargeData>> FLAMING_QUIVER =
-            register("quiver_charge", b -> b
-                    .persistent(QuiverItem.ChargeData.CODEC)
-                    .networkSynchronized(QuiverItem.ChargeData.STREAM_CODEC)
-            );
-
-    public static final Supplier<DataComponentType<Boolean>> FIREWORK_ARROW =
-            register("firework_arrow", b -> b
-                    .persistent(Codec.BOOL)
-                    .networkSynchronized(ByteBufCodecs.BOOL)
             );
 
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name,

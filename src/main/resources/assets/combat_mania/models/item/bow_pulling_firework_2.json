@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/bow",
-  "textures": {
-    "layer0": "combat_mania:item/bow_pulling_firework_2"
-  }
-}

@@ -46,8 +46,5 @@ public class CMItemTagProvider extends ItemTagsProvider {
 
         this.tag(CMTags.Items.THROW_ENCHANTABLE)
                 .addTag(CMTags.Items.JAVELINS);
-        
-        this.tag(ItemTags.ARROWS)
-                .add(CMItems.FIREWORK_ARROW.get());
     }
 }

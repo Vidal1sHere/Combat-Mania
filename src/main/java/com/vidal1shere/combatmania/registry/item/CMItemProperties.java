@@ -1,7 +1,6 @@
 package com.vidal1shere.combatmania.registry.item;
 
 import com.vidal1shere.combatmania.config.CMClientConfig;
-import com.vidal1shere.combatmania.data.component.QuiverContents;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -20,11 +19,6 @@ public class CMItemProperties {
                 (stack, level, entity, seed) -> 
                     CMClientConfig.TWO_DIMENSIONAL_TRIDENT.get() ? 1 : 0
                 );
-
-        ItemProperties.register(Items.BOW, CMUtil.modResLoc("firework"),
-                (stack, level, entity, seed) ->
-                        stack.getOrDefault(CMDataComponents.FIREWORK_ARROW, false) ? 1 : 0
-        );
         
         makeThrowingItem(CMItems.WOODEN_JAVELIN.get());
         makeThrowingItem(CMItems.STONE_JAVELIN.get());
@@ -44,32 +38,6 @@ public class CMItemProperties {
         makeHammerItem(CMItems.IRON_HAMMER.get());
         makeHammerItem(CMItems.GOLDEN_HAMMER.get());
         makeHammerItem(CMItems.DIAMOND_HAMMER.get());
-        
-        makeQuiverItem(CMItems.LEATHER_QUIVER.get());
-        makeQuiverItem(CMItems.FLAMING_QUIVER.get());
-    }
-    
-    private static void makeQuiverItem(Item item) {
-        ItemProperties.register(item, CMUtil.modResLoc("filled"),
-                (stack, level, entity, seed) -> {
-                    QuiverContents contents = stack.getOrDefault(
-                            CMDataComponents.QUIVER_CONTENTS, QuiverContents.EMPTY
-                    );
-
-                    int count = contents.count();
-                    int max = QuiverContents.MAX_ARROWS;
-                    
-                    if (count >= max) {
-                        return 3.0F;
-                    } else if (count >= max / 2) {
-                        return 2.0F;
-                    } else if (count > 0) {
-                        return 1.0F;
-                    } else {
-                        return 0.0F;
-                    }
-                }
-        );
     }
     
     private static void makeMaceItem(Item item) {
