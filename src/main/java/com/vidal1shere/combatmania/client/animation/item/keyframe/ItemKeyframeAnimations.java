@@ -1,9 +1,7 @@
-package com.vidal1shere.combatmania.client.animation.keyframe;
+package com.vidal1shere.combatmania.client.animation.item.keyframe;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationChannel;
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;

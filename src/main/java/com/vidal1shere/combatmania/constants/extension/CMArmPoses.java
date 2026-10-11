@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.client.animation.item;
+package com.vidal1shere.combatmania.constants.extension;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.util.Mth;

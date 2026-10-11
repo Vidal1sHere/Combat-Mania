@@ -1,6 +1,6 @@
 package com.vidal1shere.combatmania.strike.styles;
 
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
 import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
 import com.vidal1shere.combatmania.data.attachment.StaggerData;
 import com.vidal1shere.combatmania.data.component.SmashProperties;
@@ -14,7 +14,6 @@ import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.util.CustomProperties;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

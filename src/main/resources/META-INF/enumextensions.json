@@ -5,7 +5,7 @@
       "name": "COMBAT_MANIA_SPEAR",
       "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
       "parameters": {
-        "class": "com/vidal1shere/combatmania/client/animation/item/CMArmPoses",
+        "class": "com/vidal1shere/combatmania/constants/extension/CMArmPoses",
         "field": "SPEAR_PROXY"
       }
     },
@@ -14,7 +14,7 @@
       "name": "COMBAT_MANIA_HAMMER",
       "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
       "parameters": {
-        "class": "com/vidal1shere/combatmania/client/animation/item/CMArmPoses",
+        "class": "com/vidal1shere/combatmania/constants/extension/CMArmPoses",
         "field": "HAMMER_PROXY"
       }
     }

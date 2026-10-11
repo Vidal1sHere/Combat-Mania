@@ -1,9 +1,8 @@
 package com.vidal1shere.combatmania.item.weapon;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.item.SwordAnimations;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import net.minecraft.world.InteractionHand;

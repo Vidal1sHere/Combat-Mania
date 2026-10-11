@@ -1,8 +1,8 @@
-package com.vidal1shere.combatmania.client.animation.state;
+package com.vidal1shere.combatmania.client.animation.item.state;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationDefinition;
 import net.minecraft.util.Mth;
 
 /**

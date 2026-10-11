@@ -1,13 +1,11 @@
 package com.vidal1shere.combatmania.strike;
 
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
 import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

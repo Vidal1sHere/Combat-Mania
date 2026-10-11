@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.client.animation.keyframe;
+package com.vidal1shere.combatmania.client.animation.item.keyframe;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;

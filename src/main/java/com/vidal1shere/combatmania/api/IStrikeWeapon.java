@@ -1,7 +1,7 @@
 package com.vidal1shere.combatmania.api;
 
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;

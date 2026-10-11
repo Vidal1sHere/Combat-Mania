@@ -1,10 +1,10 @@
 package com.vidal1shere.combatmania.item.weapon;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.item.CMArmPoses;
-import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.constants.extension.CMArmPoses;
+import com.vidal1shere.combatmania.client.animation.item.definition.SpearAnimations;
+import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;

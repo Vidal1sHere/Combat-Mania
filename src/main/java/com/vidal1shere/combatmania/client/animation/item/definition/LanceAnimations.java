@@ -1,9 +1,9 @@
-package com.vidal1shere.combatmania.client.animation.item;
+package com.vidal1shere.combatmania.client.animation.item.definition;
 
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationChannel;
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.keyframe.ItemAnimationTarget;
-import com.vidal1shere.combatmania.client.animation.keyframe.KeyframeVecs;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationChannel;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationTarget;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.KeyframeVecs;
 import com.vidal1shere.combatmania.data.component.JoustProperties;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.Keyframe;

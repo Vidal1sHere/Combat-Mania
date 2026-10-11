@@ -3,7 +3,7 @@ package com.vidal1shere.combatmania.registry.data;
 import com.mojang.serialization.Codec;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.data.attachment.*;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationStates;
+import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationStates;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;

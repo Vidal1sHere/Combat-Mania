@@ -1,7 +1,5 @@
-package com.vidal1shere.combatmania.client.animation.definition;
+package com.vidal1shere.combatmania.client.animation.item.keyframe;
 
-import com.vidal1shere.combatmania.client.animation.keyframe.ItemAnimationTarget;
-import com.vidal1shere.combatmania.client.animation.keyframe.KeyframeVecs;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.Keyframe;
 import net.neoforged.api.distmarker.Dist;

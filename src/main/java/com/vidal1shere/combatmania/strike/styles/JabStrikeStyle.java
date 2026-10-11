@@ -2,7 +2,7 @@ package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
 import com.vidal1shere.combatmania.util.CMUtil;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
 import com.vidal1shere.combatmania.registry.sound.CMSounds;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeProperties;

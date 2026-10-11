@@ -1,9 +1,9 @@
 package com.vidal1shere.combatmania.strike.styles;
 
 import com.vidal1shere.combatmania.api.extension.entity.JoustMotionAware;
-import com.vidal1shere.combatmania.client.animation.definition.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.item.SpearAnimations;
-import com.vidal1shere.combatmania.client.animation.state.ItemAnimationState;
+import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationDefinition;
+import com.vidal1shere.combatmania.client.animation.item.definition.SpearAnimations;
+import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
 import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.data.attachment.JoustData;

@@ -1,4 +1,4 @@
-package com.vidal1shere.combatmania.client.animation.keyframe;
+package com.vidal1shere.combatmania.client.animation.item.keyframe;
 
 import com.mojang.math.Axis;
 import net.neoforged.api.distmarker.Dist;
