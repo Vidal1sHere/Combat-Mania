@@ -103,9 +103,9 @@ public class ShockwaveStrikeStyle extends StrikeStyle {
             }
             case SWING -> {
                 int swingTicks = ticksHeld - props.maxLiftTicks();
-                if (swingTicks >= MIN_SWING_TICKS && player.onGround()) {
+                if (player.onGround()) {
                     ShockwaveData.startHit(player, false);
-                } else if (!player.onGround()) {
+                } else {
                     ShockwaveData.tickSwing(player);
                 }
             }
