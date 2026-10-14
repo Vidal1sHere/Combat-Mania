@@ -1,8 +1,10 @@
 package com.vidal1shere.combatmania;
 
+import com.vidal1shere.combatmania.event.client.RegisterStrikeRenderersEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModLoader;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -18,5 +20,6 @@ public class CombatManiaClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
+        ModLoader.postEvent(new RegisterStrikeRenderersEvent());
     }
 }

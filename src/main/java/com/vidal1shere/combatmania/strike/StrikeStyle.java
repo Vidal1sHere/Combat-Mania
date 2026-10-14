@@ -1,18 +1,9 @@
 package com.vidal1shere.combatmania.strike;
 
-import com.vidal1shere.combatmania.client.animation.item.keyframe.ItemAnimationDefinition;
-import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
-import com.vidal1shere.combatmania.client.hud.config.StrikeIndicator;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Holder;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
 
 public abstract class StrikeStyle {
 
@@ -49,10 +40,6 @@ public abstract class StrikeStyle {
     public boolean lowerHand() {
         return properties.lowerHand();
     }
-    
-    public ItemAnimationDefinition supplyAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
-        return properties.supplyAnimation(stack, hand, player, state);
-    }
 
     protected StrikeProperties properties() {
         return properties;
@@ -61,37 +48,4 @@ public abstract class StrikeStyle {
     public void onStart(StrikeContext ctx) {}
     public void onTick(StrikeContext ctx, int ticksHeld) {}
     public void onStop(StrikeContext ctx, int ticksHeld) {}
-
-    @OnlyIn(Dist.CLIENT)
-    public void onAnimStart(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {}
-
-    @OnlyIn(Dist.CLIENT)
-    public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {}
-
-    @OnlyIn(Dist.CLIENT)
-    public void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick) {}
-
-    @OnlyIn(Dist.CLIENT)
-    @Nullable
-    public StrikeIndicator getCustomStrikeIndicator() { return null; }
-
-    @OnlyIn(Dist.CLIENT)
-    public void preRenderStrikeIndicator(GuiGraphics guiGraphics, Player player, ItemStack stack, StrikeIndicator indicator, int x, int y, boolean rotated, float partialTick) {}
-
-    @OnlyIn(Dist.CLIENT)
-    public void postRenderStrikeIndicator(GuiGraphics guiGraphics, Player player, ItemStack stack, StrikeIndicator indicator, int x, int y, boolean rotated, float partialTick) {}
-    
-    @OnlyIn(Dist.CLIENT)
-    public ItemAnimationDefinition getAnimation(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
-        return state.getActiveDefinition();
-    }
-    
-    public float getAnimationSpeed(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
-        if (!syncAnimationSpeed()) return 1.0F;
-        return (float) player.getAttributeValue(getSpeedAttribute());
-    }
-
-    public InteractionHand[] animatedHands(ItemStack stack, Player player) {
-        return new InteractionHand[]{InteractionHand.MAIN_HAND};
-    }
 }

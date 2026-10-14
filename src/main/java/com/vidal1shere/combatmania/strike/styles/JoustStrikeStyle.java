@@ -127,13 +127,6 @@ public class JoustStrikeStyle extends StrikeStyle {
 //        System.out.println("[Joust Stop] STAGE AFTER RESET: " + JoustData.get(ctx.player()).getStage().name());
 //        System.out.println("[Joust Start] ANIMATION QUEUED AFTER?: " + (JoustData.get(ctx.player()).hasQueuedAnimation() ? "true" : "false"));
     }
-    
-    @Override
-    public float getAnimationSpeed(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state) {
-        JoustData.Stage stage = player.getData(CMAttachments.JOUST).getStage();
-        JoustProperties props = stack.getOrDefault(CMDataComponents.JOUST, new JoustProperties());
-        return props.getSpeedForStage(stage);
-    }
 
     private void progressStage(Player player, JoustData joust, JoustProperties props, int ticksHeld) {
         JoustData.Stage oldStage = joust.getStage();
@@ -321,43 +314,7 @@ public class JoustStrikeStyle extends StrikeStyle {
         player.causeFoodExhaustion(0.1F);
     }
 
-    @Override
-    public void setupAnim(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, float ageInTicks, float partialTick) {
-        if (hand != InteractionHand.MAIN_HAND) return;
-        
-        JoustData data = player.getData(CMAttachments.JOUST);
-        JoustData.Stage stage = data.getStage();
-        
-        if (!data.hasQueuedAnimation()) {
-            return;
-        }
-        
-        ItemAnimationState.LoopType loopType = switch (stage) {
-            case NONE, DISENGAGED -> ItemAnimationState.LoopType.PLAY_ONCE;
-            default -> ItemAnimationState.LoopType.HOLD_ON_LAST_FRAME;
-        };
-        
-        ItemAnimationDefinition definition = properties().get(JOUST_ANIMATION)
-                .get(stack, hand, player, state, data.getStage());
-
-//        System.out.println("-----");
-//        System.out.println("[Joust SetupAnim] ANIMATION QUEUED");
-//        System.out.println("[Joust SetupAnim] STAGE: " + stage.name());
-//        System.out.println("[Joust SetupAnim] STATE STARTED BEFORE?: " + (state.isStarted() ? "true" : false));
-//        System.out.println("[Joust SetupAnim] ANIMATION QUEUED BEFORE?: " + (data.hasQueuedAnimation() ? "true" : false));
-//        System.out.println("[Joust SetupAnim] ANIMATION DEFINITION BEFORE: " + (definition == null ? "null" : definition));
-        JoustData.consumeAnimation(player);
-        state.setActiveDefinition(definition);
-        state.start(player.tickCount, loopType);
-//        System.out.println("[Joust SetupAnim] STATE STARTED AFTER?: " + (state.isStarted() ? "true" : false));
-//        System.out.println("[Joust SetupAnim] ANIMATION QUEUED AFTER?: " + (data.hasQueuedAnimation() ? "true" : false));
-//        System.out.println("[Joust SetupAnim] ANIMATION DEFINITION AFTER: " + (definition == null ? "null" : definition));
-    }
-
-    @Override
-    public void onAnimStop(ItemStack stack, InteractionHand hand, Player player, ItemAnimationState state, int tickCount) {
-        state.stop();
-    }
+    
 
     public static ItemAnimationDefinition defaultJoustAnimation(ItemStack stack, InteractionHand hand, Player player, 
                                                                 ItemAnimationState state, JoustData.Stage stage) {

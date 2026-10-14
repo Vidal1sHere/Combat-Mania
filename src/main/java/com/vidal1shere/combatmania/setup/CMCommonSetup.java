@@ -34,7 +34,7 @@ public class CMCommonSetup {
 
     @SubscribeEvent
     public static void registerNewRegistry(NewRegistryEvent event) {
-        event.register(CMStrikeStyles.REGISTRY);
+        event.register(CombatMania.REGISTRY);
     }
 
     @SubscribeEvent

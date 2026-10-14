@@ -1,12 +1,15 @@
 package com.vidal1shere.combatmania.network;
 
 import com.vidal1shere.combatmania.api.IStrikeWeapon;
+import com.vidal1shere.combatmania.client.renderer.strike.StrikeRenderers;
+import com.vidal1shere.combatmania.client.renderer.strike.StrikeStyleRenderer;
 import com.vidal1shere.combatmania.data.attachment.StrikeData;
 import com.vidal1shere.combatmania.client.animation.item.state.ItemAnimationState;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.registry.data.CMAttachments;
 import com.vidal1shere.combatmania.strike.StrikeContext;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
+import com.vidal1shere.combatmania.util.CMUtil;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -47,7 +50,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
     public static class Request extends StrikePayload {
 
         public static final Type<Request> TYPE =
-                new Type<>(ResourceLocation.fromNamespaceAndPath("combat_mania", "strike_request"));
+                new Type<>(CMUtil.modResLoc("strike_request"));
 
         public static final StreamCodec<ByteBuf, Request> STREAM_CODEC =
                 StreamCodec.composite(
@@ -100,7 +103,6 @@ public abstract class StrikePayload implements CustomPacketPayload {
 
                     style.onStop(ctx, strikeData.getActiveTicks(slot));
                     strikeData.setActive(slot, false);
-                    weapon.setActiveStyle(stack, null);
                     player.syncData(CMAttachments.STRIKE);
 
                     if (style.getMaxDuration(stack, player) > 0) {
@@ -140,8 +142,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 );
 
                 strikeData.setActive(slot, true);
-                weapon.setLastUsedStyle(stack, style);
-                weapon.setActiveStyle(stack, style);
+                strikeData.setActiveStyle(slot, styleHolder.getId());
                 style.onStart(ctx);
                 player.syncData(CMAttachments.STRIKE);
 
@@ -165,7 +166,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
     public static class Confirm extends StrikePayload {
 
         public static final Type<Confirm> TYPE =
-                new Type<>(ResourceLocation.fromNamespaceAndPath("combat_mania", "strike_confirm"));
+                new Type<>(CMUtil.modResLoc("strike_confirm"));
 
         public static final StreamCodec<ByteBuf, Confirm> STREAM_CODEC =
                 StreamCodec.composite(
@@ -203,7 +204,7 @@ public abstract class StrikePayload implements CustomPacketPayload {
 
                 ItemStack stack = player.getMainHandItem();
                 if (!IStrikeWeapon.isStrikeWeapon(stack)) return;
-                
+
                 IStrikeWeapon weapon = (IStrikeWeapon) stack.getItem();
                 DeferredHolder<StrikeStyle, ? extends StrikeStyle> styleHolder = payload.isPrimary() ?
                         weapon.getPrimaryStyle() :
@@ -212,18 +213,21 @@ public abstract class StrikePayload implements CustomPacketPayload {
                 if (styleHolder == null) return;
 
                 StrikeStyle style = styleHolder.get();
-                
-                for (InteractionHand hand : style.animatedHands(stack, player)) {
-                    if (payload.swingHand()) {
-                        player.swing(hand);
-                    }
-                    
-                    ItemAnimationState state = player.getData(CMAttachments.ITEM_ANIMATIONS).get(hand);
-    
-                    if (payload.action() == Action.START) {
-                        style.onAnimStart(stack, hand, player, state, player.tickCount);
-                    } else {
-                        style.onAnimStop(stack, hand, player, state, player.tickCount);
+                StrikeStyleRenderer<StrikeStyle> renderer = StrikeRenderers.getRenderer(style);
+
+                if (renderer != null) {
+                    for (InteractionHand hand : renderer.animatedHands(style, stack, player)) {
+                        if (payload.swingHand()) {
+                            player.swing(hand);
+                        }
+
+                        ItemAnimationState state = player.getData(CMAttachments.ITEM_ANIMATIONS).get(hand);
+
+                        if (payload.action() == Action.START) {
+                            renderer.onAnimStart(style, stack, hand, player, state, player.tickCount);
+                        } else {
+                            renderer.onAnimStop(style, stack, hand, player, state, player.tickCount);
+                        }
                     }
                 }
             });

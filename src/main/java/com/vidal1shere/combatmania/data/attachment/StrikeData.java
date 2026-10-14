@@ -6,8 +6,13 @@ import com.vidal1shere.combatmania.api.IStrikeWeapon;
 import com.vidal1shere.combatmania.constants.StrikeSlot;
 import com.vidal1shere.combatmania.strike.StrikeStyle;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredHolder;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public final class StrikeData {
 
@@ -15,8 +20,17 @@ public final class StrikeData {
             Codec.INT.fieldOf("primary_ticker").forGetter(d -> d.primaryTicker),
             Codec.INT.fieldOf("secondary_ticker").forGetter(d -> d.secondaryTicker),
             Codec.INT.fieldOf("primary_duration").forGetter(d -> d.primaryDuration),
-            Codec.INT.fieldOf("secondary_duration").forGetter(d -> d.secondaryDuration)
-    ).apply(instance, StrikeData::new));
+            Codec.INT.fieldOf("secondary_duration").forGetter(d -> d.secondaryDuration),
+            ResourceLocation.CODEC.optionalFieldOf("active_primary_style").forGetter(d -> Optional.ofNullable(d.activePrimaryStyle)),
+            ResourceLocation.CODEC.optionalFieldOf("active_secondary_style").forGetter(d -> Optional.ofNullable(d.activeSecondaryStyle)),
+            ResourceLocation.CODEC.optionalFieldOf("last_used_style").forGetter(d -> Optional.ofNullable(d.lastUsedStyle))
+    ).apply(instance, (pt, st, pd, sd, aps, ass, lus) -> {
+        StrikeData data = new StrikeData(pt, st, pd, sd);
+        aps.ifPresent(id -> data.activePrimaryStyle = id);
+        ass.ifPresent(id -> data.activeSecondaryStyle = id);
+        lus.ifPresent(id -> data.lastUsedStyle = id);
+        return data;
+    }));
 
     public static final StreamCodec<ByteBuf, StrikeData> STREAM_CODEC =
             StreamCodec.of(
@@ -32,6 +46,10 @@ public final class StrikeData {
                         buf.writeInt(data.primaryActiveTicks);
                         buf.writeInt(data.secondaryActiveTicks);
                         buf.writeInt(data.activeInventorySlot);
+
+                        ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC).encode(buf, Optional.ofNullable(data.activePrimaryStyle));
+                        ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC).encode(buf, Optional.ofNullable(data.activeSecondaryStyle));
+                        ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC).encode(buf, Optional.ofNullable(data.lastUsedStyle));
                     },
                     buf -> {
                         StrikeData data = new StrikeData();
@@ -48,7 +66,11 @@ public final class StrikeData {
                         data.secondaryActiveTicks = buf.readInt();
 
                         data.activeInventorySlot = buf.readInt();
-                        
+
+                        data.activePrimaryStyle = ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC).decode(buf).orElse(null);
+                        data.activeSecondaryStyle = ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC).decode(buf).orElse(null);
+                        data.lastUsedStyle = ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC).decode(buf).orElse(null);
+
                         return data;
                     }
             );
@@ -66,6 +88,11 @@ public final class StrikeData {
     private int secondaryActiveTicks = 0;
     private int activeInventorySlot = -1;
 
+    // style references (Datapack-safe)
+    @Nullable private ResourceLocation activePrimaryStyle = null;
+    @Nullable private ResourceLocation activeSecondaryStyle = null;
+    @Nullable private ResourceLocation lastUsedStyle = null;
+
     public StrikeData() {}
 
     private StrikeData(int primaryTicker, int secondaryTicker, int primaryDuration, int secondaryDuration) {
@@ -76,12 +103,12 @@ public final class StrikeData {
     }
 
     // -- tick --
-    
+
     public void tickCooldown() {
         if (primaryTicker < primaryDuration) primaryTicker++;
         if (secondaryTicker < secondaryDuration) secondaryTicker++;
     }
-    
+
     public void tickActive() {
         if (primaryActive) primaryActiveTicks++;
         if (secondaryActive) secondaryActiveTicks++;
@@ -115,12 +142,14 @@ public final class StrikeData {
             if (!active) {
                 primaryActiveTicks = 0;
                 activeInventorySlot = -1;
+                activePrimaryStyle = null;
             }
         } else {
             secondaryActive = active;
             if (!active) {
                 secondaryActiveTicks = 0;
                 activeInventorySlot = -1;
+                activeSecondaryStyle = null;
             }
         }
     }
@@ -139,6 +168,29 @@ public final class StrikeData {
 
     public int getActiveInventorySlot() {
         return activeInventorySlot;
+    }
+
+    // -- style tracking --
+
+    public void setActiveStyle(StrikeSlot slot, @Nullable ResourceLocation styleId) {
+        if (slot == StrikeSlot.PRIMARY) {
+            this.activePrimaryStyle = styleId;
+        } else {
+            this.activeSecondaryStyle = styleId;
+        }
+        if (styleId != null) {
+            this.lastUsedStyle = styleId;
+        }
+    }
+
+    @Nullable
+    public ResourceLocation getActiveStyle(StrikeSlot slot) {
+        return slot == StrikeSlot.PRIMARY ? activePrimaryStyle : activeSecondaryStyle;
+    }
+
+    @Nullable
+    public ResourceLocation getLastUsedStyle() {
+        return lastUsedStyle;
     }
 
     // -- overlap / block check --

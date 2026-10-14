@@ -15,15 +15,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 
 public class CMStrikeStyles {
-
-    public static final ResourceKey<Registry<StrikeStyle>> REGISTRY_KEY =
-            ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(CombatMania.MOD_ID, "strike_style"));
-
-    public static final Registry<StrikeStyle> REGISTRY =
-            new RegistryBuilder<>(REGISTRY_KEY).create();
-
+    
     public static final DeferredRegister<StrikeStyle> STRIKE_STYLES =
-            DeferredRegister.create(REGISTRY_KEY, CombatMania.MOD_ID);
+            DeferredRegister.create(CombatMania.REGISTRY_KEY, CombatMania.MOD_ID);
     
     public static final DeferredHolder<StrikeStyle, SweepStrikeStyle> SWEEP =
             STRIKE_STYLES.register("sweep", () -> new SweepStrikeStyle(StrikeProperties.builder()
