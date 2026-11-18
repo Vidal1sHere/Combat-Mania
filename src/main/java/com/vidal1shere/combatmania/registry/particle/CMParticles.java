@@ -25,11 +25,32 @@ public class CMParticles {
     public static final Supplier<CustomParticleType> RIGHT_SHORT_SWEEP_ATTACK =
             PARTICLE_TYPES.register("right_short_sweep_attack", () -> new CustomParticleType(true));
 
-    public static final Supplier<CustomParticleType> VERTICAL_SWEEP_ATTACK =
-            PARTICLE_TYPES.register("vertical_sweep_attack", () -> new CustomParticleType(true));
-
     public static final Supplier<CustomParticleType> SLASH_ATTACK =
             PARTICLE_TYPES.register("slash_attack", () -> new CustomParticleType(true));
+
+    public static final Supplier<CustomParticleType> LEFT_UPPERCUT_ATTACK =
+            PARTICLE_TYPES.register("left_uppercut_attack", () -> new CustomParticleType(true));
+
+    public static final Supplier<CustomParticleType> LEFT_SHORT_UPPERCUT_ATTACK =
+            PARTICLE_TYPES.register("left_short_uppercut_attack", () -> new CustomParticleType(true));
+
+    public static final Supplier<CustomParticleType> LEFT_OVERHEAD_ATTACK =
+            PARTICLE_TYPES.register("left_overhead_attack", () -> new CustomParticleType(true));
+
+    public static final Supplier<CustomParticleType> LEFT_SHORT_OVERHEAD_ATTACK =
+            PARTICLE_TYPES.register("left_short_overhead_attack", () -> new CustomParticleType(true));
+
+    public static final Supplier<CustomParticleType> RIGHT_UPPERCUT_ATTACK =
+            PARTICLE_TYPES.register("right_uppercut_attack", () -> new CustomParticleType(true));
+
+    public static final Supplier<CustomParticleType> RIGHT_SHORT_UPPERCUT_ATTACK =
+            PARTICLE_TYPES.register("right_short_uppercut_attack", () -> new CustomParticleType(true));
+
+    public static final Supplier<CustomParticleType> RIGHT_OVERHEAD_ATTACK =
+            PARTICLE_TYPES.register("right_overhead_attack", () -> new CustomParticleType(true));
+
+    public static final Supplier<CustomParticleType> RIGHT_SHORT_OVERHEAD_ATTACK =
+            PARTICLE_TYPES.register("right_short_overhead_attack", () -> new CustomParticleType(true));
     
     public static void register(IEventBus bus) {
         PARTICLE_TYPES.register(bus);

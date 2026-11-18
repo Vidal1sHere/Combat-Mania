@@ -51,5 +51,13 @@ public class CMClientSetup {
         event.registerSpriteSet(CMParticles.RIGHT_SWEEP_ATTACK.get(), CustomParticle.Provider::new);
         event.registerSpriteSet(CMParticles.RIGHT_SHORT_SWEEP_ATTACK.get(), CustomParticle.Provider::new);
         event.registerSpriteSet(CMParticles.SLASH_ATTACK.get(), CustomParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.LEFT_UPPERCUT_ATTACK.get(), CustomParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.LEFT_SHORT_UPPERCUT_ATTACK.get(), CustomParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.LEFT_OVERHEAD_ATTACK.get(), CustomParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.LEFT_SHORT_OVERHEAD_ATTACK.get(), CustomParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.RIGHT_UPPERCUT_ATTACK.get(), CustomParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.RIGHT_SHORT_UPPERCUT_ATTACK.get(), CustomParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.RIGHT_OVERHEAD_ATTACK.get(), CustomParticle.Provider::new);
+        event.registerSpriteSet(CMParticles.RIGHT_SHORT_OVERHEAD_ATTACK.get(), CustomParticle.Provider::new);
     }
 }
