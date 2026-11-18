@@ -1,0 +1,108 @@
+{
+    "format_version": "1.8.0",
+    "animations": {
+        "jab": {
+            "animation_length": 1.0,
+            "bones": {
+                "item": {
+                    "rotation": {
+                        "0.0": [0, 0, 0],
+                        "0.05": {"vector": [-70, 0, 0], "easing": "easeInOutSine"},
+                        "0.4": [-70, 0, 0],
+                        "1.0": {"vector": [0, 0, 0], "easing": "easeInOutExpo"}
+                    },
+                    "position": {
+                        "0.0": [0, 0, 0],
+                        "0.025": [0.8, 0.6, 5.2],
+                        "0.05": [1.6, 1.2, 10.4],
+                        "0.075": [0.611, -1.124, 4.816],
+                        "0.1": [0.071, -2.393, 1.767],
+                        "0.125": [-0.14, -2.888, 0.576],
+                        "0.15": [-0.142, -2.893, 0.564],
+                        "0.175": [-0.056, -2.689, 1.054],
+                        "0.2": [0, -2.559, 1.368],
+                        "0.4": [0, -2.559, 1.368],
+                        "0.5": [0, -2.538, 1.384],
+                        "0.6": [0, -2.347, 1.514],
+                        "0.65": [0, -1.877, 1.737],
+                        "0.7": [0, -0.547, 1.638],
+                        "0.75": [0, 0.069, 0.618],
+                        "0.8": [0, 0.048, 0.198],
+                        "0.9": [0, 0.006, 0.02],
+                        "1.0": [0, 0, 0]
+                    }
+                }
+            }
+        },
+        "sweep": {
+            "animation_length": 0.5,
+            "pivot": [3.2, 0, 0.48],
+            "bones": {
+                "item": {
+                    "position": {
+                        "0.0": [0, 0, 0],
+                        "0.1": [-16, -2.4, 0],
+                        "0.25": [-16, -1.6, 0],
+                        "0.5": [0, 0, 0]
+                    },
+                    "rotation": {
+                        "0.0": [0, 0, 0],
+                        "0.1": [0, 190, -90],
+                        "0.25": [0, 160, -90],
+                        "0.5": [0, 0, 0]
+                    }
+                }
+            }
+        },
+        "whack": {
+            "animation_length": 0.5,
+            "pivot": [3.2, 0, 0.48],
+            "bones": {
+                "item": {
+                    "position": {
+                        "0.0": [0, 0, 0],
+                        "0.1": [0, -8, 0],
+                        "0.15": [0, 3.2, 0],
+                        "0.25": [0, -3.2, 0],
+                        "0.5": [0, 0, 0]
+                    },
+                    "rotation": {
+                        "0.0": [0, 0, 0],
+                        "0.1": [30, 0, 0],
+                        "0.15": [-130, 0, 40],
+                        "0.5": [0, 0, 0]
+                    }
+                }
+            }
+        },
+        "joust": {
+            "loop": true,
+            "animation_length": 1.0,
+            "pre_animation": [
+                "v.t = q.anim_time * 20",
+                "v.raise = math.clamp(v.t / math.max(q.stage_end(0), 1), 0, 1)",
+                "v.raise_start = math.clamp(v.raise / 0.5, 0, 1)",
+                "v.raise_middle = math.clamp((v.raise - 0.5) / 0.3, 0, 1)",
+                "v.raise_end = math.clamp((v.raise - 0.8) / 0.2, 0, 1)",
+                "v.sway = math.clamp((v.t - q.stage_end(1) + 20) / math.max(q.stage_end(2) - 40 - q.stage_end(1) + 20, 1), 0, 1)",
+                "v.lower = math.easeoutcubic(math.easeinoutelastic(math.clamp((v.t - q.stage_end(2) + 20) / 40, 0, 1), 0.66667))",
+                "v.raise_back = math.clamp((v.t - q.stage_end(3) + 5) / 5, 0, 1)",
+                "v.intensity = 2 * math.easeoutcirc(v.sway) - 2 * math.easeincirc(v.raise_back)",
+                "v.slow = math.sin(v.t * 19) * v.intensity",
+                "v.fast = math.sin(v.t * 30) * v.intensity",
+                "v.a = -65 * math.easeinoutback(v.raise, 2.5949) - 35 * v.lower + 100 * v.raise_back - 0.5 * v.fast",
+                "v.th = -90 * math.clamp((v.raise - 0.5) / 0.05, 0, 1) + 90 * v.sway + 2 * v.slow",
+                "v.x = v.raise * 0.15 - v.raise_end * 0.05 - v.sway * 0.1 + v.slow * 0.005 + 0.15 * (1 - math.cos(v.th))",
+                "v.y = -v.raise * 0.075 + v.raise_middle * 0.075 + v.fast * 0.01 + 0.1 - 0.1 * math.cos(v.a) + 0.15 * math.sin(v.th) * math.sin(v.a)",
+                "v.z = v.raise_start * 0.05 - v.raise_end * 0.05 + v.slow * 0.005 - 0.1 * math.sin(v.a) - 0.15 * math.sin(v.th) * math.cos(v.a)",
+                "v.hit = 0.4 * (math.easeoutquart(math.clamp((q.ticks_since_hit - 1) / 2, 0, 1)) - math.easeinoutsine(math.clamp((q.ticks_since_hit - 3) / 7, 0, 1)))"
+            ],
+            "bones": {
+                "item": {
+                    "rotation": ["v.a", "-v.th", 0],
+                    "position": ["v.x * 16", "-(v.y - v.hit * math.cos(v.a)) * 16", "(v.z - v.hit * math.sin(v.a)) * 16"]
+                }
+            }
+        }
+    }
+}

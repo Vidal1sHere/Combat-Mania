@@ -7,8 +7,19 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
 public class CustomParticleType extends ParticleType<CustomParticleOptions> {
+    private final int defaultLifetime;
+
     public CustomParticleType(boolean overrideLimitter) {
+        this(overrideLimitter, CustomParticleOptions.DEFAULT_LIFETIME);
+    }
+
+    public CustomParticleType(boolean overrideLimitter, int defaultLifetime) {
         super(overrideLimitter);
+        this.defaultLifetime = defaultLifetime;
+    }
+
+    public int defaultLifetime() {
+        return defaultLifetime;
     }
 
     @Override

@@ -1,3 +1,6 @@
 [submodule "Jasper"]
 	path = Jasper
 	url = https://github.com/Vidal1sHere/Jasper.git
+[submodule "StrikeAPI"]
+	path = StrikeAPI
+	url = https://github.com/Vidal1sHere/Strike-API.git

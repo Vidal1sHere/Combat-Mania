@@ -5,6 +5,7 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.config.ItemConfigCondition;
 import com.vidal1shere.combatmania.item.*;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.conditions.ICondition;
@@ -128,6 +129,56 @@ public class CMItems {
     public static final DeferredItem<SpearItem> NETHERITE_SPEAR = ITEMS.register(
             "netherite_spear", () -> new SpearItem(Tiers.NETHERITE, new Item.Properties()
                     .attributes(SpearItem.createAttributes(Tiers.NETHERITE, 2.0F, -3.13F, -2.8F)))
+    );
+
+    public static final DeferredItem<SwordItem> WOODEN_RAPIER = ITEMS.register(
+        "wooden_rapier", () -> new SwordItem(Tiers.WOOD, new Item.Properties()
+            .attributes(RapierItem.createAttributes(Tiers.WOOD)))
+    );
+
+    public static final DeferredItem<SwordItem> STONE_RAPIER = ITEMS.register(
+        "stone_rapier", () -> new SwordItem(Tiers.STONE, new Item.Properties()
+            .attributes(RapierItem.createAttributes(Tiers.STONE)))
+    );
+
+    public static final DeferredItem<SwordItem> GOLDEN_RAPIER = ITEMS.register(
+        "golden_rapier", () -> new SwordItem(Tiers.GOLD, new Item.Properties()
+            .attributes(RapierItem.createAttributes(Tiers.GOLD)))
+    );
+
+    public static final DeferredItem<SwordItem> IRON_RAPIER = ITEMS.register(
+        "iron_rapier", () -> new SwordItem(Tiers.IRON, new Item.Properties()
+            .attributes(RapierItem.createAttributes(Tiers.IRON)))
+    );
+
+    public static final DeferredItem<SwordItem> DIAMOND_RAPIER = ITEMS.register(
+        "diamond_rapier", () -> new SwordItem(Tiers.DIAMOND, new Item.Properties()
+            .attributes(RapierItem.createAttributes(Tiers.DIAMOND)))
+    );
+
+    public static final DeferredItem<KatanaItem> WOODEN_KATANA = ITEMS.register(
+        "wooden_katana", () -> new KatanaItem(Tiers.WOOD, new Item.Properties()
+            .attributes(KatanaItem.createAttributes(Tiers.WOOD, 3.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<KatanaItem> STONE_KATANA = ITEMS.register(
+        "stone_katana", () -> new KatanaItem(Tiers.STONE, new Item.Properties()
+            .attributes(KatanaItem.createAttributes(Tiers.STONE, 3.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<KatanaItem> GOLDEN_KATANA = ITEMS.register(
+        "golden_katana", () -> new KatanaItem(Tiers.GOLD, new Item.Properties()
+            .attributes(KatanaItem.createAttributes(Tiers.GOLD, 3.0F, -3.0F)))
+    );
+
+    public static final DeferredItem<KatanaItem> IRON_KATANA = ITEMS.register(
+        "iron_katana", () -> new KatanaItem(Tiers.IRON, new Item.Properties()
+            .attributes(KatanaItem.createAttributes(Tiers.IRON, 3.0F, -3.1F)))
+    );
+
+    public static final DeferredItem<KatanaItem> DIAMOND_KATANA = ITEMS.register(
+        "diamond_katana", () -> new KatanaItem(Tiers.DIAMOND, new Item.Properties()
+            .attributes(KatanaItem.createAttributes(Tiers.DIAMOND, 3.0F, -3.0F)))
     );
 
     public static final DeferredItem<JavelinItem> WOODEN_JAVELIN = ITEMS.register(

@@ -46,7 +46,7 @@ public class HammerItem extends TieredItem implements AnimatedItem {
     }
 
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
-        return !player.isCreative();
+        return false;
     }
 
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {

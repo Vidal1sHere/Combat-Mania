@@ -1,0 +1,8 @@
+{
+  "primary": "combat_mania:cleave",
+  "dual_wield": {
+    "left_click": {
+      "mode": "alternate"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Cleave Strike",
+  "attacks": [
+    {
+      "condition": {
+        "type": "strikeapi:falling"
+      },
+      "attack": {
+        "parent": "strikeapi:melee/overhead",
+        "effects": {
+          "critical_target": ["strikeapi:critical_hit", "combat_mania:overhead_attack"]
+        }
+      }
+    },
+    {
+      "condition": {
+        "type": "strikeapi:sprinting"
+      },
+      "attack": "strikeapi:melee/thrust"
+    }
+  ],
+  "default": "strikeapi:melee/melee"
+}

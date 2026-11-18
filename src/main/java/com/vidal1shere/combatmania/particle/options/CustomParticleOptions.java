@@ -3,6 +3,7 @@ package com.vidal1shere.combatmania.particle.options;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.vidal1shere.combatmania.particle.type.CustomParticleType;
 import com.vidal1shere.combatmania.util.Color;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -57,6 +58,10 @@ public class CustomParticleOptions implements ParticleOptions {
         return color.lerpRGBA(colorEnd, fraction);
     }
 
+    private static int defaultLifetime(ParticleType<CustomParticleOptions> type) {
+        return type instanceof CustomParticleType custom ? custom.defaultLifetime() : DEFAULT_LIFETIME;
+    }
+
     public static Builder builder(ParticleType<CustomParticleOptions> type) {
         return new Builder(type);
     }
@@ -67,7 +72,7 @@ public class CustomParticleOptions implements ParticleOptions {
                 Codec.FLOAT.optionalFieldOf("scale_end", DEFAULT_SCALE_END).forGetter(o -> o.scaleEnd),
                 Codec.FLOAT.optionalFieldOf("rotation", DEFAULT_ROTATION).forGetter(o -> o.rotation),
                 Codec.FLOAT.optionalFieldOf("rotation_end", DEFAULT_ROTATION_END).forGetter(o -> o.rotationEnd),
-                Codec.INT.optionalFieldOf("lifetime", DEFAULT_LIFETIME).forGetter(o -> o.lifetime),
+                Codec.INT.optionalFieldOf("lifetime", defaultLifetime(type)).forGetter(o -> o.lifetime),
                 Codec.INT.optionalFieldOf("color", DEFAULT_COLOR.color).forGetter(o -> o.color.color),
                 Codec.FLOAT.optionalFieldOf("alpha", DEFAULT_COLOR.alpha).forGetter(o -> o.color.alpha),
                 Codec.INT.optionalFieldOf("color_end", DEFAULT_COLOR_END.color).forGetter(o -> o.colorEnd.color),
@@ -118,12 +123,13 @@ public class CustomParticleOptions implements ParticleOptions {
         private float scaleEnd = DEFAULT_SCALE_END;
         private float rotation = DEFAULT_ROTATION;
         private float rotationEnd = DEFAULT_ROTATION_END;
-        private int lifetime = DEFAULT_LIFETIME;
+        private int lifetime;
         private Color color = DEFAULT_COLOR.clone();
         private Color colorEnd = DEFAULT_COLOR_END.clone();
 
         private Builder(ParticleType<CustomParticleOptions> type) {
             this.type = type;
+            this.lifetime = defaultLifetime(type);
         }
 
         public Builder scale(float v) { scale = v; return this; }

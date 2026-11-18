@@ -10,3 +10,6 @@ plugins {
 
 include 'jasper'
 project(':jasper').projectDir = file('Jasper')
+
+include 'strikeapi'
+project(':strikeapi').projectDir = file('StrikeAPI')
