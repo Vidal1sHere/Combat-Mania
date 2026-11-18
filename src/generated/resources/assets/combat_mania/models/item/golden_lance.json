@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/handheld",
   "base": {
-    "parent": "combat_mania:item/handheld_lance",
+    "parent": "combat_mania:item/handheld/lance",
     "textures": {
       "layer0": "combat_mania:item/golden_lance_in_hand"
     }

@@ -49,7 +49,7 @@ description='''
 Combat additions
 '''
 
-enumExtensions = "META-INF/enumextensions.json"
+#enumExtensions = "META-INF/enumextensions.json"
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
 [[mixins]]
@@ -87,6 +87,13 @@ config="combatmania.mixins.json"
     type="required"
     # This version range declares a minimum of the current minecraft version up to but not including the next major version
     versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.combat_mania]]
+    modId="jasper"
+    type="required"
+    versionRange="[1.0,)"
     ordering="NONE"
     side="BOTH"
 

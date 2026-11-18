@@ -3,20 +3,10 @@
   "package": "com.vidal1shere.combatmania.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "EntityMixin",
-    "PlayerMixin",
-    "ServerPlayerMixin",
-    "SwordItemMixin",
-    "AxeItemMixin",
-    "TridentItemMixin",
-    "MaceItemMixin"
   ],
   "client": [
-    "client.MinecraftMixin",
     "client.ItemRendererMixin",
-    "client.BlockEntityWithoutLevelRendererMixin",
-    "client.ItemInHandRendererMixin",
-    "client.GuiMixin"
+    "client.BlockEntityWithoutLevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

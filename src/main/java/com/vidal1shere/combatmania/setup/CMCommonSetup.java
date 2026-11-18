@@ -2,40 +2,14 @@ package com.vidal1shere.combatmania.setup;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.config.CMItemConfig;
-import com.vidal1shere.combatmania.registry.data.CMAttributes;
-import com.vidal1shere.combatmania.registry.data.CMDataMaps;
 import com.vidal1shere.combatmania.registry.item.CMItems;
-import com.vidal1shere.combatmania.registry.strike.CMStrikeStyles;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
-import net.neoforged.neoforge.registries.NewRegistryEvent;
-import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
 @EventBusSubscriber(modid = CombatMania.MOD_ID)
 public class CMCommonSetup {
-    @SubscribeEvent
-    public static void registerAttribute(EntityAttributeModificationEvent event) {
-        CMAttributes.registerAttributes(event);
-    }
-
-    @SubscribeEvent
-    public static void registerDataMap(RegisterDataMapTypesEvent event) {
-        CMDataMaps.register(event);
-    }
-    
-    @SubscribeEvent
-    public static void modifyItemAttributes(ItemAttributeModifierEvent event) {
-        CMAttributes.modifyItemAttributes(event);
-    }
-
-    @SubscribeEvent
-    public static void registerNewRegistry(NewRegistryEvent event) {
-        event.register(CMStrikeStyles.REGISTRY);
-    }
 
     @SubscribeEvent
     public static void registeCreativeItems(BuildCreativeModeTabContentsEvent event) {

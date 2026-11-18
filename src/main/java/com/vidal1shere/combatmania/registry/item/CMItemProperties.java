@@ -1,8 +1,8 @@
 package com.vidal1shere.combatmania.registry.item;
 
 import com.vidal1shere.combatmania.config.CMClientConfig;
-import com.vidal1shere.combatmania.registry.data.CMDataComponents;
 import com.vidal1shere.combatmania.util.CMUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +38,8 @@ public class CMItemProperties {
         makeHammerItem(CMItems.IRON_HAMMER.get());
         makeHammerItem(CMItems.GOLDEN_HAMMER.get());
         makeHammerItem(CMItems.DIAMOND_HAMMER.get());
+        
+        
     }
     
     private static void makeMaceItem(Item item) {
@@ -51,6 +53,13 @@ public class CMItemProperties {
         ItemProperties.register(item, CMUtil.modResLoc("hammer_3d"),
                 (stack, level, entity, seed) ->
                         CMClientConfig.THREE_DIMENSIONAL_HAMMERS.get() ? 1 : 0
+        );
+    }
+    
+    private static void makeFirstPersonItem(Item item) {
+        ItemProperties.register(item, CMUtil.modResLoc("first_person"),
+                (stack, level, entity, seed) -> 
+                    Minecraft.getInstance().options.getCameraType().isFirstPerson() ? 1 : 0
         );
     }
     

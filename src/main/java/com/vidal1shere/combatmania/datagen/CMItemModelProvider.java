@@ -56,11 +56,11 @@ public class CMItemModelProvider extends ItemModelProvider {
         handheldDagger(CMItems.IRON_DAGGER);
         handheldDagger(CMItems.DIAMOND_DAGGER);
         
-        spearItem(CMItems.WOODEN_GLAIVE);
-        spearItem(CMItems.STONE_GLAIVE);
-        spearItem(CMItems.GOLDEN_GLAIVE);
-        spearItem(CMItems.IRON_GLAIVE);
-        spearItem(CMItems.DIAMOND_GLAIVE);
+        glaiveItem(CMItems.WOODEN_GLAIVE);
+        glaiveItem(CMItems.STONE_GLAIVE);
+        glaiveItem(CMItems.GOLDEN_GLAIVE);
+        glaiveItem(CMItems.IRON_GLAIVE);
+        glaiveItem(CMItems.DIAMOND_GLAIVE);
 
         lanceItem(CMItems.WOODEN_LANCE);
         lanceItem(CMItems.STONE_LANCE);
@@ -149,26 +149,30 @@ public class CMItemModelProvider extends ItemModelProvider {
 
     private ItemModelBuilder handheldDagger(DeferredItem<?> item) {
         return withExistingParent(item.getId().getPath(),
-                CMUtil.modResLoc("item/handheld_dagger"))
+                CMUtil.modResLoc("item/handheld/dagger"))
                 .texture("layer0", CMUtil.modResLoc("item/" + item.getId().getPath()));
     }
 
+    private void glaiveItem(DeferredItem<?> item) {
+        handheldTransformedItem(item, "glaive", "spear");
+    }
+
     private void spearItem(DeferredItem<?> item) {
-        handheldTransformedItem(item, "handheld_spear");
+        handheldTransformedItem(item, "spear", "spear");
     }
 
     private void lanceItem(DeferredItem<?> item) {
-        handheldTransformedItem(item, "handheld_lance");
+        handheldTransformedItem(item, "lance", "lance");
     }
 
     private void javelinItem(DeferredItem<?> item) {
         String itemName = item.getId().getPath();
         ResourceLocation texture = CMUtil.modResLoc("item/" + itemName);
         ResourceLocation inHandTexture = CMUtil.modResLoc("item/" + itemName + "_in_hand");
-        ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld_spear");
-        ResourceLocation throwingBase = CMUtil.modResLoc("item/spear_throwing");
+        ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld/spear");
+        ResourceLocation throwingBase = CMUtil.modResLoc("item/handheld/spear_throwing");
 
-        this.withExistingParent(itemName + "_in_hand", inHandBase).texture("layer0", inHandTexture);
+        this.withExistingParent("item/javelin/" + itemName + "_in_hand", inHandBase).texture("layer0", inHandTexture);
 
         this.getBuilder(itemName).customLoader((parent, existingFileHelper) ->
                 new InlineSeparateTransformsModelBuilder(parent, existingFileHelper, inHandBase, inHandTexture, texture, json -> {
@@ -178,29 +182,29 @@ public class CMItemModelProvider extends ItemModelProvider {
 
                     predicate.addProperty("minecraft:throwing", 1);
                     override.add("predicate", predicate);
-                    override.addProperty("model", "combat_mania:item/" + itemName + "_throwing");
+                    override.addProperty("model", "combat_mania:item/javelin/" + itemName + "_throwing");
 
                     overrides.add(override);
                     json.add("overrides", overrides);
                 })
         );
 
-        this.getBuilder(itemName + "_throwing").customLoader((parent, existingFileHelper) ->
+        this.getBuilder("item/javelin/" + itemName + "_throwing").customLoader((parent, existingFileHelper) ->
                 new InlineSeparateTransformsModelBuilder(parent, existingFileHelper, throwingBase, inHandTexture, texture)
         );
     }
 
-    private void handheldTransformedItem(DeferredItem<?> item, String handHeldName) {
-        handheldTransformedItem(item, handHeldName, j -> {});
+    private void handheldTransformedItem(DeferredItem<?> item, String folder, String handHeldName) {
+        handheldTransformedItem(item, folder, handHeldName, j -> {});
     }
 
-    private void handheldTransformedItem(DeferredItem<?> item, String handHeldName, Consumer<JsonObject> mutator) {
+    private void handheldTransformedItem(DeferredItem<?> item, String folder, String handHeldName, Consumer<JsonObject> mutator) {
         String itemName = item.getId().getPath();
         ResourceLocation texture = CMUtil.modResLoc("item/" + itemName);
         ResourceLocation inHandTexture = CMUtil.modResLoc("item/" + itemName + "_in_hand");
-        ResourceLocation inHandBase = CMUtil.modResLoc("item/" + handHeldName);
+        ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld/" + handHeldName);
 
-        this.withExistingParent(itemName + "_in_hand", inHandBase)
+        this.withExistingParent("item/" + folder + "/" + itemName + "_in_hand", inHandBase)
                 .texture("layer0", inHandTexture);
 
         this.getBuilder(itemName)

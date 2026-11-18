@@ -1,0 +1,19 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "gui_light": "front",
+  "textures": {
+    "particle": "combat_mania:item/diamond_hammer"
+  },
+  "base": {
+    "parent": "minecraft:item/handheld_mace",
+    "textures": {
+      "layer0": "combat_mania:item/diamond_hammer"
+    }
+  },
+  "perspectives": {
+    "thirdperson_righthand": { "parent": "combat_mania:item/hammer/3d/third/diamond_hammer" },
+    "thirdperson_lefthand": { "parent": "combat_mania:item/hammer/3d/third/diamond_hammer" },
+    "firstperson_righthand": { "parent": "combat_mania:item/hammer/3d/first/diamond_hammer" },
+    "firstperson_lefthand": { "parent": "combat_mania:item/hammer/3d/first/diamond_hammer" }
+  }
+}

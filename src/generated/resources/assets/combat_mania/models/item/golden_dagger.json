@@ -1,5 +1,5 @@
 {
-  "parent": "combat_mania:item/handheld_dagger",
+  "parent": "combat_mania:item/handheld/dagger",
   "textures": {
     "layer0": "combat_mania:item/golden_dagger"
   }

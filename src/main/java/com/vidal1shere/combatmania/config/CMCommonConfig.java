@@ -6,19 +6,19 @@ public class CMCommonConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
     public static final ModConfigSpec.BooleanValue MODIFY_SWORDS = BUILDER
-            .comment("Modifies vanilla swords to use Strike Styles")
+            .comment("Modifies vanilla swords to use Strikes")
             .define("modifyVanillaSwords", false);
 
     public static final ModConfigSpec.BooleanValue MODIFY_AXES = BUILDER
-            .comment("Modifies vanilla axes to use Strike Styles")
+            .comment("Modifies vanilla axes to use Strikes")
             .define("modifyVanillaAxes", false);
     
     public static final ModConfigSpec.BooleanValue MODIFY_TRIDENT = BUILDER
-            .comment("Modifies vanilla trident to use Strike Styles")
+            .comment("Modifies vanilla trident to use Strikes")
             .define("modifyVanillaTrident", false);
 
     public static final ModConfigSpec.BooleanValue MODIFY_MACE = BUILDER
-            .comment("Modifies vanilla mace to use Strike Styles")
+            .comment("Modifies vanilla mace to use Strikes")
             .define("modifyVanillaMace", false);
 
     public static final ModConfigSpec SPEC = BUILDER.build();

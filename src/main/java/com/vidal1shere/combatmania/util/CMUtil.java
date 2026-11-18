@@ -1,7 +1,6 @@
 package com.vidal1shere.combatmania.util;
 
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -57,14 +56,10 @@ public final class CMUtil {
     }
     
     public static boolean isWoodTier(Tier tier) {
-        return tier == CMExtendedToolTiers.WOOD || tier == Tiers.WOOD;
+        return tier == Tiers.WOOD;
     }
     
     public static String tierName(Tier tier) {
-        if (tier instanceof CMExtendedToolTiers) {
-            tier = ((CMExtendedToolTiers) tier).getVanillaTier();
-        }
-        
         return switch (tier) {
             case Tiers.WOOD -> "wooden";
             case Tiers.STONE -> "stone";

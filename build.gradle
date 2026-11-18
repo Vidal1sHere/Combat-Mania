@@ -5,6 +5,8 @@ plugins {
     id 'idea'
 }
 
+evaluationDependsOn(':jasper')
+
 tasks.named('wrapper', Wrapper).configure {
     // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
     // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
@@ -115,6 +117,9 @@ neoForge {
         "${mod_id}" {
             sourceSet(sourceSets.main)
         }
+        jasper {
+            sourceSet(project(':jasper').sourceSets.main)
+        }
     }
 }
 
@@ -149,6 +154,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    implementation project(':jasper')
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

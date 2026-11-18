@@ -1,0 +1,30 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "combat_mania:item/handheld/katana",
+    "textures": {
+      "layer0": "combat_mania:item/iron_katana_in_hand"
+    }
+  },
+  "loader": "neoforge:separate_transforms",
+  "perspectives": {
+    "fixed": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/iron_katana"
+      }
+    },
+    "ground": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/iron_katana"
+      }
+    },
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/iron_katana"
+      }
+    }
+  }
+}

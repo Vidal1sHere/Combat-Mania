@@ -3,9 +3,9 @@ package com.vidal1shere.combatmania.registry.item;
 import com.mojang.serialization.MapCodec;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.config.ItemConfigCondition;
-import com.vidal1shere.combatmania.item.weapon.*;
+import com.vidal1shere.combatmania.item.*;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -25,189 +25,184 @@ public class CMItems {
     public static final Supplier<MapCodec<ItemConfigCondition>> ITEM_CONFIG_ENABLED_CONDITION =
             CONDITION_CODECS.register("item_config_enabled", () -> ItemConfigCondition.CODEC);
 
-    public static final DeferredItem<StrikeSwordItem> STRIKE_SWORD = ITEMS.register(
-            "strike_sword", () -> new StrikeSwordItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(SwordItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F, -3.2F)))
-    );
-
     public static final DeferredItem<DaggerItem> WOODEN_DAGGER = ITEMS.register(
-            "wooden_dagger", () -> new DaggerItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(DaggerItem.createAttributes(CMExtendedToolTiers.WOOD, 2.0F)))
+            "wooden_dagger", () -> new DaggerItem(Tiers.WOOD, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.WOOD, 2.0F, -2.0F)))
     );
 
     public static final DeferredItem<DaggerItem> STONE_DAGGER = ITEMS.register(
-            "stone_dagger", () -> new DaggerItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(DaggerItem.createAttributes(CMExtendedToolTiers.STONE, 2.0F)))
+            "stone_dagger", () -> new DaggerItem(Tiers.STONE, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.STONE, 2.0F, -2.0F)))
     );
 
     public static final DeferredItem<DaggerItem> GOLDEN_DAGGER = ITEMS.register(
-            "golden_dagger", () -> new DaggerItem(CMExtendedToolTiers.GOLD, new Item.Properties()
-                    .attributes(DaggerItem.createAttributes(CMExtendedToolTiers.GOLD, 2.0F)))
+            "golden_dagger", () -> new DaggerItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.GOLD, 2.0F, -2.0F)))
     );
 
     public static final DeferredItem<DaggerItem> IRON_DAGGER = ITEMS.register(
-            "iron_dagger", () -> new DaggerItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(DaggerItem.createAttributes(CMExtendedToolTiers.IRON, 2.0F)))
+            "iron_dagger", () -> new DaggerItem(Tiers.IRON, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.IRON, 2.0F, -2.0F)))
     );
 
     public static final DeferredItem<DaggerItem> DIAMOND_DAGGER = ITEMS.register(
-            "diamond_dagger", () -> new DaggerItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(DaggerItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F)))
+            "diamond_dagger", () -> new DaggerItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(DaggerItem.createAttributes(Tiers.DIAMOND, 2.0F, -2.0F)))
     );
     
     public static final DeferredItem<GlaiveItem> WOODEN_GLAIVE = ITEMS.register(
-            "wooden_glaive", () -> new GlaiveItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(CMExtendedToolTiers.WOOD, 2.0F, -3.2F, -2.46F)))
+            "wooden_glaive", () -> new GlaiveItem(Tiers.WOOD, new Item.Properties()
+                    .attributes(GlaiveItem.createAttributes(Tiers.WOOD, 2.0F, -3.2F)))
     );
 
     public static final DeferredItem<GlaiveItem> STONE_GLAIVE = ITEMS.register(
-            "stone_glaive", () -> new GlaiveItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(CMExtendedToolTiers.STONE, 2.0F, -3.2F, -2.67F)))
+            "stone_glaive", () -> new GlaiveItem(Tiers.STONE, new Item.Properties()
+                    .attributes(GlaiveItem.createAttributes(Tiers.STONE, 2.0F, -3.2F)))
     );
 
     public static final DeferredItem<GlaiveItem> GOLDEN_GLAIVE = ITEMS.register(
-            "golden_glaive", () -> new GlaiveItem(CMExtendedToolTiers.GOLD, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(CMExtendedToolTiers.GOLD, 2.0F, -3.0F, -2.95F)))
+            "golden_glaive", () -> new GlaiveItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(GlaiveItem.createAttributes(Tiers.GOLD, 2.0F, -3.0F)))
     );
 
     public static final DeferredItem<GlaiveItem> IRON_GLAIVE = ITEMS.register(
-            "iron_glaive", () -> new GlaiveItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(CMExtendedToolTiers.IRON, 2.0F, -3.1F, -2.95F)))
+            "iron_glaive", () -> new GlaiveItem(Tiers.IRON, new Item.Properties()
+                    .attributes(GlaiveItem.createAttributes(Tiers.IRON, 2.0F, -3.1F)))
     );
 
     public static final DeferredItem<GlaiveItem> DIAMOND_GLAIVE = ITEMS.register(
-            "diamond_glaive", () -> new GlaiveItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(GlaiveItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F, -3.0F, -3.05F)))
+            "diamond_glaive", () -> new GlaiveItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(GlaiveItem.createAttributes(Tiers.DIAMOND, 2.0F, -3.0F)))
     );
 
     public static final DeferredItem<LanceItem> WOODEN_LANCE = ITEMS.register(
-            "wooden_lance", () -> new LanceItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.WOOD, 0.1F, 10.0F, -2.4F)))
+            "wooden_lance", () -> new LanceItem(Tiers.WOOD, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(Tiers.WOOD, 5.0F, -2.4F)))
     );
 
     public static final DeferredItem<LanceItem> STONE_LANCE = ITEMS.register(
-            "stone_lance", () -> new LanceItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.STONE, 0.13F, 10.0F, -2.4F)))
+            "stone_lance", () -> new LanceItem(Tiers.STONE, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(Tiers.STONE, 5.0F, -2.4F)))
     );
 
     public static final DeferredItem<LanceItem> GOLDEN_LANCE = ITEMS.register(
-            "golden_lance", () -> new LanceItem(CMExtendedToolTiers.GOLD, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.GOLD, 0.1F, 10.0F, -2.4F)))
+            "golden_lance", () -> new LanceItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(Tiers.GOLD, 5.0F, -2.4F)))
     );
 
     public static final DeferredItem<LanceItem> IRON_LANCE = ITEMS.register(
-            "iron_lance", () -> new LanceItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.IRON, 0.15F, 10.0F, -2.4F)))
+            "iron_lance", () -> new LanceItem(Tiers.IRON, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(Tiers.IRON, 5.0F, -2.4F)))
     );
 
     public static final DeferredItem<LanceItem> DIAMOND_LANCE = ITEMS.register(
-            "diamond_lance", () -> new LanceItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(LanceItem.createAttributes(CMExtendedToolTiers.DIAMOND, 0.125F, 10.0F, -2.4F)))
+            "diamond_lance", () -> new LanceItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(LanceItem.createAttributes(Tiers.DIAMOND, 5.0F, -2.4F)))
     );
 
     public static final DeferredItem<SpearItem> WOODEN_SPEAR = ITEMS.register(
-            "wooden_spear", () -> new SpearItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.WOOD, 2.0F, -2.46F, -2.8F)))
+            "wooden_spear", () -> new SpearItem(Tiers.WOOD, new Item.Properties()
+                    .attributes(SpearItem.createAttributes(Tiers.WOOD, 2.0F, -2.46F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> STONE_SPEAR = ITEMS.register(
-            "stone_spear", () -> new SpearItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.STONE, 2.0F, -2.67F, -2.8F)))
+            "stone_spear", () -> new SpearItem(Tiers.STONE, new Item.Properties()
+                    .attributes(SpearItem.createAttributes(Tiers.STONE, 2.0F, -2.67F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> GOLDEN_SPEAR = ITEMS.register(
-            "golden_spear", () -> new SpearItem(CMExtendedToolTiers.GOLD, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.GOLD, 2.0F, -2.95F, -2.8F)))
+            "golden_spear", () -> new SpearItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(SpearItem.createAttributes(Tiers.GOLD, 2.0F, -2.95F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> IRON_SPEAR = ITEMS.register(
-            "iron_spear", () -> new SpearItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.IRON, 2.0F, -2.95F, -2.8F)))
+            "iron_spear", () -> new SpearItem(Tiers.IRON, new Item.Properties()
+                    .attributes(SpearItem.createAttributes(Tiers.IRON, 2.0F, -2.95F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> DIAMOND_SPEAR = ITEMS.register(
-            "diamond_spear", () -> new SpearItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F, -3.05F, -2.8F)))
+            "diamond_spear", () -> new SpearItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(SpearItem.createAttributes(Tiers.DIAMOND, 2.0F, -3.05F, -2.8F)))
     );
 
     public static final DeferredItem<SpearItem> NETHERITE_SPEAR = ITEMS.register(
-            "netherite_spear", () -> new SpearItem(CMExtendedToolTiers.NETHERITE, new Item.Properties()
-                    .attributes(SpearItem.createAttributes(CMExtendedToolTiers.NETHERITE, 2.0F, -3.13F, -2.8F)))
+            "netherite_spear", () -> new SpearItem(Tiers.NETHERITE, new Item.Properties()
+                    .attributes(SpearItem.createAttributes(Tiers.NETHERITE, 2.0F, -3.13F, -2.8F)))
     );
 
     public static final DeferredItem<JavelinItem> WOODEN_JAVELIN = ITEMS.register(
-            "wooden_javelin", () -> new JavelinItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.WOOD, 2.0F, -2.46F, 0.5F)))
+            "wooden_javelin", () -> new JavelinItem(Tiers.WOOD, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(Tiers.WOOD, 2.0F, -2.46F, 0.5F)))
     );
 
     public static final DeferredItem<JavelinItem> STONE_JAVELIN = ITEMS.register(
-            "stone_javelin", () -> new JavelinItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.STONE, 2.0F, -2.67F, 1.0F)))
+            "stone_javelin", () -> new JavelinItem(Tiers.STONE, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(Tiers.STONE, 2.0F, -2.67F, 1.0F)))
     );
 
     public static final DeferredItem<JavelinItem> GOLDEN_JAVELIN = ITEMS.register(
-            "golden_javelin", () -> new JavelinItem(CMExtendedToolTiers.GOLD, new Item.Properties()
-                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.GOLD, 2.0F, -2.95F, 0.5F)))
+            "golden_javelin", () -> new JavelinItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(Tiers.GOLD, 2.0F, -2.95F, 0.5F)))
     );
 
     public static final DeferredItem<JavelinItem> IRON_JAVELIN = ITEMS.register(
-            "iron_javelin", () -> new JavelinItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.IRON, 2.0F, -2.95F, 1.5F)))
+            "iron_javelin", () -> new JavelinItem(Tiers.IRON, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(Tiers.IRON, 2.0F, -2.95F, 1.5F)))
     );
 
     public static final DeferredItem<JavelinItem> DIAMOND_JAVELIN = ITEMS.register(
-            "diamond_javelin", () -> new JavelinItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(JavelinItem.createAttributes(CMExtendedToolTiers.DIAMOND, 2.0F, -3.05F, 2.0F)))
+            "diamond_javelin", () -> new JavelinItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(JavelinItem.createAttributes(Tiers.DIAMOND, 2.0F, -3.05F, 2.0F)))
     );
 
-    public static final DeferredItem<StrikeMaceItem> WOODEN_MACE = ITEMS.register(
-            "wooden_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.WOOD, 2.0F, -2.9)))
+    public static final DeferredItem<TieredMaceItem> WOODEN_MACE = ITEMS.register(
+            "wooden_mace", () -> new TieredMaceItem(Tiers.WOOD, new Item.Properties()
+                    .attributes(TieredMaceItem.createAttributes(Tiers.WOOD, 2.0F, -2.9F)))
     );
 
-    public static final DeferredItem<StrikeMaceItem> STONE_MACE = ITEMS.register(
-            "stone_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.STONE, 1.5F, -3.05F)))
+    public static final DeferredItem<TieredMaceItem> STONE_MACE = ITEMS.register(
+            "stone_mace", () -> new TieredMaceItem(Tiers.STONE, new Item.Properties()
+                    .attributes(TieredMaceItem.createAttributes(Tiers.STONE, 1.5F, -3.05F)))
     );
 
-    public static final DeferredItem<StrikeMaceItem> GOLDEN_MACE = ITEMS.register(
-            "golden_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.GOLD, new Item.Properties()
-                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.GOLD, 2.5F, -2.75F)))
+    public static final DeferredItem<TieredMaceItem> GOLDEN_MACE = ITEMS.register(
+            "golden_mace", () -> new TieredMaceItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(TieredMaceItem.createAttributes(Tiers.GOLD, 2.5F, -2.75F)))
     );
 
-    public static final DeferredItem<StrikeMaceItem> IRON_MACE = ITEMS.register(
-            "iron_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.IRON, 1.0F, -3.2F)))
+    public static final DeferredItem<TieredMaceItem> IRON_MACE = ITEMS.register(
+            "iron_mace", () -> new TieredMaceItem(Tiers.IRON, new Item.Properties()
+                    .attributes(TieredMaceItem.createAttributes(Tiers.IRON, 1.0F, -3.2F)))
     );
 
-    public static final DeferredItem<StrikeMaceItem> DIAMOND_MACE = ITEMS.register(
-            "diamond_mace", () -> new StrikeMaceItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(StrikeMaceItem.createAttributes(CMExtendedToolTiers.DIAMOND, 0.5F, -3.35F)))
+    public static final DeferredItem<TieredMaceItem> DIAMOND_MACE = ITEMS.register(
+            "diamond_mace", () -> new TieredMaceItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(TieredMaceItem.createAttributes(Tiers.DIAMOND, 0.5F, -3.35F)))
     );
 
     public static final DeferredItem<HammerItem> WOODEN_HAMMER = ITEMS.register(
-            "wooden_hammer", () -> new HammerItem(CMExtendedToolTiers.WOOD, new Item.Properties()
-                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.WOOD, 1.0F, -3.2F)))
+            "wooden_hammer", () -> new HammerItem(Tiers.WOOD, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(Tiers.WOOD, 1.0F, -3.2F)))
     );
 
     public static final DeferredItem<HammerItem> STONE_HAMMER = ITEMS.register(
-            "stone_hammer", () -> new HammerItem(CMExtendedToolTiers.STONE, new Item.Properties()
-                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.STONE, 1.0F, -3.2F)))
+            "stone_hammer", () -> new HammerItem(Tiers.STONE, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(Tiers.STONE, 1.0F, -3.2F)))
     );
 
     public static final DeferredItem<HammerItem> IRON_HAMMER = ITEMS.register(
-            "iron_hammer", () -> new HammerItem(CMExtendedToolTiers.IRON, new Item.Properties()
-                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.IRON, 1.0F, -3.2F)))
+            "iron_hammer", () -> new HammerItem(Tiers.IRON, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(Tiers.IRON, 1.0F, -3.2F)))
     );
 
     public static final DeferredItem<HammerItem> GOLDEN_HAMMER = ITEMS.register(
-            "golden_hammer", () -> new HammerItem(CMExtendedToolTiers.GOLD, new Item.Properties()
-                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.GOLD, 1.0F, -3.2F)))
+            "golden_hammer", () -> new HammerItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(Tiers.GOLD, 1.0F, -3.2F)))
     );
 
     public static final DeferredItem<HammerItem> DIAMOND_HAMMER = ITEMS.register(
-            "diamond_hammer", () -> new HammerItem(CMExtendedToolTiers.DIAMOND, new Item.Properties()
-                    .attributes(HammerItem.createAttributes(CMExtendedToolTiers.DIAMOND, 1.0F, -3.2F)))
+            "diamond_hammer", () -> new HammerItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(HammerItem.createAttributes(Tiers.DIAMOND, 1.0F, -3.2F)))
     );
     
     public static Collection<DeferredHolder<Item, ? extends Item>> getItems() {

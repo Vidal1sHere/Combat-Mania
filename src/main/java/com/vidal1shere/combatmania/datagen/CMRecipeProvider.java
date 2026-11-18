@@ -1,11 +1,8 @@
 package com.vidal1shere.combatmania.datagen;
 
-import com.vidal1shere.combatmania.api.IExtendedTier;
 import com.vidal1shere.combatmania.config.CMItemConfig;
 import com.vidal1shere.combatmania.config.ItemConfigCondition;
-import com.vidal1shere.combatmania.registry.item.CMExtendedToolTiers;
 import com.vidal1shere.combatmania.registry.item.CMItems;
-import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -13,6 +10,8 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.*;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
@@ -23,8 +22,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class CMRecipeProvider extends RecipeProvider implements IConditionBuilder {
 
-    private static final Map<IExtendedTier, Item[]> WOOD_TO_DIAMOND_WEAPON_OUTPUTS = Map.of(
-            CMExtendedToolTiers.WOOD, new Item[]{ 
+    private static final Map<Tiers, Item[]> WOOD_TO_DIAMOND_WEAPON_OUTPUTS = Map.of(
+            Tiers.WOOD, new Item[]{ 
                     CMItems.WOODEN_SPEAR.get(), 
                     CMItems.WOODEN_GLAIVE.get(), 
                     CMItems.WOODEN_DAGGER.get(), 
@@ -33,7 +32,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                     CMItems.WOODEN_MACE.get(), 
                     CMItems.WOODEN_HAMMER.get(), 
             },
-            CMExtendedToolTiers.STONE, new Item[]{
+            Tiers.STONE, new Item[]{
                     CMItems.STONE_SPEAR.get(), 
                     CMItems.STONE_GLAIVE.get(), 
                     CMItems.STONE_DAGGER.get(), 
@@ -42,7 +41,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                     CMItems.STONE_MACE.get(),
                     CMItems.STONE_HAMMER.get()
             },
-            CMExtendedToolTiers.IRON, new Item[]{ 
+            Tiers.IRON, new Item[]{ 
                     CMItems.IRON_SPEAR.get(), 
                     CMItems.IRON_GLAIVE.get(), 
                     CMItems.IRON_DAGGER.get(), 
@@ -51,7 +50,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                     CMItems.IRON_MACE.get(),
                     CMItems.IRON_HAMMER.get()    
             },
-            CMExtendedToolTiers.GOLD, new Item[]{ 
+            Tiers.GOLD, new Item[]{ 
                     CMItems.GOLDEN_SPEAR.get(), 
                     CMItems.GOLDEN_GLAIVE.get(), 
                     CMItems.GOLDEN_DAGGER.get(), 
@@ -60,7 +59,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                     CMItems.GOLDEN_MACE.get(),
                     CMItems.GOLDEN_HAMMER.get()
             },
-            CMExtendedToolTiers.DIAMOND, new Item[]{ 
+            Tiers.DIAMOND, new Item[]{ 
                     CMItems.DIAMOND_SPEAR.get(), 
                     CMItems.DIAMOND_GLAIVE.get(), 
                     CMItems.DIAMOND_DAGGER.get(), 
@@ -77,8 +76,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
 
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
-        for (IExtendedTier tier : CMExtendedToolTiers.values()) {
-            if (tier == CMExtendedToolTiers.NETHERITE) continue;
+        for (Tiers tier : Tiers.values()) {
+            if (tier == Tiers.NETHERITE) continue;
             spear(recipeOutput, tier);
             glaive(recipeOutput, tier);
             dagger(recipeOutput, tier);
@@ -89,7 +88,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
         }
     }
 
-    private static void weapon(RecipeOutput recipeOutput, IExtendedTier tier,
+    private static void weapon(RecipeOutput recipeOutput, Tier tier,
                                ModConfigSpec.BooleanValue config, int outputIndex,
                                String... pattern) {
         Ingredient material = getMaterial(tier);
@@ -105,48 +104,48 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
                 .save(recipeOutput.withConditions(new ItemConfigCondition(config)));
     }
 
-    protected static void spear(RecipeOutput recipeOutput, IExtendedTier tier) {
+    protected static void spear(RecipeOutput recipeOutput, Tier tier) {
         weapon(recipeOutput, tier, CMItemConfig.SPEAR_ITEMS, 0, 
                 " MM", 
                 " SM", 
                 "S  "
         );
     }
-    protected static void glaive(RecipeOutput recipeOutput, IExtendedTier tier) {
+    protected static void glaive(RecipeOutput recipeOutput, Tier tier) {
         weapon(recipeOutput, tier, CMItemConfig.GLAIVE_ITEMS, 1, 
                 " MM", 
                 "MS ", 
                 "S  "
         );
     }
-    protected static void dagger(RecipeOutput recipeOutput, IExtendedTier tier) {
+    protected static void dagger(RecipeOutput recipeOutput, Tier tier) {
         weapon(recipeOutput, tier, CMItemConfig.DAGGER_ITEMS, 2, 
                 " M", 
                 "S "
         );
     }
-    protected static void lance(RecipeOutput recipeOutput, IExtendedTier tier) {
+    protected static void lance(RecipeOutput recipeOutput, Tier tier) {
         weapon(recipeOutput, tier, CMItemConfig.LANCE_ITEMS, 3, 
                 "  M", 
                 "MM ", 
                 "SM "
         );
     }
-    protected static void javelin(RecipeOutput recipeOutput, IExtendedTier tier) {
+    protected static void javelin(RecipeOutput recipeOutput, Tier tier) {
         weapon(recipeOutput, tier, CMItemConfig.JAVELIN_ITEMS, 4, 
                 "  M", 
                 " S ", 
                 "S  "
         );
     }
-    protected static void mace(RecipeOutput recipeOutput, IExtendedTier tier) {
+    protected static void mace(RecipeOutput recipeOutput, Tier tier) {
         weapon(recipeOutput, tier, CMItemConfig.MACE_ITEMS, 5, 
                 " MM", 
                 " MM", 
                 "S  "
         );
     }
-    protected static void hammer(RecipeOutput recipeOutput, IExtendedTier tier) {
+    protected static void hammer(RecipeOutput recipeOutput, Tier tier) {
         weapon(recipeOutput, tier, CMItemConfig.HAMMER_ITEMS, 6,
                 " M ",
                 "MMM",
@@ -154,13 +153,13 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
         );
     }
     
-    private static Ingredient getMaterial(IExtendedTier tier) {
+    private static Ingredient getMaterial(Tier tier) {
         return switch (tier) {
-            case CMExtendedToolTiers.WOOD -> Ingredient.of(ItemTags.PLANKS);
-            case CMExtendedToolTiers.STONE -> Ingredient.of(ItemTags.STONE_TOOL_MATERIALS);
-            case CMExtendedToolTiers.IRON -> Ingredient.of(Items.IRON_INGOT);
-            case CMExtendedToolTiers.GOLD -> Ingredient.of(Items.GOLD_INGOT);
-            case CMExtendedToolTiers.DIAMOND -> Ingredient.of(Items.DIAMOND);
+            case Tiers.WOOD -> Ingredient.of(ItemTags.PLANKS);
+            case Tiers.STONE -> Ingredient.of(ItemTags.STONE_TOOL_MATERIALS);
+            case Tiers.IRON -> Ingredient.of(Items.IRON_INGOT);
+            case Tiers.GOLD -> Ingredient.of(Items.GOLD_INGOT);
+            case Tiers.DIAMOND -> Ingredient.of(Items.DIAMOND);
             default -> null;
         };
     }

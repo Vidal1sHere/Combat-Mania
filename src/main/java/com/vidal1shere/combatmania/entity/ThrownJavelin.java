@@ -79,18 +79,6 @@ public class ThrownJavelin extends AbstractArrow implements GeoEntity {
                 pickupItemStack.getItem() instanceof TieredItem tiered ? tiered.getTier() : Tiers.IRON);
     }
 
-    public Tier getTier() {
-        return CMUtil.tierFromName(this.entityData.get(DATA_TIER));
-    }
-
-    public ResourceLocation getModelResource() {
-        return CMUtil.modResLoc("geo/projectile/" + (CMUtil.isWoodTier(getTier()) ? "wooden_javelin" : "javelin") + ".geo.json");
-    }
-
-    public ResourceLocation getTextureResource() {
-        return CMUtil.modResLoc("textures/item/" + this.entityData.get(DATA_TIER) + "_javelin_in_hand.png");
-    }
-
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);

@@ -6,7 +6,7 @@
   "overrides": [
     {
       "predicate": { "combat_mania:mace_3d": 1 },
-      "model": "combat_mania:item/diamond_mace_3d"
+      "model": "combat_mania:item/mace/diamond_mace"
     }
   ]
 }

@@ -1,0 +1,10 @@
+{
+  "parent": "combat_mania:item/handheld/item_32",
+  "display": {
+    "strikeapi:back": {
+      "rotation": [ 180, 0, 141 ],
+      "translation": [ -5.8, 5.0, 0 ],
+      "scale": [ 1.7, 1.7, 1 ]
+    }
+  }
+}

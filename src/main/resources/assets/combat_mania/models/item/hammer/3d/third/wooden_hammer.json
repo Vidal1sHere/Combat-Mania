@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:item/handheld_mace",
+  "loader": "jasper:animated",
+  "model": "combat_mania:tiered_hammer",
+  "texture": "combat_mania:textures/item/wooden_hammer_head.png",
+  "textures": {
+    "particle": "combat_mania:item/wooden_hammer"
+  },
+  "attachments": {
+    "handle": {
+      "model": "combat_mania:item/hammer/3d/wooden_hammer_handle",
+      "bone": "handle",
+      "rotation": [0, 0, 45]
+    }
+  }
+}
