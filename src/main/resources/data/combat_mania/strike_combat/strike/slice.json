@@ -37,6 +37,9 @@
         "animation": {
             "item": "combat_mania:blade/sweep",
             "player": "combat_mania:two_handed_blade/sweep"
+        },
+        "effects": {
+            "sweep": ["minecraft:sweep_sound", "combat_mania:sweep_attack"]
         }
     }
 }

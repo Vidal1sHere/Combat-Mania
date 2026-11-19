@@ -16,7 +16,7 @@
         "direction": "forward"
     },
     "effects": {
-        "swing": ["minecraft:sweep_attack", "minecraft:sweep_sound"],
+        "swing": ["combat_mania:sweep_attack", "minecraft:sweep_sound"],
         "strong": [],
         "weak": []
     }
