@@ -1,0 +1,8 @@
+{
+  "type": "strikeapi:group",
+  "effects": [
+    "combat_mania:parry_flash", 
+    "combat_mania:parry_hit_stop",
+    "minecraft:strong_sound"
+  ]
+}

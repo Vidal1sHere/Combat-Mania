@@ -1,11 +1,11 @@
 {
-  "parent": "minecraft:item/handheld",
   "base": {
-    "parent": "combat_mania:item/handheld/spear",
+    "parent": "combat_mania:item/handheld/glaive",
     "textures": {
       "layer0": "combat_mania:item/golden_glaive_in_hand"
     }
   },
+  "gui_light": "front",
   "loader": "neoforge:separate_transforms",
   "perspectives": {
     "fixed": {
@@ -26,5 +26,8 @@
         "layer0": "combat_mania:item/golden_glaive"
       }
     }
+  },
+  "textures": {
+    "particle": "combat_mania:item/golden_glaive"
   }
 }

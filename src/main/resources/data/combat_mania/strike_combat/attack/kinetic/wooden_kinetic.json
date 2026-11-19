@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:kinetic",
+  "name": "Kinetic Attack",
+  "stages": [
+    {
+      "id": "charging",
+      "duration": 15
+    },
+    {
+      "id": "engaged",
+      "duration": 101,
+      "active": ["damage", "knockback", "dismount"]
+    },
+    {
+      "id": "tired",
+      "duration": 100,
+      "active": ["damage", "knockback"]
+    },
+    {
+      "id": "disengaged",
+      "duration": 100,
+      "active": ["damage"]
+    }
+  ],
+  "relative_speed": {
+    "min_for_dismount": 14.0,
+    "damage_multiplier": 0.7
+  },
+  "effects": {
+    "swing": ["strikeapi:wooden_spear_use"],
+    "landed": ["strikeapi:wooden_spear_hit"]
+  }
+}

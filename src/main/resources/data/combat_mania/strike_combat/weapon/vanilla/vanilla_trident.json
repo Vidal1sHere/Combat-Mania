@@ -1,0 +1,8 @@
+{
+  "neoforge:conditions": [{
+    "type": "strikeapi:config",
+    "mod": "combat_mania",
+    "config": "modifyVanillaTrident"
+  }],
+  "parent": "combat_mania:base/trident"
+}

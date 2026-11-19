@@ -1,0 +1,20 @@
+{
+    "type": "strikeapi:melee",
+    "name": "Uppercut Attack",
+    "cooldown": {
+        "min_to_use": 1.0
+    },
+    "knockback": {
+        "direction": "up"
+    },
+    "sweep": {
+        "effect_threshold": 0.0,
+        "radius": 0.5,
+        "height": 2.5,
+        "require_on_ground": false,
+        "require_hit": true
+    },
+    "effects": {
+        "sweep": ["strikeapi:sweep_sound", "combat_mania:uppercut_attack"]
+    }
+}

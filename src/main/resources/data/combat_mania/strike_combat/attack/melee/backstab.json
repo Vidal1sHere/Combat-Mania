@@ -1,0 +1,8 @@
+{
+    "type": "strikeapi:melee",
+    "name": "Backstab Attack",
+    "critical": {
+        "multiplier": 0.59375,
+        "per_weapon_damage": 0.48125
+    }
+}

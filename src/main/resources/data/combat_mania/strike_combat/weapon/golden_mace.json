@@ -1,0 +1,7 @@
+{
+    "parent": "combat_mania:base/mace",
+    "primary": {
+        "parent": "minecraft:smash",
+        "default": "combat_mania:melee/blunt/tier/golden_blunt"
+    }
+}

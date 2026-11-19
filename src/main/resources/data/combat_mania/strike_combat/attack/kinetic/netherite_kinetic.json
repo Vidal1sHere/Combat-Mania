@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:kinetic",
+  "name": "Kinetic Attack",
+  "stages": [
+    {
+      "id": "charging",
+      "duration": 8
+    },
+    {
+      "id": "engaged",
+      "duration": 51,
+      "active": ["damage", "knockback", "dismount"]
+    },
+    {
+      "id": "tired",
+      "duration": 60,
+      "active": ["damage", "knockback"]
+    },
+    {
+      "id": "disengaged",
+      "duration": 65,
+      "active": ["damage"]
+    }
+  ],
+  "relative_speed": {
+    "min_for_dismount": 9.0,
+    "damage_multiplier": 1.2
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "grip": "two_handed",
+    "click_priority": "exclusive",
+    "primary": "combat_mania:great_slash",
+    "secondary": "combat_mania:spin",
+    "arm_pose": "combat_mania:trailing_blade/hold"
+}

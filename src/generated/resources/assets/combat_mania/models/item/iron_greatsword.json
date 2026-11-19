@@ -1,0 +1,33 @@
+{
+  "base": {
+    "parent": "combat_mania:item/handheld/greatsword",
+    "textures": {
+      "layer0": "combat_mania:item/iron_greatsword_in_hand"
+    }
+  },
+  "gui_light": "front",
+  "loader": "neoforge:separate_transforms",
+  "perspectives": {
+    "fixed": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/iron_greatsword"
+      }
+    },
+    "ground": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/iron_greatsword"
+      }
+    },
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "combat_mania:item/iron_greatsword"
+      }
+    }
+  },
+  "textures": {
+    "particle": "combat_mania:item/iron_greatsword"
+  }
+}

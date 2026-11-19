@@ -1,0 +1,13 @@
+{
+    "parent": "combat_mania:base/rapier",
+    "primary": {
+        "parent": "combat_mania:flurry",
+        "default": {
+            "attack": {
+                "times": {
+                    "max": 4
+                }
+            }
+        }
+    }
+}

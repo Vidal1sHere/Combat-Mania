@@ -1,0 +1,9 @@
+{
+    "primary": "combat_mania:stab",
+    "dual_wield": {
+        "right_click": {
+            "mode": "off_hand",
+            "off_hand_strike": "primary"
+        }
+    }
+}

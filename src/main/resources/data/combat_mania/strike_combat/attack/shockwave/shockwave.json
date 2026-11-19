@@ -1,0 +1,39 @@
+{
+    "type": "strikeapi:shockwave",
+    "name": "Shockwave Attack",
+    "cooldown": {
+        "min_to_use": 0.6
+    },
+    "targeting": {
+        "entities": "ground",
+        "miss": {
+            "mode": "ahead",
+            "range": 2.0
+        }
+    },
+    "shockwave": {
+        "size": 5,
+        "falloff": {
+            "mode": "radial",
+            "edge_multiplier": 0.5
+        },
+        "smash_scaling": {
+            "per_block": 0.5,
+            "max_size": 9
+        }
+    },
+    "critical": {
+        "condition": {
+            "type": "strikeapi:falling"
+        }
+    },
+    "smash": {},
+    "effects": {
+        "impact": [
+            {
+                "type": "strikeapi:sound",
+                "sound": "minecraft:item.mace.smash_ground"
+            }
+        ]
+    }
+}

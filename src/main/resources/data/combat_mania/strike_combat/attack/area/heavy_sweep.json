@@ -1,0 +1,23 @@
+{
+    "type": "strikeapi:area",
+    "name": "Heavy Sweep Attack",
+    "cooldown": {
+        "min_to_use": 1.0
+    },
+    "damage": {
+        "damage_type": "minecraft:player_attack"
+    },
+    "area": {
+        "radius": 3.0,
+        "through_walls": true
+    },
+    "knockback": {
+        "bonus": 1.0,
+        "direction": "forward"
+    },
+    "effects": {
+        "swing": ["strikeapi:sweep_attack", "strikeapi:sweep_sound"],
+        "strong": [],
+        "weak": []
+    }
+}

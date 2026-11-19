@@ -1,8 +1,0 @@
-{
-  "neoforge:conditions": [{
-    "type": "strikeapi:config",
-    "mod": "combat_mania",
-    "config": "modifyVanillaAxes"
-  }],
-  "parent": "strikeapi:axe"
-}

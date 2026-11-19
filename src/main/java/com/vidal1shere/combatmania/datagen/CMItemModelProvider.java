@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.registry.item.CMItems;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -50,30 +51,48 @@ public class CMItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        handheldDagger(CMItems.WOODEN_DAGGER);
-        handheldDagger(CMItems.STONE_DAGGER);
-        handheldDagger(CMItems.GOLDEN_DAGGER);
-        handheldDagger(CMItems.IRON_DAGGER);
-        handheldDagger(CMItems.DIAMOND_DAGGER);
-        
-        glaiveItem(CMItems.WOODEN_GLAIVE);
-        glaiveItem(CMItems.STONE_GLAIVE);
-        glaiveItem(CMItems.GOLDEN_GLAIVE);
-        glaiveItem(CMItems.IRON_GLAIVE);
-        glaiveItem(CMItems.DIAMOND_GLAIVE);
+        daggerItem(CMItems.WOODEN_DAGGER);
+        daggerItem(CMItems.STONE_DAGGER);
+        daggerItem(CMItems.GOLDEN_DAGGER);
+        daggerItem(CMItems.IRON_DAGGER);
+        daggerItem(CMItems.DIAMOND_DAGGER);
 
-        lanceItem(CMItems.WOODEN_LANCE);
-        lanceItem(CMItems.STONE_LANCE);
-        lanceItem(CMItems.GOLDEN_LANCE);
-        lanceItem(CMItems.IRON_LANCE);
-        lanceItem(CMItems.DIAMOND_LANCE);
-        
-        spearItem(CMItems.WOODEN_SPEAR);
-        spearItem(CMItems.STONE_SPEAR);
-        spearItem(CMItems.GOLDEN_SPEAR);
-        spearItem(CMItems.IRON_SPEAR);
-        spearItem(CMItems.DIAMOND_SPEAR);
-        spearItem(CMItems.NETHERITE_SPEAR);
+        separateTransformsItem(CMItems.WOODEN_GLAIVE, "glaive");
+        separateTransformsItem(CMItems.STONE_GLAIVE, "glaive");
+        separateTransformsItem(CMItems.GOLDEN_GLAIVE, "glaive");
+        separateTransformsItem(CMItems.IRON_GLAIVE, "glaive");
+        separateTransformsItem(CMItems.DIAMOND_GLAIVE, "glaive");
+
+        separateTransformsItem(CMItems.WOODEN_GREATSWORD, "greatsword");
+        separateTransformsItem(CMItems.STONE_GREATSWORD, "greatsword");
+        separateTransformsItem(CMItems.GOLDEN_GREATSWORD, "greatsword");
+        separateTransformsItem(CMItems.IRON_GREATSWORD, "greatsword");
+        separateTransformsItem(CMItems.DIAMOND_GREATSWORD, "greatsword");
+
+        separateTransformsItem(CMItems.WOODEN_KATANA, "katana");
+        separateTransformsItem(CMItems.STONE_KATANA, "katana");
+        separateTransformsItem(CMItems.GOLDEN_KATANA, "katana");
+        separateTransformsItem(CMItems.IRON_KATANA, "katana");
+        separateTransformsItem(CMItems.DIAMOND_KATANA, "katana");
+
+        separateTransformsItem(CMItems.WOODEN_LANCE, "lance");
+        separateTransformsItem(CMItems.STONE_LANCE, "lance");
+        separateTransformsItem(CMItems.GOLDEN_LANCE, "lance");
+        separateTransformsItem(CMItems.IRON_LANCE, "lance");
+        separateTransformsItem(CMItems.DIAMOND_LANCE, "lance");
+
+        separateTransformsItem(CMItems.WOODEN_RAPIER, "item_32");
+        separateTransformsItem(CMItems.STONE_RAPIER, "item_32");
+        separateTransformsItem(CMItems.GOLDEN_RAPIER, "item_32");
+        separateTransformsItem(CMItems.IRON_RAPIER, "item_32");
+        separateTransformsItem(CMItems.DIAMOND_RAPIER, "item_32");
+
+        separateTransformsItem(CMItems.WOODEN_SPEAR, "spear");
+        separateTransformsItem(CMItems.STONE_SPEAR, "spear");
+        separateTransformsItem(CMItems.GOLDEN_SPEAR, "spear");
+        separateTransformsItem(CMItems.IRON_SPEAR, "spear");
+        separateTransformsItem(CMItems.DIAMOND_SPEAR, "spear");
+        separateTransformsItem(CMItems.NETHERITE_SPEAR, "spear");
 
         javelinItem(CMItems.WOODEN_JAVELIN);
         javelinItem(CMItems.STONE_JAVELIN);
@@ -106,17 +125,13 @@ public class CMItemModelProvider extends ItemModelProvider {
                 ResourceLocation trimResLoc = ResourceLocation.parse(trimPath); // minecraft namespace
                 ResourceLocation trimNameResLoc = ResourceLocation.parse(currentTrimName);
 
-                // This is used for making the ExistingFileHelper acknowledge that this texture exist, so this will
-                // avoid an IllegalArgumentException
                 existingFileHelper.trackGenerated(trimResLoc, PackType.CLIENT_RESOURCES, ".png", "textures");
 
-                // Trimmed armorItem files
                 getBuilder(currentTrimName)
                         .parent(new ModelFile.UncheckedModelFile("item/generated"))
                         .texture("layer0", armorItemResLoc.getNamespace() + ":item/" + armorItemResLoc.getPath())
                         .texture("layer1", trimResLoc);
 
-                // Non-trimmed armorItem file (normal variant)
                 this.withExistingParent(itemDeferredItem.getId().getPath(),
                                 mcLoc("item/generated"))
                         .override()
@@ -147,77 +162,42 @@ public class CMItemModelProvider extends ItemModelProvider {
                 ResourceLocation.parse("item/handheld")).texture("layer0", CMUtil.modResLoc("item/" + item.getId().getPath()));
     }
 
-    private ItemModelBuilder handheldDagger(DeferredItem<?> item) {
-        return withExistingParent(item.getId().getPath(),
-                CMUtil.modResLoc("item/handheld/dagger"))
-                .texture("layer0", CMUtil.modResLoc("item/" + item.getId().getPath()));
+    private void daggerItem(DeferredItem<?> item) {
+        String itemName = item.getId().getPath();
+        withExistingParent(itemName, CMUtil.modResLoc("item/handheld/dagger"))
+                .texture("layer0", CMUtil.modResLoc("item/" + itemName));
     }
 
-    private void glaiveItem(DeferredItem<?> item) {
-        handheldTransformedItem(item, "glaive", "spear");
+    // The game only looks for an item model at item/<id>, so the full model goes there
+    private void separateTransformsItem(DeferredItem<?> item, String handheld) {
+        String itemName = item.getId().getPath();
+        separateTransformsModel(itemName, itemName, handheld);
     }
 
-    private void spearItem(DeferredItem<?> item) {
-        handheldTransformedItem(item, "spear", "spear");
+    // A flat icon in the GUI, on the ground and in frames, the in hand texture on the handheld base everywhere else
+    private ItemModelBuilder separateTransformsModel(String path, String itemName, String handheld) {
+        ResourceLocation texture = CMUtil.modResLoc("item/" + itemName);
+        ResourceLocation inHandTexture = CMUtil.modResLoc("item/" + itemName + "_in_hand");
+        ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld/" + handheld);
+        // No parent on purpose: a chain ending in item/generated is rebuilt by the item model generator, which keeps only
+        // the loader written in the model itself. Same layout as the hammer models
+        return getBuilder(path)
+                .guiLight(BlockModel.GuiLight.FRONT)
+                .texture("particle", texture)
+                .customLoader((parent, existingFileHelper) ->
+                        new InlineSeparateTransformsModelBuilder(parent, existingFileHelper, inHandBase, inHandTexture, texture))
+                .end();
     }
 
-    private void lanceItem(DeferredItem<?> item) {
-        handheldTransformedItem(item, "lance", "lance");
-    }
-
+    // A spear with a throwing pose, kept in item/javelin since it is not the item model itself
     private void javelinItem(DeferredItem<?> item) {
         String itemName = item.getId().getPath();
-        ResourceLocation texture = CMUtil.modResLoc("item/" + itemName);
-        ResourceLocation inHandTexture = CMUtil.modResLoc("item/" + itemName + "_in_hand");
-        ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld/spear");
-        ResourceLocation throwingBase = CMUtil.modResLoc("item/handheld/spear_throwing");
-
-        this.withExistingParent("item/javelin/" + itemName + "_in_hand", inHandBase).texture("layer0", inHandTexture);
-
-        this.getBuilder(itemName).customLoader((parent, existingFileHelper) ->
-                new InlineSeparateTransformsModelBuilder(parent, existingFileHelper, inHandBase, inHandTexture, texture, json -> {
-                    JsonArray overrides = new JsonArray();
-                    JsonObject override = new JsonObject();
-                    JsonObject predicate = new JsonObject();
-
-                    predicate.addProperty("minecraft:throwing", 1);
-                    override.add("predicate", predicate);
-                    override.addProperty("model", "combat_mania:item/javelin/" + itemName + "_throwing");
-
-                    overrides.add(override);
-                    json.add("overrides", overrides);
-                })
-        );
-
-        this.getBuilder("item/javelin/" + itemName + "_throwing").customLoader((parent, existingFileHelper) ->
-                new InlineSeparateTransformsModelBuilder(parent, existingFileHelper, throwingBase, inHandTexture, texture)
-        );
-    }
-
-    private void handheldTransformedItem(DeferredItem<?> item, String folder, String handHeldName) {
-        handheldTransformedItem(item, folder, handHeldName, j -> {});
-    }
-
-    private void handheldTransformedItem(DeferredItem<?> item, String folder, String handHeldName, Consumer<JsonObject> mutator) {
-        String itemName = item.getId().getPath();
-        ResourceLocation texture = CMUtil.modResLoc("item/" + itemName);
-        ResourceLocation inHandTexture = CMUtil.modResLoc("item/" + itemName + "_in_hand");
-        ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld/" + handHeldName);
-
-        this.withExistingParent("item/" + folder + "/" + itemName + "_in_hand", inHandBase)
-                .texture("layer0", inHandTexture);
-
-        this.getBuilder(itemName)
-                .customLoader((parent, existingFileHelper) ->
-                        new InlineSeparateTransformsModelBuilder(
-                                parent,
-                                existingFileHelper,
-                                inHandBase,
-                                inHandTexture,
-                                texture,
-                                mutator
-                        )
-                );
+        separateTransformsModel("item/javelin/" + itemName + "_throwing", itemName, "spear_throwing");
+        separateTransformsModel(itemName, itemName, "spear")
+                .override()
+                .predicate(mcLoc("throwing"), 1)
+                .model(new ModelFile.UncheckedModelFile(CMUtil.modResLoc("item/javelin/" + itemName + "_throwing")))
+                .end();
     }
 
     private void bowItem(DeferredItem<?> item) {
@@ -307,7 +287,6 @@ public class CMItemModelProvider extends ItemModelProvider {
 
         @Override
         public JsonObject toJson(JsonObject json) {
-            json.addProperty("parent", "minecraft:item/handheld");
             json.add("base", createInHandModel());
             json.addProperty("loader", "neoforge:separate_transforms");
 

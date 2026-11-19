@@ -1,17 +1,17 @@
 {
-  "parent": "minecraft:item/handheld",
   "base": {
     "parent": "combat_mania:item/handheld/spear",
     "textures": {
       "layer0": "combat_mania:item/golden_javelin_in_hand"
     }
   },
+  "gui_light": "front",
   "loader": "neoforge:separate_transforms",
   "overrides": [
     {
       "model": "combat_mania:item/javelin/golden_javelin_throwing",
       "predicate": {
-        "minecraft:throwing": 1
+        "minecraft:throwing": 1.0
       }
     }
   ],
@@ -34,5 +34,8 @@
         "layer0": "combat_mania:item/golden_javelin"
       }
     }
+  },
+  "textures": {
+    "particle": "combat_mania:item/golden_javelin"
   }
 }

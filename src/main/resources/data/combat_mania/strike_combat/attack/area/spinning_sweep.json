@@ -1,0 +1,22 @@
+{
+    "type": "strikeapi:area",
+    "name": "Spinning Sweep Attack",
+    "cooldown": {
+        "attribute": "strikeapi:secondary_attack_speed",
+        "min_to_use": 1.0
+    },
+    "area": {
+        "falloff": {
+            "mode": "radial"
+        }
+    },
+    "knockback": {
+        "bonus": 1.0,
+        "condition": {
+            "type": "strikeapi:last_repeat"
+        }
+    },
+    "effects": {
+        "swing": ["strikeapi:sweep_sound"]
+    }
+}

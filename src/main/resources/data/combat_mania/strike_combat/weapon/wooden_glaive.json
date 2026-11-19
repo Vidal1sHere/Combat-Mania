@@ -1,0 +1,43 @@
+{
+    "parent": "combat_mania:base/glaive",
+    "primary": {
+        "parent": "combat_mania:gash",
+        "attacks": [
+            {
+                "condition": {
+                    "type": "strikeapi:combo",
+                    "value": 2
+                },
+                "attack": {
+                    "parent": "strikeapi:pierce/wooden_pierce",
+                    "name": "Pierce Attack",
+                    "cooldown": {
+                        "min_to_use": 0.9
+                    },
+                    "tempo": "attack_speed",
+                    "animation": {
+                        "item": "strikeapi:polearm/jab",
+                        "player": "strikeapi:two_handed_polearm/jab"
+                    }
+                }
+            },
+            {
+                "condition": {
+                    "type": "strikeapi:combo",
+                    "value": 3
+                },
+                "attack": {
+                    "parent": "combat_mania:melee/strong_overhead",
+                    "cooldown": {
+                        "min_to_use": 0.9
+                    },
+                    "tempo": "attack_speed",
+                    "animation": {
+                        "item": "minecraft:polearm/whack",
+                        "player": "combat_mania:two_handed_polearm/whack"
+                    }
+                }
+            }
+        ]
+    }
+}

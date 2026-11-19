@@ -1,0 +1,11 @@
+{
+    "parent": "minecraft:pierce",
+    "name": "Weak Pierce Attack",
+    "knockback": {
+        "bonus": 0.4
+    },
+    "reach": {
+        "min": 0.0,
+        "max": 3.0
+    }
+}

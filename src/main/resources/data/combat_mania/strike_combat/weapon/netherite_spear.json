@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:spear",
+  "secondary": {
+    "parent": "minecraft:joust",
+    "default": {
+      "parent": "combat_mania:kinetic/netherite_kinetic",
+      "animation": {
+        "item": "minecraft:polearm/joust",
+        "player": "minecraft:polearm/joust"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "name": "Great Slash Strike",
+    "input": {
+        "cancel_by_input": false
+    },
+    "default": {
+        "type": "strikeapi:delayed",
+        "name": "Great Slash Attack",
+        "delay": 11,
+        "linger": 17,
+        "animation": {
+            "item": "combat_mania:blade/heavy_sweep",
+            "player": "combat_mania:trailing_blade/sweep"
+        },
+        "attack": "combat_mania:area/heavy_sweep"
+    }
+}

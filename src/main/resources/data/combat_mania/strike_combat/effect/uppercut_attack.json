@@ -1,0 +1,11 @@
+{
+  "type": "strikeapi:particles",
+  "particle": {
+    "type": "combat_mania:right_short_uppercut_attack"
+  },
+  "position": {
+    "anchor": "attacker_center",
+    "offset": [0, 1, 1],
+    "frame": "facing"
+  }
+}

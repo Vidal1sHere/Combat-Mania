@@ -1,0 +1,30 @@
+{
+    "name": "Stab Strike",
+    "attacks": [
+        {
+            "condition": {
+                "type": "strikeapi:behind_target"
+            },
+            "attack": {
+                "parent": "combat_mania:melee/backstab",
+                "animation": {
+                    "item": "combat_mania:short_blade/backstab",
+                    "player": "combat_mania:short_blade/backstab"
+                }
+            }
+        },
+        {
+            "condition": {
+                "type": "strikeapi:crouching"
+            },
+            "attack": "combat_mania:melee/short_sweep"
+        }
+    ],
+    "default": {
+        "parent": "combat_mania:pierce/short_pierce",
+        "animation": {
+            "item": "combat_mania:short_blade/stab",
+            "player": "combat_mania:short_blade/stab"
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "type": "strikeapi:melee",
+    "name": "Short Sweep Attack",
+    "sweep": {
+        "effect_threshold": 0.0,
+        "radius": 0.6,
+        "knockback": 0.1,
+        "require_on_ground": false
+    }
+}

@@ -1,31 +1,20 @@
 package com.vidal1shere.combatmania.registry.item;
 
-import com.mojang.serialization.MapCodec;
 import com.vidal1shere.combatmania.CombatMania;
-import com.vidal1shere.combatmania.config.ItemConfigCondition;
 import com.vidal1shere.combatmania.item.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.Collection;
-import java.util.function.Supplier;
 
 public class CMItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CombatMania.MOD_ID);
-
-    public static final DeferredRegister<MapCodec<? extends ICondition>> CONDITION_CODECS =
-            DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, CombatMania.MOD_ID);
-
-    public static final Supplier<MapCodec<ItemConfigCondition>> ITEM_CONFIG_ENABLED_CONDITION =
-            CONDITION_CODECS.register("item_config_enabled", () -> ItemConfigCondition.CODEC);
-
+    
     public static final DeferredItem<DaggerItem> WOODEN_DAGGER = ITEMS.register(
             "wooden_dagger", () -> new DaggerItem(Tiers.WOOD, new Item.Properties()
                     .attributes(DaggerItem.createAttributes(Tiers.WOOD, 2.0F, -2.0F)))
@@ -255,6 +244,31 @@ public class CMItems {
             "diamond_hammer", () -> new HammerItem(Tiers.DIAMOND, new Item.Properties()
                     .attributes(HammerItem.createAttributes(Tiers.DIAMOND, 1.0F, -3.2F)))
     );
+
+    public static final DeferredItem<GreatswordItem> WOODEN_GREATSWORD = ITEMS.register(
+        "wooden_greatsword", () -> new GreatswordItem(Tiers.WOOD, new Item.Properties()
+            .attributes(GreatswordItem.createAttributes(Tiers.WOOD, 3.5F, -2.8F, -3.1F)))
+    );
+
+    public static final DeferredItem<GreatswordItem> STONE_GREATSWORD = ITEMS.register(
+        "stone_greatsword", () -> new GreatswordItem(Tiers.STONE, new Item.Properties()
+            .attributes(GreatswordItem.createAttributes(Tiers.STONE, 3.5F, -2.9F, -3.2F)))
+    );
+
+    public static final DeferredItem<GreatswordItem> GOLDEN_GREATSWORD = ITEMS.register(
+        "golden_greatsword", () -> new GreatswordItem(Tiers.GOLD, new Item.Properties()
+            .attributes(GreatswordItem.createAttributes(Tiers.GOLD, 3.5F, -3.0F, -3.3F)))
+    );
+
+    public static final DeferredItem<GreatswordItem> IRON_GREATSWORD = ITEMS.register(
+        "iron_greatsword", () -> new GreatswordItem(Tiers.IRON, new Item.Properties()
+            .attributes(GreatswordItem.createAttributes(Tiers.IRON, 3.5F, -3.1F, -3.4F)))
+    );
+
+    public static final DeferredItem<GreatswordItem> DIAMOND_GREATSWORD = ITEMS.register(
+        "diamond_greatsword", () -> new GreatswordItem(Tiers.DIAMOND, new Item.Properties()
+            .attributes(GreatswordItem.createAttributes(Tiers.DIAMOND, 3.5F, -3.2F, -3.5F)))
+    );
     
     public static Collection<DeferredHolder<Item, ? extends Item>> getItems() {
         return ITEMS.getEntries();
@@ -262,6 +276,5 @@ public class CMItems {
     
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
-        CONDITION_CODECS.register(eventBus);
     }
 }

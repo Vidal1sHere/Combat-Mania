@@ -1,0 +1,19 @@
+{
+    "name": "Slam Strike",
+    "input": {
+        "phase": "hold",
+        "cancel_by_input": false
+    },
+    "combo": {
+        "length": 1,
+        "reset_ticks": 40
+    },
+    "default": {
+        "parent": "combat_mania:shockwave/shockwave",
+        "tempo": "attack_speed",
+        "animation": {
+            "item": "combat_mania:blunt/whack",
+            "player": "combat_mania:two_handed_blunt/slam"
+        }
+    }
+}

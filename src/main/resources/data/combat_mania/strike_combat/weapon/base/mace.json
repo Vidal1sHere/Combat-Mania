@@ -1,0 +1,6 @@
+{
+  "primary": {
+    "parent": "minecraft:smash",
+    "default": "combat_mania:melee/blunt/blunt"
+  }
+}

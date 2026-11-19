@@ -6,7 +6,7 @@
         "type": "strikeapi:falling"
       },
       "attack": {
-        "parent": "strikeapi:melee/overhead",
+        "parent": "minecraft:overhead",
         "effects": {
           "critical_target": ["strikeapi:critical_hit", "combat_mania:overhead_attack"]
         }
@@ -16,8 +16,8 @@
       "condition": {
         "type": "strikeapi:sprinting"
       },
-      "attack": "strikeapi:melee/thrust"
+      "attack": "minecraft:thrust"
     }
   ],
-  "default": "strikeapi:melee/melee"
+  "default": "minecraft:melee"
 }

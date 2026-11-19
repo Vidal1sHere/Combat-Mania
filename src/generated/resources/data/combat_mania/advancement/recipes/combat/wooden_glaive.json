@@ -1,9 +1,4 @@
 {
-  "neoforge:conditions": [
-    {
-      "type": "combat_mania:item_config_enabled"
-    }
-  ],
   "parent": "minecraft:recipes/root",
   "criteria": {
     "has_stick": {

@@ -1,0 +1,35 @@
+{
+    "parent": "combat_mania:base/hammer",
+    "primary": {
+        "parent": "combat_mania:slam",
+        "combo": {
+            "length": 4
+        },
+        "attacks": [
+            {
+                "condition": {
+                    "type": "strikeapi:last_combo_hit"
+                },
+                "attack": {
+                    "type": "strikeapi:delayed",
+                    "delay": 1.6,
+                    "linger": 12.8,
+                    "attack": "strikeapi:shockwave/tier/diamond_heavy_shockwave",
+                    "tempo": "attack_speed",
+                    "animation": {
+                        "item": "combat_mania:blunt/whack",
+                        "player": "combat_mania:two_handed_blunt/slam"
+                    }
+                }
+            }
+        ],
+        "default": {
+            "parent": "combat_mania:shockwave/tier/diamond_shockwave",
+            "tempo": "attack_speed",
+            "animation": {
+                "item": "combat_mania:blunt/whack",
+                "player": "combat_mania:two_handed_blunt/slam"
+            }
+        }
+    }
+}

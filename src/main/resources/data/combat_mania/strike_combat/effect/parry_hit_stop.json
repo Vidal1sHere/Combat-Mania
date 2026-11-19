@@ -1,0 +1,8 @@
+{
+    "type": "strikeapi:client_effect",
+    "viewers": "attacker",
+    "effect": {
+        "type": "hit_stop",
+        "duration": 100
+    }
+}

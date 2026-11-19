@@ -3,7 +3,6 @@ package com.vidal1shere.combatmania;
 import com.mojang.logging.LogUtils;
 import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.config.CMCommonConfig;
-import com.vidal1shere.combatmania.config.CMItemConfig;
 import com.vidal1shere.combatmania.registry.block.CMBlocks;
 import com.vidal1shere.combatmania.registry.data.CMAttributes;
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
@@ -26,7 +25,6 @@ public class CombatMania {
     
     public CombatMania(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, CMCommonConfig.SPEC);
-        modContainer.registerConfig(ModConfig.Type.COMMON, CMItemConfig.SPEC, "combatmania-items.toml");
         modContainer.registerConfig(ModConfig.Type.CLIENT, CMClientConfig.SPEC);
         
         NeoForge.EVENT_BUS.register(this);

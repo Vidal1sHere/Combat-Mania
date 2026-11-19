@@ -1,0 +1,61 @@
+{
+    "name": "Flurry Strike",
+    "input": {
+        "phase": "hold",
+        "cancel_by_input": false
+    },
+    "default": {
+        "type": "strikeapi:charged",
+        "name": "Poke Attack",
+        "min": 0,
+        "max": 40,
+        "fire_at_max": false,
+        "animation": {
+            "item": "combat_mania:fencing/charge",
+            "player": "combat_mania:fencing/charge"
+        },
+        "attack": {
+            "type": "strikeapi:repeat",
+            "times": {
+                "type": "strikeapi:ramp",
+                "input": "charge_progress",
+                "to": 1,
+                "min": 1,
+                "max": 5
+            },
+            "interval": 10,
+            "tempo": "attack_speed",
+            "stages": {
+                "run": {
+                    "animation": {
+                        "item": "combat_mania:fencing/poke",
+                        "player": "combat_mania:fencing/poke"
+                    }
+                }
+            },
+            "attack": {
+                "parent": "combat_mania:pierce/weak_pierce",
+                "cooldown": {
+                    "from": "end",
+                    "extra_ticks": {
+                        "type": "strikeapi:linear",
+                        "input": "repeat_total",
+                        "per": 3,
+                        "offset": -3
+                    }
+                },
+                "damage": {
+                    "damage_type": "combat_mania:flurry"
+                },
+                "knockback": {
+                    "condition": {
+                        "type": "strikeapi:repeat_total",
+                        "repeat_total": {
+                            "max": 1
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

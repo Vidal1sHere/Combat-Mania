@@ -1,0 +1,5 @@
+{
+    "grip": "two_handed",
+    "primary": "combat_mania:slice",
+    "arm_pose": "combat_mania:two_handed_blade/hold"
+}

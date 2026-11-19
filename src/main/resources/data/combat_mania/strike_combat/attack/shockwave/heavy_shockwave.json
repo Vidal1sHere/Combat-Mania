@@ -1,0 +1,16 @@
+{
+    "parent": "combat_mania:shockwave/shockwave",
+    "name": "Heavy Shockwave Attack",
+    "cooldown": {
+        "fixed_ticks": 40
+    },
+    "damage": {
+        "multiplier": 1.5
+    },
+    "shockwave": {
+        "size": 7
+    },
+    "knockback": {
+        "bonus": 0.5
+    }
+}

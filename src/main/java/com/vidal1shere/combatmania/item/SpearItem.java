@@ -1,5 +1,6 @@
 package com.vidal1shere.combatmania.item;
 
+import com.vidal1shere.strikeapi.registry.StrikeAttributes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.BlockTags;
@@ -36,14 +37,39 @@ public class SpearItem extends TieredItem {
         return new Tool(List.of(Tool.Rule.minesAndDrops(List.of(Blocks.COBWEB), 15.0F), Tool.Rule.overrideSpeed(BlockTags.SWORD_EFFICIENT, 1.5F)), 1.0F, 2);
     }
 
-    public static ItemAttributeModifiers createAttributes(Tier tier, int attackDamage, float attackSpeed) {
-        return createAttributes(tier, (float)attackDamage, attackSpeed, attackSpeed);
+    public static ItemAttributeModifiers createAttributes(Tier tier, float attackDamage, float attackSpeed) {
+        return createAttributes(tier, attackDamage, attackSpeed, attackSpeed);
     }
 
     public static ItemAttributeModifiers createAttributes(Tier tier, float damage, float primarySpeed, float secondarySpeed) {
         return ItemAttributeModifiers.builder()
-            .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (double)(damage + tier.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-            .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, (double)primarySpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+            .add(
+                Attributes.ATTACK_DAMAGE,
+                new AttributeModifier(
+                    BASE_ATTACK_DAMAGE_ID,
+                    damage + tier.getAttackDamageBonus(),
+                    AttributeModifier.Operation.ADD_VALUE
+                ),
+                EquipmentSlotGroup.MAINHAND
+            )
+            .add(
+                Attributes.ATTACK_SPEED,
+                new AttributeModifier(
+                    BASE_ATTACK_SPEED_ID,
+                    primarySpeed,
+                    AttributeModifier.Operation.ADD_VALUE
+                ),
+                EquipmentSlotGroup.MAINHAND
+            )
+            .add(
+                StrikeAttributes.SECONDARY_ATTACK_SPEED,
+                new AttributeModifier(
+                    StrikeAttributes.BASE_SECONDARY_ATTACK_SPEED_ID,
+                    secondarySpeed,
+                    AttributeModifier.Operation.ADD_VALUE
+                ),
+                EquipmentSlotGroup.MAINHAND
+            )
             .build();
     }
 

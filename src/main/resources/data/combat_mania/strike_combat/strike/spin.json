@@ -1,0 +1,38 @@
+{
+    "name": "Spin Strike",
+    "input": {
+        "cancel_by_input": false
+    },
+    "requires": {
+        "type": "strikeapi:on_ground"
+    },
+    "default": {
+        "type": "strikeapi:delayed",
+        "delay": 12,
+        "animation": {
+            "item": "combat_mania:blade/spin_start",
+            "player": "combat_mania:trailing_blade/spin_start"
+        },
+        "attack": {
+            "type": "strikeapi:repeat",
+            "times": 3,
+            "interval": 8,
+            "linger": 18,
+            "attack": "combat_mania:area/spinning_sweep",
+            "stages": {
+                "run": {
+                    "animation": {
+                        "item": "combat_mania:blade/spin_turn",
+                        "player": "combat_mania:trailing_blade/spin_turn"
+                    }
+                },
+                "linger": {
+                    "animation": {
+                        "item": "combat_mania:blade/spin_end",
+                        "player": "combat_mania:trailing_blade/spin_end"
+                    }
+                }
+            }
+        }
+    }
+}

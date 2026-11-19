@@ -1,0 +1,11 @@
+{
+    "type": "strikeapi:pierce",
+    "name": "Short Pierce Attack",
+    "cooldown": {
+        "min_to_use": 0.5
+    },
+    "reach": {
+        "min": 0.0,
+        "max": 2.5
+    }
+}

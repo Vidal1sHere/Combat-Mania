@@ -1,0 +1,8 @@
+{
+    "type": "strikeapi:melee",
+    "name": "Overhead Attack",
+    "critical": {},
+    "knockback": {
+        "direction": "down"
+    }
+}

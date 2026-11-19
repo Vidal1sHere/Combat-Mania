@@ -1,0 +1,55 @@
+{
+  "name": "Gash Strike",
+  "combo": {
+    "length": 3,
+    "reset_ticks": 100,
+    "interruptible": true
+  },
+  "attacks": [
+    {
+      "condition": {
+        "type": "strikeapi:combo",
+        "value": 2
+      },
+      "attack": {
+        "parent": "minecraft:pierce",
+        "cooldown": {
+          "min_to_use": 0.9
+        },
+        "tempo": "attack_speed",
+        "animation": {
+          "item": "minecraft:polearm/jab",
+          "player": "combat_mania:two_handed_polearm/jab"
+        }
+      }
+    },
+    {
+      "condition": {
+        "type": "strikeapi:combo",
+        "value": 3
+      },
+      "attack": {
+        "parent": "combat_mania:melee/strong_overhead",
+        "cooldown": {
+          "min_to_use": 0.9
+        },
+        "tempo": "attack_speed",
+        "animation": {
+          "item": "minecraft:polearm/whack",
+          "player": "combat_mania:two_handed_polearm/whack"
+        }
+      }
+    }
+  ],
+  "default": {
+    "parent": "combat_mania:melee/wide_sweep",
+    "cooldown": {
+      "min_to_use": 0.9
+    },
+    "tempo": "attack_speed",
+    "animation": {
+      "item": "minecraft:polearm/sweep",
+      "player": "combat_mania:two_handed_polearm/sweep"
+    }
+  }
+}

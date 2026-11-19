@@ -1,0 +1,12 @@
+{
+    "parent": "combat_mania:shockwave/shockwave",
+    "name": "Shockwave Attack",
+    "smash": {
+        "low_fall_multiplier": 2.0,
+        "medium_fall_multiplier": 1.0,
+        "high_fall_multiplier": 0.5,
+        "max_damage": 18.0,
+        "knockback_radius": 3.0,
+        "knockback_power": 0.4
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:blunt",
+  "animation": {
+    "item": "combat_mania:blunt/whack",
+    "player": "combat_mania:blunt/swing"
+  }
+}
