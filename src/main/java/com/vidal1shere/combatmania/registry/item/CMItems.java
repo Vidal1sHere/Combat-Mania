@@ -182,7 +182,7 @@ public class CMItems {
 
     public static final DeferredItem<JavelinItem> GOLDEN_JAVELIN = ITEMS.register(
             "golden_javelin", () -> new JavelinItem(Tiers.GOLD, new Item.Properties()
-                    .attributes(JavelinItem.createAttributes(Tiers.GOLD, 2.0F, -2.95F, 0.5F)))
+                    .attributes(JavelinItem.createAttributes(Tiers.GOLD, 2.0F, -2.95F, 2.5F)))
     );
 
     public static final DeferredItem<JavelinItem> IRON_JAVELIN = ITEMS.register(

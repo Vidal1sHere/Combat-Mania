@@ -1,18 +1,16 @@
 package com.vidal1shere.combatmania.datagen;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
+import com.vidal1shere.combatmania.registry.item.CMItemDisplayContexts;
 import com.vidal1shere.combatmania.registry.item.CMItems;
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
@@ -21,13 +19,12 @@ import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
+import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 public class CMItemModelProvider extends ItemModelProvider {
@@ -168,32 +165,28 @@ public class CMItemModelProvider extends ItemModelProvider {
                 .texture("layer0", CMUtil.modResLoc("item/" + itemName));
     }
 
-    // The game only looks for an item model at item/<id>, so the full model goes there
     private void separateTransformsItem(DeferredItem<?> item, String handheld) {
         String itemName = item.getId().getPath();
-        separateTransformsModel(itemName, itemName, handheld);
+        separateTransformsModel(itemName, itemName, handheld, null);
     }
 
-    // A flat icon in the GUI, on the ground and in frames, the in hand texture on the handheld base everywhere else
-    private ItemModelBuilder separateTransformsModel(String path, String itemName, String handheld) {
+    private ItemModelBuilder separateTransformsModel(String path, String itemName, String handheld, @Nullable String thrown) {
         ResourceLocation texture = CMUtil.modResLoc("item/" + itemName);
         ResourceLocation inHandTexture = CMUtil.modResLoc("item/" + itemName + "_in_hand");
         ResourceLocation inHandBase = CMUtil.modResLoc("item/handheld/" + handheld);
-        // No parent on purpose: a chain ending in item/generated is rebuilt by the item model generator, which keeps only
-        // the loader written in the model itself. Same layout as the hammer models
         return getBuilder(path)
                 .guiLight(BlockModel.GuiLight.FRONT)
                 .texture("particle", texture)
                 .customLoader((parent, existingFileHelper) ->
-                        new InlineSeparateTransformsModelBuilder(parent, existingFileHelper, inHandBase, inHandTexture, texture))
+                        new InlineSeparateTransformsModelBuilder(parent, existingFileHelper, inHandBase, inHandTexture, texture,
+                                thrown != null ? CMUtil.modResLoc("item/handheld/" + thrown) : null))
                 .end();
     }
 
-    // A spear with a throwing pose, kept in item/javelin since it is not the item model itself
     private void javelinItem(DeferredItem<?> item) {
         String itemName = item.getId().getPath();
-        separateTransformsModel("item/javelin/" + itemName + "_throwing", itemName, "spear_throwing");
-        separateTransformsModel(itemName, itemName, "spear")
+        separateTransformsModel("item/javelin/" + itemName + "_throwing", itemName, "spear_throwing", "javelin_thrown");
+        separateTransformsModel(itemName, itemName, "spear", "javelin_thrown")
                 .override()
                 .predicate(mcLoc("throwing"), 1)
                 .model(new ModelFile.UncheckedModelFile(CMUtil.modResLoc("item/javelin/" + itemName + "_throwing")))
@@ -262,16 +255,19 @@ public class CMItemModelProvider extends ItemModelProvider {
         private final ResourceLocation inHandBase;
         private final ResourceLocation inHandTexture;
         private final ResourceLocation itemTexture;
+        @Nullable
+        private final ResourceLocation thrownBase;
         private Consumer<JsonObject> overrides = j -> {};
 
         private InlineSeparateTransformsModelBuilder(ItemModelBuilder parent, ExistingFileHelper existingFileHelper, 
                                                      ResourceLocation inHandBase, ResourceLocation inHandTexture, 
-                                                     ResourceLocation itemTexture) {
+                                                     ResourceLocation itemTexture, @Nullable ResourceLocation thrownBase) {
             super(CMUtil.neoforgeResLoc("separate_transforms"), parent, existingFileHelper, true);
 
             this.inHandBase = inHandBase;
             this.inHandTexture = inHandTexture;
             this.itemTexture = itemTexture;
+            this.thrownBase = thrownBase;
         }
 
         private InlineSeparateTransformsModelBuilder(ItemModelBuilder parent, ExistingFileHelper existingFileHelper,
@@ -282,6 +278,7 @@ public class CMItemModelProvider extends ItemModelProvider {
             this.inHandBase = inHandBase;
             this.inHandTexture = inHandTexture;
             this.itemTexture = itemTexture;
+            this.thrownBase = null;
             this.overrides = overrides;
         }
 
@@ -294,6 +291,9 @@ public class CMItemModelProvider extends ItemModelProvider {
             perspectives.add("fixed", createGeneratedModel());
             perspectives.add("ground", createGeneratedModel());
             perspectives.add("gui", createGeneratedModel());
+            if (thrownBase != null) {
+                perspectives.add(CMItemDisplayContexts.THROWN.getSerializedName(), createModel(thrownBase, inHandTexture));
+            }
 
             json.add("perspectives", perspectives);
             
@@ -303,11 +303,15 @@ public class CMItemModelProvider extends ItemModelProvider {
         }
 
         private JsonObject createInHandModel() {
+            return createModel(inHandBase, inHandTexture);
+        }
+
+        private static JsonObject createModel(ResourceLocation parent, ResourceLocation texture) {
             JsonObject model = new JsonObject();
-            model.addProperty("parent", inHandBase.toString());
+            model.addProperty("parent", parent.toString());
 
             JsonObject textures = new JsonObject();
-            textures.addProperty("layer0", inHandTexture.toString());
+            textures.addProperty("layer0", texture.toString());
 
             model.add("textures", textures);
 

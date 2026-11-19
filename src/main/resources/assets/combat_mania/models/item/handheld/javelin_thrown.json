@@ -1,0 +1,10 @@
+{
+  "parent": "item/generated",
+  "display": {
+    "combat_mania:thrown": {
+      "rotation": [ 0, 0, -135 ],
+      "translation": [ -12, 0, 0 ],
+      "scale": [ 1.7, 1.7, 0.85 ]
+    }
+  }
+}

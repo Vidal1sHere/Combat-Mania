@@ -3,12 +3,12 @@ package com.vidal1shere.combatmania.entity;
 import javax.annotation.Nullable;
 
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
+import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.util.CMUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -27,14 +27,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class ThrownJavelin extends AbstractArrow implements GeoEntity {
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
+public class ThrownJavelin extends AbstractArrow implements ItemProjectile {
     private static final EntityDataAccessor<Float> DATA_DAMAGE =
             SynchedEntityData.defineId(ThrownJavelin.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Byte> DATA_LOYALTY =
@@ -43,6 +37,8 @@ public class ThrownJavelin extends AbstractArrow implements GeoEntity {
             SynchedEntityData.defineId(ThrownJavelin.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<String> DATA_TIER =
             SynchedEntityData.defineId(ThrownJavelin.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<ItemStack> DATA_ITEM =
+            SynchedEntityData.defineId(ThrownJavelin.class, EntityDataSerializers.ITEM_STACK);
 
     private static final float DEFAULT_DAMAGE = 8.0F;
 
@@ -59,6 +55,7 @@ public class ThrownJavelin extends AbstractArrow implements GeoEntity {
         this.entityData.set(DATA_DAMAGE, this.getDamageFromShooter(shooter));
         this.entityData.set(DATA_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
         this.entityData.set(DATA_FOIL, pickupItemStack.hasFoil());
+        this.entityData.set(DATA_ITEM, this.getPickupItemStackOrigin().copy());
     }
 
     protected ThrownJavelin(EntityType<? extends ThrownJavelin> entityType, Level level, double x, double y, double z, ItemStack pickupItemStack, Tier tier) {
@@ -67,6 +64,7 @@ public class ThrownJavelin extends AbstractArrow implements GeoEntity {
         this.entityData.set(DATA_DAMAGE, this.getDamageFromShooter(null));
         this.entityData.set(DATA_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
         this.entityData.set(DATA_FOIL, pickupItemStack.hasFoil());
+        this.entityData.set(DATA_ITEM, this.getPickupItemStackOrigin().copy());
     }
 
     public ThrownJavelin(Level level, LivingEntity shooter, ItemStack pickupItemStack) {
@@ -86,6 +84,7 @@ public class ThrownJavelin extends AbstractArrow implements GeoEntity {
         builder.define(DATA_LOYALTY, (byte) 0);
         builder.define(DATA_FOIL, false);
         builder.define(DATA_TIER, "iron");
+        builder.define(DATA_ITEM, ItemStack.EMPTY);
     }
 
     @Override
@@ -130,6 +129,11 @@ public class ThrownJavelin extends AbstractArrow implements GeoEntity {
     private boolean isAcceptibleReturnOwner() {
         Entity entity = this.getOwner();
         return entity != null && entity.isAlive() && (!(entity instanceof ServerPlayer) || !entity.isSpectator());
+    }
+
+    @Override
+    public ItemStack getRenderItem() {
+        return this.entityData.get(DATA_ITEM);
     }
 
     public boolean isFoil() {
@@ -198,7 +202,7 @@ public class ThrownJavelin extends AbstractArrow implements GeoEntity {
 
     @Override
     protected ItemStack getDefaultPickupItem() {
-        return new ItemStack(Items.TRIDENT);
+        return new ItemStack(CMItems.IRON_JAVELIN.get());
     }
 
     @Override
@@ -219,6 +223,7 @@ public class ThrownJavelin extends AbstractArrow implements GeoEntity {
         this.dealtDamage = compound.getBoolean("DealtDamage");
         this.entityData.set(DATA_DAMAGE, compound.contains("Damage", CompoundTag.TAG_FLOAT) ? compound.getFloat("Damage") : DEFAULT_DAMAGE);
         this.entityData.set(DATA_LOYALTY, this.getLoyaltyFromItem(this.getPickupItemStackOrigin()));
+        this.entityData.set(DATA_ITEM, this.getPickupItemStackOrigin().copy());
         deserializeTier(compound);
     }
 
@@ -269,13 +274,5 @@ public class ThrownJavelin extends AbstractArrow implements GeoEntity {
     @Override
     public boolean shouldRender(double x, double y, double z) {
         return true;
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {}
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
     }
 }

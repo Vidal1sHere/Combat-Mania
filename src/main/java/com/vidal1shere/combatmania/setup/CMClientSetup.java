@@ -4,10 +4,14 @@ import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.client.model.TieredHammerModel;
 import com.vidal1shere.combatmania.client.model.TieredMaceModel;
 import com.vidal1shere.combatmania.client.model.VanillaMaceModel;
+import com.vidal1shere.combatmania.client.renderer.ConfigurableTridentRenderer;
+import com.vidal1shere.combatmania.client.renderer.ItemProjectileRenderer;
 import com.vidal1shere.combatmania.particle.CustomParticle;
+import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItemProperties;
 import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.registry.particle.CMParticles;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -36,6 +40,12 @@ public class CMClientSetup {
                 .map(holder -> (Item) holder.get());
     }
     
+    @SubscribeEvent
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(CMEntities.THROWN_JAVELIN.get(), ItemProjectileRenderer::of);
+        event.registerEntityRenderer(EntityType.TRIDENT, ConfigurableTridentRenderer::new);
+    }
+
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(TieredMaceModel.LAYER, TieredMaceModel::createLayer);

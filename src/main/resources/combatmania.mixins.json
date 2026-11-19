@@ -3,6 +3,7 @@
   "package": "com.vidal1shere.combatmania.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ThrownTridentMixin"
   ],
   "client": [
     "client.ItemRendererMixin",

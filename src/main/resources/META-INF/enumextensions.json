@@ -1,0 +1,10 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/item/ItemDisplayContext",
+      "name": "COMBAT_MANIA_THROWN",
+      "constructor": "(ILjava/lang/String;Ljava/lang/String;)V",
+      "parameters": [-1, "combat_mania:thrown", "FIXED"]
+    }
+  ]
+}

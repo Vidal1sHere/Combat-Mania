@@ -16,6 +16,12 @@
     }
   ],
   "perspectives": {
+    "combat_mania:thrown": {
+      "parent": "combat_mania:item/handheld/javelin_thrown",
+      "textures": {
+        "layer0": "combat_mania:item/golden_javelin_in_hand"
+      }
+    },
     "fixed": {
       "parent": "minecraft:item/generated",
       "textures": {
