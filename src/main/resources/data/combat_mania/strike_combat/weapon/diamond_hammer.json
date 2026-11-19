@@ -14,7 +14,7 @@
                     "type": "strikeapi:delayed",
                     "delay": 1.6,
                     "linger": 12.8,
-                    "attack": "strikeapi:shockwave/tier/diamond_heavy_shockwave",
+                    "attack": "combat_mania:shockwave/tier/diamond_heavy_shockwave",
                     "tempo": "attack_speed",
                     "animation": {
                         "item": "combat_mania:blunt/whack",

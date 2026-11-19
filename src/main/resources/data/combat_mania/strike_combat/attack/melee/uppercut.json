@@ -15,6 +15,6 @@
         "require_hit": true
     },
     "effects": {
-        "sweep": ["strikeapi:sweep_sound", "combat_mania:uppercut_attack"]
+        "sweep": ["minecraft:sweep_sound", "combat_mania:uppercut_attack"]
     }
 }

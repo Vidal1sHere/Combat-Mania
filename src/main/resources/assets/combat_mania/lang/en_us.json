@@ -50,13 +50,7 @@
   "item.combat_mania.golden_javelin": "Golden Javelin",
   "item.combat_mania.iron_javelin": "Iron Javelin",
   "item.combat_mania.diamond_javelin": "Diamond Javelin",
-
-  "death.attack.shockwave": "%1$s was crushed by a shockwave from %2$s",
-  "death.attack.shockwave.item": "%1$s was crushed by a shockwave from %2$s using %3$s",
-  "death.attack.area": "%1$s was cut down by %2$s",
-  "death.attack.area.item": "%1$s was cut down by %2$s using %3$s",
   "death.attack.flurry": "%1$s was run through by %2$s",
   "death.attack.flurry.item": "%1$s was run through by %2$s using %3$s",
-  
   "attribute.name.combat_mania.shoot_power": "Shoot Power"
 }

@@ -1,0 +1,23 @@
+{
+  "name": "Slash Strike",
+  "attacks": [
+    {
+      "condition": {
+        "type": "strikeapi:falling"
+      },
+      "attack": "minecraft:overhead"
+    },
+    {
+      "condition": {
+        "type": "strikeapi:sprinting"
+      },
+      "attack": "minecraft:thrust"
+    }
+  ],
+  "default": {
+    "parent": "minecraft:sweep",
+    "effects": {
+      "sweep": ["minecraft:sweep_sound", "combat_mania:sweep_attack"]
+    }
+  }
+}

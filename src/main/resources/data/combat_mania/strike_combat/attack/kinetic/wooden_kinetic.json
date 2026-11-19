@@ -27,7 +27,7 @@
     "damage_multiplier": 0.7
   },
   "effects": {
-    "swing": ["strikeapi:wooden_spear_use"],
-    "landed": ["strikeapi:wooden_spear_hit"]
+    "swing": ["minecraft:wooden_spear_use"],
+    "landed": ["minecraft:wooden_spear_hit"]
   }
 }

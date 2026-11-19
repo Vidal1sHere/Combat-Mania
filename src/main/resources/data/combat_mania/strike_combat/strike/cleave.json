@@ -8,7 +8,7 @@
       "attack": {
         "parent": "minecraft:overhead",
         "effects": {
-          "critical_target": ["strikeapi:critical_hit", "combat_mania:overhead_attack"]
+          "critical_target": ["minecraft:critical_hit", "combat_mania:overhead_attack"]
         }
       }
     },

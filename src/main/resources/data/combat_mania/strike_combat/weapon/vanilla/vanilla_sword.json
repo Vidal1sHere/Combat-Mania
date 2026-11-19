@@ -4,5 +4,5 @@
     "mod": "combat_mania", 
     "config": "modifyVanillaSwords"
   }],
-  "parent": "minecraft:sword"
+  "parent": "combat_mania:base/sword"
 }

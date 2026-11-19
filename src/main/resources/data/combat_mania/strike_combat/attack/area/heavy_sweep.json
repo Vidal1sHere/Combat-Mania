@@ -16,7 +16,7 @@
         "direction": "forward"
     },
     "effects": {
-        "swing": ["strikeapi:sweep_attack", "strikeapi:sweep_sound"],
+        "swing": ["minecraft:sweep_attack", "minecraft:sweep_sound"],
         "strong": [],
         "weak": []
     }

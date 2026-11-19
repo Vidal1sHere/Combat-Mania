@@ -17,6 +17,6 @@
         }
     },
     "effects": {
-        "swing": ["strikeapi:sweep_sound"]
+        "swing": ["minecraft:sweep_sound"]
     }
 }

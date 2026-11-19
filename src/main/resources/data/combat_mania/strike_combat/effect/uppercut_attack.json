@@ -1,11 +1,36 @@
 {
-  "type": "strikeapi:particles",
-  "particle": {
-    "type": "combat_mania:right_short_uppercut_attack"
-  },
-  "position": {
-    "anchor": "attacker_center",
-    "offset": [0, 1, 1],
-    "frame": "facing"
-  }
+  "type": "strikeapi:group",
+  "effects": [
+    {
+      "type": "strikeapi:particles",
+      "particle": {
+        "type": "combat_mania:left_uppercut_attack"
+      },
+      "position": {
+        "anchor": "attacker_center",
+        "offset": [0, 1, 1],
+        "frame": "facing"
+      },
+      "condition": {
+        "type": "strikeapi:left_handed"
+      }
+    },
+    {
+      "type": "strikeapi:particles",
+      "particle": {
+        "type": "combat_mania:right_uppercut_attack"
+      },
+      "position": {
+        "anchor": "attacker_center",
+        "offset": [0, 1, 1],
+        "frame": "facing"
+      },
+      "condition": {
+        "type": "strikeapi:not",
+        "condition": {
+          "type": "strikeapi:left_handed"
+        }
+      }
+    }
+  ]
 }

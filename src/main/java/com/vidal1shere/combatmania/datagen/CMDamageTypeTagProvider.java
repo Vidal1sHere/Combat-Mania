@@ -19,17 +19,12 @@ public class CMDamageTypeTagProvider extends DamageTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         tag(DamageTypeTags.BYPASSES_COOLDOWN)
-                .add(CMDamageTypes.AREA)
                 .add(CMDamageTypes.FLURRY);
 
         tag(DamageTypeTags.IS_PLAYER_ATTACK)
-                .add(CMDamageTypes.SHOCKWAVE)
-                .add(CMDamageTypes.AREA)
                 .add(CMDamageTypes.FLURRY);
 
         tag(DamageTypeTags.NO_KNOCKBACK)
-                .add(CMDamageTypes.SHOCKWAVE)
-                .add(CMDamageTypes.AREA)
                 .add(CMDamageTypes.FLURRY);
     }
 }

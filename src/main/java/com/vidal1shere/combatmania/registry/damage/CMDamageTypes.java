@@ -8,14 +8,10 @@ import net.minecraft.world.damagesource.DamageScaling;
 import net.minecraft.world.damagesource.DamageType;
 
 public class CMDamageTypes {
-    public static final ResourceKey<DamageType> AREA = create("area");
     public static final ResourceKey<DamageType> FLURRY = create("flurry");
-    public static final ResourceKey<DamageType> SHOCKWAVE = create("shockwave");
 
     public static void bootstrap(BootstrapContext<DamageType> ctx) {
-        registerAttack(ctx, AREA);
         registerAttack(ctx, FLURRY);
-        registerAttack(ctx, SHOCKWAVE);
     }
 
     private static void registerAttack(BootstrapContext<DamageType> context, ResourceKey<DamageType> damageKey) {

@@ -9,15 +9,15 @@
                     "value": 2
                 },
                 "attack": {
-                    "parent": "strikeapi:pierce/wooden_pierce",
+                    "parent": "minecraft:wooden_pierce",
                     "name": "Pierce Attack",
                     "cooldown": {
                         "min_to_use": 0.9
                     },
                     "tempo": "attack_speed",
                     "animation": {
-                        "item": "strikeapi:polearm/jab",
-                        "player": "strikeapi:two_handed_polearm/jab"
+                        "item": "combat_mania:polearm/jab",
+                        "player": "combat_mania:two_handed_polearm/jab"
                     }
                 }
             },

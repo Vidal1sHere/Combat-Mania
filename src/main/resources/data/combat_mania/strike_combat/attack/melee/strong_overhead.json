@@ -4,5 +4,8 @@
     "critical": {},
     "knockback": {
         "direction": "down"
+    },
+    "effects": {
+        "critical_target": ["minecraft:critical_hit", "combat_mania:short_overhead_attack"]
     }
 }
