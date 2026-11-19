@@ -43,5 +43,8 @@ public class DataGenerators {
                 
         generator.addProvider(event.includeServer(), new CMItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeServer(), new CMBlockStateProvider(packOutput, existingFileHelper));
+
+        generator.addProvider(event.includeServer(), new CMAttackTagsProvider(packOutput, lookupProvider, CombatMania.MOD_ID, existingFileHelper));
+        generator.addProvider(event.includeServer(), new CMStrikeTagsProvider(packOutput, lookupProvider, CombatMania.MOD_ID, existingFileHelper));
     }
 }

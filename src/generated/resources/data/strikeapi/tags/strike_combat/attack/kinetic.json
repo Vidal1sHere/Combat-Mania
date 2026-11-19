@@ -1,0 +1,9 @@
+{
+  "values": [
+    "combat_mania:kinetic/wooden_kinetic",
+    "combat_mania:kinetic/stone_kinetic",
+    "combat_mania:kinetic/golden_kinetic",
+    "combat_mania:kinetic/iron_kinetic",
+    "combat_mania:kinetic/diamond_kinetic"
+  ]
+}

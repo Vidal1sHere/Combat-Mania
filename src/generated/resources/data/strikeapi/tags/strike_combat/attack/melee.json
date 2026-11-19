@@ -1,0 +1,15 @@
+{
+  "values": [
+    "combat_mania:melee/blunt/blunt",
+    "combat_mania:melee/blunt/tier/wooden_blunt",
+    "combat_mania:melee/blunt/tier/stone_blunt",
+    "combat_mania:melee/blunt/tier/golden_blunt",
+    "combat_mania:melee/blunt/tier/iron_blunt",
+    "combat_mania:melee/blunt/tier/diamond_blunt",
+    "combat_mania:melee/backstab",
+    "combat_mania:melee/short_sweep",
+    "combat_mania:melee/strong_overhead",
+    "combat_mania:melee/uppercut",
+    "combat_mania:melee/wide_sweep"
+  ]
+}

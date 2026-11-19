@@ -1,0 +1,19 @@
+{
+  "values": [
+    "combat_mania:melee/blunt/blunt",
+    "combat_mania:melee/blunt/tier/wooden_blunt",
+    "combat_mania:melee/blunt/tier/stone_blunt",
+    "combat_mania:melee/blunt/tier/golden_blunt",
+    "combat_mania:melee/blunt/tier/iron_blunt",
+    "combat_mania:melee/blunt/tier/diamond_blunt",
+    "combat_mania:shockwave/shockwave",
+    "combat_mania:shockwave/heavy_shockwave",
+    "combat_mania:shockwave/tier/wooden_shockwave",
+    "combat_mania:shockwave/tier/stone_shockwave",
+    "combat_mania:shockwave/tier/golden_shockwave",
+    "combat_mania:shockwave/tier/iron_shockwave",
+    "combat_mania:shockwave/tier/iron_heavy_shockwave",
+    "combat_mania:shockwave/tier/diamond_shockwave",
+    "combat_mania:shockwave/tier/diamond_heavy_shockwave"
+  ]
+}
