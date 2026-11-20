@@ -1,0 +1,9 @@
+{
+  "parent": "combat_mania:item/handheld/glove",
+  "loader": "jasper:animated",
+  "model": "combat_mania:claw",
+  "texture": "combat_mania:textures/item/golden_claw_in_hand.png",
+  "textures": {
+    "particle": "combat_mania:item/golden_claw"
+  }
+}

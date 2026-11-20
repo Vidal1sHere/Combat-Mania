@@ -335,6 +335,26 @@ public class CMItems {
             .attributes(GreatswordItem.createAttributes(Tiers.DIAMOND, 3.5F, -3.2F, -3.5F)))
     );
     
+    public static final DeferredItem<ClawItem> IRON_CLAW = ITEMS.register(
+            "iron_claw", () -> new ClawItem(Tiers.IRON, new Item.Properties()
+                    .attributes(ClawItem.createAttributes(Tiers.IRON, 2.0F, -2.0F)))
+    );
+
+    public static final DeferredItem<ClawItem> GOLDEN_CLAW = ITEMS.register(
+            "golden_claw", () -> new ClawItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(ClawItem.createAttributes(Tiers.GOLD, 2.0F, -2.0F)))
+    );
+
+    public static final DeferredItem<ClawItem> DIAMOND_CLAW = ITEMS.register(
+            "diamond_claw", () -> new ClawItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(ClawItem.createAttributes(Tiers.DIAMOND, 2.0F, -2.0F)))
+    );
+
+    public static final DeferredItem<ClawItem> NETHERITE_CLAW = ITEMS.register(
+            "netherite_claw", () -> new ClawItem(Tiers.NETHERITE, new Item.Properties()
+                    .attributes(ClawItem.createAttributes(Tiers.NETHERITE, 2.0F, -2.0F)))
+    );
+
     public static Collection<DeferredHolder<Item, ? extends Item>> getItems() {
         return ITEMS.getEntries();
     }

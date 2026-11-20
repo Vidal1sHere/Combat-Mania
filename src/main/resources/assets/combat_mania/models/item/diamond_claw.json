@@ -1,0 +1,19 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "gui_light": "front",
+  "textures": {
+    "particle": "combat_mania:item/diamond_claw"
+  },
+  "base": {
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "combat_mania:item/diamond_claw"
+    }
+  },
+  "perspectives": {
+    "thirdperson_righthand": { "parent": "combat_mania:item/claw/3d/diamond_claw" },
+    "thirdperson_lefthand": { "parent": "combat_mania:item/claw/3d/diamond_claw" },
+    "firstperson_righthand": { "parent": "combat_mania:item/claw/3d/diamond_claw" },
+    "firstperson_lefthand": { "parent": "combat_mania:item/claw/3d/diamond_claw" }
+  }
+}
