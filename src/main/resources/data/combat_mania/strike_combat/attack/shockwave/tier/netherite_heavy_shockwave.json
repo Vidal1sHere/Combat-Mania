@@ -1,0 +1,12 @@
+{
+    "parent": "combat_mania:shockwave/heavy_shockwave",
+    "name": "Heavy Shockwave Attack",
+    "smash": {
+        "low_fall_multiplier": 4.0,
+        "medium_fall_multiplier": 2,
+        "high_fall_multiplier": 0.75,
+        "max_damage": 50.0,
+        "knockback_radius": 3.5,
+        "knockback_power": 0.65
+    }
+}

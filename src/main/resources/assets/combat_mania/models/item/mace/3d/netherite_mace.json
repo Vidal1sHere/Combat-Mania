@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:item/handheld_mace",
+  "loader": "jasper:animated",
+  "model": "combat_mania:tiered_mace",
+  "texture": "combat_mania:textures/item/netherite_mace_head.png",
+  "textures": {
+    "particle": "combat_mania:item/netherite_mace"
+  },
+  "attachments": {
+    "handle": {
+      "model": "combat_mania:item/mace/3d/netherite_mace_handle",
+      "bone": "handle",
+      "rotation": [0, 0, 45]
+    }
+  }
+}

@@ -220,6 +220,11 @@ public class CMItems {
                     .attributes(TieredMaceItem.createAttributes(Tiers.DIAMOND, 0.5F, -3.35F)))
     );
 
+    public static final DeferredItem<TieredMaceItem> NETHERITE_MACE = ITEMS.register(
+        "netherite_mace", () -> new TieredMaceItem(Tiers.NETHERITE, new Item.Properties()
+            .attributes(TieredMaceItem.createAttributes(Tiers.NETHERITE, 0.5F, -3.35F)))
+    );
+
     public static final DeferredItem<HammerItem> WOODEN_HAMMER = ITEMS.register(
             "wooden_hammer", () -> new HammerItem(Tiers.WOOD, new Item.Properties()
                     .attributes(HammerItem.createAttributes(Tiers.WOOD, 1.0F, -3.2F)))
@@ -243,6 +248,11 @@ public class CMItems {
     public static final DeferredItem<HammerItem> DIAMOND_HAMMER = ITEMS.register(
             "diamond_hammer", () -> new HammerItem(Tiers.DIAMOND, new Item.Properties()
                     .attributes(HammerItem.createAttributes(Tiers.DIAMOND, 1.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<HammerItem> NETHERITE_HAMMER = ITEMS.register(
+        "netherite_hammer", () -> new HammerItem(Tiers.NETHERITE, new Item.Properties()
+            .attributes(HammerItem.createAttributes(Tiers.NETHERITE, 1.0F, -3.2F)))
     );
 
     public static final DeferredItem<ClaymoreItem> WOODEN_CLAYMORE = ITEMS.register(

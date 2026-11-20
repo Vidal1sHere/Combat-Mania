@@ -31,6 +31,7 @@ public class CMItemProperties {
         makeMaceItem(CMItems.GOLDEN_MACE.get());
         makeMaceItem(CMItems.IRON_MACE.get());
         makeMaceItem(CMItems.DIAMOND_MACE.get());
+        makeMaceItem(CMItems.NETHERITE_MACE.get());
         makeMaceItem(Items.MACE);
         
         makeHammerItem(CMItems.WOODEN_HAMMER.get());
@@ -38,6 +39,7 @@ public class CMItemProperties {
         makeHammerItem(CMItems.IRON_HAMMER.get());
         makeHammerItem(CMItems.GOLDEN_HAMMER.get());
         makeHammerItem(CMItems.DIAMOND_HAMMER.get());
+        makeHammerItem(CMItems.NETHERITE_HAMMER.get());
         
         
     }

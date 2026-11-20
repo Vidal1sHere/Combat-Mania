@@ -1,0 +1,13 @@
+{
+  "parent": "combat_mania:melee/blunt/blunt",
+  "name": "Blunt Attack",
+  "smash": {
+    "min_fall_distance": 2.0,
+    "heavy_fall_distance": 6.0,
+    "low_fall_multiplier": 4.0,
+    "high_fall_multiplier": 1.5,
+    "max_damage": 80.0,
+    "knockback_radius": 4.0,
+    "knockback_power": 0.6
+  }
+}

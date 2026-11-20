@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/handheld_mace",
+  "parent": "combat_mania:item/handheld/hammer",
   "loader": "jasper:animated",
   "model": "combat_mania:tiered_hammer",
   "texture": "combat_mania:textures/item/golden_hammer_head.png",

@@ -14,6 +14,7 @@
     "thirdperson_righthand": { "parent": "combat_mania:item/hammer/3d/third/stone_hammer" },
     "thirdperson_lefthand": { "parent": "combat_mania:item/hammer/3d/third/stone_hammer" },
     "firstperson_righthand": { "parent": "combat_mania:item/hammer/3d/first/stone_hammer" },
-    "firstperson_lefthand": { "parent": "combat_mania:item/hammer/3d/first/stone_hammer" }
+    "firstperson_lefthand": { "parent": "combat_mania:item/hammer/3d/first/stone_hammer" },
+    "strikeapi:back": { "parent": "combat_mania:item/hammer/3d/third/stone_hammer" }
   }
 }
