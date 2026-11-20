@@ -4,9 +4,17 @@
   "min": 10,
   "fire_at_max": false,
   "linger": 4,
+  "movement_speed": 0.2,
   "animation": {
     "player": "minecraft:polearm/lift",
     "item": "minecraft:polearm/lift"
+  },
+  "stages": {
+    "run": {
+      "animation": {
+        "item": "minecraft:generic/dip"
+      }
+    }
   },
   "attack": {
     "type": "strikeapi:projectile",
