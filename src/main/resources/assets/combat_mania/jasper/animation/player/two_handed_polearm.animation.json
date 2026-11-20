@@ -2,6 +2,7 @@
   "animations": {
     "hold": {
       "loop": true,
+      "blend_ticks": 0,
       "bones": {
         "torso": {
           "rotation": {

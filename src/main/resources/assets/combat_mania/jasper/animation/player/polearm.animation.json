@@ -3,6 +3,7 @@
     "animations": {
         "hold": {
             "loop": true,
+            "blend_ticks": 0,
             "bones": {
                 "right_arm": {
                     "rotation": ["math.clamp(q.look_x_rotation - 44.163, -120, 30)", "math.clamp(q.look_y_rotation * q.hand_side + 5.73, -60, 60)", 0]
