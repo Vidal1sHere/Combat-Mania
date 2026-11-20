@@ -1,0 +1,7 @@
+{
+  "name": "Throw Strike",
+  "input": {
+    "phase": "hold"
+  },
+  "default": "combat_mania:projectile/trident_throw"
+}

@@ -1,5 +1,6 @@
 {
   "click_priority": "secondary",
   "primary": "minecraft:jab",
+  "secondary": "combat_mania:trident_throw",
   "arm_pose": "minecraft:polearm/hold"
 }

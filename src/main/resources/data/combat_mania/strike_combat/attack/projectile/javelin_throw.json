@@ -1,13 +1,12 @@
 {
   "type": "strikeapi:charged",
-  "name": "Javelin Toss",
+  "name": "Javelin Throw",
   "min": 10,
   "fire_at_max": false,
-  "linger": 4,
   "movement_speed": 0.2,
   "animation": {
-    "player": "minecraft:polearm/lift",
-    "item": "minecraft:polearm/lift"
+    "player": "minecraft:generic/lift",
+    "item": "minecraft:generic/lift"
   },
   "stages": {
     "run": {
@@ -23,6 +22,9 @@
     "launch": {
       "speed": 2.5,
       "inaccuracy": 1.0
+    },
+    "effects": {
+      "launch": ["minecraft:trident_throw"]
     }
   }
 }

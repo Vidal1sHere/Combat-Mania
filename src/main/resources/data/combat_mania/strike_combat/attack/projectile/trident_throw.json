@@ -1,0 +1,30 @@
+{
+  "type": "strikeapi:charged",
+  "name": "Trident Throw",
+  "min": 10,
+  "fire_at_max": false,
+  "movement_speed": 0.2,
+  "animation": {
+    "player": "minecraft:generic/lift",
+    "item": "minecraft:generic/lift"
+  },
+  "stages": {
+    "run": {
+      "animation": {
+        "item": "minecraft:generic/dip"
+      }
+    }
+  },
+  "attack": {
+    "type": "strikeapi:projectile",
+    "projectile": "minecraft:trident",
+    "from": "weapon",
+    "launch": {
+      "speed": 2.5,
+      "inaccuracy": 1.0
+    },
+    "effects": {
+      "launch": ["minecraft:trident_throw"]
+    }
+  }
+}

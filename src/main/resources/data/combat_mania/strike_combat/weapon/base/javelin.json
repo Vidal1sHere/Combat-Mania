@@ -1,12 +1,6 @@
 {
   "click_priority": "exclusive",
   "primary": "minecraft:jab",
-  "secondary": {
-    "name": "Weapon Toss Strike",
-    "input": {
-      "phase": "hold"
-    },
-    "default": "combat_mania:projectile/javelin_toss"
-  },
+  "secondary": "combat_mania:javelin_throw",
   "arm_pose": "minecraft:polearm/hold"
 }

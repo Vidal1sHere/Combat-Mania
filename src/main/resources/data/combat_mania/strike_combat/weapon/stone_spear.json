@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:spear",
+  "parent": "minecraft:base/spear",
   "secondary": {
     "parent": "minecraft:joust",
     "default": {
