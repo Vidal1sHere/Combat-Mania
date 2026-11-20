@@ -91,6 +91,13 @@ public class CMItemModelProvider extends ItemModelProvider {
         separateTransformsItem(CMItems.DIAMOND_SPEAR, "spear");
         separateTransformsItem(CMItems.NETHERITE_SPEAR, "spear");
 
+        separateTransformsItem(CMItems.WOODEN_CLAYMORE, "claymore");
+        separateTransformsItem(CMItems.STONE_CLAYMORE, "claymore");
+        separateTransformsItem(CMItems.GOLDEN_CLAYMORE, "claymore");
+        separateTransformsItem(CMItems.IRON_CLAYMORE, "claymore");
+        separateTransformsItem(CMItems.DIAMOND_CLAYMORE, "claymore");
+        separateTransformsItem(CMItems.NETHERITE_CLAYMORE, "claymore");
+
         javelinItem(CMItems.WOODEN_JAVELIN);
         javelinItem(CMItems.STONE_JAVELIN);
         javelinItem(CMItems.GOLDEN_JAVELIN);

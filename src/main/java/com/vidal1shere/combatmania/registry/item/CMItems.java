@@ -245,6 +245,36 @@ public class CMItems {
                     .attributes(HammerItem.createAttributes(Tiers.DIAMOND, 1.0F, -3.2F)))
     );
 
+    public static final DeferredItem<ClaymoreItem> WOODEN_CLAYMORE = ITEMS.register(
+        "wooden_claymore", () -> new ClaymoreItem(Tiers.WOOD, new Item.Properties()
+            .attributes(ClaymoreItem.createAttributes(Tiers.WOOD, 3.5F, -3.0F)))
+    );
+
+    public static final DeferredItem<ClaymoreItem> STONE_CLAYMORE = ITEMS.register(
+        "stone_claymore", () -> new ClaymoreItem(Tiers.STONE, new Item.Properties()
+            .attributes(ClaymoreItem.createAttributes(Tiers.STONE, 3.5F, -3.0F)))
+    );
+
+    public static final DeferredItem<ClaymoreItem> GOLDEN_CLAYMORE = ITEMS.register(
+        "golden_claymore", () -> new ClaymoreItem(Tiers.GOLD, new Item.Properties()
+            .attributes(ClaymoreItem.createAttributes(Tiers.GOLD, 3.5F, -3.0F)))
+    );
+
+    public static final DeferredItem<ClaymoreItem> IRON_CLAYMORE = ITEMS.register(
+        "iron_claymore", () -> new ClaymoreItem(Tiers.IRON, new Item.Properties()
+            .attributes(ClaymoreItem.createAttributes(Tiers.IRON, 3.5F, -3.0F)))
+    );
+
+    public static final DeferredItem<ClaymoreItem> DIAMOND_CLAYMORE = ITEMS.register(
+        "diamond_claymore", () -> new ClaymoreItem(Tiers.DIAMOND, new Item.Properties()
+            .attributes(ClaymoreItem.createAttributes(Tiers.DIAMOND, 3.5F, -3.0F)))
+    );
+
+    public static final DeferredItem<ClaymoreItem> NETHERITE_CLAYMORE = ITEMS.register(
+        "netherite_claymore", () -> new ClaymoreItem(Tiers.NETHERITE, new Item.Properties()
+            .attributes(ClaymoreItem.createAttributes(Tiers.NETHERITE, 3.5F, -3.0F)))
+    );
+
     public static final DeferredItem<GreatswordItem> WOODEN_GREATSWORD = ITEMS.register(
         "wooden_greatsword", () -> new GreatswordItem(Tiers.WOOD, new Item.Properties()
             .attributes(GreatswordItem.createAttributes(Tiers.WOOD, 3.5F, -2.8F, -3.1F)))

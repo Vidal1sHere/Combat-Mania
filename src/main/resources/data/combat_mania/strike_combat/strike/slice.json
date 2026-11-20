@@ -22,24 +22,10 @@
         }
     ],
     "default": {
-        "parent": "minecraft:sweep",
-        "name": "Wide Sweep Attack",
-        "cooldown": {
-            "min_to_use": 1.0
-        },
-        "sweep": {
-            "effect_threshold": 0.0,
-            "radius": 2.5,
-            "height": 0.5,
-            "require_on_ground": false,
-            "require_hit": false
-        },
+        "parent": "combat_mania:melee/always_sweep",
         "animation": {
             "item": "combat_mania:blade/sweep",
             "player": "combat_mania:two_handed_blade/sweep"
-        },
-        "effects": {
-            "sweep": ["minecraft:sweep_sound", "combat_mania:sweep_attack"]
         }
     }
 }

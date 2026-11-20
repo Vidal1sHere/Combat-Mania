@@ -1,0 +1,17 @@
+{
+  "parent": "minecraft:sweep",
+  "name": "Sweep Attack",
+  "cooldown": {
+    "min_to_use": 1.0
+  },
+  "sweep": {
+    "effect_threshold": 0.0,
+    "radius": 2.5,
+    "height": 0.5,
+    "require_on_ground": false,
+    "require_hit": false
+  },
+  "effects": {
+    "sweep": ["minecraft:sweep_sound", "combat_mania:sweep_attack"]
+  }
+}

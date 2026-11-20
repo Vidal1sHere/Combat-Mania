@@ -61,7 +61,7 @@ public class CMCommonSetup {
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.IRON_GREATSWORD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.STONE_GREATSWORD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.WOODEN_GREATSWORD.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-
+            
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.DIAMOND_KATANA.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.GOLDEN_KATANA.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.IRON_KATANA.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
@@ -73,6 +73,13 @@ public class CMCommonSetup {
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.IRON_RAPIER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.STONE_RAPIER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.WOODEN_RAPIER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.NETHERITE_CLAYMORE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.DIAMOND_CLAYMORE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.GOLDEN_CLAYMORE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.IRON_CLAYMORE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.STONE_CLAYMORE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.WOODEN_CLAYMORE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }
 }

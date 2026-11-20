@@ -31,6 +31,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.WOODEN_RAPIER.get(), 
             CMItems.WOODEN_KATANA.get(), 
             CMItems.WOODEN_GREATSWORD.get(), 
+            CMItems.WOODEN_CLAYMORE.get()
         },
         Tiers.STONE, new Item[]{
             CMItems.STONE_SPEAR.get(), 
@@ -42,7 +43,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.STONE_HAMMER.get(),
             CMItems.STONE_RAPIER.get(),
             CMItems.STONE_KATANA.get(),
-            CMItems.STONE_GREATSWORD.get()
+            CMItems.STONE_GREATSWORD.get(),
+            CMItems.STONE_CLAYMORE.get()
         },
         Tiers.IRON, new Item[]{ 
             CMItems.IRON_SPEAR.get(), 
@@ -54,7 +56,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.IRON_HAMMER.get(),
             CMItems.IRON_RAPIER.get(),
             CMItems.IRON_KATANA.get(),
-            CMItems.IRON_GREATSWORD.get()
+            CMItems.IRON_GREATSWORD.get(),
+            CMItems.IRON_CLAYMORE.get()
         },
         Tiers.GOLD, new Item[]{ 
             CMItems.GOLDEN_SPEAR.get(), 
@@ -66,7 +69,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.GOLDEN_HAMMER.get(),
             CMItems.GOLDEN_RAPIER.get(),
             CMItems.GOLDEN_KATANA.get(),
-            CMItems.GOLDEN_GREATSWORD.get()
+            CMItems.GOLDEN_GREATSWORD.get(),
+            CMItems.GOLDEN_CLAYMORE.get()
         },
         Tiers.DIAMOND, new Item[]{ 
             CMItems.DIAMOND_SPEAR.get(), 
@@ -78,7 +82,8 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.DIAMOND_HAMMER.get(),
             CMItems.DIAMOND_RAPIER.get(),
             CMItems.DIAMOND_KATANA.get(),
-            CMItems.DIAMOND_GREATSWORD.get()
+            CMItems.DIAMOND_GREATSWORD.get(),
+            CMItems.DIAMOND_CLAYMORE.get()
         }
     );
     
@@ -100,6 +105,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             rapier(recipeOutput, tier);
             katana(recipeOutput, tier);
             greatsword(recipeOutput, tier);
+            claymore(recipeOutput, tier);
         }
     }
 
@@ -185,6 +191,13 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             " MM",
             "MMM",
             "SM "
+        );
+    }
+    protected static void claymore(RecipeOutput recipeOutput, Tier tier) {
+        weapon(recipeOutput, tier, 10,
+            " M ",
+            "MMM",
+            " S "
         );
     }
     

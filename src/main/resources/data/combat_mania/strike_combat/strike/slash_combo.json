@@ -1,0 +1,65 @@
+{
+  "name": "Slash Combo Strike",
+  "input": {
+    "phase": "hold",
+    "cancel_by_input": false
+  },
+  "combo": {
+    "length": 3,
+    "reset_ticks": 100,
+    "interruptible": true
+  },
+  "attacks": [
+    {
+      "condition": {
+        "type": "strikeapi:combo",
+        "value": 2
+      },
+      "attack": {
+        "parent": "minecraft:pierce",
+        "cooldown": {
+          "min_to_use": 0.66
+        },
+        "tempo": "attack_speed",
+        "animation": {
+          "item": "combat_mania:blade/thrust",
+          "player": "combat_mania:two_handed_blade/thrust"
+        }
+      }
+    },
+    {
+      "condition": {
+        "type": "strikeapi:combo",
+        "value": 3
+      },
+      "attack": {
+        "type": "strikeapi:delayed",
+        "delay": 5,
+        "linger": 15,
+        "animation": {
+          "item": "combat_mania:blade/spin",
+          "player": "combat_mania:two_handed_blade/spin"
+        },
+        "attack": {
+          "parent": "combat_mania:area/spinning_sweep",
+          "knockback": {
+            "bonus": 1.0
+          },
+          "cooldown": {
+            "min_to_use": 0.66
+          }
+        }
+      }
+    }
+  ],
+  "default": {
+    "parent": "combat_mania:melee/always_sweep",
+    "cooldown": {
+      "min_to_use": 0.66
+    },
+    "animation": {
+      "item": "combat_mania:blade/sweep",
+      "player": "combat_mania:two_handed_blade/sweep"
+    }
+  }
+}

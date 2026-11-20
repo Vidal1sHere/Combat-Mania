@@ -50,6 +50,12 @@
   "item.combat_mania.golden_javelin": "Golden Javelin",
   "item.combat_mania.iron_javelin": "Iron Javelin",
   "item.combat_mania.diamond_javelin": "Diamond Javelin",
+  "item.combat_mania.wooden_claymore": "Wooden Claymore",
+  "item.combat_mania.stone_claymore": "Stone Claymore",
+  "item.combat_mania.golden_claymore": "Golden Claymore",
+  "item.combat_mania.iron_claymore": "Iron Claymore",
+  "item.combat_mania.diamond_claymore": "Diamond Claymore",
+  "item.combat_mania.netherite_claymore": "Netherite Claymore",
   "death.attack.flurry": "%1$s was run through by %2$s",
   "death.attack.flurry.item": "%1$s was run through by %2$s using %3$s",
   "attribute.name.combat_mania.shoot_power": "Shoot Power"
