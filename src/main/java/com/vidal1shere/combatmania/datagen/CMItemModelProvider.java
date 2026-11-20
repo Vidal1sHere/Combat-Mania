@@ -73,6 +73,12 @@ public class CMItemModelProvider extends ItemModelProvider {
         separateTransformsItem(CMItems.IRON_KATANA, "katana");
         separateTransformsItem(CMItems.DIAMOND_KATANA, "katana");
 
+        separateTransformsItem(CMItems.WOODEN_CUTLASS, "item_32");
+        separateTransformsItem(CMItems.STONE_CUTLASS, "item_32");
+        separateTransformsItem(CMItems.GOLDEN_CUTLASS, "item_32");
+        separateTransformsItem(CMItems.IRON_CUTLASS, "item_32");
+        separateTransformsItem(CMItems.DIAMOND_CUTLASS, "item_32");
+
         separateTransformsItem(CMItems.WOODEN_LANCE, "lance");
         separateTransformsItem(CMItems.STONE_LANCE, "lance");
         separateTransformsItem(CMItems.GOLDEN_LANCE, "lance");

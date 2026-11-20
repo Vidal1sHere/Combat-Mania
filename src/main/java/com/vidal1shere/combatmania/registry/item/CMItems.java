@@ -170,6 +170,31 @@ public class CMItems {
             .attributes(KatanaItem.createAttributes(Tiers.DIAMOND, 3.0F, -3.0F)))
     );
 
+    public static final DeferredItem<CutlassItem> WOODEN_CUTLASS = ITEMS.register(
+        "wooden_cutlass", () -> new CutlassItem(Tiers.WOOD, new Item.Properties()
+            .attributes(CutlassItem.createAttributes(Tiers.WOOD, 3.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<CutlassItem> STONE_CUTLASS = ITEMS.register(
+        "stone_cutlass", () -> new CutlassItem(Tiers.STONE, new Item.Properties()
+            .attributes(CutlassItem.createAttributes(Tiers.STONE, 3.0F, -3.2F)))
+    );
+
+    public static final DeferredItem<CutlassItem> GOLDEN_CUTLASS = ITEMS.register(
+        "golden_cutlass", () -> new CutlassItem(Tiers.GOLD, new Item.Properties()
+            .attributes(CutlassItem.createAttributes(Tiers.GOLD, 3.0F, -3.0F)))
+    );
+
+    public static final DeferredItem<CutlassItem> IRON_CUTLASS = ITEMS.register(
+        "iron_cutlass", () -> new CutlassItem(Tiers.IRON, new Item.Properties()
+            .attributes(CutlassItem.createAttributes(Tiers.IRON, 3.0F, -3.1F)))
+    );
+
+    public static final DeferredItem<CutlassItem> DIAMOND_CUTLASS = ITEMS.register(
+        "diamond_cutlass", () -> new CutlassItem(Tiers.DIAMOND, new Item.Properties()
+            .attributes(CutlassItem.createAttributes(Tiers.DIAMOND, 3.0F, -3.0F)))
+    );
+
     public static final DeferredItem<JavelinItem> WOODEN_JAVELIN = ITEMS.register(
             "wooden_javelin", () -> new JavelinItem(Tiers.WOOD, new Item.Properties()
                     .attributes(JavelinItem.createAttributes(Tiers.WOOD, 2.0F, -2.46F, 0.5F)))

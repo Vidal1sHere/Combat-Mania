@@ -30,6 +30,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.WOODEN_HAMMER.get(), 
             CMItems.WOODEN_RAPIER.get(), 
             CMItems.WOODEN_KATANA.get(), 
+            CMItems.WOODEN_CUTLASS.get(), 
             CMItems.WOODEN_GREATSWORD.get(), 
             CMItems.WOODEN_CLAYMORE.get()
         },
@@ -43,6 +44,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.STONE_HAMMER.get(),
             CMItems.STONE_RAPIER.get(),
             CMItems.STONE_KATANA.get(),
+            CMItems.STONE_CUTLASS.get(),
             CMItems.STONE_GREATSWORD.get(),
             CMItems.STONE_CLAYMORE.get()
         },
@@ -56,6 +58,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.IRON_HAMMER.get(),
             CMItems.IRON_RAPIER.get(),
             CMItems.IRON_KATANA.get(),
+            CMItems.IRON_CUTLASS.get(),
             CMItems.IRON_GREATSWORD.get(),
             CMItems.IRON_CLAYMORE.get()
         },
@@ -69,6 +72,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.GOLDEN_HAMMER.get(),
             CMItems.GOLDEN_RAPIER.get(),
             CMItems.GOLDEN_KATANA.get(),
+            CMItems.GOLDEN_CUTLASS.get(),
             CMItems.GOLDEN_GREATSWORD.get(),
             CMItems.GOLDEN_CLAYMORE.get()
         },
@@ -82,6 +86,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             CMItems.DIAMOND_HAMMER.get(),
             CMItems.DIAMOND_RAPIER.get(),
             CMItems.DIAMOND_KATANA.get(),
+            CMItems.DIAMOND_CUTLASS.get(),
             CMItems.DIAMOND_GREATSWORD.get(),
             CMItems.DIAMOND_CLAYMORE.get()
         }
@@ -104,6 +109,7 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             hammer(recipeOutput, tier);
             rapier(recipeOutput, tier);
             katana(recipeOutput, tier);
+            cutlass(recipeOutput, tier);
             greatsword(recipeOutput, tier);
             claymore(recipeOutput, tier);
         }
@@ -186,15 +192,22 @@ public class CMRecipeProvider extends RecipeProvider implements IConditionBuilde
             "S "
         );
     }
-    protected static void greatsword(RecipeOutput recipeOutput, Tier tier) {
+    protected static void cutlass(RecipeOutput recipeOutput, Tier tier) {
         weapon(recipeOutput, tier, 9,
+            "M  ",
+            "MM ",
+            " S "
+        );
+    }
+    protected static void greatsword(RecipeOutput recipeOutput, Tier tier) {
+        weapon(recipeOutput, tier, 10,
             " MM",
             "MMM",
             "SM "
         );
     }
     protected static void claymore(RecipeOutput recipeOutput, Tier tier) {
-        weapon(recipeOutput, tier, 10,
+        weapon(recipeOutput, tier, 11,
             " M ",
             "MMM",
             " S "

@@ -70,6 +70,12 @@ public class CMCommonSetup {
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.STONE_KATANA.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.WOODEN_KATANA.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.DIAMOND_CUTLASS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.GOLDEN_CUTLASS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.IRON_CUTLASS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.STONE_CUTLASS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.WOODEN_CUTLASS.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.DIAMOND_RAPIER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.GOLDEN_RAPIER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_SWORD), CMItems.IRON_RAPIER.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
