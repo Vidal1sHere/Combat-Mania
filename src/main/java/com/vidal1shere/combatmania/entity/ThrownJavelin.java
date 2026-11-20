@@ -5,6 +5,8 @@ import javax.annotation.Nullable;
 import com.vidal1shere.combatmania.registry.entity.CMEntities;
 import com.vidal1shere.combatmania.registry.item.CMItems;
 import com.vidal1shere.combatmania.util.CMUtil;
+import com.vidal1shere.strikeapi.api.attack.AttackContext;
+import com.vidal1shere.strikeapi.api.projectile.LaunchedProjectile;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -28,7 +30,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class ThrownJavelin extends AbstractArrow implements ItemProjectile {
+public class ThrownJavelin extends AbstractArrow implements ItemProjectile, LaunchedProjectile {
     private static final EntityDataAccessor<Float> DATA_DAMAGE =
             SynchedEntityData.defineId(ThrownJavelin.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Byte> DATA_LOYALTY =
@@ -75,6 +77,16 @@ public class ThrownJavelin extends AbstractArrow implements ItemProjectile {
     public ThrownJavelin(Level level, double x, double y, double z, ItemStack pickupItemStack) {
         this(CMEntities.THROWN_JAVELIN.get(), level, x, y, z, pickupItemStack,
                 pickupItemStack.getItem() instanceof TieredItem tiered ? tiered.getTier() : Tiers.IRON);
+    }
+
+    @Override
+    public void launch(AttackContext context, ItemStack drawn) {
+        this.setPickupItemStack(drawn);
+        this.entityData.set(DATA_TIER, CMUtil.tierName(drawn.getItem() instanceof TieredItem tiered ? tiered.getTier() : Tiers.IRON));
+        this.entityData.set(DATA_DAMAGE, this.getDamageFromShooter(context.attacker()));
+        this.entityData.set(DATA_LOYALTY, this.getLoyaltyFromItem(drawn));
+        this.entityData.set(DATA_FOIL, drawn.hasFoil());
+        this.entityData.set(DATA_ITEM, drawn.copy());
     }
 
     @Override

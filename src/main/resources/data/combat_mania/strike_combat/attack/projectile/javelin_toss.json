@@ -1,0 +1,20 @@
+{
+  "type": "strikeapi:charged",
+  "name": "Javelin Toss",
+  "min": 10,
+  "fire_at_max": false,
+  "linger": 4,
+  "animation": {
+    "player": "minecraft:polearm/lift",
+    "item": "minecraft:polearm/lift"
+  },
+  "attack": {
+    "type": "strikeapi:projectile",
+    "projectile": "combat_mania:javelin",
+    "from": "weapon",
+    "launch": {
+      "speed": 2.5,
+      "inaccuracy": 1.0
+    }
+  }
+}

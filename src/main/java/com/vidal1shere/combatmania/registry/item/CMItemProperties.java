@@ -2,11 +2,14 @@ package com.vidal1shere.combatmania.registry.item;
 
 import com.vidal1shere.combatmania.config.CMClientConfig;
 import com.vidal1shere.combatmania.util.CMUtil;
+import com.vidal1shere.strikeapi.client.StrikeItemProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ChargedProjectiles;
 
 import java.util.function.Function;
 
@@ -20,11 +23,6 @@ public class CMItemProperties {
                     CMClientConfig.TWO_DIMENSIONAL_TRIDENT.get() ? 1 : 0
                 );
         
-        makeThrowingItem(CMItems.WOODEN_JAVELIN.get());
-        makeThrowingItem(CMItems.STONE_JAVELIN.get());
-        makeThrowingItem(CMItems.IRON_JAVELIN.get());
-        makeThrowingItem(CMItems.GOLDEN_JAVELIN.get());
-        makeThrowingItem(CMItems.DIAMOND_JAVELIN.get());
         
         makeMaceItem(CMItems.WOODEN_MACE.get());
         makeMaceItem(CMItems.STONE_MACE.get());
@@ -40,8 +38,6 @@ public class CMItemProperties {
         makeHammerItem(CMItems.GOLDEN_HAMMER.get());
         makeHammerItem(CMItems.DIAMOND_HAMMER.get());
         makeHammerItem(CMItems.NETHERITE_HAMMER.get());
-        
-        
     }
     
     private static void makeMaceItem(Item item) {
@@ -65,12 +61,6 @@ public class CMItemProperties {
         );
     }
     
-    private static void makeThrowingItem(Item item) {
-        ItemProperties.register(item, CMUtil.mcResLoc("throwing"),
-                (stack, level, entity, seed) ->
-                        entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F
-                );
-    }
 
     private static <E extends Enum<E>> void makeEnumBasedItem(Item item, String name, Function<ItemStack, E> getter) {
         ItemProperties.register(item,
@@ -95,5 +85,20 @@ public class CMItemProperties {
                 (stack, level, entity, seed) -> 
                         entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F
         );
+    }
+
+    private static void makeStrikeBow(Item item) {
+        ItemProperties.register(item, CMUtil.mcResLoc("pull"), (stack, level, entity, seed) -> Math.max(0.0F, StrikeItemProperties.charge(stack, entity)));
+        ItemProperties.register(item, CMUtil.mcResLoc("pulling"), (stack, level, entity, seed) -> StrikeItemProperties.charge(stack, entity) >= 0.0F ? 1.0F : 0.0F);
+    }
+
+    private static void makeStrikeCrossbow(Item item) {
+        makeStrikeBow(item);
+        ItemProperties.register(item, CMUtil.mcResLoc("charged"), (stack, level, entity, seed) -> loaded(stack).isEmpty() ? 0.0F : 1.0F);
+        ItemProperties.register(item, CMUtil.mcResLoc("firework"), (stack, level, entity, seed) -> loaded(stack).contains(Items.FIREWORK_ROCKET) ? 1.0F : 0.0F);
+    }
+
+    private static ChargedProjectiles loaded(ItemStack stack) {
+        return stack.getOrDefault(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY);
     }
 }

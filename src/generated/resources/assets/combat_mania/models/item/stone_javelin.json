@@ -11,7 +11,7 @@
     {
       "model": "combat_mania:item/javelin/stone_javelin_throwing",
       "predicate": {
-        "minecraft:throwing": 1.0
+        "strikeapi:charging": 1.0
       }
     }
   ],

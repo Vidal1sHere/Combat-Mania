@@ -5,6 +5,7 @@ import com.vidal1shere.combatmania.util.CMUtil;
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.registry.item.CMItemDisplayContexts;
 import com.vidal1shere.combatmania.registry.item.CMItems;
+import com.vidal1shere.strikeapi.StrikeAPI;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -195,7 +196,7 @@ public class CMItemModelProvider extends ItemModelProvider {
         separateTransformsModel("item/javelin/" + itemName + "_throwing", itemName, "spear_throwing", "javelin_thrown");
         separateTransformsModel(itemName, itemName, "spear", "javelin_thrown")
                 .override()
-                .predicate(mcLoc("throwing"), 1)
+                .predicate(StrikeAPI.id("charging"), 1)
                 .model(new ModelFile.UncheckedModelFile(CMUtil.modResLoc("item/javelin/" + itemName + "_throwing")))
                 .end();
     }
