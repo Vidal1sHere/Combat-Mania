@@ -50,6 +50,11 @@ public class CMCommonSetup {
             event.insertAfter(CMItems.NETHERITE_HAMMER.get().getDefaultInstance(), CMItems.GOLDEN_CLAW.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(CMItems.NETHERITE_HAMMER.get().getDefaultInstance(), CMItems.IRON_CLAW.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
+            event.insertAfter(CMItems.NETHERITE_CLAW.get().getDefaultInstance(), CMItems.NETHERITE_GAUNTLET.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(CMItems.NETHERITE_CLAW.get().getDefaultInstance(), CMItems.DIAMOND_GAUNTLET.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(CMItems.NETHERITE_CLAW.get().getDefaultInstance(), CMItems.GOLDEN_GAUNTLET.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(CMItems.NETHERITE_CLAW.get().getDefaultInstance(), CMItems.IRON_GAUNTLET.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
             event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.DIAMOND_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.GOLDEN_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(new ItemStack(Items.NETHERITE_AXE), CMItems.IRON_GLAIVE.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);

@@ -2,6 +2,7 @@ package com.vidal1shere.combatmania.setup;
 
 import com.vidal1shere.combatmania.CombatMania;
 import com.vidal1shere.combatmania.client.model.ClawModel;
+import com.vidal1shere.combatmania.client.model.GauntletModel;
 import com.vidal1shere.combatmania.client.model.TieredHammerModel;
 import com.vidal1shere.combatmania.client.model.TieredMaceModel;
 import com.vidal1shere.combatmania.client.model.VanillaMaceModel;
@@ -54,6 +55,8 @@ public class CMClientSetup {
         event.registerLayerDefinition(TieredHammerModel.LAYER, TieredHammerModel::createLayer);
         event.registerLayerDefinition(TieredHammerModel.FIRST_PERSON_LAYER, TieredHammerModel::createFirstPersonLayer);
         event.registerLayerDefinition(ClawModel.LAYER, ClawModel::createLayer);
+        event.registerLayerDefinition(GauntletModel.LAYER, GauntletModel::createLayer);
+        event.registerLayerDefinition(GauntletModel.MIRRORED_LAYER, GauntletModel::createMirroredLayer);
     }
     
     @SubscribeEvent

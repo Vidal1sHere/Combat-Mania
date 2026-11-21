@@ -1,5 +1,5 @@
 {
-  "parent": "combat_mania:item/handheld/glove",
+  "parent": "combat_mania:item/handheld/claw",
   "loader": "jasper:animated",
   "model": "combat_mania:claw",
   "texture": "combat_mania:textures/item/iron_claw_in_hand.png",

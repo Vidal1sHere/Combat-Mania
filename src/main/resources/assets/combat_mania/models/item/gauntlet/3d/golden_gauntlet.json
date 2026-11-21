@@ -1,0 +1,9 @@
+{
+  "parent": "combat_mania:item/handheld/gauntlet",
+  "loader": "jasper:animated",
+  "model": "combat_mania:gauntlet",
+  "texture": "combat_mania:textures/item/golden_gauntlet_in_hand.png",
+  "textures": {
+    "particle": "combat_mania:item/golden_gauntlet"
+  }
+}

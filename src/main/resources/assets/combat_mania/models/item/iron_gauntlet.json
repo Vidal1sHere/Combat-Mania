@@ -1,0 +1,19 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "gui_light": "front",
+  "textures": {
+    "particle": "combat_mania:item/iron_gauntlet"
+  },
+  "base": {
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "combat_mania:item/iron_gauntlet"
+    }
+  },
+  "perspectives": {
+    "thirdperson_righthand": { "parent": "combat_mania:item/gauntlet/3d/iron_gauntlet" },
+    "thirdperson_lefthand": { "parent": "combat_mania:item/gauntlet/3d/iron_gauntlet" },
+    "firstperson_righthand": { "parent": "combat_mania:item/gauntlet/3d/iron_gauntlet" },
+    "firstperson_lefthand": { "parent": "combat_mania:item/gauntlet/3d/iron_gauntlet" }
+  }
+}

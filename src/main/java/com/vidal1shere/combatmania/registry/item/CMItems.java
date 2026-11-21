@@ -355,6 +355,26 @@ public class CMItems {
                     .attributes(ClawItem.createAttributes(Tiers.NETHERITE, 2.0F, -2.0F)))
     );
 
+    public static final DeferredItem<GauntletItem> IRON_GAUNTLET = ITEMS.register(
+            "iron_gauntlet", () -> new GauntletItem(Tiers.IRON, new Item.Properties()
+                    .attributes(GauntletItem.createAttributes(Tiers.IRON, 1.0F, -2.0F)))
+    );
+
+    public static final DeferredItem<GauntletItem> GOLDEN_GAUNTLET = ITEMS.register(
+            "golden_gauntlet", () -> new GauntletItem(Tiers.GOLD, new Item.Properties()
+                    .attributes(GauntletItem.createAttributes(Tiers.GOLD, 1.0F, -2.0F)))
+    );
+
+    public static final DeferredItem<GauntletItem> DIAMOND_GAUNTLET = ITEMS.register(
+            "diamond_gauntlet", () -> new GauntletItem(Tiers.DIAMOND, new Item.Properties()
+                    .attributes(GauntletItem.createAttributes(Tiers.DIAMOND, 1.0F, -2.0F)))
+    );
+
+    public static final DeferredItem<GauntletItem> NETHERITE_GAUNTLET = ITEMS.register(
+            "netherite_gauntlet", () -> new GauntletItem(Tiers.NETHERITE, new Item.Properties()
+                    .attributes(GauntletItem.createAttributes(Tiers.NETHERITE, 1.0F, -2.0F)))
+    );
+
     public static Collection<DeferredHolder<Item, ? extends Item>> getItems() {
         return ITEMS.getEntries();
     }
