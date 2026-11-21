@@ -1,0 +1,17 @@
+{
+    "type": "strikeapi:area",
+    "name": "Short Spin Attack",
+    "cooldown": {
+        "min_to_use": 0.9
+    },
+    "area": {
+        "radius": 2.0
+    },
+    "knockback": {
+        "bonus": 0.0,
+        "multiplier": 0.0
+    },
+    "effects": {
+        "swing": ["minecraft:sweep_sound"]
+    }
+}

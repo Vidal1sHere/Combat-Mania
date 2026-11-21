@@ -1,0 +1,84 @@
+{
+    "name": "Rake Strike",
+    "combo": {
+        "length": 3,
+        "reset_ticks": 60
+    },
+    "input": {
+        "cancel_by_input": false
+    },
+    "attacks": [
+        {
+            "condition": {
+                "type": "strikeapi:all_of",
+                "conditions": [
+                    {
+                        "type": "strikeapi:dual_wielding"
+                    },
+                    {
+                        "type": "strikeapi:combo",
+                        "value": 2
+                    }
+                ]
+            },
+            "attack": {
+                "type": "strikeapi:dual",
+                "name": "Swipe Attack",
+                "off_hand": {
+                    "parent": "combat_mania:melee/weak_sweep",
+                    "name": "Swipe Attack",
+                    "cooldown": {
+                        "min_to_use": 0.75
+                    }
+                }
+            }
+        },
+        {
+            "condition": {
+                "type": "strikeapi:all_of",
+                "conditions": [
+                    {
+                        "type": "strikeapi:dual_wielding"
+                    },
+                    {
+                        "type": "strikeapi:combo",
+                        "value": 3
+                    }
+                ]
+            },
+            "attack": {
+                "type": "strikeapi:repeat",
+                "name": "Quick Spin Attack",
+                "at": [4, 6],
+                "linger": 7,
+                "animation": {
+                    "item": "combat_mania:claws/spin",
+                    "other_hand_item": "combat_mania:claws/spin",
+                    "player": "combat_mania:claws/spin"
+                },
+                "attack": {
+                    "parent": "combat_mania:area/short_spin",
+                    "cooldown": {
+                        "min_to_use": 0.75
+                    }
+                }
+            }
+        },
+        {
+            "condition": {
+                "type": "strikeapi:dual_wielding"
+            },
+            "attack": {
+                "parent": "combat_mania:melee/weak_sweep",
+                "name": "Swipe Attack",
+                "cooldown": {
+                    "min_to_use": 0.75
+                }
+            }
+        }
+    ],
+    "default": {
+        "parent": "combat_mania:melee/weak_sweep",
+        "name": "Swipe Attack"
+    }
+}

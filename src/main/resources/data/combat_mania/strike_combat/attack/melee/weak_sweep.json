@@ -1,0 +1,13 @@
+{
+    "parent": "combat_mania:melee/always_sweep",
+    "name": "Weak Sweep Attack",
+    "cooldown": {
+        "min_to_use": 0.25
+    },
+    "damage": {
+        "multiplier": 0.5
+    },
+    "sweep": {
+        "radius": 1.5
+    }
+}
